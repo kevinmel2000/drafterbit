@@ -2,6 +2,6 @@
 	
 	'modules' => [
 
-		'path' => __DIR__ . '/../modules/'
+		'path' => __DIR__ . '/../../content/modules/'
 	]
 ];

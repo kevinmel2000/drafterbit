@@ -9,6 +9,7 @@ $app->set('loader', $loader);
 
 $app->set('path.install', __DIR__ . '/../');
 $app->set('path.public', __DIR__ . '/../');
+$app->set('path.cache', $app->get('user_config')->get('config.path.cache').'/data');
 
 //Partitur Modules
 foreach ([
@@ -28,16 +29,18 @@ foreach ([
     'Drafterbit\\Pages\\Module',
     'Drafterbit\\Files\\Module',
     'Drafterbit\\System\\Module',
-    'Egig\\OpenFinder\\Module'
+    //'Egig\\OpenFinder\\Module'
 
 ] as $module) {
 	$app->registerModule(new $module($app));
 }
 
 $pubModulesPath = $app->get('config')->get('drafterbit.modules.path');
-$pubModules = array_diff(scandir($pubModulesPath), ['.','..']);
+$pubModules = $app->get('finder')->in($pubModulesPath)->directories()->depth(0);
 
-foreach ($pubModules as $module) {
+foreach ($pubModules as $mod) {
+
+	$module = $mod->getFileName();
 	$modConfig = require $pubModulesPath.$module.'/module.php';
 
 	// register autoload

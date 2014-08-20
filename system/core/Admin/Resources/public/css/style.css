@@ -1,0 +1,351 @@
+/* Global Styles */
+/* ------------------------------- */
+
+body {
+    background-color: #fff;
+    font-family: "Open Sans", Helvetica, "Sans Serif" ;
+    overflow-y: scroll;
+}
+
+/* Main Layout */
+/* ------------------------------- */
+
+.content-outer {
+    width: 100%;
+    padding-top: 30px;
+}
+
+.page-wrapper {
+    padding: 0 15px;
+    min-height: 500px;
+    background-color: #fff;
+    margin-top: 30px;
+}
+
+@media (min-width:768px) {
+
+    .content-outer {
+        padding-top: 30px;
+    }
+
+    .page-wrapper {
+        position: inherit;
+        padding: 0px;
+        min-height: 500px;
+    }
+
+    .navbar-brand {
+        height: 30px;
+        padding: 5px;
+    }
+}
+
+.content {
+    padding: 15px 45px 15px 15px;
+}
+
+.content-full {
+    padding: 15px 45px;
+}
+
+.content-inner{
+    padding: 0 15px;
+}
+
+.row-header {
+    padding: 0 30px;
+}
+
+.sticky-toolbar-wrapper {
+    border-top: 1px solid #e5e5e5; 
+    border-bottom: 1px solid #e5e5e5; 
+}
+
+.side-nav-container {
+    padding:15px 15px 5px 45px;
+}
+
+
+
+/* Dropdown Carret */
+/* ------------------------------- */
+
+.dropdown-menu .dropdown-caret {
+    float: left;
+    height: 10px;
+    left: 12px;
+    overflow: hidden;
+    position: absolute;
+    top: -10px;
+    width: 18px;
+}
+
+.dropdown-menu-right .dropdown-caret {
+    left: auto;
+    right: 12px;
+}
+
+    .dropdown-caret .caret-outer {
+        border-bottom: 10px solid rgba(0, 0, 0, 0.1);
+        border-left: 11px solid rgba(0, 0, 0, 0);
+        border-right: 11px solid rgba(0, 0, 0, 0);
+        height: auto;
+        left: 0;
+        top: 0;
+        width: auto;
+    }
+
+    .dropdown-caret .caret-inner {
+        border-bottom:10px solid rgba(255, 255, 255, 0.98);
+        border-left:10px solid rgba(0, 0, 0, 0);
+        border-right:10px solid rgba(0, 0, 0, 0);
+        left: 1px;
+        top: 1px;
+    }
+
+    .dropdown-caret .caret-outer,
+    .dropdown-caret .caret-inner {
+        display: inline-block;
+        left: 0;
+        margin-left: -1px;
+        position: absolute;
+        top: 0;
+    }
+
+
+/* Avatar */
+.profile-avatar {
+    border: 0px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+}
+
+
+/* Mobile menu */
+/* ------------------------------- */
+@media (max-width: 767px) {
+
+    .page-wrapper {
+        min-height: 300px;
+    }
+
+    .navbar-brand {
+        padding:10px;
+        height: 40px;
+    }
+
+    #off-canvas li.dropdown {
+        display: block;
+    }
+
+    #off-canvas li a.dropdown-toggle {
+        padding: 10px !important;
+    }
+
+    #off-canvas a.navbar-link i,
+    #off-canvas > li > ul > .dropdown-caret{
+        display: none;
+    }
+
+    #off-canvas .dropdown-menu {
+        position: relative;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        background: inherit;
+    }
+
+    #off-canvas {
+        display: block;
+        z-index: 9999;
+        position: fixed;
+        background-color: #e8e8e8;
+        top:40px;
+        bottom:0;
+        left: -200px;
+        width: 200px;
+        overflow: auto;
+        border-right: 1px solid #e1e1e1;
+    }
+
+    .navbar-header:after {
+        clear: left;
+    }
+
+    .user-preferences {
+        display: inline-block !important;
+        position:fixed;
+        top:5px;
+        right:15px;
+        width:auto;
+    }
+
+    .table-responsive {
+        border: none;
+    }
+}
+
+/* Navigation */
+
+/* ------------------------------- */
+/* Top Right Navigation Dropdown Styles */
+
+ .navbar-top-links li {
+    display: inline-block;
+}
+
+.navbar-top-links li:last-child {
+    margin-right: 15px;
+}
+
+.navbar-top-links .dropdown-menu li {
+    display: block;
+}
+
+.navbar-top-links .dropdown-menu li:last-child {
+    margin-right: 0;
+}
+
+.navbar-top-links .dropdown-menu li a {
+    padding: 3px 20px;
+    min-height: 0;
+}
+
+.navbar-top-links .dropdown-menu li a div {
+    white-space: normal;
+}
+
+.navbar-top-links .dropdown-messages,
+.navbar-top-links .dropdown-tasks,
+.navbar-top-links .dropdown-alerts {
+    width: 310px;
+    min-width: 0;
+}
+
+.navbar-top-links .dropdown-messages {
+    margin-left: 5px;
+}
+
+.navbar-top-links .dropdown-tasks {
+    margin-left: -59px;
+}
+
+.navbar-top-links .dropdown-alerts {
+    margin-left: -123px;
+}
+
+.dropdown-menu-right,
+.navbar-top-links .dropdown-user {
+    right: 0;
+    left: auto;
+}
+
+@media(min-width:768px) {
+    
+    .navbar-top-links .dropdown-messages,
+    .navbar-top-links .dropdown-tasks,
+    .navbar-top-links .dropdown-alerts {
+        margin-left: auto;
+    }
+}
+
+
+/* Footer */
+/* ------------------------------- */
+
+.footer {
+    font-size: 0.9em;
+}
+
+/* Buttons */
+
+/* ------------------------------- */
+
+ .btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s;
+}
+
+.btn-primary.btn-outline {
+    color: #428bca;
+}
+
+.btn-success.btn-outline {
+    color: #5cb85c;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
+}
+
+.btn-warning.btn-outline {
+    color: #f0ad4e;
+}
+
+.btn-danger.btn-outline {
+    color: #d9534f;
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover {
+    color: #fff;
+}
+
+
+/*  font-awesome size */
+.fa-1 {
+  font-size: 1em;
+}
+.fa-2 {
+  font-size: 2em;
+}
+
+.fa-3 {
+  font-size: 3em;
+}
+
+.fa-4 {
+  font-size: 4em;
+}
+
+.fa-5 {
+  font-size: 5em;
+}
+
+.fa-6 {
+  font-size: 6em;
+}
+
+.fa-8 {
+  font-size: 8em;
+}
+
+.fa-10 {
+  font-size: 10em;
+}
+
+
+/* Looks and Feels */
+/* ------------------------------- */
+.side-nav-container {
+    background-color: #f5f5f5;
+    border-right: 1px solid #e5e5e5;
+}
+
+.side-nav-container .nav > li > a {
+    padding: 5px 15px;
+}
+
+.side-nav-container .nav > li.active > a,
+.side-nav-container .nav > li.active > a:hover,
+.side-nav-container .nav > li.active > a:focus {
+    background-color: #EEEEEE;
+    color: #428bca;
+    text-decoration: none;
+}
+

@@ -35,8 +35,8 @@
         }
   },
   "autoload": {
-    "psr-0": {
-      "": "system/src"
+    "psr-4": {
+      "Drafterbit\\": "system/core"
     }
   }
 }

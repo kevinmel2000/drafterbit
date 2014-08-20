@@ -1,3 +1,4 @@
 path.admin: 'backend'
+path.cache: 'content/cache'
 path.theme: 'content/themes'
 path.upload: 'content/files'

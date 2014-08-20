@@ -1,0 +1,30 @@
+/* Sidebar tabs option */
+.sidebar-options {
+    width:50px;
+    float: right;
+}
+
+.sidebar-options .nav-pills > li,
+.sidebar-options .nav-pills > li > a {
+    outline: none;
+}
+
+.sidebar-options .nav-pills > li {
+    margin: 0;
+    border-left: 1px solid #e5e5e5;
+}
+
+.sidebar-options .nav-pills > li.active {
+    border-top: 1px solid #e5e5e5; 
+    border-bottom: 1px solid #e5e5e5; 
+    border-right: 1px solid #e5e5e5; 
+    border-left: 1px solid transparent;
+}
+
+.sidebar-options .nav-pills > li.active > a,
+.sidebar-options .nav-pills > li.active > a:hover,
+.sidebar-options .nav-pills > li.active > a:focus {
+    background-color: transparent;
+    color: #428bca;
+    text-decoration: none;
+}

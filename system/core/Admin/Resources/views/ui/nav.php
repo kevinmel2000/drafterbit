@@ -1,0 +1,73 @@
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
+    <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="<?php echo base_url('admin'); ?>"><i class="fa fa-home"></i></a>
+            </div>
+            <!-- /.navbar-header -->
+            <ul id="off-canvas" class="nav navbar-top-links navbar-left">
+                <?php foreach ($menus as $menu): ?>
+                    
+                    <?php if($menu->hasChildren()): ?>
+                        <li class="dropdown">
+                            <a class="navbar-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                <?php echo $menu->label; ?> <i class="fa fa-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <div class="dropdown-caret">
+                                  <span class="caret-outer"></span>
+                                  <span class="caret-inner"></span>
+                                </div>
+
+                                <?php foreach($menu->children as $childMenu): ?>
+                                    <li><a href="<?php echo $childMenu->href;  ?>"><?php echo $childMenu->label; ?></a></li>
+                                <?php endforeach;?>
+                            </ul>
+                            <!-- /.dropdown -->
+                        </li>
+                    
+                    <?php else: ?>
+                         <li>
+                            <a class="navbar-link" href="<?php echo $menu->href; ?>">
+                                <?php echo $menu->label; ?>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                <?php endforeach ?>
+            </ul>
+
+            <ul class="nav navbar-top-links navbar-right user-preferences">
+                <li>
+                    <a href="/" target="_blank"  class="navbar-link">
+                        Front Page
+                        <i class="fa fa-external-link"></i>
+                    </a>
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class=" navbar-link dropdown-toggle" data-toggle="dropdown" href="#">
+                        <img width="20px;" class="profile-avatar" src="<?php echo $userGravatar; ?>" alt="<?php echo $userName ?>"/>
+                        <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-user">
+                        <div class="dropdown-caret">
+                            <span class="caret-outer"></span>
+                            <span class="caret-inner"></span>
+                        </div>
+                        <li><a href="#" class="soon">My Profile</a> </li>
+                        <li><a href="#" class="soon">Preferences</a> </li>
+                        <li><a href="<?php echo admin_url('logout'); ?>">Logout</a> </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+    </div>
+</nav>

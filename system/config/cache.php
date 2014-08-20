@@ -20,7 +20,7 @@
  * While its good practice to not to forget to set the directory to be
  * writable, Doctrine cache will do it for you.
  */
-	'file.path' => __DIR__.'/../tmp/cache',
+	'file.path' => __DIR__.'/../../content/cache/data',
 /**
  *--------------------------------------------------------------------------
  * Memcache Options

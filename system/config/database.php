@@ -35,10 +35,10 @@
     'mysql'  => [
         'driver'       => 'pdo_mysql',
         'user'         => 'root',
-        'password'     => 'pw',
+        'password'     => '',
         'host'         => 'localhost',
         'port'         => '3306',
-        'dbname'       => 'hymn',
+        'dbname'       => '',
         'charset'      => 'utf8',
         'collation'    => 'utf8_unicode_ci',
     ],
