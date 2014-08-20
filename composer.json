@@ -1,0 +1,42 @@
+{
+  "name": "egig/Drafterbit",
+  "description": "Website that creates website.",
+  "keywords": [
+    "website", "blog", "cms"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "egig",
+      "email": "egigundari@gmail.com"
+    }
+  ],
+  "require": {
+      "partitur/kernel": "dev-master",
+      "symfony/yaml": "2.5.*",
+      "symfony/filesystem": "2.5.*",
+      "symfony/finder": "2.5.*",
+      "twig/twig": "1.15.*",
+      "nesbot/Carbon": "1.8.*",
+      "ircmaxell/password-compat": "1.0.*",
+      "kriswallsmith/assetic": "1.1.*",
+      "natxet/CssMin": "3.0.2",
+      "mrclay/minify": "2.2.*",
+      "gregwar/image": "2.0.*" 
+  },
+  "config": {
+    "vendor-dir": "system/vendor",
+    "preferred-install": "dist"
+  },
+  "minimum-stability": "dev",
+  "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+  },
+  "autoload": {
+    "psr-0": {
+      "": "system/src"
+    }
+  }
+}

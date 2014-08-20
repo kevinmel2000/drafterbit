@@ -1,0 +1,3 @@
+path.admin: 'backend'
+path.theme: 'content/themes'
+path.upload: 'content/files'

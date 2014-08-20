@@ -1,0 +1,30 @@
+{
+  "name": "Drafterbit",
+  "version": "0.0.0",
+  "authors": [
+    "egig <egigundari@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "assets/plugins",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "blockui": "*",
+    "bootstrap": "*",
+    "datatables": "*",
+    "fontawesome": "*",
+    "jquery-form": "*",
+    "jquery-pjax": "*",
+    "metisMenu": "*",
+    "requirejs": "*",
+    "chosen": "*",
+    "magicsuggest": "*",
+    "toastr": "*",
+    "dropzone": "*"
+  }
+}
