@@ -80,35 +80,6 @@
  * Log will be recorded per day in 'app/logs' directory.
  */
 
-'error.log' => false,
-
-/**
- *--------------------------------------------------------------------------
- * Service Providers and Each Provided Services
- *--------------------------------------------------------------------------
- *
- * we need to create list of providers along with the provided services.
- * This is really necessarry for lazy loading for each service.
- */
-
-'services' => [
-
-    'Egig\\OpenFinder\\Providers\\OpenFinderServiceProvider' => ['ofinder'],
-    
-    'Drafterbit\\Files\\Providers\\FilesystemServiceProvider' => ['file'],
-    'Drafterbit\\Files\\Providers\\FinderServiceProvider' => ['finder'],
-    'Drafterbit\\Support\\Providers\\UserConfigServiceProvider' => ['user_config'],
-    'Drafterbit\\Support\\Providers\\ImageServiceProvider' => ['image'],
-    'Drafterbit\\Support\\Providers\\AssetServiceProvider' => ['asset'],
-    'Drafterbit\\Support\\Providers\\YamlServiceProvider' => ['yaml'],
-    'Drafterbit\\Support\\Providers\\TwigServiceProvider' => ['twig'],
-    
-    'Partitur\\Provider\\SwiftMailerServiceProvider' => ['mailer', 'mail'],
-    'Partitur\\Provider\\CacheServiceProvider' => ['cache'],
-    'Partitur\\Provider\\DatabaseServiceProvider' => ['db'],
-    'Partitur\\Provider\\LanguageServiceProvider' => ['lang'],
-    'Partitur\\Provider\\TemplateServiceProvider' => ['template'],
-    'Partitur\\Provider\\ValidationServiceProvider' => ['validator', 'validation.form'],
- ]
+'error.log' => false
 
 ];
