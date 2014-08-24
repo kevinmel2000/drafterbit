@@ -11,8 +11,8 @@ abstract class Controller extends \Partitur\Controller {
 
 	function view()
 	{
+        $fileName = $this->get('asset')->writeCSS();
 		$jsFileName = $this->get('asset')->writeJs();
-		$fileName = $this->get('asset')->writeCSS();
 		
 		$this->data['stylesheet'] = base_url('admin/asset/css/'.$fileName.'.css');
 		$this->data['script'] = base_url('admin/asset/js/'.$jsFileName.'.js');

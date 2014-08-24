@@ -9,6 +9,6 @@ $(document).ready(function() {
           ]
         });
 
-    $('#pages').checkAll({showIndeterminate:true});
+    $('#page').checkAll({showIndeterminate:true});
 
     });

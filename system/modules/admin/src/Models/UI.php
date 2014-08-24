@@ -27,7 +27,9 @@ class UI extends Model {
 		foreach ($menuArray as $menu) {
 
 			$href = isset($menu['href']) ? $menu['href'] : null;
-			$item = new Menu($menu['label'], $href);
+			$class = isset($menu['class']) ? $menu['class'] : null;
+			$id = isset($menu['id']) ? $menu['id'] : null;
+			$item = new Menu($menu['label'], $href, $id, $class);
 			
 			if(isset($menu['children'])) {
 				$item->children = $this->createMenu($menu['children']);

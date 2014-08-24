@@ -12,7 +12,7 @@
 
     'Drafterbit\\Core\\Provider\\UserConfigServiceProvider' => ['user_config'],
     
-    'Egig\\OpenFinder\\Providers\\OpenFinderServiceProvider' => ['ofinder'],
+    'Drafterbit\\Modules\\Finder\\Providers\\OpenFinderServiceProvider' => ['ofinder'],
     
     'Drafterbit\\Modules\\Files\\Providers\\FinderServiceProvider' => ['finder'],
     'Drafterbit\\Modules\\Files\\Providers\\FilesystemServiceProvider' => ['file'],

@@ -89,7 +89,7 @@ class Admin extends BaseController {
 			),
 			'new-post' => array(
 				'type' => 'a.success',
-				'href' => base_url('admin/pages/create'),
+				'href' => admin_url('pages/create'),
 				'label' => 'New Page',
 				'faClass' => 'fa-plus'
 			),
@@ -101,14 +101,14 @@ class Admin extends BaseController {
 		return array(
 			'cancel' => array(
 				'type' => 'a.default',
-				'href' => base_url('admin/blog'),
+				'href' => admin_url('pages'),
 				'label' => 'Cancel',
 				'faClass' => 'fa-times',
 				'faStyle' => 'color: #A94442;',
 			),
 			'save-draft' => array(
 				'type' => 'submit.default',
-				'label' => 'Save Draft',
+				'label' => 'Save',
 				'name'=> 'action',
 				'value' => 'draft',
 				'faClass' => false
@@ -128,7 +128,7 @@ class Admin extends BaseController {
 		return array(
 			'cancel' => array(
 				'type' => 'a.default',
-				'href' => base_url('admin/pages'),
+				'href' => admin_url('pages'),
 				'label' => 'Cancel',
 				'faClass' => 'fa-times',
 				'faStyle' => 'color: #A94442;',
@@ -145,7 +145,7 @@ class Admin extends BaseController {
 
 	private function _table()
 	{
-		$editUrl = base_url('admin/pages/edit');
+		$editUrl = admin_url('pages/edit');
 
 		return  array(
 			[
@@ -178,13 +178,8 @@ class Admin extends BaseController {
 			}
 		}
 
-		set(array(
-			'id' => null,
-			'title' => null,
-			'slug' => null,
-			'content' => null,
-			'template' => null
-		));
+		//set default
+		set(array('id' => null, 'title' => null, 'slug' => null, 'content' => null, 'template' => null));
 		
 		$this->get('asset')
 			->css($this->assetPath('css/editor.css'))

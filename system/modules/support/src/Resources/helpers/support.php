@@ -10,6 +10,7 @@ if ( ! function_exists('wysiwyg'))
 	function wysiwyg($name, $default = null, $attr="")
 	{
 		$src = base_url('system/plugins/ckeditor/ckeditor.js');
+		$browserUrl = admin_url('finder/browser?mode=image');
 		$html = <<< EOD
 
 <textarea $attr name="$name">$default</textarea>
@@ -25,7 +26,7 @@ CKEDITOR.replace('$name', {
 
     filebrowserWindowWidth  : 860,
     filebrowserWindowHeight : 453,
-	filebrowserImageBrowseUrl : '/admin/open-finder/browser?mode=image'
+	filebrowserImageBrowseUrl : '$browserUrl'
 });
 
 </script>

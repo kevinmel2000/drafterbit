@@ -48,10 +48,6 @@ $(function(){
 	  
     $(document).ready(function(){
 
-      var w = $('.content-inner').parent().width();
-      $('.content-inner').width(w-100).css('float', 'left');
-      $('.ms-sel-ctn input').width(w-145);
-
       var contentH = $('.side-nav-container').siblings('.content').outerHeight();
       $('.side-nav-container').css('minHeight', contentH);
 

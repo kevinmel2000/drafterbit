@@ -53,7 +53,12 @@ class ModuleManager {
 				$class = $ns.studly_case($module->getFileName()).'\\'.studly_case($module->getFileName()).'Module';
 
 				$mod = new $class($this->app);
-				$this->app->registerModule($mod);				
+				$this->app->registerModule($mod);
+
+				// register menu
+				if(isset($config['menus'])) {
+					$this->app->addMenu($config['menus']);
+				}
 			}
 		}
 	}

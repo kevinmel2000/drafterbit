@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo base_url('admin'); ?>"><i class="fa fa-home"></i></a>
+                <a class="navbar-brand" href="<?php echo admin_url(); ?>"><i class="fa fa-home"></i></a>
             </div>
             <!-- /.navbar-header -->
             <ul id="off-canvas" class="nav navbar-top-links navbar-left">
@@ -25,7 +25,7 @@
                                 </div>
 
                                 <?php foreach($menu->children as $childMenu): ?>
-                                    <li><a href="<?php echo $childMenu->href;  ?>"><?php echo $childMenu->label; ?></a></li>
+                                    <li><a id="<?php echo $childMenu->id ?>" class="<?php echo $childMenu->class ?>" href="<?php echo admin_url($childMenu->href);  ?>"><?php echo $childMenu->label; ?></a></li>
                                 <?php endforeach;?>
                             </ul>
                             <!-- /.dropdown -->
@@ -33,7 +33,7 @@
                     
                     <?php else: ?>
                          <li>
-                            <a class="navbar-link" href="<?php echo $menu->href; ?>">
+                            <a id="<?php echo $childMenu->id ?>" class="navbar-link <?php echo $childMenu->class ?>"  href="<?php echo admin_url($menu->href); ?>">
                                 <?php echo $menu->label; ?>
                             </a>
                         </li>

@@ -156,14 +156,17 @@ class AssetManager extends BaseManager {
 	public function dumpToFile($type, FilterInterface $lastFilter = null)
 	{
 		$fileName = isset($this->name[$type]) ?
-			$this->name[$type] : $this->createFileName($this->collections[$type]);
-
+			$this->name[$type] : $this->createFileName($this->collections[$type]->all());
+			
 			$dest = $this->cachePath."/$type/".$fileName.".$type";
 
 		if($this->debug) {
 			$this->write($dest,$this->collections[$type]->dump());
 		} else {
-			if( ! is_file($dest)) {
+
+			// @todo fixes  double css asset dumps, not becouse the filter,
+			// seems like becouse the check;
+			if(!file_exists($dest)) {
 				$this->write($dest, $this->collections[$type]->dump($lastFilter));
 			}
 		}

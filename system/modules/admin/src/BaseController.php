@@ -43,37 +43,35 @@ class BaseController extends Controller {
 
 	private function menu()
 	{
-		return array(
-			['label' => 'Dashboard', 'href' => admin_url()],
-			['label' => 'Content', 'children' => [
-					[ 'label' => 'Pages', 'href' => admin_url('pages')],
-					// Pending
-					// [ 'label' => 'Files', 'href' => base_url('admin/files')],
-					[ 'label' => 'Blog', 'href' => admin_url('blog')]
-				],
-			],
-			['label' => 'Users', 'children' => [
-					[ 'label' => 'User', 'href' => admin_url('user')],
-					[ 'label' => 'Group', 'href' => admin_url('user/group')]
-				]
-			],
-			['label' => 'Setting', 'children' => [
-					[ 'label' => 'General', 'href' => admin_url('setting/general')],
-					[ 'label' => 'Themes', 'href' => admin_url('setting/themes')],
-				]
-			],
-			['label' => 'System', 'children' => [
-					[ 'label' => 'Log', 'href' => admin_url('system/log')],
-					[ 'label' => 'Cache', 'href' => admin_url('system/cache')],
-				]
-			],
-			['label' => 'Help', 'children' => [
-					[ 'label' => 'Help', 'href' => 'javascript:alert(\'Coming Soon !\')'],
-					[ 'label' => 'Doc wiki', 'href' => 'javascript:alert(\'Coming Soon !\')'],
-					[ 'label' => 'Official Support', 'href' => 'javascript:alert(\'Coming Soon !\')']
-				]
-			],
-		);
+		$sorted = array();
+		$children = array();
+		$i = 0;
+
+		foreach (app()->getMenu() as $item) {
+
+			$order = isset($item['order']) ? $item['order'] : $i;
+			
+			if(isset($item['parent'])) {
+				$children[$item['parent']][$i] = $item;
+
+			} else {
+				$sorted[$order] = $item;
+			}
+
+
+			$i++;
+		}
+
+		foreach ($sorted as &$menu) {
+
+			if(isset($children[$menu['id']])) {
+				ksort($children[$menu['id']]);
+				$menu['children'] = $children[$menu['id']];
+			}
+		}
+
+		ksort($sorted);
+		return $sorted;
 	}
 
 	public function buildTemplate()
@@ -129,8 +127,10 @@ class BaseController extends Controller {
 		$jsFileName = $this->get('asset')->writeJs();
 		$fileName = $this->get('asset')->writeCSS();
 		
-		$this->data['stylesheet'] = base_url('admin/asset/css/'.$fileName.'.css');
-		$this->data['script'] = base_url('admin/asset/js/'.$jsFileName.'.js');
+		//$this->data['stylesheet'] = base_url('admin/asset/css/'.$fileName.'.css');
+		//$this->data['script'] = base_url('admin/asset/js/'.$jsFileName.'.js');
+		$this->data['stylesheet'] = base_url('content/cache/asset/css/'.$fileName.'.css');
+		$this->data['script'] = base_url('content/cache/asset/js/'.$jsFileName.'.js');
 
 		//gravatar
 		$session = $this->get('session');

@@ -13,7 +13,7 @@ class AssetServiceProvider implements ServiceProviderInterface {
 		
 		$app['asset'] = function($c) {
 			$cachePath = $c['user_config']->get('config.path.cache');
-			return new AssetManager($cachePath.'/assets/', $c['path'].'plugins/', $c['debug']);
+			return new AssetManager($cachePath.'/asset/', $c['path'].'plugins/', $c['debug']);
 		};
 	}
 
