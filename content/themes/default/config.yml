@@ -7,3 +7,7 @@ description: 	~
 version: 		1.0
 license: 		GNU General Public License v2 or later
 license_url: 	http://www.gnu.org/licenses/gpl-2.0.html
+
+widget_positions:
+  - 'position-1'
+  - 'position-2'

@@ -1,10 +1,11 @@
 <?php return [
 	
 	'page' => [
-		'path' => '/p/{slug}',
+		'path' => '/{slug}',
 		'controller' => 'Pages::view@pages',
 		'requirements' => [
-			//'slug' => ""
+			//'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
+			'slug' => "^(?!(?:".ADMIN_BASE.")(?:/|$)).*$"
 		]
 	]
 ];

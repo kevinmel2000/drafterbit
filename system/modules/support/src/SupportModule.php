@@ -10,7 +10,9 @@ class SupportModule extends \Partitur\Module {
 	public function register(Application $app)
 	{
 		$app['helper']->register('support', $this->getResourcesPath().'helpers/support.php');
+		$app['helper']->register('twig', $this->getResourcesPath().'helpers/twig.php');
 		$app['helper']->load('support');
+		$app['helper']->load('twig');
 	}
 
 	function registerEventListener()

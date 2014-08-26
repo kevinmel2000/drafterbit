@@ -112,8 +112,8 @@ class BaseController extends Controller {
 		$jsFileName = $this->get('asset')->writeJs();
 		$fileName = $this->get('asset')->writeCSS();
 		
-		$this->data['stylesheet'] = base_url('admin/asset/css/'.$fileName.'.css');
-		$this->data['script'] = base_url('admin/asset/js/'.$jsFileName.'.js');
+		$this->data['stylesheet'] = base_url('content/cache/asset/css/'.$fileName.'.css');
+		$this->data['script'] = base_url('content/cache/asset/js/'.$jsFileName.'.js');
 
 		return $this->buildTemplate();
 	}

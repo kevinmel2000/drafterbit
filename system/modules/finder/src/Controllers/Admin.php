@@ -28,8 +28,8 @@ class Admin extends BaseController {
 		$js = $this->get('asset')->writeJs();		
 		$css = $this->get('asset')->writeCSS();
 
-		set('js', base_url('admin/asset/js/'.$js.'.js'));
-		set('css', base_url('admin/asset/css/'.$css.'.css'));
+		set('js', base_url('content/cache/asset/js/'.$js.'.js'));
+		set('css', base_url('content/cache/asset/css/'.$css.'.css'));
 		return $this->render($this->getTemplate(), $this->getData());
 	}
 

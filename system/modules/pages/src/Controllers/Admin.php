@@ -152,7 +152,9 @@ class Admin extends BaseController {
 				'field' => 'title',
 				'label' => 'Title',
 				'width' => '80%',
-				'format' => function($value, $item) use ($editUrl) { return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }],
+				'format' => function($value, $item) use ($editUrl) {
+					return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; 
+				}],
 			[
 				'field' => 'created_at',
 				'label' => 'Date',

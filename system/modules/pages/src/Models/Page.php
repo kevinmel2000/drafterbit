@@ -14,7 +14,7 @@ class Page extends \Partitur\Model {
 	public function insert($data)
 	{
 		$this->get('db')->insert('pages', $data);
-		return $this->getConnection()->lastInsertId();
+		return $this->get('db')->lastInsertId();
 	}
 
 	public function update($data, $id)

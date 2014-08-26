@@ -25,6 +25,12 @@ class TwigServiceProvider implements ServiceProviderInterface {
             $twig->addGlobal('theme_url', theme_url());
             $twig->addGlobal('base_url', base_url());
 
+            //add widget function
+            $function = new \Twig_SimpleFunction('widget', function($p){
+                return widget($p);
+            });
+            $twig->addFunction($function);
+
             if ( $app['config']['app.debug']) {
                 $twig->addExtension(new \Twig_Extension_Debug());
             }
