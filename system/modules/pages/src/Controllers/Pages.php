@@ -21,12 +21,6 @@ class Pages extends BaseController {
 	{
 		$page = $this->page->getSingleBy('slug', $slug) or show_404();
 		set('page', $page);
-
-		$positions = $this->getWidgetPosition();
-
-		foreach ($positions as $position) {
-			$this->buildWidget($position);
-		}
 		
 		return $this->get('twig')->render('page/view.html', $this->data);
 	}
@@ -53,7 +47,10 @@ class Pages extends BaseController {
 
 	private function getWidgetOnPosition($position)
 	{
-		return array();
+		$widget = $this->model('Widget@admin');
+
+		$theme = $this->get('theme');
+		$positions = $widget->positions($theme);
+		var_dump($positions); exit();
 	}
 }
-	

@@ -1,0 +1,11 @@
+<?php namespace Drafterbit\Widgets\Text;
+
+use Drafterbit\Core\Widget;
+
+class TextWidget extends Widget {
+
+	public function run($data = null)
+	{
+		return $data['content'];
+	}
+}

@@ -10,6 +10,6 @@ if ( ! function_exists('widget'))
 	 */
 	function widget($position)
 	{
-		return 'Widget fot position: '.$position;
+		return app()->widget($position);
 	}
 }
