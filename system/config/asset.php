@@ -40,7 +40,7 @@ return [
 		'magicsuggest_css' => 'magicsuggest/magicsuggest.css',
 		'magicsuggest_js' => 'magicsuggest/magicsuggest.js',
 		'bootstrap_contextmenu' => 'bootstrap-contextmenu/bootstrap-contextmenu.js',
-		'jquery_ui_css' => 'jquery-ui/css/jquery-ui-1.10.4.custom.min.css',
+		'jquery_ui_css' => 'jquery-ui/css/bootstrap-lite/jquery-ui-1.10.4.custom.min.css',
 		'jquery_ui_js' => 'jquery-ui/js/jquery-ui-1.10.4.custom.min.js',
 		'sticky_js' => 'sticky/jquery.sticky.js'
 ]

@@ -35,11 +35,13 @@ class SupportModule extends \Partitur\Module {
 		$config = $this->get('user_config')->get('config');
 		
 		//theme
-		$this->app['theme'] = $theme = $this->getTheme();
-		
+		$theme = $this->getTheme();
 		$this->app['path.themes'] = $config['path.theme'].'/';
+		$this->app['themes']->current($theme);
+		$this->app['themes']->registerAll();
+		
 
-		$this->app['path.theme'] = $this->app['path.themes'].$this->app['theme'].'/';
+		$this->app['path.theme'] = $this->app['path.themes'].$this->app['themes']->current().'/';
 
 		$this->app['log.db'] = function(){
 			$logger =  new Logger('db.log');

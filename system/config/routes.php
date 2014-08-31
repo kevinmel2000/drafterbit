@@ -2,6 +2,6 @@
 
 	'home' => [
 		'path' => '/',
-		'controller' => 'Blog::index@blog'
+		'controller' => 'Pages::index@pages'
 	]
 ];

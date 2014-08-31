@@ -75,6 +75,7 @@ class WidgetManager {
 				$class = $ns.studly_case($widget->getFileName()).'\\'.studly_case($widget->getFileName()).'Widget';
 
 				$widg = new $class();
+				$widg->config($config);
 				$this->register($widg);
 			}
 		}
@@ -151,5 +152,15 @@ class WidgetManager {
 				$ns => 'src'
 			]
 		];
+	}
+
+	/**
+	 * Get all registered widgets.
+	 *
+	 * @return array
+	 */
+	public function all()
+	{
+		return $this->widgets;
 	}
 }

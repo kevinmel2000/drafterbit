@@ -72,61 +72,6 @@ class Setting extends BaseController {
 		return $this->wrap($content);
 	}
 
-	public function themes()
-	{
-		$cache = $this->get('cache');
-		$post = $this->get('input')->post();
-
-		if($post) {
-			$this->setting->updateTheme($post['theme']);
-
-			$cache->delete('settings');
-			
-			message('Theme updated', 'success');
-
-			//$msg['text'] = 'Theme updated successfully';
-			//$msg['type'] = 'success';
-			//$this->get('session')
-			//	->getFlashBag()->set('message', $msg);
-			//return redirect(base_url("admin/setting/themes"));
-		}
-
-		if(!$cache->contains('settings')) {
-			$cache->save('settings', $this->setting->all());
-		}
-
-		// @todo
-		$settings = $cache->fetch('settings');
-		set('currentTheme', $settings['theme']);
-
-		$themesDir = $this->get('path.themes');
-		$themesDetected = array_diff( scandir( $themesDir ), Array( ".", ".." ) );
-
-		$themes = array();
-		foreach ($themesDetected as $dir) {
-
-			if( is_file($path = $themesDir.$dir.'/config.yml')) {
-				$themes[$dir] = $this->get('yaml')->parse(file_get_contents($path));
-			} else {
-				continue;
-			}
-		}
-
-		set('themes', $themes);
-
-		$ui = $this->model('UI@admin');
-
-		$header =  $ui->header('Themes', 'Appearance setting');
-
-		$view = $this->get('template')->render('setting/appearance@admin', $this->getData());
-
-		$form = $ui->form(null, null, $view);
-
-		$content = $header.$form;
-
-		return $this->wrap($content);
-	}
-
 	public function costumizeTheme()
 	{
 		return $this->get('template.manager')->render('costumize@setting');

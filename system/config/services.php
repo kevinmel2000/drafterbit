@@ -10,7 +10,7 @@
  */
 
 
-    'Drafterbit\\Core\\Provider\\UserConfigServiceProvider' => ['user_config'],
+    'Drafterbit\\Core\\Provider\\ThemeServiceProvider' => ['themes'],
     
     'Drafterbit\\Modules\\Finder\\Providers\\OpenFinderServiceProvider' => ['ofinder'],
     

@@ -33,7 +33,7 @@
                     
                     <?php else: ?>
                          <li>
-                            <a id="<?php echo $childMenu->id ?>" class="navbar-link <?php echo $childMenu->class ?>"  href="<?php echo admin_url($menu->href); ?>">
+                            <a id="<?php echo $menu->id ?>" class="navbar-link <?php echo $menu->class ?>"  href="<?php echo admin_url($menu->href); ?>">
                                 <?php echo $menu->label; ?>
                             </a>
                         </li>

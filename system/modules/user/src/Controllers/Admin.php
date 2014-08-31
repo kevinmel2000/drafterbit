@@ -66,7 +66,7 @@ class Admin extends BaseController {
 
 	private function _table()
 	{
-		$editUrl = base_url('admin/user/edit');
+		$editUrl = admin_url('user/edit');
 
 		return array(
 			['field' => 'real_name', 'label' => 'Name', 'format' => function($value, $item) use ($editUrl) {
@@ -87,7 +87,7 @@ class Admin extends BaseController {
 			),
 			'new-post' => array(
 				'type' => 'a.success',
-				'href' => base_url('admin/user/create'),
+				'href' => admin_url('user/create'),
 				'label' => 'New User',
 				'faClass' => 'fa-plus'
 			),
@@ -100,7 +100,7 @@ class Admin extends BaseController {
 		return array(
 			'trash' => array(
 				'type' => 'a',
-				'href' => base_url('admin/user/create'),
+				'href' => admin_url('user/create'),
 				'label' => 'Delete',
 				'faClass' => 'fa-trash-o'
 			),

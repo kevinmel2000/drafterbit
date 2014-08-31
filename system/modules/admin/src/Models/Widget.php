@@ -4,15 +4,35 @@ use Partitur\Model;
 
 class Widget extends Model {
 
-	public function positions($theme)
+	public function widget($position)
 	{
 		$qb = $this->get('db')->createQueryBuilder();
 		
-		return
-		$qb->select('*')
+		$widgets = $qb->select('*')
 			->from('widgets','w')
-			->where('theme=:theme')
-			->setParameter('theme', $theme)
+			->where('position=:position')
+			->setParameter('position', $position)
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
+
+		return $widgets;
+	}
+
+	public function add($name, $pos)
+	{
+		$theme = $this->get('themes')->current();
+
+		$this->get('db')
+		    ->insert('widgets',  array(
+		            'name' => $name,
+		            'position' =>  $pos,
+		            'theme' =>  $theme
+		        ));
+
+		return $this->get('db')->lastInsertId();
+	}
+
+	public function remove($id)
+	{
+		return $this->get('db')->delete("widgets", ['id'=> $id]);
 	}
 }
