@@ -1,6 +1,6 @@
 {
-  "name": "egig/Drafterbit",
-  "description": "Website that creates website.",
+  "name": "drafterbit/drafterbit",
+  "description": "drafterbit CMS",
   "keywords": [
     "website", "blog", "cms"
   ],
@@ -12,7 +12,7 @@
     }
   ],
   "require": {
-      "partitur/kernel": "dev-master",
+      "drafterbit/framework": "dev-master",
       "symfony/yaml": "2.5.*",
       "symfony/filesystem": "2.5.*",
       "symfony/finder": "2.5.*",
