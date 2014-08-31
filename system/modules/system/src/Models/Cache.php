@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\System\Models;
 
-class Cache extends \Partitur\Model {
+class Cache extends \Drafterbit\Framework\Model {
 
 	public function all()
 	{

@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\User\Models;
 
-class UsersGroup extends \Partitur\Model {
+class UsersGroup extends \Drafterbit\Framework\Model {
 
 	protected $permission;
 

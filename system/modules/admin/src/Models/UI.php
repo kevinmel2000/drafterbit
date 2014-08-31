@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\Admin\Models;
 
-use Partitur\Model;
+use Drafterbit\Framework\Model;
 
 class UI extends Model {
 

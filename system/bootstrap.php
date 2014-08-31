@@ -4,7 +4,7 @@ defined('ENVIRONMENT') or define('ENVIRONMENT', 'dev');
 
 $loader = require './system/vendor/autoload.php';
 
-use Partitur\Application as Foundation;
+use Drafterbit\Framework\Application as Foundation;
 use Drafterbit\Core\Provider\UserConfigServiceProvider;
 use Drafterbit\Core\Provider\ModuleServiceProvider;
 use Drafterbit\Core\Provider\WidgetServiceProvider;

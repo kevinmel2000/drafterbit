@@ -1,11 +1,11 @@
 <?php namespace Drafterbit\Modules\Support;
 
-use Partitur\Application;
+use Drafterbit\Framework\Application;
 use Monolog\Logger;
 use Drafterbit\Modules\Support\Monolog\DoctrineDBALHandler;
 use Drafterbit\Modules\Admin\Models\Setting;
 
-class SupportModule extends \Partitur\Module {
+class SupportModule extends \Drafterbit\Framework\Module {
 
 	public function register(Application $app)
 	{

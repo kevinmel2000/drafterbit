@@ -21,10 +21,10 @@
     'Drafterbit\\Modules\\Support\\Providers\\YamlServiceProvider' => ['yaml'],
     'Drafterbit\\Modules\\Support\\Providers\\TwigServiceProvider' => ['twig'],
     
-    'Partitur\\Provider\\SwiftMailerServiceProvider' => ['mailer', 'mail'],
-    'Partitur\\Provider\\CacheServiceProvider' => ['cache'],
-    'Partitur\\Provider\\DatabaseServiceProvider' => ['db'],
-    'Partitur\\Provider\\LanguageServiceProvider' => ['lang'],
-    'Partitur\\Provider\\TemplateServiceProvider' => ['template'],
-    'Partitur\\Provider\\ValidationServiceProvider' => ['validator', 'validation.form'],
+    'Drafterbit\\Framework\\Provider\\SwiftMailerServiceProvider' => ['mailer', 'mail'],
+    'Drafterbit\\Framework\\Provider\\CacheServiceProvider' => ['cache'],
+    'Drafterbit\\Framework\\Provider\\DatabaseServiceProvider' => ['db'],
+    'Drafterbit\\Framework\\Provider\\LanguageServiceProvider' => ['lang'],
+    'Drafterbit\\Framework\\Provider\\TemplateServiceProvider' => ['template'],
+    'Drafterbit\\Framework\\Provider\\ValidationServiceProvider' => ['validator', 'validation.form'],
 ];

@@ -3,7 +3,7 @@
 use Drafterbit\Modules\User\Models\User;
 use Drafterbit\Modules\User\Models\UsersGroup;
 
-class Auth extends \Partitur\Model {
+class Auth extends \Drafterbit\Framework\Model {
 
 	public function __construct( User $user, UsersGroup $group)
 	{

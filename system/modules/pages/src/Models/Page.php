@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\Pages\Models;
 
-class Page extends \Partitur\Model {
+class Page extends \Drafterbit\Framework\Model {
 
 	public function all()
 	{

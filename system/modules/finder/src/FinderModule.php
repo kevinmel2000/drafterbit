@@ -1,8 +1,8 @@
 <?php namespace Drafterbit\Modules\Finder;
 
-use Partitur\Application;
+use Drafterbit\Framework\Application;
 
-class FinderModule extends \Partitur\Module {
+class FinderModule extends \Drafterbit\Framework\Module {
 	
 	public function register(Application $app)
 	{

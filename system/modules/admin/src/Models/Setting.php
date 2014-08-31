@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\Admin\Models;
 
-class Setting extends \Partitur\Model {
+class Setting extends \Drafterbit\Framework\Model {
 
 	public function all()
 	{

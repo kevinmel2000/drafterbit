@@ -7,7 +7,7 @@ return [
  * Asset Path
  *--------------------------------------------------------------------------
  *
- * Asset path, used by assetic as parameter for AssetFactory. Yes, Partitur
+ * Asset path, used by assetic as parameter for AssetFactory. Yes, Drafterbit\Framework
  * by default provides Assetic service for asset manager. You may or may not
  * use the assetic, it only being loaded if you do.
  */

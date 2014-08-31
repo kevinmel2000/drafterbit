@@ -59,6 +59,6 @@
  *  new session cookie is created by the framework for every driver.
  */
 
-'session.name' => 'partitur-session'
+'session.name' => 'drafterbit-framework-session'
 
 ];

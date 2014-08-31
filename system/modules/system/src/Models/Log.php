@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\System\Models;
 
-class Log extends \Partitur\Model {
+class Log extends \Drafterbit\Framework\Model {
 
 	public function all()
 	{

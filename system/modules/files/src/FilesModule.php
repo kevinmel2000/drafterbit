@@ -1,8 +1,8 @@
 <?php namespace Drafterbit\Modules\Files;
 
-use Partitur\Application;
+use Drafterbit\Framework\Application;
 
-class FilesModule extends \Partitur\Module {
+class FilesModule extends \Drafterbit\Framework\Module {
 
 	public $controllers = ['admin'];
 	

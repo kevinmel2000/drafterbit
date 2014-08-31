@@ -1,3 +1,3 @@
 <?php namespace Drafterbit\Modules\Pages;
 
-class PagesModule extends \Partitur\Module {}
+class PagesModule extends \Drafterbit\Framework\Module {}

@@ -1,9 +1,9 @@
 <?php namespace Drafterbit\Core\Provider;
 
 use Pimple\Container;
-use Partitur\Config\Config;
 use Pimple\ServiceProviderInterface;
-use Partitur\Config\Loader\YamlLoader;
+use Drafterbit\Framework\Config\Config;
+use Drafterbit\Framework\Config\Loader\YamlLoader;
 
 class UserConfigServiceProvider implements ServiceProviderInterface {
 

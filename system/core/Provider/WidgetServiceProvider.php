@@ -1,7 +1,7 @@
 <?php namespace Drafterbit\Core\Provider;
 
 use Pimple\Container;
-use Partitur\Config\Config;
+use Drafterbit\Framework\Config\Config;
 use Pimple\ServiceProviderInterface;
 use Drafterbit\Core\WidgetManager;
 use Drafterbit\Core\WidgetUIBuilder;

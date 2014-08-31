@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\User\Controllers;
 
-use Partitur\Validation\Exceptions\ValidationFailsException;
+use Drafterbit\Framework\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Modules\Admin\BaseController;
 use Drafterbit\Modules\User\Models\Auth;
 use Drafterbit\Modules\User\Models\User as UserModel;

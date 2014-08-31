@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Core;
 
-use Partitur\Application;
+use Drafterbit\Framework\Application;
 use Symfony\Component\Finder\Finder;
 
 class ThemeManager {

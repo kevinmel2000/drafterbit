@@ -1,3 +1,3 @@
 <?php namespace Drafterbit\Modules\User;
 
-class UserModule extends \Partitur\Module {}
+class UserModule extends \Drafterbit\Framework\Module {}

@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Modules\Support;
 
-abstract class Controller extends \Partitur\Controller {
+abstract class Controller extends \Drafterbit\Framework\Controller {
 
 	/**
      * Data.

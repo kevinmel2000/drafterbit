@@ -41,7 +41,7 @@
  *--------------------------------------------------------------------------
  *
  * This will be used for translation in validation and others. We use simple
- * language support provided by Partitur. If you need more,  you can always
+ * language support provided by Drafterbit\Framework. If you need more,  you can always
  * add you own language library.
  */
 

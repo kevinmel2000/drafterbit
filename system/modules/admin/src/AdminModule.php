@@ -1,8 +1,8 @@
 <?php namespace Drafterbit\Modules\Admin;
 
-use Partitur\Application;
+use Drafterbit\Framework\Application;
 
-class AdminModule extends \Partitur\Module {
+class AdminModule extends \Drafterbit\Framework\Module {
 	
 	public function register(Application $app)
 	{

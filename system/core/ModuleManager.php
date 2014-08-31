@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Core;
 
-use Partitur\Application;
+use Drafterbit\Framework\Application;
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Finder\Finder;
 
@@ -14,7 +14,7 @@ class ModuleManager {
 	/**
 	 * Module manager constructor.
 	 *
-	 * @param Partitur\Application $app
+	 * @param Drafterbit\Framework\Application $app
 	 * @param Composer\ClassLoader $loader
 	 * @param array $modulesPath
 	 * @return void
