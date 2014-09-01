@@ -9,7 +9,8 @@ if ( ! function_exists('wysiwyg'))
 	 */
 	function wysiwyg($name, $default = null, $attr="")
 	{
-		$src = base_url('system/plugins/ckeditor/ckeditor.js');
+		$path = app('config')->get('asset.path');
+		$src = base_url($path.'/ckeditor/ckeditor.js');
 		$browserUrl = admin_url('finder/browser?mode=image');
 		$html = <<< EOD
 
@@ -21,8 +22,8 @@ CKEDITOR.plugins.addExternal( 'wpmore', '/system/plugins/ckeditor-custom/plugins
 
 CKEDITOR.replace('$name', {
 
-	customConfig : '/system/plugins/ckeditor-custom/config.js',
-	skin: 'bootstrap,/system/plugins/ckeditor-custom/skins/bootstrap/',
+	customConfig : '/$path/ckeditor-custom/config.js',
+	skin: 'bootstrap,/$path/ckeditor-custom/skins/bootstrap/',
 
     filebrowserWindowWidth  : 860,
     filebrowserWindowHeight : 453,
