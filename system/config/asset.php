@@ -12,7 +12,7 @@ return [
  * use the assetic, it only being loaded if you do.
  */
 
-'path' => __DIR__.'/../plugins',
+'path' => 'system/vendor/web',
 
 /**
  *--------------------------------------------------------------------------

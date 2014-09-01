@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Widgets\Text;
 
-use Drafterbit\Core\Widget;
+use Drafterbit\CMS\WIdget\Widget;
 
 class TextWidget extends Widget {
 

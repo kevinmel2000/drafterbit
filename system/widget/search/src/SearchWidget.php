@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Widgets\Search;
 
-use Drafterbit\Core\Widget;
+use Drafterbit\CMS\Widget\Widget;
 
 class SearchWidget extends Widget {
 

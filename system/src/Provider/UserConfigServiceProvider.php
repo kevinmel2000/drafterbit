@@ -1,4 +1,4 @@
-<?php namespace Drafterbit\Core\Provider;
+<?php namespace Drafterbit\CMS\Provider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -10,7 +10,7 @@ class UserConfigServiceProvider implements ServiceProviderInterface {
 	function register(Container $app)
 	{
 		$app['user_config'] = function($c) {
-			return new Config($c['path.install'], null, new YamlLoader);
+			return new Config($c['path.install']);
 		};
 	}
 }

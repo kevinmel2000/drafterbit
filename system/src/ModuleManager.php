@@ -1,4 +1,4 @@
-<?php namespace Drafterbit\Core;
+<?php namespace Drafterbit\CMS;
 
 use Drafterbit\Framework\Application;
 use Composer\Autoload\ClassLoader;

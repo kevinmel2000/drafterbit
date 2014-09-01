@@ -46,7 +46,7 @@ if ( ! function_exists('theme_url'))
 	 */
 	function theme_url($path = null)
 	{
-		$theme = app('theme');
+		$theme = app('themes')->current();
 		$config = app('user_config')->get('config');
 		$themePath = $config['path.theme'];
 		return base_url("{$themePath}/{$theme}".trim($path).'/');

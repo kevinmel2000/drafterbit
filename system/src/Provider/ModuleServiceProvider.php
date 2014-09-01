@@ -1,9 +1,9 @@
-<?php namespace Drafterbit\Core\Provider;
+<?php namespace Drafterbit\CMS\Provider;
 
 use Pimple\Container;
 use Drafterbit\Framework\Config\Config;
 use Pimple\ServiceProviderInterface;
-use Drafterbit\Core\ModuleManager;
+use Drafterbit\CMS\ModuleManager;
 
 class ModuleServiceProvider implements ServiceProviderInterface {
 

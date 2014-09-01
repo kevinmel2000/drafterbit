@@ -1,8 +1,8 @@
-<?php namespace Drafterbit\Core\Provider;
+<?php namespace Drafterbit\CMS\Provider;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Drafterbit\Core\ThemeManager;
+use Drafterbit\CMS\ThemeManager;
 
 class ThemeServiceProvider implements ServiceProviderInterface {
 

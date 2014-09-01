@@ -1,4 +1,4 @@
-<?php namespace Drafterbit\Core;
+<?php namespace Drafterbit\CMS\Widget;
 
 use Drafterbit\Framework\Traits\ResourcesAccessorTrait;
 

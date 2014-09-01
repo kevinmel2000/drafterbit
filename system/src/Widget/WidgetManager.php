@@ -1,4 +1,4 @@
-<?php namespace Drafterbit\Core;
+<?php namespace Drafterbit\CMS\Widget;
 
 use Drafterbit\Framework\Application;
 use Composer\Autoload\ClassLoader;
@@ -28,7 +28,7 @@ class WidgetManager {
 	/**
 	 * Register a widget;
 	 *
-	 * @param Drafterbit\Core\WidgetInterface $widget
+	 * @param Drafterbit\CMS\WidgetInterface $widget
 	 * @return void
 	 */
 	public function register(WidgetInterface $widget)
@@ -40,7 +40,7 @@ class WidgetManager {
 	 * Get a widget by name;
 	 *
 	 * @param string $nameegis
-	 * @return Drafterbit\Core\WidgetInterface
+	 * @return Drafterbit\CMS\WidgetInterface
 	 */
 	public function get($name)
 	{

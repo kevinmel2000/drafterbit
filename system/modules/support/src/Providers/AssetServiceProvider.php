@@ -13,7 +13,8 @@ class AssetServiceProvider implements ServiceProviderInterface {
 		
 		$app['asset'] = function($c) {
 			$cachePath = $c['user_config']->get('config.path.cache');
-			return new AssetManager($cachePath.'/asset/', $c['path'].'plugins/', $c['debug']);
+			$assetPath = $c['config']['asset.path'];
+			return new AssetManager($cachePath.'/asset/', $c['path.public'].$assetPath, $c['debug']);
 		};
 	}
 
@@ -24,7 +25,7 @@ class AssetServiceProvider implements ServiceProviderInterface {
 			app('asset')->register($name, $value);
 		}
 
-		app('asset')->getFilterManager()->set('fontawesome', new FaFilter);
-		app('asset')->getFilterManager()->set('chosen_css', new ChosenFilter);
+		app('asset')->getFilterManager()->set('fontawesome', new FaFilter(app('config')->get('asset.path')));
+		app('asset')->getFilterManager()->set('chosen_css', new ChosenFilter(app('config')->get('asset.path')));
 	}
 }

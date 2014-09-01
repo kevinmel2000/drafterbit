@@ -10,7 +10,7 @@
  */
 
 
-    'Drafterbit\\Core\\Provider\\ThemeServiceProvider' => ['themes'],
+    'Drafterbit\\CMS\\Provider\\ThemeServiceProvider' => ['themes'],
     
     'Drafterbit\\Modules\\Finder\\Providers\\OpenFinderServiceProvider' => ['ofinder'],
     

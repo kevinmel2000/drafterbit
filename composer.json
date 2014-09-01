@@ -36,7 +36,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Drafterbit\\Core\\": "system/core"
+      "Drafterbit\\CMS\\": "system/src"
     }
   }
 }
