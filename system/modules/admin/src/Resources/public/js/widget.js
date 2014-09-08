@@ -1,14 +1,17 @@
-(function($){
+(function($, drafterbit){
+
 	$('.widget-item').on('click', function(e) {
 		e.preventDefault();
 		var a = e.target;
 		var widget = $(a).data('widget');
 		var pos = $(a).data('position');
 
-		$.get('/backend/setting/themes/widget-add/'+widget, {pos: pos})
-			.done(function(data){
-				$('.position-'+pos).children().first().after(data);
-			});
+		$('.widget-form-container .modal-content').load(
+			[drafterbit.adminUrl,'/setting/themes/widget-add/',widget].join(''),
+			function(){
+				$('.widget-form-container').modal('show');
+			}
+		);
 
 		$('.widgets').modal('hide');
 	});
@@ -18,7 +21,7 @@
 
 		var id = $(e.currentTarget).data('id');
 
-		$.post('/backend/setting/themes/widget-remove/', {id:id})
+		$.post(drafterbit.adminUrl+'/setting/themes/widget-remove/', {id:id})
 			.done(function(){
 				$('#widget-'+id).remove();
 			});
@@ -30,4 +33,20 @@
   		$('.widget-item').data('position', pos);
 	});
 
-})(jQuery);
+	$(document).on('click', '.registered-widget', function(e){
+		e.preventDefault();
+
+		var a = e.target;
+		var id = $(a).data('id');
+
+		$('.widget-form-container .modal-content').load(
+			[drafterbit.adminUrl,'/setting/themes/widget-edit/',id].join(''),
+			function(){
+				$('.widget-form-container').modal('show');
+			}
+		);
+	});
+
+	//form stuff
+
+})(jQuery, drafterbit);

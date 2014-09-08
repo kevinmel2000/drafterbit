@@ -1,8 +1,7 @@
 <?php return [
 	
-	'page' => [
-		'path' => '/{slug}',
-		'controller' => 'Pages::view@pages',
+	'/{slug}' => [
+		'controller' => '@pages\Pages::view',
 		'requirements' => [
 			//'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
 			'slug' => "^(?!(?:".ADMIN_BASE.")(?:/|$)).*$"

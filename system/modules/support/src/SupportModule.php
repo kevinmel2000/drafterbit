@@ -4,6 +4,8 @@ use Drafterbit\Framework\Application;
 use Monolog\Logger;
 use Drafterbit\Modules\Support\Monolog\DoctrineDBALHandler;
 use Drafterbit\Modules\Admin\Models\Setting;
+use Drafterbit\Modules\Support\Assetic\DrafterbitFontAwesomeFilter as FaFilter;
+use Drafterbit\Modules\Support\Assetic\DrafterbitChosenFilter as ChosenFilter;
 
 class SupportModule extends \Drafterbit\Framework\Module {
 
@@ -32,6 +34,21 @@ class SupportModule extends \Drafterbit\Framework\Module {
 
 	function onBoot()
 	{
+		foreach (app()->modules() as $name => $module) {
+
+			if (is_dir( $path = $module->getTemplatePath())) {
+				app('template')->addPath($name, $path);
+			}
+		}
+
+		// assets
+		foreach (app('config')->get('asset.assets') as $name => $value) {
+			app('asset')->register($name, $value);
+		}
+
+		app('asset')->getFilterManager()->set('fontawesome', new FaFilter(app('config')->get('asset.path')));
+		app('asset')->getFilterManager()->set('chosen_css', new ChosenFilter(app('config')->get('asset.path')));
+
 		$config = $this->get('user_config')->get('config');
 		
 		//theme

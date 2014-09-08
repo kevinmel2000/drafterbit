@@ -10,26 +10,22 @@
 		<div class="col-md-10">
 			<?php foreach ($positions as $position): ?>
 				<div class="col-md-6">
+					<h4><?php echo $position ?>
+						<a href="#" class="pull-right" data-position="<?php echo $position ?>" data-toggle="modal" data-target=".widgets">
+							<small><i class="fa fa-plus"></i>Add Widget</small>
+						</a>
+					</h4>
+
+
 					<div class="panel panel-default">
-						<div class="panel-heading">
-							<span><?php echo $position ?></span>
-						</div>
 						<div class="panel-body position-<?php echo $position ?>">
-
-							<div class="panel panel-default">
-								<a href="#" data-position="<?php echo $position ?>" data-toggle="modal" data-target=".widgets">Add Widget</i></a>
-							</div>
-
-							<?php foreach($widgets[$position] as $widget): ?>
-							<div class="panel panel-default widget">
-								<div class="panel-heading">
-									<span><?php echo $widget->name; ?></span>
-								</div>
-								<div class="panel-body">
-									<?php echo $widgetUIs[$widget->name];  ?>
-								</div>
-							</div>
-							<?php endforeach;?>
+							<?php if($widgets[$position]): ?>
+							<ul>
+								<?php foreach($widgets[$position] as $widget): ?>
+								<li><a href="#" class="registered-widget" data-id="<?php echo $widget->id; ?>" class="widget-item"><?php echo $widget->name; ?></a></li>
+								<?php endforeach;?>
+							</ul>
+							<?php endif; ?>
 						</div>
 					</div>
 				</div>
@@ -42,7 +38,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title">Select Widget</h4>
+        <h4 class="modal-title">Available Widget</h4>
       </div>
       <div class="modal-body">
        	<ul>
@@ -51,6 +47,14 @@
        		<?php endforeach; ?>
        	</ul>
       </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade widget-form-container">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      //..
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

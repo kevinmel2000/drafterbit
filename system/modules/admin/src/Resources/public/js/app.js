@@ -13,10 +13,9 @@ $(document).on('pjax:complete', function() {
 
 // sidebar togler for mobilescreen
 $(function(){
-
     // feature under construction
     $('.soon').click(function(e){
       e.preventDefault();
       alert('Feature Under Construction !');
-    });   
+    });
 });

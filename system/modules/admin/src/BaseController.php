@@ -10,7 +10,7 @@ class BaseController extends Controller {
 	public function __construct( Auth $auth )
 	{
 		$this->auth = $auth;
-		$this->auth->authenticate();
+		//$this->auth->authenticate();
 		$session = $this->get('session');
 
 		//flash message

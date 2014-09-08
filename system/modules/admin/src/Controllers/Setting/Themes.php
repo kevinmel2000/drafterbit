@@ -73,6 +73,12 @@ class Themes extends BaseController {
 	 */
 	public function widget()
 	{
+		$ob = new \ReflectionMethod($this, 'get');
+		$ob2 = new \ReflectionMethod($this, 'widget');
+		var_dump($ob->class);
+		var_dump($ob2->class);
+		exit();
+
 		$currentTheme = $this->get('themes')->get();
 		$positions = $currentTheme['widget_positions'];
 
@@ -88,15 +94,19 @@ class Themes extends BaseController {
 
 		$widg = $this->get('widget')->all();
 
-		$widgetUIs = array();
-		foreach ($widg as $name => $widget) {
-			$widgetUIs[$name] = $this->get('widget.ui')->build($widget);
+		foreach ($widgets as $name => $arrayOfWidget) {
+
+			foreach ($arrayOfWidget as $widget) {
+
+			$widgetObj = $this->get('widget')->get($widget->name);
+
+				$widget->ui = $this->get('widget.ui')->build($widgetObj);
+			}
 		}
 
 		set('widg', $widg);
 		set('positions', $positions);
 		set('widgets', $widgets);
-		set('widgetUIs', $widgetUIs);
 
 		$ui = $this->model('UI@admin');
 
@@ -139,27 +149,34 @@ class Themes extends BaseController {
 
 	public function widgetAdd($name)
 	{
-		if(!$this->isAjax()) show_404();
+		if($this->isAjax()) show_404();
 		
 		$widget = $this->get('widget')->get($name);
 		$pos = $this->get('input')->get('pos');
 
-		$id = $this->model('widget')->add($widget->name(), $pos);
+		$id = '';//$this->model('widget')->add($widget->name(), $pos);
 
-		$ui = $this->get('widget.ui')->build($widget, $id);
+		$widget->ui = $this->get('widget.ui')->build($widget, $id);
 
-		return
-			'<div class="panel panel-default widget" id="widget-'.$id.'">
-				<div class="panel-heading">
-					<span>'.$widget->name().'</span>
-				</div>
-				<div class="panel-body">
-					'.$ui.'
-				</div>
-			</div>';
+		set('widget', $widget);
+
+		return $this->get('template')->render('setting/themes/widget-add@admin', $this->getData());
 	}
 
-	public function widgetRemove()
+	public function widgetEdit($id)
+	{
+		if($this->isAjax()) show_404();
+		
+		$widget = $this->model('widget')->fetch($id);
+
+		$widget->ui = $this->get('widget.ui')->build($widget, $id);
+
+		set('widget', $widget);
+
+		return $this->get('template')->render('setting/themes/widget-add@admin', $this->getData());
+	}
+
+	public function WidgetRemove()
 	{
 		$id = $this->get('input')->post('id');
 		return $this->model('widget')->remove($id);

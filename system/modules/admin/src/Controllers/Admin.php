@@ -1,6 +1,8 @@
 <?php namespace Drafterbit\Modules\Admin\Controllers;
 
 use Drafterbit\Modules\Admin\BaseController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 class Admin extends BaseController {
 	

@@ -31,6 +31,19 @@ class Widget extends Model {
 		return $this->get('db')->lastInsertId();
 	}
 
+	public function fetch($id)
+	{
+		$qb = $this->get('db')->createQueryBuilder();
+		
+		$widget = $qb->select('*')
+			->from('widgets','w')
+			->where('id=:id')
+			->setParameter('id', $id)
+			->execute()->fetchAll(\PDO::FETCH_CLASS);
+
+		return reset($widget);
+	}
+
 	public function remove($id)
 	{
 		return $this->get('db')->delete("widgets", ['id'=> $id]);

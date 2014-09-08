@@ -2,66 +2,77 @@
 
 class WidgetUIBuilder {
 
-	public function build(Widget $widget, $id = 0)
+	/**
+	 * Build user interface for a widget
+	 *
+	 * @param Drafterbi\CMS\Widget\Widget $widget
+	 */
+	public function build(Widget $widget, $id = 0, $data = array())
 	{
+		$ui  = form_open();
+		$ui .= $this->text('title', null);
 
-		$ui= '';
-
-		if($param = $widget->config('param'))
+		$param = $widget->config('param') ? $widget->config('param') : array();
+		
 		foreach ($param as $input) {
-			switch ($input['type']) {
-				case 'text';
-					$ui .= $this->text($input['name'], $input['default']);
-					break;
-				case 'textarea':
-					$ui .= $this->textarea($input['name'], $input['default']);
-					break;
-				case 'select':
-					$ui .= $this->select($input['name'], $input['default'], $input['options']);
-					break;
-				case 'password':
-					$ui .= $this->password($input['name']);
-					break;
-				case 'hidden':
-					$ui .= $this->hidden($input['name']);
-					break;
-				case 'radio':
-					$ui .= $this->radio($input['name'], $input['default'], $input['options']);
-					break;
-				case 'checkbox':
-					$ui .= $this->checkbox($input['name'], $input['default'], $input['options']);
-					break;
-				case 'file':
-					$ui .= $this->file($input['name']);
-				default:
-					break;
-			}
-		}
+			
+			$name = $input['name'];
+			$type = $input['type'];
+			$default = isset($input['default']) ? $input['default'] : null;
+			$options = isset($input['options']) ? $input['options'] : array();
 
-		return '<form type="post">'.
-					'<div><label>Title</label><input type="text" name="title"></div>'.
-			$ui.
-			'<a href="#" data-id="'.$id.'" class="widget-remover">Remove</a><input type="submit" name="submit" value="Save">';
+			if(!method_exists($this, $type)) {
+				throw new \RuntimeException("Type $type is not supported by Widge UI Builder");
+			}
+
+			$ui .= empty($options) ?
+				$this->$type($name, $default) :
+				$this->$type($name, $default, $options);
+		}
+		
+		$ui .= '<div class="clearfix" style="margin-top:10px;">';
+		//$ui .= '<a href="#" data-id="'.$id.'" class="widget-remover">Remove</a>';
+		$ui .= input_submit('save', 'Save', 'class="btn btn-primary";');
+		$ui .= ' or <a href="#" class="btn" data-dismiss="modal">Cancel</a>';
+		$ui .= '</div>';
+		$ui .= form_close();
+		return $ui;
 	}
 
+
+	/**
+	 * Create text input
+	 *
+	 * @param string $name
+	 * @param string $default
+	 */
 	protected function text($name, $default)
 	{
-		return "<label>$name</label><input type='text' name='$name' value='$default'>";
+		return label(ucfirst($name), $name).input_text($name, $default, 'class="form-control"');
 	}
 
 	protected function textarea($name, $default)
 	{
-		return "<label>$name</label><br/><textarea name='$name'>$default</textarea>";
+		return label(ucfirst($name), $name).input_textarea($name, $default, 'class="form-control"');
 	}
 
-	protected function select($name, $default, $options)
+	protected function select($name, $options, $default)
 	{
-		$html = "<select name='$name'>";
+		return label(ucfirst($name), $name).input_select($name, $options, $default, 'class="form-control"');
+	}
 
-		foreach ($options as $option) {
-			$html .= "<option value='{$option['value']}'>{$option['label']}</option>";
-		}
+	protected function checkbox($name, $default)
+	{
+		return input_checkbox($name, $default).label(ucfirst($name), $name, 'class="form-control"');
+	}
 
-		return $html .= "</select>";
+	protected function radio($name, $default)
+	{
+		return input_radio($name, $default).label(ucfirst($name), $name, 'class="form-control"');
+	}
+
+	private function wrap($ui)
+	{
+		return '<div class="form-group">'.$ui.'</div>';
 	}
 }

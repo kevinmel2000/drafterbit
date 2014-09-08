@@ -56,25 +56,30 @@ class Auth extends \Drafterbit\Framework\Model {
 		log_db("Logged in", "<a href='$url'>{$user->real_name}</a>");
 	}
 
-	public function authenticate()
+	public function authenticate($route)
 	{
 		if ($this->isLoggedIn()) {
 			return;
 		}
 
-		if ($this->isRemembered()) {
+		$config = $this->get('user_config')->get('config');
 
-			$logToken = $this->get('input')->cookies('log_token');
-			$user = $this->user->getBy('log_token', $logToken);
+		if(trim($route->getPath(), '/') != $config['path.admin'].'/login') {
 
-			if ($user) {
-				$this->registerSession($user);
-				return;
+			if ($this->isRemembered()) {
+
+				$logToken = $this->get('input')->cookies('log_token');
+				$user = $this->user->getBy('log_token', $logToken);
+
+				if ($user) {
+					$this->registerSession($user);
+					return;
+				}
 			}
-		}
 
-		$next = urlencode($this->get('request')->getPathInfo());
-		return redirect(admin_url("login?next=$next"))->send();
+			$next = urlencode($this->get('request')->getPathInfo());
+			return redirect(admin_url("login?next=$next"))->send();
+		}
 	}
 
 	/**
@@ -85,6 +90,8 @@ class Auth extends \Drafterbit\Framework\Model {
 	 */
 	public function restrict($accessKey)
 	{
+		// @todo authenticete first
+		
 		$encrypter = $this->get('encrypter');
 		$session = $this->get('session');
 

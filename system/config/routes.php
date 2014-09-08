@@ -1,7 +1,5 @@
 <?php return [
-
-	'home' => [
-		'path' => '/',
-		'controller' => 'Pages::index@pages'
+	'/' => [
+		'controller' => '@pages\Pages::index'
 	]
 ];
