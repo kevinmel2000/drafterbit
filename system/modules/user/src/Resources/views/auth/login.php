@@ -20,9 +20,9 @@
   <body>
 
     <div class="container">
-    	<div class="panel panel-default form-signin-panel">
-  			<div class="panel-heading">Please Sign In</div>
-  			<div class="panel-body">
+      <div class="panel panel-default form-signin-panel">
+        <div class="panel-body">
+            <div style="text-align:center; margin-bottom:20px;"><h1 class="title"><i class="fa fa-send"></i> Drafterbit</h1></div>
   			
 		  			<?php if( ! empty($messages)): ?>
 		  				<div class="alert alert-danger">
@@ -33,16 +33,16 @@
 		  			<?php endif; ?>
   			
 			      <form role="form" class="form-signin" method="POST">
-			        <input name="email" type="email" class="form-control" placeholder="Email address" required autofocus>
-			        <input name="password" type="password" class="form-control" placeholder="Password">
-			        <div class="help clearfix">
+			        <input name="email" type="email" class="form-control input-sm" placeholder="EMAIL" required autofocus value="<?php echo value('email'   ); ?>">
+			        <input name="password" type="password" class="form-control input-sm" placeholder="PASSWORD">
+			        <!--<div class="help clearfix">
 				        <a class="pull-right" href="javascript:alert('Coming soon !')">Help <i class="fa fa-question-circle"></i></a>
-			    	</div>
-			        <div class="clearfix">
+			    	</div>-->
+			        <div class="clearfix checkbox">
 				        <label class="remember pull-left">
-				          <input type="checkbox" name="remember-me" value="1"> Remember me
+				          <!--<input type="checkbox" name="remember-me" value="1"> Remember Me -->
 				        </label>
-			        	<button class="btn btn-primary pull-right" type="submit">Sign in</button>
+			        	<button class="btn btn-info form-control" type="submit">LOGIN</button>
 			        </div>
 			      </form>
   			</div>

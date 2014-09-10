@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-    <div class="container-fluid">
+    <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo admin_url(); ?>"><i class="fa fa-home"></i></a>
+                <a class="navbar-brand" href="<?php echo admin_url('dashboard'); ?>"><i class="fa fa-send"></i></a>
             </div>
             <!-- /.navbar-header -->
             <ul id="off-canvas" class="nav navbar-top-links navbar-left">
@@ -16,7 +16,7 @@
                     <?php if($menu->hasChildren()): ?>
                         <li class="dropdown">
                             <a class="navbar-link dropdown-toggle" data-toggle="dropdown" href="#">
-                                <?php echo $menu->label; ?> <i class="fa fa-caret-down"></i>
+                                <?php echo $menu->label; ?> <!--<i class="fa fa-caret-down"></i>-->
                             </a>
                             <ul class="dropdown-menu">
                                 <div class="dropdown-caret">
@@ -43,25 +43,20 @@
             </ul>
 
             <ul class="nav navbar-top-links navbar-right user-preferences">
-                <li>
-                    <a href="/" target="_blank"  class="navbar-link">
-                        Front Page
-                        <i class="fa fa-external-link"></i>
-                    </a>
-                </li>
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class=" navbar-link dropdown-toggle" data-toggle="dropdown" href="#">
                         <img width="20px;" class="profile-avatar" src="<?php echo $userGravatar; ?>" alt="<?php echo $userName ?>"/>
-                        <i class="fa fa-caret-down"></i>
+                        <!--<i class="fa fa-caret-down"></i>-->
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-user">
                         <div class="dropdown-caret">
                             <span class="caret-outer"></span>
                             <span class="caret-inner"></span>
                         </div>
-                        <li><a href="#" class="soon">My Profile</a> </li>
-                        <li><a href="#" class="soon">Preferences</a> </li>
+                        <li> <a href="/" target="_blank">Visit Site <i class="fa fa-external-link"></i> </a> </li>
+                        <!--<li><a href="#" class="soon">My Profile</a> </li>
+                        <li><a href="#" class="soon">Preferences</a> </li>-->
                         <li><a href="<?php echo admin_url('logout'); ?>">Logout</a> </li>
                     </ul>
                     <!-- /.dropdown-user -->

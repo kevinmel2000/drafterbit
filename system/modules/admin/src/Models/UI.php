@@ -12,12 +12,12 @@ class UI extends Model {
 		$data['userName'] = $userName;
 		$data['userGravatar'] = $userGravatar;
 
-		return $this->render('ui/nav@admin', $data);
+		return $this->render('@admin/ui/nav', $data);
 	}
 
 	public function footer()
 	{
-		return $this->render('ui/footer@admin');
+		return $this->render('@admin/ui/footer');
 	}
 
 	private function createMenu($menuArray)
@@ -45,7 +45,7 @@ class UI extends Model {
 	{
 		$data['title'] = $title;
 		$data['subTitle'] = $subTitle;
-		return $this->render('ui/header@admin', $data);
+		return $this->render('@admin/ui/header', $data);
 	}
 
 	public function form($action, $toolbar, $view)
@@ -54,7 +54,7 @@ class UI extends Model {
 		 $data['formAction'] = $action;
 		 $data['view'] = $view;
 		 $data['toolbars'] = $toolbar;
-		return $this->render('ui/form@admin', $data);
+		return $this->render('@admin/ui/form', $data);
 	}
 
 	public function listFormed($action, $toolbar, $table)
@@ -63,7 +63,7 @@ class UI extends Model {
 		 $data['relatedLinks'] = false;
 		 $data['table'] = $table;
 		 $data['toolbars'] = $toolbar;
-		return $this->render('ui/list-formed@admin', $data);
+		return $this->render('@admin/ui/list-formed', $data);
 	}
 
 	public function toolbar($config)
@@ -78,7 +78,7 @@ class UI extends Model {
 			$c->type = $types[0];
 			$c->classType = isset($types[1]) ? $types[1] : 'default';
 			$c->id = $name;
-			$c->align = isset($def['align']) ?$def['align'] : 'right';
+			$c->align = isset($def['align']) ?$def['align'] : 'left';
 			$c->faClass = isset($def['faClass']) ?$def['faClass'] : false;
 
 			if($c->align == 'right') {
@@ -89,7 +89,7 @@ class UI extends Model {
 		}
 
 		$data['toolbars'] = $toolbars;
-		return $this->render('ui/toolbar@admin', $data);
+		return $this->render('@admin/ui/toolbar', $data);
 	}
 
 	public function datatables($name, $data, $headers)
@@ -130,7 +130,7 @@ class UI extends Model {
 		$data['thead'] = $thead;
 		$data['rows'] = $rows;
 
-		return $this->render('ui/datatables@admin', $data);
+		return $this->render('@admin/ui/datatables', $data);
 	}
 
 	/**

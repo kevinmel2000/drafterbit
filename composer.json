@@ -22,7 +22,7 @@
       "kriswallsmith/assetic": "1.1.*",
       "natxet/CssMin": "3.0.2",
       "mrclay/minify": "2.2.*",
-      "gregwar/image": "2.0.*",
+      "gregwar/image": "2.0.*"
   },
   "config": {
     "vendor-dir": "system/vendor",

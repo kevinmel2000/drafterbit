@@ -1,5 +1,5 @@
-$(document).ready(function() {
-        $("#user-data-table").dataTable({
+(function($, drafterbit) {
+      var dt =  $("#user-data-table").dataTable({
              "oLanguage": {
               "sLengthMenu": "Showing _MENU_ records per page",
               "sSearch": "Search: _INPUT_",
@@ -8,6 +8,8 @@ $(document).ready(function() {
             {'orderable': false, 'searchable':false, 'targets':[0]}
           ]
         });
-    });
+  
+    drafterbit.replaceDTSearch(dt);
 
     $('#user').checkAll({showIndeterminate:true});
+})(jQuery, drafterbit);

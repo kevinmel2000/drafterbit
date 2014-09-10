@@ -6,11 +6,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class Admin extends BaseController {
 
-	public function __construct(Auth $auth)
-	{
-		$auth->authenticate();
-	}
-
 	public function browser()
 	{
 		$this->get('asset')

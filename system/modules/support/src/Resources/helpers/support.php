@@ -9,16 +9,17 @@ if ( ! function_exists('wysiwyg'))
 	 */
 	function wysiwyg($name, $default = null, $attr="")
 	{
-		$path = app('config')->get('asset.path');
+		$path = app('config')->get('asset')['path'];
 		$src = base_url($path.'/ckeditor/ckeditor.js');
 		$browserUrl = admin_url('finder/browser?mode=image');
+
 		$html = <<< EOD
 
 <textarea $attr name="$name">$default</textarea>
 <script src="$src"; ?>"></script>
 <script>
 
-CKEDITOR.plugins.addExternal( 'wpmore', '/system/plugins/ckeditor-custom/plugins/wpmore');
+CKEDITOR.plugins.addExternal( 'wpmore', '/$path/ckeditor-custom/plugins/wpmore');
 
 CKEDITOR.replace('$name', {
 

@@ -1,4 +1,4 @@
-<div class="container-fluid" style="border-bottom:1px solid #E5E5E5;">
+<div class="container" style="border-bottom:1px solid #E5E5E5;">
         <div class="row row-content">
             <?php if($relatedLinks): ?>
                 <div class="col-md-2 side-nav-container">

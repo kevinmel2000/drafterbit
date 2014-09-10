@@ -7,12 +7,23 @@
         <!-- Core CSS - Include with every page -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="<?php echo $stylesheet; ?>"/>
-
+        <style>
+          .navbar-brand {font-family: "Lobster Two";}
+        </style>
         <script>
         (function(){
           drafterbit = {
             baseUrl: "<?php echo base_url() ?>",
-            adminUrl: "<?php echo admin_url() ?>"
+            adminUrl: "<?php echo admin_url() ?>",
+
+            //replace datatable search box;
+            replaceDTSearch: function(dt) {
+              $('.dataTables_filter').remove();
+              //search filter
+              $(document).on('keyup', "input[type=search]", function(){
+                dt.fnFilter($(this).val());
+              });
+            }
           }
         })();
         </script>

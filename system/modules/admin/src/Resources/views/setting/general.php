@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container">
 	<div class="row row-content">
 		<div class="col-md-6 content-full">
 			<div class="form-group">

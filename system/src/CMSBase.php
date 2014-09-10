@@ -2,15 +2,17 @@
 
 use Drafterbit\Framework\Application as Foundation;
 use Drafterbit\CMS\Provider\UserConfigServiceProvider;
+use Drafterbit\CMS\Provider\ModuleServiceProvider;
+use Drafterbit\CMS\Provider\WidgetServiceProvider;
 
 class CMSBase extends Foundation {
 
 	protected $menu = array();
 	public $widgetManager;
 
-	public function __construct()
+	public function __construct($env, $debug = true)
 	{
-		parent::__construct(ENVIRONMENT);
+		parent::__construct($env, $debug);
 
 		$this->register(new UserConfigServiceProvider);
 	}
@@ -42,5 +44,23 @@ class CMSBase extends Foundation {
 		}
 
 		return $output;
+	}
+
+	public function run()
+	{
+		$this->configureCMS();
+		parent::run();
+	}
+
+	private function configureCMS()
+	{
+		$config = $this['user_config']->get('config');
+		$this['path.cache'] =  $config['path.cache'].'/data';
+
+		$this->register(new ModuleServiceProvider);
+		$this->register(new WidgetServiceProvider);
+
+		$this['widget']->registerAll();
+		$this['modules.manager']->registerAll();
 	}
 }

@@ -10,6 +10,7 @@
  */
 
 
+    'Drafterbit\\CMS\\Provider\\DatabaseServiceProvider' => ['db'],
     'Drafterbit\\CMS\\Provider\\ThemeServiceProvider' => ['themes'],
     
     'Drafterbit\\Modules\\Finder\\Providers\\OpenFinderServiceProvider' => ['ofinder'],
@@ -23,7 +24,7 @@
     
     'Drafterbit\\Framework\\Provider\\SwiftMailerServiceProvider' => ['mailer', 'mail'],
     'Drafterbit\\Framework\\Provider\\CacheServiceProvider' => ['cache'],
-    'Drafterbit\\Framework\\Provider\\DatabaseServiceProvider' => ['db'],
+    //'Drafterbit\\Framework\\Provider\\DatabaseServiceProvider' => ['db'],
     'Drafterbit\\Framework\\Provider\\LanguageServiceProvider' => ['lang'],
     'Drafterbit\\Framework\\Provider\\TemplateServiceProvider' => ['template'],
     'Drafterbit\\Framework\\Provider\\ValidationServiceProvider' => ['validator', 'validation.form'],

@@ -146,7 +146,7 @@ class BaseController extends Controller {
 
 		$this->set('content', $content);
 		$this->set('partials', $partials);
-		return $this->get('template')->render('base@admin', $this->data);
+		return $this->get('template')->render('@admin/base', $this->data);
 	}
 
 	/**

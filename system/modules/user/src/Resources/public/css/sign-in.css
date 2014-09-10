@@ -1,7 +1,22 @@
+/* Font */
+@font-face {
+  font-family: 'Lobster Two';
+  /* temporary */
+  src: url('/system/vendor/web/Lobster_Two/LobsterTwo-Regular.ttf') format('truetype');
+}
+
 body {
   padding-top: 100px;
   padding-bottom: 40px;
   background-color: #eee;
+}
+
+.title {
+  margin-top:10px;
+  font-family: "Lobster Two",cursive;
+  font-size: 38px;
+  color:#444;
+  font-weight: 200px;
 }
 
 .panel,
@@ -15,7 +30,8 @@ body {
 }
 
 .form-signin-panel {
-  max-width: 330px;
+  padding: 0 5px;
+  max-width: 300px;
   margin: 0 auto;
 }
 .form-signin .form-signin-heading,

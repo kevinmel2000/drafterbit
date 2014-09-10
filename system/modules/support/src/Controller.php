@@ -111,6 +111,6 @@ abstract class Controller extends \Drafterbit\Framework\Controller {
         }
 
         $action = snake_case($this->get('current.action'), '-');
-        return $this->name().'/'.$action.'@'.$this->module()->name();
+        return '@'.$this->module()->name().'/'.$this->name().'/'.$action;
     }
 }

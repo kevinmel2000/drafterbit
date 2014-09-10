@@ -6,8 +6,8 @@
  *--------------------------------------------------------------------------
  *
  * Here we specify which of the database connections below we wish
- * to use as default connection for all database work. Of course
- * you may use many connections at once using the Database Manager.
+ * to use as default connection. Of course you may use many connections at
+ * once using the Database Manager.
  */
 
 'default' => 'mysql',
@@ -18,12 +18,12 @@
  *--------------------------------------------------------------------------
  *
  * Here are each of the database connections setup for the application.
- * All database is done through the Doctrine DBAL great foundation. Feel
+ * All database is done through the Doctrine DBAL great foundation. Feel free
  * to append other database config as many as you wish.
  */
 
 'connections' => [
- /*   
+
     'sqlite'  => [
         'driver'   => 'pdo_sqlite',
         'user'     => '',
@@ -31,7 +31,7 @@
         'path'     => '',
         'memory'   => false
     ],
-*/
+
     'mysql'  => [
         'driver'       => 'pdo_mysql',
         'user'         => 'root',
@@ -42,7 +42,7 @@
         'charset'      => 'utf8',
         'collation'    => 'utf8_unicode_ci',
     ],
-/*
+
     'postgre'  => [
         'driver'   => 'pdo_pgsql',
         'user'     => '',
@@ -86,7 +86,6 @@
         'dbname'       => '',
         'persistent'   => true
     ]
-*/
 ]
 
 ];

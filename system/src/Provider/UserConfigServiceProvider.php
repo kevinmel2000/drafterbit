@@ -10,7 +10,7 @@ class UserConfigServiceProvider implements ServiceProviderInterface {
 	function register(Container $app)
 	{
 		$app['user_config'] = function($c) {
-			return new Config($c['path.install']);
+			return new Config($c['path.install'], $c['environment']);
 		};
 	}
 }

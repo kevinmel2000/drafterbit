@@ -59,7 +59,7 @@ class Themes extends BaseController {
 
 		$header =  $ui->header('Themes', 'Appearance setting');
 
-		$view = $this->get('template')->render('setting/appearance@admin', $this->getData());
+		$view = $this->get('template')->render('@admin/setting/appearance', $this->getData());
 
 		$form = $ui->form(null, null, $view);
 
@@ -73,17 +73,11 @@ class Themes extends BaseController {
 	 */
 	public function widget()
 	{
-		$ob = new \ReflectionMethod($this, 'get');
-		$ob2 = new \ReflectionMethod($this, 'widget');
-		var_dump($ob->class);
-		var_dump($ob2->class);
-		exit();
-
 		$currentTheme = $this->get('themes')->get();
 		$positions = $currentTheme['widget_positions'];
 
 		if(!isset($currentTheme['widget_positions'])) {
-			//return 'Current theme does not support widget position';
+			//return 'Current theme does not support widget';
 		}
 
 		$model = $this->model('widget');
@@ -113,16 +107,16 @@ class Themes extends BaseController {
 		$header =  $ui->header('Widget', 'Widget for current theme');
 
 		set('theme', $this->get('themes')->current());
-		$view = $this->get('template')->render('setting/themes/widget@admin', $this->getData());
+		$view = $this->get('template')->render('@admin/setting/themes/widget', $this->getData());
 
 		//$toolbar = $ui->toolbar($this->_toolbarIndex());
-		$form = $ui->form(null, null, $view);
 
-		$content = $header.$form;
+		$content = $header.$view;
 
 		$this->get('asset')
 			->css('@jquery_ui_css')
 			->js('@jquery_ui_js')
+			->js('@jquery_form')
 			->js($this->assetPath('js/widget.js'));
 
 		return $this->wrap($content);
@@ -149,7 +143,7 @@ class Themes extends BaseController {
 
 	public function widgetAdd($name)
 	{
-		if($this->isAjax()) show_404();
+		if(!$this->isAjax()) show_404();
 		
 		$widget = $this->get('widget')->get($name);
 		$pos = $this->get('input')->get('pos');
@@ -160,20 +154,25 @@ class Themes extends BaseController {
 
 		set('widget', $widget);
 
-		return $this->get('template')->render('setting/themes/widget-add@admin', $this->getData());
+		return $this->get('template')->render('@admin/setting/themes/widget-edit', $this->getData());
 	}
 
 	public function widgetEdit($id)
 	{
-		if($this->isAjax()) show_404();
+		if(!$this->isAjax()) show_404();
 		
-		$widget = $this->model('widget')->fetch($id);
+		$installed = $this->model('widget')->fetch($id);
+
+		$widget = $this->get('widget')->get($installed->name);
+
+		$widget->data = json_decode($installed->data, true);
+		$widget->data['title'] = $installed->title;
+		$widget->data['id'] = $installed->id;
 
 		$widget->ui = $this->get('widget.ui')->build($widget, $id);
-
 		set('widget', $widget);
 
-		return $this->get('template')->render('setting/themes/widget-add@admin', $this->getData());
+		return $this->get('template')->render('@admin/setting/themes/widget-edit', $this->getData());
 	}
 
 	public function WidgetRemove()

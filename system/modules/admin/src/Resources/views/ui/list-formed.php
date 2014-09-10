@@ -1,7 +1,7 @@
 <form method="POST" action="<?php echo $formAction; ?>">
     <?php echo $toolbars ?>
 
-    <div class="container-fluid">
+    <div class="container">
         <div class="row row-content">
             <?php if($relatedLinks): ?>
                 <div class="col-md-2 side-nav-container">
@@ -15,13 +15,9 @@
             <?php else: ?>
                <div class="col-md-12 content-full">
             <?php endif; ?>
-                <div class="panel panel-default">
-                <div class="panel-body">
                     <div class="table-responsive">
                         <?php echo $table; ?>
                     </div>
-                    <!-- /.table-responsive -->
-                </div>
                 </div>
                 <!-- /.panel -->
             </div>

@@ -63,7 +63,7 @@ class Setting extends BaseController {
 
 		$toolbar = $ui->toolbar($tbConfig);
 
-		$view = $this->get('template')->render('setting/general@admin', $this->getData());
+		$view = $this->get('template')->render('@admin/setting/general', $this->getData());
 
 		$form = $ui->form(null, $toolbar, $view);
 

@@ -1,4 +1,4 @@
-<table class="table table-striped table-hover" id="<?php echo $datatableSelector ?>">
+<table class="table table-hover" id="<?php echo $datatableSelector ?>">
     <thead>
         <tr>
             <th class="sorting" width="15"><input id="<?php echo $name ?>" type="checkbox" name="<?php echo $name ?>[]" value="all"></th>

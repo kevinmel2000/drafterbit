@@ -51,7 +51,7 @@ class Group extends BaseController {
 		->js($this->assetPath('js/group/admin-index.js'));
 
 		
-		$editUrl = base_url('admin/user/group/edit');
+		$editUrl = admin_url('user/group/edit');
 		$tableConfig = array(
 			['field' => 'label', 'label' => 'Group', 'format' => function($value, $item) use ($editUrl)  {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>";}],
 			['field' => 'description', 'label' => 'Description']
@@ -83,7 +83,7 @@ class Group extends BaseController {
 
 			'new' => array(
 				'type' => 'a.success',
-				'href' => base_url('admin/user/group/create'),
+				'href' => admin_url('user/group/create'),
 				'label' => 'New Group',
 				'faClass' => 'fa-plus'
 			),
@@ -96,7 +96,7 @@ class Group extends BaseController {
 		return array(
 			'cancel' => array(
 				'type' => 'a',
-				'href' => base_url('admin/user/group'),
+				'href' => admin_url('user/group'),
 				'label' => 'Cancel',
 				'faClass' => 'fa-times'
 			),
@@ -118,7 +118,7 @@ class Group extends BaseController {
 		return array(
 			'cancel' => array(
 				'type' => 'a',
-				'href' => base_url('admin/user/group'),
+				'href' => admin_url('user/group'),
 				'label' => 'Cancel',
 				'faClass' => 'fa-times'
 			),
@@ -214,7 +214,7 @@ class Group extends BaseController {
 				$msg['type'] = 'success';
 				$this->get('session')
 					->getFlashBag()->set('message', $msg);
-				return redirect(base_url("admin/user/group/edit/$id"));
+				return redirect(admin_url("user/group/edit/$id"));
 
 			} catch (ValidationFailsException $e) {
 				message($e->getMessage(), 'error');

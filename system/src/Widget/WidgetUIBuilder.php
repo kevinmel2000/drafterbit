@@ -7,10 +7,14 @@ class WidgetUIBuilder {
 	 *
 	 * @param Drafterbi\CMS\Widget\Widget $widget
 	 */
-	public function build(Widget $widget, $id = 0, $data = array())
+	public function build(Widget $widget)
 	{
-		$ui  = form_open();
-		$ui .= $this->text('title', null);
+		$title = isset($widget->data['title']) ? $widget->data['title'] : null;
+		$id = isset($widget->data['id']) ? $widget->data['id'] : null;
+		
+		$ui  = form_open(null, array('class' => 'widget-edit-form'));
+		$ui .= $this->text('title', $title);
+		$ui .= $this->hidden('id', $id);
 
 		$param = $widget->config('param') ? $widget->config('param') : array();
 		
@@ -18,7 +22,13 @@ class WidgetUIBuilder {
 			
 			$name = $input['name'];
 			$type = $input['type'];
-			$default = isset($input['default']) ? $input['default'] : null;
+
+			if (isset($widget->data[$name])) {
+				$default = $widget->data[$name];
+			} else {
+				$default = isset($input['default']) ? $input['default'] : null;
+			}
+
 			$options = isset($input['options']) ? $input['options'] : array();
 
 			if(!method_exists($this, $type)) {
@@ -33,12 +43,11 @@ class WidgetUIBuilder {
 		$ui .= '<div class="clearfix" style="margin-top:10px;">';
 		//$ui .= '<a href="#" data-id="'.$id.'" class="widget-remover">Remove</a>';
 		$ui .= input_submit('save', 'Save', 'class="btn btn-primary";');
-		$ui .= ' or <a href="#" class="btn" data-dismiss="modal">Cancel</a>';
+		$ui .= '<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>';
 		$ui .= '</div>';
 		$ui .= form_close();
 		return $ui;
 	}
-
 
 	/**
 	 * Create text input
@@ -69,6 +78,11 @@ class WidgetUIBuilder {
 	protected function radio($name, $default)
 	{
 		return input_radio($name, $default).label(ucfirst($name), $name, 'class="form-control"');
+	}
+
+	protected function hidden($name, $default)
+	{
+		return input_hidden($name, $default);
 	}
 
 	private function wrap($ui)

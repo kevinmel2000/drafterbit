@@ -6,18 +6,40 @@ abstract class Widget implements WidgetInterface {
 	use ResourcesAccessorTrait;
 
 	/**
+	 * Widget UI Builder.
+	 *
+	 * @var WidgetUIBuilder
+	 */
+	protected $uiBuilder;
+
+	/**
 	 * Widget config.
 	 *
 	 * @var array
 	 */
 	protected $config = array();
+
+	/**
+	 * Widget data.
+	 *
+	 * @var array
+	 */
+	public $data = array();
 	
 	/**
 	 * Run the widget.
 	 *
 	 * @return string
 	 */
-	public function run(){}
+	abstract function run();
+
+	/**
+	 * Widget construction.
+	 */
+	public function __construct(WidgetUIBuilder $uiBuider = null)
+	{
+		$this->uiBuider = is_null($uiBuider) ? new WidgetUIBuilder : $uiBuider;
+	}
 
 	/**
 	 * Get or set config value;
@@ -41,5 +63,25 @@ abstract class Widget implements WidgetInterface {
 		}
 
 		return $this->config[$name] = $value;
+	}
+
+	/**
+	 * Set widget data.
+	 *
+	 * @param array $data
+	 */
+	public function setData($data)
+	{
+		$this->data = $data;
+	}
+
+	/**
+	 * Return user interface of the widget.
+	 *
+	 * @return string
+	 */
+	public function ui()
+	{
+		return $this->uiBuider->build($this);
 	}
 }

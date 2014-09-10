@@ -80,6 +80,12 @@ class Admin extends BaseController {
 	private function _toolbarIndex()
 	{
 		return array(
+			'new-post' => array(
+				'type' => 'a.success',
+				'href' => admin_url('pages/create'),
+				'label' => 'New Page',
+				'faClass' => 'fa-plus'
+			),
 			'trash' => array(
 				'type' => 'submit',
 				'label' => 'Trash',
@@ -87,24 +93,18 @@ class Admin extends BaseController {
 				'value' => 'trash',
 				'faClass' => 'fa-trash-o'
 			),
-			'new-post' => array(
-				'type' => 'a.success',
-				'href' => admin_url('pages/create'),
-				'label' => 'New Page',
-				'faClass' => 'fa-plus'
-			),
 		);
 	}
 
 	private function _toolbarCreate()
 	{
 		return array(
-			'cancel' => array(
-				'type' => 'a.default',
-				'href' => admin_url('pages'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times',
-				'faStyle' => 'color: #A94442;',
+			'publish' => array(
+				'type' => 'submit.success',
+				'label' => 'Publish',
+				'name'=> 'action',
+				'value' => 'publish',
+				'faClass' => 'fa-check'
 			),
 			'save-draft' => array(
 				'type' => 'submit.default',
@@ -113,19 +113,6 @@ class Admin extends BaseController {
 				'value' => 'draft',
 				'faClass' => false
 			),
-			'publish' => array(
-				'type' => 'submit.success',
-				'label' => 'Publish',
-				'name'=> 'action',
-				'value' => 'publish',
-				'faClass' => 'fa-check'
-			),
-		);
-	}
-
-	private function _toolbarEdit()
-	{
-		return array(
 			'cancel' => array(
 				'type' => 'a.default',
 				'href' => admin_url('pages'),
@@ -133,12 +120,25 @@ class Admin extends BaseController {
 				'faClass' => 'fa-times',
 				'faStyle' => 'color: #A94442;',
 			),
+		);
+	}
+
+	private function _toolbarEdit()
+	{
+		return array(
 			'update' => array(
 				'type' => 'submit.success',
 				'label' => 'Update',
 				'name'=> 'action',
 				'value' => 'update',
 				'faClass' => 'fa-check'
+			),
+			'cancel' => array(
+				'type' => 'a.default',
+				'href' => admin_url('pages'),
+				'label' => 'Cancel',
+				'faClass' => 'fa-times',
+				'faStyle' => 'color: #A94442;',
 			),
 		);
 	}

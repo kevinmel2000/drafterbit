@@ -1,10 +1,10 @@
 /* Bootstrap overrides */
 /* ------------------------------- */
 
-.navbar > .container .navbar-brand,
+/*.navbar > .container .navbar-brand,
 .navbar > .container-fluid .navbar-brand {
     margin-left: 0px;
-}
+}*/
 
 /** DONT'T LIKE BORDER RADIUS **/
 code,

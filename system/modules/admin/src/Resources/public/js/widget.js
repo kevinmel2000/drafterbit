@@ -7,7 +7,7 @@
 		var pos = $(a).data('position');
 
 		$('.widget-form-container .modal-content').load(
-			[drafterbit.adminUrl,'/setting/themes/widget-add/',widget].join(''),
+			[drafterbit.adminUrl,'/setting/themes/widget/add/',widget].join(''),
 			function(){
 				$('.widget-form-container').modal('show');
 			}
@@ -40,7 +40,7 @@
 		var id = $(a).data('id');
 
 		$('.widget-form-container .modal-content').load(
-			[drafterbit.adminUrl,'/setting/themes/widget-edit/',id].join(''),
+			[drafterbit.adminUrl,'/setting/themes/widget/edit/',id].join(''),
 			function(){
 				$('.widget-form-container').modal('show');
 			}
@@ -48,5 +48,11 @@
 	});
 
 	//form stuff
+	$(document).on('submit', '.widget-edit-form', function(e){
+		e.preventDefault();
+		$(this).ajaxSubmit({
+			url: drafterbit.adminUrl+'/setting/themes/widget/save'
+		});
+	});
 
 })(jQuery, drafterbit);

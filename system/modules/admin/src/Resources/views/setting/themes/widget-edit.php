@@ -3,5 +3,5 @@
   <h4 class="modal-title"><?php echo $widget->name(); ?></h4>
 </div>
 <div class="modal-body">
- 	<?php echo $widget->ui ?>
+ 	<?php echo $widget->ui() ?>
 </div>
