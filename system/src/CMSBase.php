@@ -27,6 +27,12 @@ class CMSBase extends Foundation {
 		return $this->menu;
 	}
 
+	/**
+	 * Return widget ui based on given position
+	 *
+	 * @param string $position
+	 * @return string
+	 */
 	public function widget($position)
 	{
 		$qb = $this['db']->createQueryBuilder();
@@ -44,6 +50,23 @@ class CMSBase extends Foundation {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * return form and list of comment based on post id.
+	 *
+	 * @param int $postId
+	 * @return string
+	 */
+	public function comment($postId)
+	{
+		//get comment base in post id
+
+		//make ui of list comment
+
+		//append comment form
+		return $this->getModule('blog')
+			->getModel('ui')->comment();
 	}
 
 	public function run()

@@ -16,7 +16,6 @@
 						</a>
 					</h4>
 
-
 					<div class="panel panel-default">
 						<div class="panel-body position-<?php echo $position ?>">
 							<?php if($widgets[$position]): ?>

@@ -48,4 +48,28 @@ class Widget extends Model {
 	{
 		return $this->get('db')->delete("widgets", ['id'=> $id]);
 	}
+
+	public function save($id, $title, $data, $name = null, $position = null, $theme = null)
+	{
+		$data =  json_encode($data);
+
+		if($this->has($id)) {
+			return $this->get('db')->update('widgets', array('title' => $title, 'data' => $data), array('id' => $id));
+		}
+
+		$data = array(
+			'position' => $position,
+			'title' => $title,
+			'data' => $data,
+			'name' => $name,
+			'position' => $position,
+			'theme' => $theme
+		);
+		return $this->get('db')->insert('widgets', $data);
+	}
+
+	public function has($id)
+	{
+		return (bool) $this->fetch($id);
+	}
 }

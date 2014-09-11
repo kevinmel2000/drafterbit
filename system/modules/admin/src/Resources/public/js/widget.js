@@ -7,7 +7,7 @@
 		var pos = $(a).data('position');
 
 		$('.widget-form-container .modal-content').load(
-			[drafterbit.adminUrl,'/setting/themes/widget/add/',widget].join(''),
+			[drafterbit.adminUrl,'/setting/themes/widget/add/',widget,"?pos="+pos].join(''),
 			function(){
 				$('.widget-form-container').modal('show');
 			}

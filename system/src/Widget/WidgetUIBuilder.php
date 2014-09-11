@@ -11,10 +11,16 @@ class WidgetUIBuilder {
 	{
 		$title = isset($widget->data['title']) ? $widget->data['title'] : null;
 		$id = isset($widget->data['id']) ? $widget->data['id'] : null;
+		$name = isset($widget->data['name']) ? $widget->data['name'] : null;
+		$position = isset($widget->data['position']) ? $widget->data['position'] : null;
+		$theme = isset($widget->data['theme']) ? $widget->data['theme'] : null;
 		
 		$ui  = form_open(null, array('class' => 'widget-edit-form'));
 		$ui .= $this->text('title', $title);
 		$ui .= $this->hidden('id', $id);
+		$ui .= $this->hidden('name', $name);
+		$ui .= $this->hidden('position', $position);
+		$ui .= $this->hidden('theme', $theme);
 
 		$param = $widget->config('param') ? $widget->config('param') : array();
 		
@@ -36,8 +42,8 @@ class WidgetUIBuilder {
 			}
 
 			$ui .= empty($options) ?
-				$this->$type($name, $default) :
-				$this->$type($name, $default, $options);
+				$this->$type("data[$name]", $default) :
+				$this->$type("data[$name]", $default, $options);
 		}
 		
 		$ui .= '<div class="clearfix" style="margin-top:10px;">';

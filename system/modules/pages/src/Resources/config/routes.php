@@ -11,7 +11,7 @@
 		'controller' => '@pages\Pages::view',
 		'requirements' => [
 			//'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
-			'slug' => "^(?!(?:".ADMIN_BASE.")(?:/|$)).*$"
+			'slug' => "^(?!(?:".ADMIN_BASE."|blog)(?:/|$)).*$"
 		]
 	]
 ];

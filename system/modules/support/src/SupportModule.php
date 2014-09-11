@@ -34,7 +34,7 @@ class SupportModule extends \Drafterbit\Framework\Module {
 
 	function onBoot()
 	{
-		foreach (app()->modules() as $name => $module) {
+		foreach (app()->getModules() as $name => $module) {
 
 			if (is_dir( $path = $module->getTemplatePath())) {
 				app('template')->addPath($name, $path);

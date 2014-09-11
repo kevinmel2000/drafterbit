@@ -148,9 +148,12 @@ class Themes extends BaseController {
 		$widget = $this->get('widget')->get($name);
 		$pos = $this->get('input')->get('pos');
 
-		$id = '';//$this->model('widget')->add($widget->name(), $pos);
 
-		$widget->ui = $this->get('widget.ui')->build($widget, $id);
+		$widget->ui = $this->get('widget.ui')->build($widget);
+
+		$widget->data['name'] = $name;
+		$widget->data['theme'] = $this->get('themes')->current();
+		$widget->data['position'] = $pos;
 
 		set('widget', $widget);
 
@@ -168,6 +171,9 @@ class Themes extends BaseController {
 		$widget->data = json_decode($installed->data, true);
 		$widget->data['title'] = $installed->title;
 		$widget->data['id'] = $installed->id;
+		$widget->data['name'] = $installed->name;
+		$widget->data['theme'] = $installed->theme;
+		$widget->data['position'] = $installed->position;
 
 		$widget->ui = $this->get('widget.ui')->build($widget, $id);
 		set('widget', $widget);
@@ -179,5 +185,17 @@ class Themes extends BaseController {
 	{
 		$id = $this->get('input')->post('id');
 		return $this->model('widget')->remove($id);
+	}
+
+	public function widgetSave()
+	{
+		$id  = $this->get('input')->post('id');
+		$title  = $this->get('input')->post('title');
+		$data  = $this->get('input')->post('data');
+		$name  = $this->get('input')->post('name');
+		$position  = $this->get('input')->post('position');
+		$theme  = $this->get('input')->post('theme');
+
+		return $this->model('widget')->save($id, $title, $data, $name, $position, $theme);
 	}
 }
