@@ -7,8 +7,8 @@ use Drafterbit\CMS\Provider\WidgetServiceProvider;
 
 class CMSBase extends Foundation {
 
-	protected $menu = array();
-	public $widgetManager;
+	public $menu = array();
+	public $frontpage = array();
 
 	public function __construct($env, $debug = true)
 	{
@@ -67,10 +67,55 @@ class CMSBase extends Foundation {
 		// admin base
 		defined('ADMIN_BASE') or define('ADMIN_BASE', $config['path.admin']);
 
+		//front page
+
 		$this->register(new ModuleServiceProvider);
 		$this->register(new WidgetServiceProvider);
 
 		$this['widget']->registerAll();
 		$this['modules.manager']->registerAll();
+		
+		$this['dispatcher']->addListener('boot', function(){
+			$this->frontpage = array_merge($this->frontpage, $this->frontpage());
+
+			$settings = $this['cache']->fetch('settings');
+
+			$homepage = $settings['homepage'];
+
+			if(strpos($homepage, 'pages') !==  FALSE) {
+				$this['router']->addRouteDefinition('/', ['controller' => '@pages\Pages::home']);
+				$id = substr($homepage, -2, -1);
+				$this['homepage.id'] = $id;
+			} else {
+				// @todo add non-page homepage
+			}
+		});
+	}
+
+	public function frontpage()
+	{
+		$qb = $this['db']->createQueryBuilder();
+
+		$pages = $qb->select('*')
+			->from('pages','p')
+			->execute()->fetchAll(\PDO::FETCH_CLASS);
+
+		$options = array();
+
+		foreach ($pages as $page) {
+			$options["pages[{$page->id}]"] = $page->title;
+		}
+
+		return $options;
+	}
+
+	public function addFrontPageOption($array)
+	{
+		$this->frontpage = array_merge($this->frontpage, $array);
+	}
+
+	public function getFrontPageOption()
+	{
+		return $this->frontpage;
 	}
 }

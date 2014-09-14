@@ -1,7 +1,4 @@
 <?php return [
-	'/' => [
-		'controller' => '@pages\Pages::index'
-	],
 	
 	ADMIN_BASE =>[
 		'group' => [
@@ -15,7 +12,7 @@
 		'controller' => '@pages\Pages::view',
 		'requirements' => [
 			//'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
-			'slug' => "^(?!(?:".ADMIN_BASE."|blog)(?:/|$)).*$"
+			'slug' => "^(?!(?:".ADMIN_BASE."|blog|)(?:/|$)).*$"
 		]
 	],
 ];

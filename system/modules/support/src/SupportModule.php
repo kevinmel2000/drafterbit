@@ -62,8 +62,8 @@ class SupportModule extends \Drafterbit\Framework\Module {
 			$this->app['cache']->save('settings', $model->all());
 		}
 
-		$config = $this->app['cache']->fetch('settings');
+		$settings = $this->app['cache']->fetch('settings');
 
-		return $config['theme'];
+		return $settings['theme'];
 	}
 }

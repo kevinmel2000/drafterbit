@@ -20,5 +20,7 @@ class BlogModule extends \Drafterbit\Framework\Module {
 		if(class_exists($extensionClass)) {
 			$this->app['twig']->addExtension( new $extensionClass);
 		}
+
+		$this->app->addFrontPageOption(['blog' => 'Blog']);
 	}
 }

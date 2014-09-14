@@ -17,9 +17,10 @@
 			 <div class="form-group">
 			    <label for="format-time" class="col-md-3 control-label">Front Page</label>
 			    <div class="col-md-9">
-			      <select class="form-control" name="format-time">
-			      	<option value="">Blog</option>
-			      	<option value="">Home</option>
+			      <select class="form-control" name="homepage">
+			      	<?php foreach($pageOptions as $value => $label): ?>
+			      		<option value="<?php echo $value ?>"><?php echo $label ?></option>
+		   			<?php endforeach; ?>
 			      </select>
 			    </div>
 			 </div>

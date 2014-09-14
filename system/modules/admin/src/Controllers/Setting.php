@@ -43,6 +43,7 @@ class Setting extends BaseController {
 			'timezone' => $config['timezone'],
 			'dateFormat' => $config['format.date'],
 			'timeFormat' => $config['format.time'],
+			'pageOptions' => $this->get('app')->getFrontPageOption()
 		]);
 
 		$ui = $this->model('UI@admin');
@@ -97,6 +98,7 @@ class Setting extends BaseController {
 		}
 
 		$data['offline.message'] = $p['offline-message'];
+		$data['homepage'] = $p['homepage'];
 
 		return $data;
 	}
