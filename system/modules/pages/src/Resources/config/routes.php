@@ -1,4 +1,8 @@
 <?php return [
+	'/' => [
+		'controller' => '@pages\Pages::index'
+	],
+	
 	ADMIN_BASE =>[
 		'group' => [
 			'pages' => ['controller' => '@pages\Admin::index'],
@@ -13,5 +17,5 @@
 			//'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
 			'slug' => "^(?!(?:".ADMIN_BASE."|blog)(?:/|$)).*$"
 		]
-	]
+	],
 ];

@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\CMS;
 
 use Drafterbit\Framework\Application;
+use Drafterbit\Framework\ModuleEvent;
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Finder\Finder;
 
@@ -48,12 +49,13 @@ class ModuleManager {
 
 			foreach ($modules as $module) {
 				$config = $this->extractConfig($module->getFileName(), $module);
+				
 				//register modules
 				$ns = isset($config['ns']) ? $config['ns'] : $this->defaultNS;
 				$class = $ns.studly_case($module->getFileName()).'\\'.studly_case($module->getFileName()).'Module';
 
 				$mod = new $class($this->app);
-				$this->app->registerModule($mod);
+				$this->app->addModule($mod);
 
 				// register menu
 				if(isset($config['menus'])) {

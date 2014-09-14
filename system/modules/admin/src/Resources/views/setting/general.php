@@ -15,6 +15,15 @@
 			    </div>
 			 </div>
 			 <div class="form-group">
+			    <label for="format-time" class="col-md-3 control-label">Front Page</label>
+			    <div class="col-md-9">
+			      <select class="form-control" name="format-time">
+			      	<option value="">Blog</option>
+			      	<option value="">Home</option>
+			      </select>
+			    </div>
+			 </div>
+			 <div class="form-group">
 			    <div class="col-sm-offset-3 col-sm-9">
 			      <div class="checkbox">
 			        <label>

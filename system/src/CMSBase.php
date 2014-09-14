@@ -52,23 +52,6 @@ class CMSBase extends Foundation {
 		return $output;
 	}
 
-	/**
-	 * return form and list of comment based on post id.
-	 *
-	 * @param int $postId
-	 * @return string
-	 */
-	public function comment($postId)
-	{
-		//get comment base in post id
-
-		//make ui of list comment
-
-		//append comment form
-		return $this->getModule('blog')
-			->getModel('ui')->comment();
-	}
-
 	public function run()
 	{
 		$this->configureCMS();
@@ -79,6 +62,10 @@ class CMSBase extends Foundation {
 	{
 		$config = $this['user_config']->get('config');
 		$this['path.cache'] =  $config['path.cache'].'/data';
+
+		$config = $this['user_config']->get('config');
+		// admin base
+		defined('ADMIN_BASE') or define('ADMIN_BASE', $config['path.admin']);
 
 		$this->register(new ModuleServiceProvider);
 		$this->register(new WidgetServiceProvider);

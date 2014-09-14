@@ -29,12 +29,13 @@ class TwigServiceProvider implements ServiceProviderInterface {
             $function = new \Twig_SimpleFunction('widget', function($p){
                 return widget($p);
             });
+
             $twig->addFunction($function);
 
             if ( $app['config']['app.debug']) {
                 $twig->addExtension(new \Twig_Extension_Debug());
             }
-
+            
             return $twig;
         };
 

@@ -9,31 +9,13 @@ use Drafterbit\Modules\Support\Assetic\DrafterbitChosenFilter as ChosenFilter;
 
 class SupportModule extends \Drafterbit\Framework\Module {
 
-	public function register(Application $app)
+	function boot()
 	{
-		$app['helper']->register('support', $this->getResourcesPath().'helpers/support.php');
-		$app['helper']->register('twig', $this->getResourcesPath().'helpers/twig.php');
-		$app['helper']->load('support');
-		$app['helper']->load('twig');
-	}
+		$this->app['helper']->register('support', $this->getResourcesPath().'helpers/support.php');
+		$this->app['helper']->register('twig', $this->getResourcesPath().'helpers/twig.php');
+		$this->app['helper']->load('support');
+		$this->app['helper']->load('twig');
 
-	function registerEventListener()
-	{
-		return [
-			'boot' => 'onBoot',
-			'pre.config' => 'onPreConfig',
-		];
-	}
-
-	function onPreConfig()
-	{
-		$config = $this->get('user_config')->get('config');
-		// admin base
-		defined('ADMIN_BASE') or define('ADMIN_BASE', $config['path.admin']);
-	}
-
-	function onBoot()
-	{
 		foreach (app()->getModules() as $name => $module) {
 
 			if (is_dir( $path = $module->getTemplatePath())) {
@@ -72,7 +54,7 @@ class SupportModule extends \Drafterbit\Framework\Module {
 		});
 	}
 
-	protected function getTheme()
+	private function getTheme()
 	{
 		if( ! $this->app['cache']->contains('settings') ) {
 

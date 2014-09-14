@@ -21,11 +21,4 @@
     'Drafterbit\\Modules\\Support\\Providers\\AssetServiceProvider' => ['asset'],
     'Drafterbit\\Modules\\Support\\Providers\\YamlServiceProvider' => ['yaml'],
     'Drafterbit\\Modules\\Support\\Providers\\TwigServiceProvider' => ['twig'],
-    
-    'Drafterbit\\Framework\\Provider\\SwiftMailerServiceProvider' => ['mailer', 'mail'],
-    'Drafterbit\\Framework\\Provider\\CacheServiceProvider' => ['cache'],
-    //'Drafterbit\\Framework\\Provider\\DatabaseServiceProvider' => ['db'],
-    'Drafterbit\\Framework\\Provider\\LanguageServiceProvider' => ['lang'],
-    'Drafterbit\\Framework\\Provider\\TemplateServiceProvider' => ['template'],
-    'Drafterbit\\Framework\\Provider\\ValidationServiceProvider' => ['validator', 'validation.form'],
 ];
