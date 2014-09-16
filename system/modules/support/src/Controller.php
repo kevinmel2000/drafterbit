@@ -47,7 +47,7 @@ abstract class Controller extends \Drafterbit\Framework\Controller {
             $path = $this->module()->getTemplatePath();
 
             if(file_exists($path.rtrim($template,'.php').'.php')) {
-                $template = $template.'@'.$this->module()->name();
+                $template = '@'.$this->module()->name().'/'.$template;
             }
         }
         

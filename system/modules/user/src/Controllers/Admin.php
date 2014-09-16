@@ -39,7 +39,14 @@ class Admin extends BaseController {
 			}
 		}
 
-		$users = $this->user->all();
+		//$users = $this->user->all();
+
+		// get data
+		$cache = $this->get('cache');
+		if( ! $cache->contains('users')) {
+			$cache->save('users', $this->user->all());
+		}
+		$users = $cache->fetch('users');
 
 		foreach ($users as $user) {
 			$user->groups = $this->group->getByUser($user->id);

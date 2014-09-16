@@ -181,7 +181,15 @@ class Admin extends BaseController {
 		}
 
 		//set default
-		set(array('id' => null, 'title' => null, 'slug' => null, 'content' => null, 'template' => null));
+		set(array(
+			'id' => null,
+			'title' => null,
+			'slug' => null,
+			'content' => null,
+			'layout' => null,
+			'layoutOptions' => $this->getLayoutOptions()
+			)
+		);
 		
 		$this->get('asset')
 			->css($this->assetPath('css/editor.css'))
@@ -190,7 +198,7 @@ class Admin extends BaseController {
 		$ui = $this->model('UI@admin');
 		$header 	= $ui->header('New Page', 'Create new static page');
 		$toolbar 	= $ui->toolbar($this->_toolbarCreate());
-		$view 		= $this->render('admin/edit', $this->getData());
+		$view 		= $this->render('@pages/admin/edit', $this->getData());
 		$form 		= $ui->form(null, $toolbar, $view);		
 		$content 	= $header.$form;
 
@@ -212,7 +220,8 @@ class Admin extends BaseController {
 			'title' => $page->title,
 			'slug' => $page->slug,
 			'content' => $page->content,
-			'template' => $page->template
+			'layout' => $page->layout,
+			'layoutOptions' => $this->getLayoutOptions()
 		));
 
 		$this->get('asset')
@@ -228,6 +237,23 @@ class Admin extends BaseController {
 
 		return $this->wrap($content);
 	}
+
+	/**
+	 * get available layout from current themes
+	 *
+	 * @return array
+	 */
+	private function getLayoutOptions()
+	{
+		$layouts = $this->get('finder')->in($this->get('path.theme').'layout')->files();
+		$options = array();
+		foreach ($layouts as $layout) {
+			$options[$layout->getFileName()] = $layout->getFileName();
+		}
+
+		return $options;
+	}
+
 
 	/**
 	 * Parse post data to insert to db

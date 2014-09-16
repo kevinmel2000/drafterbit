@@ -42,7 +42,7 @@
 				        <label class="remember pull-left">
 				          <!--<input type="checkbox" name="remember-me" value="1"> Remember Me -->
 				        </label>
-			        	<button class="btn btn-info form-control" type="submit">LOGIN</button>
+			        	<button class="btn btn-primary form-control" type="submit">LOGIN</button>
 			        </div>
 			      </form>
   			</div>

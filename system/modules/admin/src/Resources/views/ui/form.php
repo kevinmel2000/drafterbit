@@ -1,4 +1,4 @@
-<form method="POST" action="<?php echo $formAction; ?>" class="form-horizontal">
+<form method="POST" action="<?php echo $formAction; ?>">
     <?php echo $toolbars ?>
     <?php echo $view ?>
 <!-- /.container-fluid -->

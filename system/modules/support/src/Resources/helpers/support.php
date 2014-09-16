@@ -16,7 +16,7 @@ if ( ! function_exists('wysiwyg'))
 		$html = <<< EOD
 
 <textarea $attr name="$name">$default</textarea>
-<script src="$src"; ?>"></script>
+<script src="$src"></script>
 <script>
 
 CKEDITOR.plugins.addExternal( 'wpmore', '/$path/ckeditor-custom/plugins/wpmore');

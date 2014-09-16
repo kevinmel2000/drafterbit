@@ -6,7 +6,7 @@
 		cls: 'tags-input',
 		placeholder: 'add tags here',
 		hideTrigger: true,
-		toggleOnClick: false,
+		toggleOnClick: true,
 		maxSuggestions: 5,
 		data: tagOptions,
 		value: tags,
