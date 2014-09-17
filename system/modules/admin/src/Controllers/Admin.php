@@ -10,7 +10,7 @@ class Admin extends BaseController {
 	{
 		$this->get('asset')->css($this->assetPath('css/index.css'));
 
-		$header = $this->model('UI')->header('Dashboard', 'Statistic and more');
+		$header = $this->model('UI')->header(__('Dashboard'), 'Statistic and more');
 
 		$view = $this->render('@admin/admin/dashboard');
 		return $this->wrap($header.$view);

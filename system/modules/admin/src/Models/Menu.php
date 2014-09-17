@@ -10,7 +10,8 @@ class Menu {
 
 	public function __construct($label, $href, $id, $class)
 	{
-		$this->label = $label;
+		$this->label = __($label); // #translated
+		
 		$this->href = $href;
 		$this->id = $id;
 		$this->class = $class;

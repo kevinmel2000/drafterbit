@@ -33,8 +33,8 @@
 		  			<?php endif; ?>
   			
 			      <form role="form" class="form-signin" method="POST">
-			        <input name="email" type="email" class="form-control input-sm" placeholder="EMAIL" required autofocus value="<?php echo value('email'   ); ?>">
-			        <input name="password" type="password" class="form-control input-sm" placeholder="PASSWORD">
+			        <input name="email" type="email" class="form-control input-sm" placeholder="<?= __('EMAIL'); ?>" required autofocus value="<?php echo value('email'   ); ?>">
+			        <input name="password" type="password" class="form-control input-sm" placeholder="<?= __('PASSWORD'); ?>">
 			        <!--<div class="help clearfix">
 				        <a class="pull-right" href="javascript:alert('Coming soon !')">Help <i class="fa fa-question-circle"></i></a>
 			    	</div>-->
@@ -42,7 +42,7 @@
 				        <label class="remember pull-left">
 				          <!--<input type="checkbox" name="remember-me" value="1"> Remember Me -->
 				        </label>
-			        	<button class="btn btn-primary form-control" type="submit">LOGIN</button>
+			        	<button class="btn btn-primary form-control" type="submit"><?= __('LOGIN'); ?></button>
 			        </div>
 			      </form>
   			</div>

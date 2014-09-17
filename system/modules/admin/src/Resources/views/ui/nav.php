@@ -54,10 +54,10 @@
                             <span class="caret-outer"></span>
                             <span class="caret-inner"></span>
                         </div>
-                        <li> <a href="/" target="_blank">Visit Site <i class="fa fa-external-link"></i> </a> </li>
+                        <li> <a href="/" target="_blank"><?= __('Visit Site') ?> <i class="fa fa-external-link"></i> </a> </li>
                         <!--<li><a href="#" class="soon">My Profile</a> </li>
                         <li><a href="#" class="soon">Preferences</a> </li>-->
-                        <li><a href="<?php echo admin_url('logout'); ?>">Logout</a> </li>
+                        <li><a href="<?php echo admin_url('logout'); ?>"><?= __('Logout') ?></a> </li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>

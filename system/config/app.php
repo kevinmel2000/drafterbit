@@ -45,7 +45,7 @@
  * add you own language library.
  */
 
-'language' => 'english',
+'language' => 'indonesia',
 
 /**
  *--------------------------------------------------------------------------
