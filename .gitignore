@@ -1,4 +1,4 @@
-/dev
+/config.php
 /system/plugins
 /system/vendor
 /composer.lock

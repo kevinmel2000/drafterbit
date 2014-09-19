@@ -1,9 +1,10 @@
 <?php namespace Drafterbit\CMS\Widget;
 
-use Drafterbit\Framework\Traits\ResourcesAccessorTrait;
+use Drafterbit\Framework\RootTrait;
+use Drafterbit\Framework\ExtensionTrait;
 
 abstract class Widget implements WidgetInterface {
-	use ResourcesAccessorTrait;
+	use RootTrait, ExtensionTrait;
 
 	/**
 	 * Widget UI Builder.

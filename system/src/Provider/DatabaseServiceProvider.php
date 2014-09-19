@@ -13,7 +13,9 @@ class DatabaseServiceProvider implements ServiceProviderInterface {
 	 */
 	public function register(Container $app)
 	{
-		$dbConfig = $app['user_config']['config.database'];
+		$dbConfig = $app['config.cms']['database'];
+
+		$dbConfig['wrapperClass'] = 'Drafterbit\\Component\\Database\\Connection';
 		
 		$app['db'] = function($app) use ($dbConfig){
 			return DriverManager::getConnection($dbConfig);

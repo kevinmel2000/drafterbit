@@ -1,9 +1,11 @@
 <?php namespace Drafterbit\CMS;
 
 use Drafterbit\Framework\Application as Foundation;
-use Drafterbit\CMS\Provider\UserConfigServiceProvider;
-use Drafterbit\CMS\Provider\ModuleServiceProvider;
+use Drafterbit\CMS\Provider\DatabaseServiceProvider;
+use Drafterbit\CMS\Provider\ExtensionServiceProvider;
 use Drafterbit\CMS\Provider\WidgetServiceProvider;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 class CMSBase extends Foundation {
 
@@ -13,8 +15,6 @@ class CMSBase extends Foundation {
 	public function __construct($env, $debug = true)
 	{
 		parent::__construct($env, $debug);
-
-		$this->register(new UserConfigServiceProvider);
 	}
 
 	public function addMenu($menu)
@@ -52,28 +52,31 @@ class CMSBase extends Foundation {
 		return $output;
 	}
 
-	public function run()
+	public function configureCMS()
 	{
-		$this->configureCMS();
-		parent::run();
-	}
+		if(!file_exists($this['path.install'].'config.php')) {
+			throw new Exceptions\ConfigFIleNotFoundException('No Config File');
+		}
+		
+		$this['config.cms'] = $config = require $this['path.install'].'config.php';
+		$this->register(new DatabaseServiceProvider);
+		
+		$this->register(new ExtensionServiceProvider);
+		$this->register(new WidgetServiceProvider);
 
-	private function configureCMS()
-	{
-		$config = $this['user_config']->get('config');
+		
 		$this['path.cache'] =  $config['path.cache'].'/data';
 
-		$config = $this['user_config']->get('config');
+		//$this['asset']->setCachePath($this['path.install'].$config['path.cache'].'/asset');
+		
 		// admin base
 		defined('ADMIN_BASE') or define('ADMIN_BASE', $config['path.admin']);
 
 		//front page
 
-		$this->register(new ModuleServiceProvider);
-		$this->register(new WidgetServiceProvider);
 
 		$this['widget']->registerAll();
-		$this['modules.manager']->registerAll();
+		$this['extension.manager']->registerAll();
 		
 		$this['dispatcher']->addListener('boot', function(){
 			$this->frontpage = array_merge($this->frontpage, $this->frontpage());
@@ -90,6 +93,8 @@ class CMSBase extends Foundation {
 				// @todo add non-page homepage
 			}
 		});
+
+		$this->configureApplication();        
 	}
 
 	public function frontpage()
@@ -118,4 +123,32 @@ class CMSBase extends Foundation {
 	{
 		return $this->frontpage;
 	}
+
+	/**
+     * Configure the application.
+     *
+     * @return void
+     */
+    protected function configureApplication()
+    {
+        $config = $this['config']['app'];
+        
+        date_default_timezone_set($config['timezone']);
+        
+        $this['debug'] = $config['debug'];
+        $this['exception']->setDebug($this['debug']);
+
+        if ($config['error.log']) {
+            $this['exception']
+                ->error(function(\Exception $exception, $code) {
+                    $this['log']->addError($exception);
+                });
+        }
+
+        if( ! $this['debug']) {
+            $this['exception']->error(function( NotFoundHttpException $e) {
+                return file_get_contents( $this->getResourcesPath().'views/404.html');
+            });
+        }
+    }
 }

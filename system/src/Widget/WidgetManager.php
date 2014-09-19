@@ -33,7 +33,7 @@ class WidgetManager {
 	 */
 	public function register(WidgetInterface $widget)
 	{
-		$this->widgets[$widget->name()] = $widget;
+		$this->widgets[$widget->getName()] = $widget;
 	}
 
 	/**
