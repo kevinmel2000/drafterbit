@@ -10,11 +10,10 @@ class ExtensionServiceProvider implements ServiceProviderInterface {
 	function register(Container $app)
 	{
 
-		$config = $app['config.cms'];
+		$config = $app['config'];
 
 		$modulesPath = array(
 			$app['path'].'extensions',
-			//$app['path.install'].$config['path.extension']
 		);
 
 		$app['extension.manager'] = function($c) use ($modulesPath){

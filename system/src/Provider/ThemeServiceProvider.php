@@ -8,7 +8,7 @@ class ThemeServiceProvider implements ServiceProviderInterface {
 
 	function register(Container $app)
 	{
-		$config = $app['config.cms'];
+		$config = $app['config'];
 
 		$app['themes'] = function($c) use ($config) {
 			return new ThemeManager($c['yaml'], [$config['path.theme']]);

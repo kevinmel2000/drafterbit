@@ -2,28 +2,28 @@
 
 $loader = require __DIR__.'/vendor/autoload.php';
 
-use Drafterbit\CMS\CMSBase;
-use Drafterbit\CMS\Exceptions\ConfigFIleNotFoundException;
-use Drafterbit\CMS\Installer\InstallerExtension;
-use Drafterbit\CMS\System\SystemExtension;
+use Drafterbit\CMS\CMS;
+use Drafterbit\CMS\InstallationException;
 
-class Application extends CMSBase {}
+
+class Application extends CMS {}
 
 $app = new Application(ENVIRONMENT);
 
 $app['loader'] = $loader;
 $app['path.install'] = $app['path.public'] =  __DIR__ .'/../';
 
+$app['extension.manager']->load('system');
+
 try {
 
-	$app->addExtension(new SystemExtension());
 	$app->configureCMS();
 
-} catch(ConfigFIleNotFoundException $e) {
+} catch(InstallationException $e) {
 
-	$app->addModule(new InstallerModule($app));
-	$app->addModule(new SupportModule($app));
+	$code = $e->getCode();
+	$app['extension.manager']->load('installer');
+	$app->getExtension('installer')->setStart($code);
 }
-
 
 return $app;

@@ -1,7 +1,7 @@
 <?php namespace Drafterbit\Extensions\Pages\Controllers;
 
 use Drafterbit\Extensions\Pages\Models\Page as PageModel;
-use Drafterbit\Extensions\Support\Controller as BaseController;
+use Drafterbit\Extensions\System\Controller as BaseController;
 
 class Pages extends BaseController {
 

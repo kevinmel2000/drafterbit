@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Extensions\Admin;
 
-use Drafterbit\CMS\System\Controller;
+use Drafterbit\Extensions\System\Controller;
 use Drafterbit\Extensions\User\Models\Auth;
 
 class BaseController extends Controller {
@@ -23,20 +23,20 @@ class BaseController extends Controller {
 		});
 
 		// assets
-		$adminCSS = $this->extension('admin')->getResourcesPath('public/css/');
-		$adminJs = $this->extension('admin')->getResourcesPath('public/js/');
+		$adminCSS = $this->getExtension('admin')->getResourcesPath('public/css/');
+		$adminJs = $this->getExtension('admin')->getResourcesPath('public/js/');
 		$this->get('asset')
 			->css('@fontawesome', '@fontawesome')
-			->css('@bootstrapcss')
-			->css('@toastrcss')
+			->css('@bootstrap_css')
+			->css('@toastr_css')
 			->css($adminCSS.'overrides-toastr.css')
 			->css($adminCSS.'overrides-bootstrap.css')
 			->css($adminCSS.'overrides-datatables.css')
 			->css($adminCSS.'style.css')
 	
 			->js('@jquery')
-			->js('@bootstrapjs')
-			->js('@toastrjs')
+			->js('@bootstrap_js')
+			->js('@toastr_js')
 			->js($adminJs.'layout.js')
 			->js($adminJs.'app.js');
 	}

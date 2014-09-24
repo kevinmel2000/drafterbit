@@ -11,7 +11,7 @@ class WidgetServiceProvider implements ServiceProviderInterface {
 	function register(Container $app)
 	{
 
-		$config = $app['config.cms'];
+		$config = $app['config'];
 
 		$widgetPath = array(
 			$app['path'].'widget',

@@ -2,7 +2,7 @@
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drafterbit\Extensions\Admin\Auth\Exceptions\UserNotAuthorizedException;
-use Drafterbit\CMS\System\Controller as BaseController;
+use Drafterbit\Extensions\System\Controller as BaseController;
 use Drafterbit\Extensions\User\Models\User;
 use Drafterbit\Extensions\User\Models\UsersGroup;
 use Drafterbit\Extensions\User\Models\Auth as authModel;
@@ -19,6 +19,8 @@ class Auth extends BaseController {
 
 	public function login()
 	{
+		$this->get('helper')->load('form');
+
 		if ($post = $this->get('input')->post()) {
 
 			$remember = false;
@@ -43,7 +45,7 @@ class Auth extends BaseController {
 		}
 
 		$this->get('asset')
-			->css('@bootstrapcss')
+			->css('@bootstrap_css')
 			->css('@fontawesome', '@fontawesome')
 			->css($this->assetPath('css/sign-in.css'))
 			->js($this->assetPath('js/sign-in.js'));

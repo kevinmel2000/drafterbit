@@ -2,7 +2,7 @@
 
 use Drafterbit\Blog\Models\Post;
 use Drafterbit\Blog\Models\Tag;
-use Drafterbit\Extensions\Support\Controller as BaseController;
+use Drafterbit\CMS\System\Controller as BaseController;
 
 class Blog extends BaseController {
 

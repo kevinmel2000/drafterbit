@@ -9,7 +9,7 @@ if ( ! function_exists('files_url'))
      */
 	function files_url($path)
 	{
-          $config = app('config.cms');
+          $config = app('config');
           return base_url($config['upload_dir'])."/$path";
 	}
 }

@@ -7,7 +7,10 @@ use Symfony\Component\Finder\Finder;
 class ExtensionManager {
 
 	protected $app;
+	protected $loaded;
 	protected $loader;
+	protected $installed = array();
+	protected $enabled;
 	protected $extensionsPath;
 	protected $defaultNS = 'Drafterbit\\Extensions\\';
 
@@ -24,6 +27,123 @@ class ExtensionManager {
 		$this->app = $app;
 		$this->extensionsPath = $extensionsPath;
 		$this->loader = $loader;
+	}
+
+	/**
+	 * Get installed extensions
+	 *
+	 * @return array
+	 */
+	public function getInstalled()
+	{
+		if(count($this->installed) == 0) {
+			foreach ($this->extensionsPath as $path) {
+				$finder = $this->createFinder()->in($path)->directories()->depth(0);
+				foreach ($finder as $file) {
+
+					$name = $file->getFileName();
+					if(in_array($name, $this->installed)) {
+						throw new \Exception("Extension name collision: $name");
+					}
+
+					$this->installed[$name] = $path;
+				}
+			}
+		}
+
+		return $this->installed;
+	}
+
+	/**
+	 * Refresh installed in case we add new path
+	 *
+	 * @return vois
+	 */
+	public function refreshInstalled()
+	{
+		$this->installed = array();
+	}
+
+	/**
+	 * Get Core Extension
+	 *
+	 * @return array
+	 */
+	public function getCoreExtension()
+	{
+		return ['pages', 'admin', 'user', 'files'];
+	}
+
+	/**
+	 * Get Enabled Extension
+	 *
+	 * @return array
+	 */
+	public function getEnabled()
+	{
+		return $this->enabled;
+	}
+
+	/**
+	 * Enabale an Extension
+	 *
+	 * @return mixed
+	 */
+	public function enable($extension)
+	{
+		$this->get($extension)->enable();
+		$this->enabled[$extension] = true;
+	}
+
+	/**
+	 * Get an Extension
+	 *
+	 * @return Drafterbit\Framework\Extension
+	 */
+	public function get($extension)
+	{
+		if(isset($this->loaded[$extension])) {
+			return $this->loaded[$extension];
+		}
+
+		$installed = $this->getInstalled();
+
+		if(!array_key_exists($extension, $installed)) {
+			throw new \Exception("Extension $extension is not installed yet");
+		}
+
+		$path = $installed[$extension];
+		$file = $path.'/'.$extension.'/config.php';
+
+		$config = array();
+		if(is_file($file)) {
+			$config = require $file;
+		}
+
+		//register autoload
+		$autoload = isset($config['autoload']) ?
+			$config['autoload'] :
+			$this->defaultAutoload($extension);
+
+		$this->registerAutoload($autoload, $path.'/'.$extension);
+
+		$ns = isset($config['ns']) ? $config['ns'] : $this->defaultNS;
+		$class = $ns.studly_case($extension).'\\'.studly_case($extension).'Extension';
+
+		// register menu
+		if(isset($config['menus'])) {
+			$this->app->addMenu($config['menus']);
+		}
+
+		return $this->loaded[$extension] = new $class;
+	}
+
+	/**
+	 * @return Partitur\Framework\Extension
+	 */
+	public function load($extension)
+	{
+		$this->app->addExtension($this->get($extension));
 	}
 
 	/**
@@ -55,39 +175,8 @@ class ExtensionManager {
 
 				$mod = new $class($this->app);
 				$this->app->addExtension($mod);
-
-				// register menu
-				if(isset($config['menus'])) {
-					$this->app->addMenu($config['menus']);
-				}
 			}
 		}
-	}
-
-	/**
-	 * Register single extension.
-	 *
-	 * @param string $extension modul name
-	 * @param string $path extension path
-	 */
-	public function registerExtension($extension, $path)
-	{
-		
-		$config = $this->extractConfig($extension, $path);
-
-		$autoload = isset($config['autoload']) ?
-			$config['autoload'] :
-			$this->defaultAutoload($extension);
-
-		//$basepath = $this->makeRelative($path, $extension);
-		$this->registerAutoload($autoload, $path);
-
-		//register extensions
-		$ns = isset($config['ns']) ? $config['ns'] : $this->defaultNS;
-		$class = $ns.studly_case($extension).'\\'.studly_case($extension).'Extension';
-
-		$mod = new $class($this->app);
-		$this->app->registerExtension($mod);
 	}
 
 	/**
@@ -147,19 +236,19 @@ class ExtensionManager {
 		return new Finder;
 	}
 
-	private function makeRelative($base, $file)
+	private function defaultAutoload($extension, $ns = null)
 	{
-		return rtrim($base, $file);
-	}
-
-	private function defaultAutoload($extension)
-	{
-		$ns = $this->defaultNS.studly_case($extension).'\\';
+		$ns = !is_null($ns) ? $ns : $this->defaultNS.studly_case($extension).'\\';
 
 		return [
 			'psr-4' => [
 				$ns => 'src'
 			]
 		];
+	}
+
+	public function addPath($path)
+	{
+		$this->extensionsPath = array_merge($this->extensionsPath, (array)$path);
 	}
 }

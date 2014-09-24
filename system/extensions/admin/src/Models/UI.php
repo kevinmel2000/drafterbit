@@ -4,6 +4,44 @@ use Drafterbit\Framework\Model;
 
 class UI extends Model {
 
+	public function layout1()
+	{
+		
+	}
+
+	public function header($title, $subTitle = null)
+	{
+		$data['title'] = $title;
+		$data['subTitle'] = $subTitle;
+		return $this->render('@admin/ui/header', $data);
+	}
+
+	public function toolbar($config, $search = false)
+	{
+		$toolbars['left'] = array();
+		$toolbars['right'] = array();
+		foreach ($config as $name => $def) {
+			$c =  (object) $def;
+
+			$types = explode('.', $def['type']);
+
+			$c->type = $types[0];
+			$c->classType = isset($types[1]) ? $types[1] : 'default';
+			$c->id = $name;
+			$c->align = isset($def['align']) ?$def['align'] : 'left';
+			$c->faClass = isset($def['faClass']) ?$def['faClass'] : false;
+
+			if($c->align == 'right') {
+				$toolbars['right'][] = $c;
+			} else {
+				$toolbars['left'][] = $c;
+			}
+		}
+
+		$data['toolbars'] = $toolbars;
+		return $this->render('@admin/ui/toolbar', $data);
+	}
+
 	public function nav($menuArray, $userName, $userGravatar)
 	{
 		$menus = $this->createMenu($menuArray);
@@ -41,13 +79,6 @@ class UI extends Model {
 		return $menus;
 	}
 
-	public function header($title, $subTitle = null)
-	{
-		$data['title'] = $title;
-		$data['subTitle'] = $subTitle;
-		return $this->render('@admin/ui/header', $data);
-	}
-
 	public function form($action, $toolbar, $view)
 	{
 		 $data['relatedLinks'] = false;
@@ -64,32 +95,6 @@ class UI extends Model {
 		 $data['table'] = $table;
 		 $data['toolbars'] = $toolbar;
 		return $this->render('@admin/ui/list-formed', $data);
-	}
-
-	public function toolbar($config)
-	{
-		$toolbars['left'] = array();
-		$toolbars['right'] = array();
-		foreach ($config as $name => $def) {
-			$c =  (object) $def;
-
-			$types = explode('.', $def['type']);
-
-			$c->type = $types[0];
-			$c->classType = isset($types[1]) ? $types[1] : 'default';
-			$c->id = $name;
-			$c->align = isset($def['align']) ?$def['align'] : 'left';
-			$c->faClass = isset($def['faClass']) ?$def['faClass'] : false;
-
-			if($c->align == 'right') {
-				$toolbars['right'][] = $c;
-			} else {
-				$toolbars['left'][] = $c;
-			}
-		}
-
-		$data['toolbars'] = $toolbars;
-		return $this->render('@admin/ui/toolbar', $data);
 	}
 
 	public function datatables($name, $data, $headers)

@@ -62,7 +62,7 @@ class Auth extends \Drafterbit\Framework\Model {
 			return;
 		}
 
-		$config = $this->get('config.cms');
+		$config = $this->get('config');
 
 		if(trim($route->getPath(), '/') != $config['path.admin'].'/login') {
 

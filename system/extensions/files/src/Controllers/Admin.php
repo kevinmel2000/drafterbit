@@ -13,7 +13,7 @@ class Admin extends BaseController {
 		// build current place
 		$arg = func_get_args();
 
-		$config = $this->get('config.cms');
+		$config = $this->get('config');
 
 		$path = $config['path.upload'].'/';
 
@@ -181,7 +181,7 @@ class Admin extends BaseController {
 
 	public function upload()
 	{
-		$config = $this->get('config.cms');
+		$config = $this->get('config');
 		$uploadDir = $config['upload_dir'];
 		$uploaded = $this->get('input')->files();
 
@@ -225,5 +225,65 @@ class Admin extends BaseController {
 	{
 		// @todo
 		// handler post max size affected to upload file
+	}
+
+	
+	public function browser()
+	{
+		$this->get('asset')
+			->css('@bootstrap_css')
+			->css('@fontawesome', '@fontawesome')
+			->css($this->assetPath('css/openfinder.css'))
+
+			->js('@jquery')
+			->js('@jquery_form')
+			->js('@bootstrap_js')
+			->js('@bootstrap_contextmenu')
+			->js($this->assetPath('js/openfinder.js'))
+			->js($this->assetPath('js/browser.js'));
+		
+		$js = $this->get('asset')->writeJs();		
+		$css = $this->get('asset')->writeCSS();
+
+		set('js', base_url('content/cache/asset/js/'.$js.'.js'));
+		set('css', base_url('content/cache/asset/css/'.$css.'.css'));
+		return $this->render($this->getTemplate(), $this->getData());
+	}
+
+	public function data()
+	{
+		$op = $this->get('input')->get('op');
+		$path = $this->get('input')->get('path');
+		
+		$res = new JsonResponse;
+
+		try {
+
+			$data = array();
+
+			switch ($op) {
+				case 'ls':
+					$data = $this->get('ofinder')->ls($path);
+					break;
+				case 'delete':
+					$data = $this->get('ofinder')->delete($path);
+					break;
+				default:
+	 				# code...
+					break;
+			}
+
+			if($files = $this->get('input')->files('files', array())) {
+				$path = $this->get('input')->post('path');
+				$data = $this->get('ofinder')->upload($path, $files);
+			}
+
+		} catch (\Exception $e) {
+			$data = array( 'message' => $e->getMessage());
+		}	
+		
+		$res->setData($data);
+
+		return $res;
 	}
 }
