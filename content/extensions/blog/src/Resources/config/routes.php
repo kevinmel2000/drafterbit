@@ -1,6 +1,6 @@
 <?php return [
 
-ADMIN_BASE => [
+'%admin%' => [
 	'group' => [
 		'blog' => ['controller' => '@blog\Admin::index'],
 		'blog/create' => ['controller' => '@blog\Admin::create'],

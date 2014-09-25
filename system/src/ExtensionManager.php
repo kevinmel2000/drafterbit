@@ -46,7 +46,12 @@ class ExtensionManager {
 						throw new \Exception("Extension name collision: $name");
 					}
 
-					$this->installed[$name] = $path;
+					if(file_exists($file.'/config.php')) {
+						$config = require $file.'/config.php';
+					}
+
+					$config['path'] = $path;
+					$this->installed[$name] = $config;
 				}
 			}
 		}
@@ -71,7 +76,7 @@ class ExtensionManager {
 	 */
 	public function getCoreExtension()
 	{
-		return ['pages', 'admin', 'user', 'files'];
+		return ['system', 'admin', 'user','pages', 'files', 'blog'];
 	}
 
 	/**
@@ -112,13 +117,9 @@ class ExtensionManager {
 			throw new \Exception("Extension $extension is not installed yet");
 		}
 
-		$path = $installed[$extension];
-		$file = $path.'/'.$extension.'/config.php';
+		$config = $installed[$extension];
 
-		$config = array();
-		if(is_file($file)) {
-			$config = require $file;
-		}
+		$path = $config['path'];
 
 		//register autoload
 		$autoload = isset($config['autoload']) ?

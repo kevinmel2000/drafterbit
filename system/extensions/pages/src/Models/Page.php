@@ -7,31 +7,31 @@ class Page extends \Drafterbit\Framework\Model {
 		return
 		$this->get('db')->createQueryBuilder()
 		->select('*')
-		->from('pages','p')
+		->from('#_pages','p')
 		->execute()->fetchAll(\PDO::FETCH_CLASS);
 	}
 
 	public function insert($data)
 	{
-		$this->get('db')->insert('pages', $data);
+		$this->get('db')->insert('#_pages', $data);
 		return $this->get('db')->lastInsertId();
 	}
 
 	public function update($data, $id)
 	{
 		return
-		$this->get('db')->update('pages', $data, array('id' => $id));
+		$this->get('db')->update('#_pages', $data, array('id' => $id));
 	}
 
 	public function delete($id)
 	{
-		$this->get('db')->delete("pages", ['id'=> $id]);
+		$this->get('db')->delete("#_pages", ['id'=> $id]);
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('*')->from('pages', 'p');
+		$stmt = $queryBuilder->select('*')->from('#_pages', 'p');
 
 		if (is_array($key)) {
 		

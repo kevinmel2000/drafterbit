@@ -86,14 +86,14 @@
 				<span class="help-block">Create Administrator Account</span>
 			</div>
 			<div class="col-md-4 col-md-offset-4">
-				<form data-next="#site-name" class="static-form">
+				<form action="<?php echo base_url('installer/admin') ?>" data-next="#site-name" class="static-form" method="post">
 					<div class="form-group">
 						<label class="control-label">Email</label>
-						<input required type="email" name="email" class="form-control"/>
+						<input required type="email" name="admin[email]" class="form-control"/>
 					</div>
 					<div class="form-group">
 						<label class="control-label">Password</label>
-						<input type="password" name="user-password" class="form-control"/>
+						<input type="password" name="admin[password]" class="form-control"/>
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-primary pull-right"/> NEXT </button>
@@ -108,14 +108,14 @@
 				<span class="help-block">You always can change this later.</span>
 			</div>
 			<div class="col-md-4 col-md-offset-4">
-			<form class="install-form" method="post" action="<?php echo base_url('installer/install') ?>">
+			<form class="install-form static-form" method="post" action="<?php echo base_url('installer/install') ?>">
 				<div class="form-group">
 					<label class="control-label">Name</label>
-						<input required type="text" name="site-name" class="form-control"/>
+						<input required type="text" name="site[name]" class="form-control"/>
 				</div>
 				<div class="form-group">
 					<label class="control-label">Description</label>
-						<textarea type="text" name="site-desc" class="form-control"/></textarea>
+						<textarea type="text" name="site[desc]" class="form-control"/></textarea>
 				</div>
 				<div class="form-group">
 						<button type="submit" name="submit" class="btn btn-primary pull-right"/> Install</button>

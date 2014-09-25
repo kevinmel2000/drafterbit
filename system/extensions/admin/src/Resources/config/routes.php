@@ -1,6 +1,6 @@
 <?php return [
 
-	ADMIN_BASE => [
+	'%admin%' => [
 		'group' => [
 			'dashboard' => ['controller' => '@admin\Admin::dashboard'],
 			'login' => ['controller' => '@user\Auth::login'],
@@ -23,7 +23,7 @@
 		'before' => '@user\Models\Auth::authenticate'
 	],
 
-	ADMIN_BASE.'/setting/themes/widget/save' => [
+	'%admin%/setting/themes/widget/save' => [
 		'controller' => '@admin\Setting\Themes::widgetSave',
 		'methods' => 'post'
 	]

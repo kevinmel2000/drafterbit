@@ -1,6 +1,6 @@
 <?php return [
 	
-	ADMIN_BASE =>[
+	'%admin%' =>[
 		'group' => [
 			'pages' => ['controller' => '@pages\Admin::index'],
 			'pages/create' => ['controller' => '@pages\Admin::create'],
@@ -12,7 +12,7 @@
 		'controller' => '@pages\Pages::view',
 		'requirements' => [
 			//'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
-			'slug' => "^(?!(?:".ADMIN_BASE."|blog|)(?:/|$)).*$"
+			'slug' => "^(?!(?:"."%admin%"."|blog|)(?:/|$)).*$"
 		]
 	],
 ];

@@ -4,15 +4,13 @@ class User extends \Drafterbit\Framework\Model {
 
 	public function all()
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('*')->from('users', 'u');
-		return $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
+		return $this->get('db')
+			->fetchAllObjects("SELECT * FROM #_users");
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('*')->from('users', 'u');
+		$queryBuilder = $this->withQueryBuilder()->select('*')->from('#_users', 'u');
 
 		if (is_array($key)) {
 		
@@ -28,7 +26,7 @@ class User extends \Drafterbit\Framework\Model {
 			->setParameter(":$key", $value);
 		}
 
-		$users = $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
+		$users = $queryBuilder->fetchAllObjects();
 
 		if($singleRequested) {
 			return reset($users);
@@ -67,35 +65,33 @@ class User extends \Drafterbit\Framework\Model {
 
 	public function clearGroups($id)
 	{
-		return
-		$this->get('db')->delete('users_groups', array('user_id' => $id));
+		return $this->get('db')
+			->delete('users_groups', array('user_id' => $id));
 	}
 
 	public function insertGroup($groupId, $userId) {
 		
-		$data = array();
 		$data['group_id'] = $groupId;
 		$data['user_id'] = $userId;
 
-		return
-		$this->get('db')->insert('users_groups', $data);
+		return $this->get('db')
+			->insert('users_groups', $data);
 	}
 
 	public function getGroupIds($id)
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder
+		$queryBuilder = $this->withQueryBuilder()
 		->select('g.id')
-		->from('groups', 'g')
-		->join('g', 'users_groups', 'ug', 'ug.group_id = g.id')
+		->from('#_groups', 'g')
+		->join('g', '#_users_groups', 'ug', 'ug.group_id = g.id')
 		->where('ug.user_id = :user_id')
 		->setParameter(':user_id', $id);
 
-		$groups = $stmt->execute()->fetchAll();
+		$groups = $queryBuilder->fetchAllObjects();
 
 		$ids = array();
 		foreach ($groups as $group) {
-			$ids[] = $group['id'];
+			$ids[] = $group->id;
 		}
 
 		return $ids;
@@ -109,20 +105,20 @@ class User extends \Drafterbit\Framework\Model {
 	 */
 	public function getPermissions($userId)
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('pms.key')
-		->from('permissions', 'pms')
-		->join('pms', 'groups_permissions', 'gp', 'gp.permission_id = pms.id')
-		->join('gp', 'groups', 'g', 'gp.group_id = g.id')
-		->join('gp', 'users_groups', 'ug','gp.group_id = ug.group_id')
+		$queryBuilder = $this->withQueryBuilder()
+		->select('pms.slug')
+		->from('#_permissions', 'pms')
+		->join('pms', '#_groups_permissions', 'gp', 'gp.permission_id = pms.id')
+		->join('gp', '#_groups', 'g', 'gp.group_id = g.id')
+		->join('gp', '#_users_groups', 'ug','gp.group_id = ug.group_id')
 		->where('ug.user_id = :user_id')
 		->setParameter(':user_id', $userId);
 
-		$permissions = $stmt->execute()->fetchAll();
+		$permissions = $queryBuilder->fetchAllObjects();
 
 		$returned = array();
 		foreach($permissions as $pms) {
-			$returned[] = $pms['key'];
+			$returned[] = $pms->slug;
 		}
 
 		return $returned;

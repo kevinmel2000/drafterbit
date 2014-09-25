@@ -1,5 +1,8 @@
 <?php defined('ENVIRONMENT') or die();
 
+// just for now
+date_default_timezone_set('UTC');
+
 $loader = require __DIR__.'/vendor/autoload.php';
 
 use Drafterbit\CMS\CMS;

@@ -41,7 +41,7 @@ class CMS extends Application {
 		$qb = $this['db']->createQueryBuilder();
 		
 		$widgets = $qb->select('*')
-			->from('widgets','w')
+			->from('#_widgets','w')
 			->where('position=:position')
 			->setParameter('position', $position)
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
@@ -90,10 +90,12 @@ class CMS extends Application {
 
 		$config = $this['config']->load($file);
 
-		defined('ADMIN_BASE') or define('ADMIN_BASE', $config['path.admin']);
+		$this['router']->addReplaces('%admin%', $config['path.admin']);
+		
 		$this['path.cache'] =  $config['path.cache'].'/data';
 		$this['extension.manager']->addPath($this['path.install'].$config['path.extension']);
 		$this['extension.manager']->refreshInstalled();
+
 
 		$this->loadsystem();
 
@@ -126,7 +128,7 @@ class CMS extends Application {
 		$qb = $this['db']->createQueryBuilder();
 
 		$pages = $qb->select('*')
-			->from('pages','p')
+			->from('#_pages','p')
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
 
 		$options = array();

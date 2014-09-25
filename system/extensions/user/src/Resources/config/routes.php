@@ -1,5 +1,5 @@
 <?php return [
-	ADMIN_BASE =>[
+	'%admin%' =>[
 		'group' => [
 			'user' => [
 				'group' => [

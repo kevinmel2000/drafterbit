@@ -15,6 +15,15 @@ class AdminExtension extends \Drafterbit\Framework\Extension {
 
 		app('asset')->setCachePath($this['config']['path.cache'].'/asset');
 
+		//theme
+		$config = $this['config'];
+
+		$theme = $this->getTheme();
+		$this['path.themes'] = $config['path.theme'].'/';
+		$this['themes']->current($theme);
+		$this['themes']->registerAll();
+		$this['path.theme'] = $this['path.themes'].$this['themes']->current().'/';
+
 		$this['log.db'] = function(){
 			$logger =  new Logger('db.log');
 			$logger->pushHandler(new DoctrineDBALHandler($this['db']));
@@ -25,6 +34,13 @@ class AdminExtension extends \Drafterbit\Framework\Extension {
 		    $record['formatted'] = "%message%";
 		    return $record;
 		});
+	}
+
+	private function getTheme()
+	{
+		$system = $this['cache']->fetch('system');
+
+		return $system['theme'];
 	}
 
 }

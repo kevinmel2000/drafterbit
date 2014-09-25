@@ -10,7 +10,8 @@ if ( ! function_exists('admin_url'))
      */
      function admin_url($sub = null)
      {
-          $path = is_null($sub) ? ADMIN_BASE : ADMIN_BASE.'/'.$sub;
+          $admin = app('config')['path.admin'];
+          $path = is_null($sub) ? $admin : $admin.'/'.$sub;
           return base_url($path);
      }
 }

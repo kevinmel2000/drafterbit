@@ -33,12 +33,12 @@ class DoctrineDBALHandler extends AbstractProcessingHandler
     private function initialize()
     {
         $this->connection->exec(
-            'CREATE TABLE IF NOT EXISTS logs'
+            'CREATE TABLE IF NOT EXISTS #_logs'
             .'(id INT(11) PRIMARY KEY AUTO_INCREMENT, channel VARCHAR(255), level INT(11), message TEXT, time INTEGER UNSIGNED)'
         );
 
         $this->statement = $this->connection->prepare(
-            'INSERT INTO logs (channel, level, message, time) VALUES (:channel, :level, :message, :time)'
+            'INSERT INTO #_logs (channel, level, message, time) VALUES (:channel, :level, :message, :time)'
         );
 
         $this->initialized = true;

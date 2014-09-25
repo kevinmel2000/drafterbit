@@ -11,15 +11,14 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 
 	public function all()
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('*')->from('groups', 'g');
-		return $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
+		return $this->get('db')
+			->fetchAllObjects('SELECT * from #_groups');
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('*')->from('groups', 'u');
+		$stmt = $queryBuilder->select('*')->from('#_groups', 'u');
 
 		if (is_array($key)) {
 		
@@ -52,15 +51,13 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 
 	public function getByUser($id)
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$queryBuilder
+		$this->withQueryBuilder()
 		->select('*')
-		->from('groups', 'g')
-		->innerJoin('g', 'users_groups', 'ug', 'g.id = ug.group_id')
+		->from('#_groups', 'g')
+		->innerJoin('g', '#_users_groups', 'ug', 'g.id = ug.group_id')
 		->where("ug.user_id = :user_id")
-		->setParameter(':user_id', $id);
-
-		return $queryBuilder->execute()->fetchAll(\PDO::FETCH_CLASS);
+		->setParameter(':user_id', $id)
+		->fetchAllObjects();
 	}
 
 	public function getPermission()
@@ -77,11 +74,11 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 	public function delete($id)
 	{
 		$this->get('db')
-			->delete('groups_permissions', ['group_id' => $id]);
+			->delete('#_groups_permissions', ['group_id' => $id]);
 		$this->get('db')
-			->delete('users_groups', ['group_id'=> $id]);
+			->delete('#_users_groups', ['group_id'=> $id]);
 		$this->get('db')
-			->delete('groups', ['id' => $id]);
+			->delete('#_groups', ['id' => $id]);
 	}
 
 	public function insert($data)
@@ -99,30 +96,28 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 		$data['group_id'] = $id;
 
 		return
-		$this->get('db')->insert('groups_permissions', $data);
+		$this->get('db')->insert('#_groups_permissions', $data);
 	}
 
 	public function clearPermissions($id)
 	{
 		return $this->get('db')
-              ->delete('groups_permissions', array('group_id' => $id));
+              ->delete('#_groups_permissions', array('group_id' => $id));
 	}
 
 	public function getPermissionIds($id)
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$pmss =  $queryBuilder
+		$pmss =  $this->withQueryBuilder()
 		->select('pms.id')
-		->from('permissions', 'pms')
-		->join('pms', 'groups_permissions', 'gp', 'pms.id = gp.permission_id')
+		->from('#_permissions', 'pms')
+		->join('pms', '#_groups_permissions', 'gp', 'pms.id = gp.permission_id')
 		->where('gp.group_id = :group_id')
 		->setParameter(':group_id', $id)
-		->execute()->fetchAll();
+		->fetchAllObjects();
 
 		$ids = array();
-
 		foreach( $pmss as $pms ) {
-			$ids[] = $pms['id'];
+			$ids[] = $pms->id;
 		}
 
 		return $ids;
@@ -135,16 +130,15 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 	 */
 	public function getPermissions()
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$pmss =  $queryBuilder
-		->select('pms.key, pms.label')
-		->from('permissions', 'pms')
-		->execute()->fetchAll();
+		$pmss =  $this->withQueryBuilder()
+		->select('pms.slug, pms.label')
+		->from('#_permissions', 'pms')
+		->fetchAllObjects();
 
 		$returned = array();
 
 		foreach ($pmss as $pms) {
-			$returned[$pms['key']] = $pms['label'];
+			$returned[$pms->slug] = $pms->label;
 		}
 		
 		return $returned;

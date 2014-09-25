@@ -12,6 +12,9 @@ return [
  * use the assetic, it only being loaded if you do.
  */
 
+
+// @todo add 'system/Resources/public/assets'
+// ability to load from different path
 'path' => 'system/vendor/web',
 
 /**

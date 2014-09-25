@@ -9,5 +9,11 @@
 	],
 	'menus' => [
 		[ 'id' => 'blog', 'parent' => 'content', 'label' => 'Blog', 'href' => 'blog'],
+	],
+	'permissions' => [
+		'blog.view' => 'view blog',
+		'blog.add' => 'add blog',
+		'blog.edit' => 'edit blog',
+		'blog.delete' => 'delete blog'
 	]
 ];

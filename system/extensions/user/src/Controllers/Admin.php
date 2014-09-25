@@ -21,7 +21,7 @@ class Admin extends BaseController {
 
 	public function index()
 	{
-		$this->auth->restrict('user.manage');
+		$this->auth->restrict('user.view');
 		$userIds = $this->get('input')->post('users');
 
 		if($userIds) {
