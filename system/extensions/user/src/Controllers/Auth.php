@@ -47,8 +47,8 @@ class Auth extends BaseController {
 		$this->get('asset')
 			->css('@bootstrap_css')
 			->css('@fontawesome', '@fontawesome')
-			->css($this->assetPath('css/sign-in.css'))
-			->js($this->assetPath('js/sign-in.js'));
+			->css($this->publicPath('css/sign-in.css'))
+			->js($this->publicPath('js/sign-in.js'));
 		
 		return view();
 	}

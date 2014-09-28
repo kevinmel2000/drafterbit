@@ -63,6 +63,5 @@ class Pages extends BaseController {
 
 		$theme = $this->get('theme');
 		$positions = $widget->positions($theme);
-		var_dump($positions); exit();
 	}
 }

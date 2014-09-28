@@ -2,13 +2,16 @@
 
 use Drafterbit\Framework\Application;
 use Monolog\Logger;
-use Drafterbit\Extensions\System\Assetic\DrafterbitFontAwesomeFilter as FaFilter;
-use Drafterbit\Extensions\System\Assetic\DrafterbitChosenFilter as ChosenFilter;
+use Drafterbit\Extensions\System\Asset\DrafterbitFontAwesomeFilter as FaFilter;
+use Drafterbit\Extensions\System\Asset\DrafterbitChosenFilter as ChosenFilter;
 
 class SystemExtension extends \Drafterbit\Framework\Extension {
 
 	function boot()
 	{
+		$this['config']->addReplaces('%path.vendor.asset%', $this['path'].'vendor/web');
+		$this['config']->addReplaces('%path.system.asset%', $this['path'].'Resources/public/assets');
+
 		$this['helper']->register('form',$this->getResourcesPath('helpers/form.php'));
 		$this['helper']->register('support', $this->getResourcesPath('helpers/support.php'));
 		$this['helper']->register('twig', $this->getResourcesPath('helpers/twig.php'));
@@ -22,8 +25,8 @@ class SystemExtension extends \Drafterbit\Framework\Extension {
 			app('asset')->register($name, $value);
 		}
 
-		app('asset')->getFilterManager()->set('fontawesome', new FaFilter(app('config')->get('asset.path')));
-		app('asset')->getFilterManager()->set('chosen_css', new ChosenFilter(app('config')->get('asset.path')));
+		app('asset')->getFilterManager()->set('fontawesome', new FaFilter('system/vendor/web'));
+		app('asset')->getFilterManager()->set('chosen_css', new ChosenFilter('system/vendor/web'));
 	}
 
 	public function createTables()

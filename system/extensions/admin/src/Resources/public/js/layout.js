@@ -45,12 +45,4 @@ $(function(){
         });
     }
 
-	  
-    $(document).ready(function(){
-
-      var contentH = $('.side-nav-container').siblings('.content').outerHeight();
-      $('.side-nav-container').css('minHeight', contentH);
-
-    });
-
 });

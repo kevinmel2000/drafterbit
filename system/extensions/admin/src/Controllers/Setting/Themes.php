@@ -117,7 +117,7 @@ class Themes extends BaseController {
 			->css('@jquery_ui_css')
 			->js('@jquery_ui_js')
 			->js('@jquery_form')
-			->js($this->assetPath('js/widget.js'));
+			->js($this->publicPath('js/widget.js'));
 
 		return $this->wrap($content);
 	}

@@ -8,8 +8,8 @@ class Post extends \Drafterbit\Framework\Model {
 
 		$queryBuilder
 		->select('p.*, u.email as authorEmail, u.real_name as authorName')
-		->from('posts','p')
-		->leftJoin('p','users','u', 'p.user_id = u.id');
+		->from('#_posts','p')
+		->leftJoin('p','#_users','u', 'p.user_id = u.id');
 
 		if($status) {
 			$queryBuilder
@@ -22,20 +22,20 @@ class Post extends \Drafterbit\Framework\Model {
 
 	public function insert($data)
 	{
-		$this->get('db')->insert('posts', $data);
+		$this->get('db')->insert('#_posts', $data);
 		return $this->get('db')->lastInsertId();
 	}
 
 	public function update($data, $id)
 	{
 		return
-		$this->get('db')->update('posts', $data, array('id' => $id));
+		$this->get('db')->update('#_posts', $data, array('id' => $id));
 	}
 
 	public function delete($id)
 	{
-		$this->get('db')->delete("posts_tags", ['post_id'=> $id]);
-		$this->get('db')->delete("posts", ['id'=> $id]);
+		$this->get('db')->delete("#_posts_tags", ['post_id'=> $id]);
+		$this->get('db')->delete("#_posts", ['id'=> $id]);
 	}
 
 	public function getBy($field, $value)
@@ -43,7 +43,7 @@ class Post extends \Drafterbit\Framework\Model {
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 		
 		return
-		$queryBuilder->select('*')->from('posts', 'p')
+		$queryBuilder->select('*')->from('#_posts', 'p')
 		->where("$field = '$value'")
 		->execute()->fetchObject();
 	}
@@ -52,7 +52,7 @@ class Post extends \Drafterbit\Framework\Model {
 	{
 		return
 		$this->get('db')
-		->delete('posts_tags', array("post_id" => $id));
+		->delete('#_posts_tags', array("post_id" => $id));
 	}
 
 	public function addTag($tagId, $id)
@@ -60,7 +60,7 @@ class Post extends \Drafterbit\Framework\Model {
 		$data['post_id'] = $id;
 		$data['tag_id'] = $tagId;
 		return
-		$this->get('db')->insert('posts_tags', $data);
+		$this->get('db')->insert('#_posts_tags', $data);
 	}
 
 	public function getTags($id)
@@ -70,8 +70,8 @@ class Post extends \Drafterbit\Framework\Model {
 		return
 		$queryBuilder
 		->select('t.label, t.slug')
-		->from('tags', 't')
-		->innerJoin('t', 'posts_tags', 'pt', 't.id = pt.tag_id')
+		->from('#_tags', 't')
+		->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
 		->where("pt.post_id = '$id'")
 		->execute()->fetchAll(\PDO::FETCH_CLASS);
 	}
@@ -81,7 +81,7 @@ class Post extends \Drafterbit\Framework\Model {
 		return
 		$this->get('db')->createQueryBuilder()
 		->select('*')
-		->from('posts', 'p')
+		->from('#_posts', 'p')
 		->where("$field = :value")
 		->setParameter(':value', $value)
 		->execute()->fetchObject();

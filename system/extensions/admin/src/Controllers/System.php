@@ -43,7 +43,7 @@ class System extends BaseController {
 				->js('@datatables_js')
 				->js('@bootstrap_datatables_js')
 				->js('@jquery_check_all')
-				->js($this->assetPath('js/log.js'));
+				->js($this->publicPath('js/log.js'));
 
 		$ui = $this->model('UI@admin');
 		
@@ -107,7 +107,7 @@ class System extends BaseController {
 				->js('@datatables_js')
 				->js('@bootstrap_datatables_js')
 				->js('@jquery_check_all')
-				->js($this->assetPath('js/cache.js'));
+				->js($this->publicPath('js/cache.js'));
 
 		$ui = $this->model('UI@admin');
 		

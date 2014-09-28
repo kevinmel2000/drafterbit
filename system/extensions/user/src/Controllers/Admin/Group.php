@@ -48,7 +48,7 @@ class Group extends BaseController {
 		->js('@datatables_js')
 		->js('@bootstrap_datatables_js')
 		->js('@jquery_check_all')
-		->js($this->assetPath('js/group/admin-index.js'));
+		->js($this->publicPath('js/group/admin-index.js'));
 
 		
 		$editUrl = admin_url('user/group/edit');

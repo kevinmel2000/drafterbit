@@ -12,7 +12,7 @@
 		@font-face {
 		  font-family: 'Lobster Two';
 		  /* temporary */
-		  src: url('/system/vendor/web/Lobster_Two/LobsterTwo-Regular.ttf') format('truetype');
+		  src: url('/system/Resources/public/assets/Lobster_Two/LobsterTwo-Regular.ttf') format('truetype');
 		}
 
 		.title {

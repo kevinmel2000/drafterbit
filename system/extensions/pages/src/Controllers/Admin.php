@@ -18,68 +18,42 @@ class Admin extends BaseController {
 
 	public function index()
 	{
+		// auth restrction
 		$this->auth->restrict('page.view');
 
-		if($post = $this->get('input')->post('pages')) {
-			$this->_handleIndexRequest($post['page'], $post['action']);
+		if( $post = $this->get('input')->post()) {
+
+			$postIds = $post['pages'];
+
+			switch($post['action']) {
+				case "Delete":
+					foreach ($pageIds as $id) {
+						$this->page->delete($id);
+						$this->get('cache')->delete('pages');
+					}
+					message('Pages deleted !', 'success');
+					break;
+				default:
+					break;
+			}
 		}
 
 		// get data
 		$cache = $this->get('cache');
-		if( ! $cache->contains('pages') ) {
+		if( ! $cache->contains('pages')) {
 			$cache->save('pages', $this->page->all());
 		}
 		$pages = $cache->fetch('pages');
-
 
 		// prepare asset
 		$this->get('asset')
 		->css('@bootstrap_datatables_css')
 		->js('@datatables_js')
 		->js('@bootstrap_datatables_js')
-		->js('@jquery_check_all')
-		->js($this->assetPath('js/admin-index.js'));
+		->js('@jquery_check_all')	
+		->js($this->publicPath('js/admin-index.js'));
 
-		$ui = $this->model('UI@admin');
-		$header 	= $ui->header('Pages', 'Pages');
-		$table 		= $ui->datatables('page', $pages, $this->_table());
-		$toolbar 	= $ui->toolbar($this->_toolbarIndex());
-		$listFormed = $ui->listFormed(null, $toolbar, $table);
-		$content 	= $header.$listFormed;
-
-		return $this->wrap($content);
-	}
-
-	private function _handleIndexRequest($postIds, $action)
-	{
-		switch($action) {
-			case "Delete":
-				foreach ($pageIds as $id) {
-					$this->page->delete($id);
-				}
-				message('posts deleted !', 'success');
-				break;
-			default:
-				break;
-		}
-	}
-
-	private function _handleEditRequest($postData, $id)
-	{
-		try {
-			$this->validate('page', $postData);
-			$data = $this->createUpdateData($postData);
-			$this->page->update($data, $id);
-			message('Post succesfully updated.', 'success');
-
-		} catch (\Exception $e) {
-			message($e->getMessage(), 'error');
-		}
-	}
-
-	private function _toolbarIndex()
-	{
-		return array(
+		$toolbar = array(
 			'new-post' => array(
 				'type' => 'a.success',
 				'href' => admin_url('pages/create'),
@@ -94,84 +68,35 @@ class Admin extends BaseController {
 				'faClass' => 'fa-trash-o'
 			),
 		);
-	}
-
-	private function _toolbarCreate()
-	{
-		return array(
-			'publish' => array(
-				'type' => 'submit.success',
-				'label' => 'Publish',
-				'name'=> 'action',
-				'value' => 'publish',
-				'faClass' => 'fa-check'
-			),
-			'save-draft' => array(
-				'type' => 'submit.default',
-				'label' => 'Save',
-				'name'=> 'action',
-				'value' => 'draft',
-				'faClass' => false
-			),
-			'cancel' => array(
-				'type' => 'a.default',
-				'href' => admin_url('pages'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times',
-				'faStyle' => 'color: #A94442;',
-			),
-		);
-	}
-
-	private function _toolbarEdit()
-	{
-		return array(
-			'update' => array(
-				'type' => 'submit.success',
-				'label' => 'Update',
-				'name'=> 'action',
-				'value' => 'update',
-				'faClass' => 'fa-check'
-			),
-			'cancel' => array(
-				'type' => 'a.default',
-				'href' => admin_url('pages'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times',
-				'faStyle' => 'color: #A94442;',
-			),
-		);
-	}
-
-	private function _table()
-	{
 		$editUrl = admin_url('pages/edit');
-
-		return  array(
+		$header = [
 			[
 				'field' => 'title',
 				'label' => 'Title',
 				'width' => '80%',
-				'format' => function($value, $item) use ($editUrl) {
-					return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; 
-				}],
+				'format' => function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }
+			],
 			[
 				'field' => 'created_at',
 				'label' => 'Date',
-				'width' => '20%']
-		);
+				'width' => '20%'
+			]
+		];
+
+		return $this->layoutList('pages', __('Pages'), null, $toolbar, $header, $pages);
 	}
 
 	public function create()
 	{
-		$this->auth->restrict('page.add');
-		
-		if ($postData = $this->get('input')->post()) {
-
+		$this->auth->restrict('page.add');		
+		if ($postData = $this->get('input')->post()) {			
 			try {
 				$this->validate('page', $postData);
+
 				$data = $this->createInsertData($postData);
 				$id = $this->page->insert($data);
+
+				$this->get('cache')->delete('pages');
 
 				message('Post succesfully saved.', 'success');
 
@@ -187,30 +112,51 @@ class Admin extends BaseController {
 			'slug' => null,
 			'content' => null,
 			'layout' => null,
-			'layoutOptions' => $this->getLayoutOptions()
+			'layoutOptions' => $this->getLayoutOptions(),
+			'status' => 1,
 			)
 		);
 		
 		$this->get('asset')
-			->css($this->assetPath('css/editor.css'))
-			->js($this->assetPath('js/editor.js'));
+			->css($this->publicPath('css/editor.css'))
+			->js($this->publicPath('js/editor.js'));
 
-		$ui = $this->model('UI@admin');
-		$header 	= $ui->header('New Page', 'Create new static page');
-		$toolbar 	= $ui->toolbar($this->_toolbarCreate());
-		$view 		= $this->render('@pages/admin/edit', $this->getData());
-		$form 		= $ui->form(null, $toolbar, $view);		
-		$content 	= $header.$form;
+		$toolbar = array('save-draft' => array(
+				'type' => 'submit.success',
+				'label' => 'Save',
+				'name'=> 'action',
+				'value' => 'save',
+				'faClass' => 'fa-check'
+			),
+			'cancel' => array(
+				'type' => 'a.default',
+				'href' => admin_url('pages'),
+				'label' => 'Cancel',
+				'faClass' => 'fa-times',
+				'faStyle' => 'color: #A94442;',
+			),
+		);
 
-		return $this->wrap($content);
+		$inputView = $this->render('@pages/admin/edit-input', $this->getData());
+		return $this->layoutForm(__('New Page'), null,  $toolbar, $inputView);
 	}
 
 	public function edit($id)
 	{
 		$this->auth->restrict('page.edit');
 		
-		if ($post = $this->get('input')->post() ) {
-			$this->_handleEditRequest($post, $id);
+		if ($postData = $this->get('input')->post() ) {
+
+			try {
+				$this->validate('page', $postData);
+				$data = $this->createUpdateData($postData);
+				$this->page->update($data, $id);
+				$this->get('cache')->delete('pages');
+				message('Post succesfully updated.', 'success');
+
+			} catch (\Exception $e) {
+				message($e->getMessage(), 'error');
+			}
 		}
 
 		$page = $this->page->getSingleBy('id', $id);
@@ -221,21 +167,33 @@ class Admin extends BaseController {
 			'slug' => $page->slug,
 			'content' => $page->content,
 			'layout' => $page->layout,
-			'layoutOptions' => $this->getLayoutOptions()
+			'layoutOptions' => $this->getLayoutOptions(),
+			'status' => $page->status,
 		));
 
 		$this->get('asset')
-		->css($this->assetPath('css/editor.css'))
-		->js($this->assetPath('js/editor.js'));
+		->css($this->publicPath('css/editor.css'))
+		->js($this->publicPath('js/editor.js'));
 
-		$ui = $this->model('UI@admin');
-		$header 	= $ui->header('Edit Page', 'Edit page');
-		$toolbar 	= $ui->toolbar($this->_toolbarEdit());
-		$view 		= $this->render('admin/edit', $this->getData());
-		$form 		= $ui->form(null, $toolbar, $view);		
-		$content 	= $header.$form;
+		$toolbar = array(
+			'update' => array(
+				'type' => 'submit.success',
+				'label' => 'Update',
+				'name'=> 'action',
+				'value' => 'update',
+				'faClass' => 'fa-check'
+			),
+			'cancel' => array(
+				'type' => 'a.default',
+				'href' => admin_url('pages'),
+				'label' => 'Cancel',
+				'faClass' => 'fa-times',
+				'faStyle' => 'color: #A94442;',
+			),
+		);
+		$inputView = $this->render('@pages/admin/edit-input', $this->getData());
 
-		return $this->wrap($content);
+		return $this->layoutForm(__('Edit Page'), null,  $toolbar, $inputView);
 	}
 
 	/**
@@ -267,7 +225,8 @@ class Admin extends BaseController {
 		$data['title'] = $post['title'];
 		$data['slug'] = $post['slug'];
 		$data['content'] = $post['content'];
-		$data['template'] = $post['template'];
+		$data['layout'] = $post['layout'];
+		$data['status'] = $post['status'];
 		$data['user_id'] = $this->get('session')->get('uid');
 		$data['updated_at'] = Carbon::now();
 		
@@ -287,17 +246,5 @@ class Admin extends BaseController {
 	public function createUpdateData($post)
 	{
 		return $this->createInsertData($post, true);
-	}
-
-	public function dashboard()
-	{
-		set('postCount', count($this->post->all()));
-		set('pageCount', count($this->page->all()));
-		return view();
-	}
-
-	public function preferences()
-	{
-		return view();
 	}
 }

@@ -49,7 +49,7 @@ class Admin extends BaseController {
 			->js('@datatables_js')
 			->js('@bootstrap_datatables_js')
 			->js('@jquery_check_all')
-			->js($this->assetPath('js/admin-index.js'));
+			->js($this->publicPath('js/admin-index.js'));
 
 		// build ui
 		$ui = $this->model('UI@admin');
@@ -227,10 +227,10 @@ class Admin extends BaseController {
 		// prepare asset
 		$this->get('asset')
 			->css('@magicsuggest_css')
-			->css($this->assetPath('css/editor.css'))
+			->css($this->publicPath('css/editor.css'))
 
 			->js('@magicsuggest_js')
-			->js($this->assetPath('js/editor.js'));
+			->js($this->publicPath('js/editor.js'));
 
 		// build ui
 		$ui = $this->model('UI@admin');
@@ -371,10 +371,10 @@ class Admin extends BaseController {
 
 		$this->get('asset')
 		->css('@magicsuggest_css')
-		->css($this->assetPath('css/editor.css'))
+		->css($this->publicPath('css/editor.css'))
 
 		->js('@magicsuggest_js')
-		->js($this->assetPath('js/editor.js'));
+		->js($this->publicPath('js/editor.js'));
 
 		// build ui
 		$ui = $this->model('UI@admin');

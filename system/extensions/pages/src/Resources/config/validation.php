@@ -1,8 +1,9 @@
 <?php return [
 	'page' => [
-				'title' 	=> array('label' => 'Title', 	'rules' => array('not-empty') ),
-				'content' 	=> array('label' => 'Content', 	'rules' => array('optional') ),
-				'slug' 		=> array('label' => 'Slug', 	'rules' => array('not-empty', 'alpha-dash') ),
-				'template' 	=> array('label' => 'Tags', 	'rules' => array('not-empty') )
+		'title' 	=> ['label' => 'Title', 	'rules' => ['not-empty'] ],
+		'content' 	=> ['label' => 'Content', 	'rules' => ['optional'] ],
+		'slug' 		=> ['label' => 'Slug', 		'rules' => ['not-empty', 'alpha-dash'] ],
+		'layout' 	=> ['label' => 'Layout', 	'rules' => ['not-empty'] ],
+		'status' 	=> ['label' => 'Status', 	'rules' => ['not-empty'] ]
 	]
 ];

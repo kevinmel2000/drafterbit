@@ -2,6 +2,8 @@
     <div class="container">
             <div class="row row-sticky-toolbar" style="margin:10px 0;">
                 <div class="pull-right">
+                    <input type="search" class="form-control input-sm" placeholder="Search">
+
                     <?php foreach ($toolbars['right'] as $btn): ?>
                         <?php if($btn->type == 'a'): ?>
                             <a href="<?php echo $btn->href ?>" class="btn btn-<?php echo $btn->classType ?> btn-sm">

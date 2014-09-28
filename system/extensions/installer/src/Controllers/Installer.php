@@ -13,7 +13,7 @@ class Installer extends Controller {
 		->js('@bootstrap_js')
 		->js('@bootstrap_validator_js')
 		->js('@jquery_form')
-		->js($this->assetPath('js/install.js'));
+		->js($this->publicPath('js/install.js'));
 
 		$start = $this->getExtension()->getStart();
 		set('css', $asset->dump('css'));

@@ -1,7 +1,7 @@
-<?php namespace Drafterbit\Extensions\System\Assetic;
+<?php namespace Drafterbit\Extensions\System\Asset;
 
-use Assetic\Asset\AssetInterface;  
-use Assetic\Filter\FilterInterface;
+use Drafterbit\Component\Asset\AssetInterface;  
+use Drafterbit\Component\Asset\Filter\FilterInterface;
 
 class DrafterbitFontAwesomeFilter implements FilterInterface
 {

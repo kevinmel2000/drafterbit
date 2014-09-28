@@ -1,5 +1,5 @@
-(function($, drafterbit) {
-        var dt = $("#page-data-table").dataTable({
+(function($, drafTerbit) {
+        var dt = $("#pages-data-table").dataTable({
             "bFilter": true,
              "oLanguage": {
               "sLengthMenu": "Showing _MENU_ records per page",
@@ -10,8 +10,8 @@
           ]
         });
 
-    drafterbit.replaceDTSearch(dt);
+    drafTerbit.replaceDTSearch(dt);
 
-    $('#page').checkAll({showIndeterminate:true});
+    $('#pages-checkall').checkAll({showIndeterminate:true});
 
-})(jQuery, drafterbit);
+})(jQuery, drafTerbit);

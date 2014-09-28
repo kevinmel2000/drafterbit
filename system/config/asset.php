@@ -4,21 +4,6 @@ return [
 
 /**
  *--------------------------------------------------------------------------
- * Asset Path
- *--------------------------------------------------------------------------
- *
- * Asset path, used by assetic as parameter for AssetFactory. Yes, Drafterbit\Framework
- * by default provides Assetic service for asset manager. You may or may not
- * use the assetic, it only being loaded if you do.
- */
-
-
-// @todo add 'system/Resources/public/assets'
-// ability to load from different path
-'path' => 'system/vendor/web',
-
-/**
- *--------------------------------------------------------------------------
  * The Assets
  *--------------------------------------------------------------------------
  *
@@ -26,29 +11,29 @@ return [
  */
 'assets' => [
 
-		'bootstrap_css' 		=> 'bootstrap/css/bootstrap.css',
-		'bootstrap_js' 		=> 'bootstrap/js/bootstrap.js',
-		'bootstrap_contextmenu' => 'bootstrap-contextmenu/bootstrap-contextmenu.js',
-		'bootstrap_validator_css' => 'bootstrap-validator/css/bootstrapValidator.min.css',
-		'bootstrap_validator_js' => 'bootstrap-validator/js/bootstrapValidator.min.js',
+		'bootstrap_css' 			=> '%path.vendor.asset%/bootstrap/css/bootstrap.css',
+		'bootstrap_js' 				=> '%path.vendor.asset%/bootstrap/js/bootstrap.js',
+		'bootstrap_contextmenu' 	=> '%path.vendor.asset%/bootstrap-contextmenu/bootstrap-contextmenu.js',
+		'bootstrap_validator_css' 	=> '%path.vendor.asset%/bootstrap-validator/css/bootstrapValidator.min.css',
+		'bootstrap_validator_js' 	=> '%path.vendor.asset%/bootstrap-validator/js/bootstrapValidator.min.js',
 		
-		'toastr_css' 		=> 'toastr/toastr.css',
-		'toastr_js' 			=> 'toastr/toastr.min.js',
-		'fontawesome'		=> 'fontawesome/css/font-awesome.css',
-		'jquery' 			=> 'jquery/dist/jquery.min.js',
-		'jquery_form' 		=> 'jquery-form/jquery.form.js',
-		'bootstrap_datatables_css' 	=> 'bootstrap-datatables/bootstrap-datatables.css',
-		'bootstrap_datatables_js' 	=> 'bootstrap-datatables/bootstrap-datatables.js',
-		'datatables_js' 			=> 'datatables/media/js/jquery.dataTables.js',
-		'jquery_check_all' 			=> 'jquery-check-all/jquery-check-all.js',
-		'chosen_bootstrap_css' 		=> 'chosen-bootstrap/chosen-bootstrap.css',
-		'chosen_css' 				=> 'chosen/chosen.css',
-		'chosen_js' 				=> 'chosen/chosen.jquery.js',
-		'magicsuggest_css' 		=> 'magicsuggest/magicsuggest.css',
-		'magicsuggest_js' 		=> 'magicsuggest/magicsuggest.js',
-		'jquery_ui_css' 		=> 'jquery-ui/css/bootstrap-lite/jquery-ui-1.10.4.custom.min.css',
-		'jquery_ui_js' 			=> 'jquery-ui/js/jquery-ui-1.10.4.custom.min.js',
-		'sticky_js' 			=> 'sticky/jquery.sticky.js'
+		'toastr_css' 				=> '%path.vendor.asset%/toastr/toastr.css',
+		'toastr_js' 				=> '%path.vendor.asset%/toastr/toastr.min.js',
+		'fontawesome'				=> '%path.vendor.asset%/fontawesome/css/font-awesome.css',
+		'jquery' 					=> '%path.vendor.asset%/jquery/dist/jquery.min.js',
+		'jquery_form' 				=> '%path.vendor.asset%/jquery-form/jquery.form.js',
+		'bootstrap_datatables_css' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.css',
+		'bootstrap_datatables_js' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.js',
+		'datatables_js' 			=> '%path.vendor.asset%/datatables/media/js/jquery.dataTables.js',
+		'jquery_check_all' 			=> '%path.vendor.asset%/jquery-check-all/jquery-check-all.js',
+		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
+		'chosen_css' 				=> '%path.vendor.asset%/chosen/chosen.css',
+		'chosen_js' 				=> '%path.vendor.asset%/chosen/chosen.jquery.js',
+		'magicsuggest_css' 			=> '%path.vendor.asset%/magicsuggest/magicsuggest.css',
+		'magicsuggest_js' 			=> '%path.vendor.asset%/magicsuggest/magicsuggest.js',
+		'jquery_ui_css' 			=> '%path.vendor.asset%/jquery-ui/css/bootstrap-lite/jquery-ui-1.10.4.custom.min.css',
+		'jquery_ui_js' 				=> '%path.vendor.asset%/jquery-ui/js/jquery-ui-1.10.4.custom.min.js',
+		'sticky_js' 				=> '%path.vendor.asset%/sticky/jquery.sticky.js'
 ]
 
 ];

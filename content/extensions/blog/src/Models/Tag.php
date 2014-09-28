@@ -8,14 +8,14 @@ class Tag extends \Drafterbit\Framework\Model {
 		return
 		$queryBuilder
 		->select('*')
-		->from('tags','t')
+		->from('#_tags','t')
 		->execute()->fetchAll(\PDO::FETCH_CLASS);
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('*')->from('tags', 't');
+		$stmt = $queryBuilder->select('*')->from('#_tags', 't');
 
 		if (is_array($key)) {
 		
@@ -46,8 +46,8 @@ class Tag extends \Drafterbit\Framework\Model {
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 		$queryBuilder
 		->select('t.label, t.slug')
-		->from('tags', 't')
-		->innerJoin('t', 'posts_tags', 'pt', 't.id = pt.tag_id')
+		->from('#_tags', 't')
+		->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
 		->where("pt.post_id = :post_id")
 		->setParameter(':post_id', $id)
 		->execute()->fetchAll(\PDO::FETCH_CLASS);
@@ -59,7 +59,7 @@ class Tag extends \Drafterbit\Framework\Model {
 		
 		$tag = $queryBuilder
 		->select('*')
-		->from('tags', 't')
+		->from('#_tags', 't')
 		->where("$field = '$value'")
 		->execute()->fetchObject();
 
@@ -74,7 +74,7 @@ class Tag extends \Drafterbit\Framework\Model {
 	{
 		$data['label'] = $tag;
 		$data['slug'] = slug($tag);
-		$this->get('db')->insert('tags', $data);
+		$this->get('db')->insert('#_tags', $data);
 
 		return $this->get('db')->lastInsertId();
 	}

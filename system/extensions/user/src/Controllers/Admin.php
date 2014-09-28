@@ -59,7 +59,7 @@ class Admin extends BaseController {
 		->js('@datatables_js')
 		->js('@bootstrap_datatables_js')
 		->js('@jquery_check_all')
-		->js($this->assetPath('js/index.js'));
+		->js($this->publicPath('js/index.js'));
 		
 		$ui = $this->model('UI@admin');
 		$header 	=  $ui->header('User', 'User management');
@@ -78,7 +78,7 @@ class Admin extends BaseController {
 		return array(
 			['field' => 'real_name', 'label' => 'Name', 'format' => function($value, $item) use ($editUrl) {
 					return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }],
-			['field' => 'email', 'label' => 'Date']
+			['field' => 'email', 'label' => 'Email']
 		);
 	}
 
@@ -165,7 +165,7 @@ class Admin extends BaseController {
 		->css('@chosen_bootstrap_css')
 		->css('@chosen_css', '@chosen_css')
 		->js('@chosen_js')
-		->js($this->assetPath('js/create.js'));
+		->js($this->publicPath('js/create.js'));
 
 		$ui = $this->model('UI@admin');
 		$header 	=  $ui->header('User', 'User management');
@@ -218,7 +218,7 @@ class Admin extends BaseController {
 		->css('@chosen_bootstrap_css')
 		->css('@chosen_css', '@chosen_css')
 		->js('@chosen_js')
-		->js($this->assetPath('js/create.js'));
+		->js($this->publicPath('js/create.js'));
 
 		$ui = $this->model('UI@admin');
 		$header 	=  $ui->header('User', 'User management');

@@ -121,15 +121,15 @@ class Admin extends BaseController {
 		set('subpaths', $subpaths);
 		set('relPath', $relPath);
 
-		$this->get('asset')->addCSS($this->getAssetPath('css/index.css'));
+		$this->get('asset')->addCSS($this->getpublicPath('css/index.css'));
 		$this->get('asset')->addCSS('@bootstrap_datatables_css');
 		$this->get('asset')->addJs('@datatables_js');
 		$this->get('asset')->addJs('@bootstrap_datatables_js');
 		$this->get('asset')->addJs('@jquery_check_all');
 		$this->get('asset')->addJs('@jquery_form');
 		$this->get('asset')->addJs('@bootstrap_contextmenu');
-		$this->get('asset')->addJs($this->getAssetPath('js/index.js'));
-		$this->get('asset')->addJs($this->getAssetPath('js/upload.js'));
+		$this->get('asset')->addJs($this->getpublicPath('js/index.js'));
+		$this->get('asset')->addJs($this->getpublicPath('js/upload.js'));
 		
 		$ui = $this->model('UI@admin');
 		$tbConfig = array(
@@ -233,14 +233,14 @@ class Admin extends BaseController {
 		$this->get('asset')
 			->css('@bootstrap_css')
 			->css('@fontawesome', '@fontawesome')
-			->css($this->assetPath('css/openfinder.css'))
+			->css($this->publicPath('css/openfinder.css'))
 
 			->js('@jquery')
 			->js('@jquery_form')
 			->js('@bootstrap_js')
 			->js('@bootstrap_contextmenu')
-			->js($this->assetPath('js/openfinder.js'))
-			->js($this->assetPath('js/browser.js'));
+			->js($this->publicPath('js/openfinder.js'))
+			->js($this->publicPath('js/browser.js'));
 		
 		$js = $this->get('asset')->writeJs();		
 		$css = $this->get('asset')->writeCSS();
