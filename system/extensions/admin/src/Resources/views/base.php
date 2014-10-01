@@ -6,7 +6,7 @@
         <title><?php echo $title ?> | Drafterbit</title>
         <!-- Core CSS - Include with every page -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="<?php echo $stylesheetHref; ?>"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo asset_url('css/'.$stylesheet) ?>"/>
         <script>
         (function(){
           drafTerbit = {
@@ -36,7 +36,7 @@
             <?php echo $partials['footer']; ?>
             <!-- /#page-wrapper -->
 
-        <script src="<?php echo $scriptSrc;?>"></script>
+        <script src="<?php echo asset_url('js/'.$script);?>"></script>
         
         <?php if($messages): ?>
         <script>

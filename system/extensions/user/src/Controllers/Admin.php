@@ -39,8 +39,6 @@ class Admin extends BaseController {
 			}
 		}
 
-		//$users = $this->user->all();
-
 		// get data
 		$cache = $this->get('cache');
 		if( ! $cache->contains('users')) {
@@ -60,15 +58,8 @@ class Admin extends BaseController {
 		->js('@bootstrap_datatables_js')
 		->js('@jquery_check_all')
 		->js($this->publicPath('js/index.js'));
-		
-		$ui = $this->model('UI@admin');
-		$header 	=  $ui->header('User', 'User management');
-		$table 		= $ui->datatables('user', $users, $this->_table());
-		$toolbar 	= $ui->toolbar($this->_toolbarIndex());
-		$listFormed = $ui->listFormed(null, $toolbar, $table);
-		$content 	= $header.$listFormed;
 
-		return $this->wrap($content);
+		return $this->layoutList('users', __('User'), null, null, $this->_toolbarIndex(), $this->_table(), $users, array());
 	}
 
 	private function _table()
@@ -85,18 +76,18 @@ class Admin extends BaseController {
 	private function _toolbarIndex()
 	{
 		return array(
+			'new-user' => array(
+				'type' => 'a.success',
+				'href' => admin_url('user/create'),
+				'label' => 'New User',
+				'faClass' => 'fa-plus'
+			),
 			'trash' => array(
 				'type' => 'submit',
 				'label' => 'Delete',
 				'name'=> 'action',
 				'value' => 'delete',
 				'faClass' => 'fa-trash-o'
-			),
-			'new-post' => array(
-				'type' => 'a.success',
-				'href' => admin_url('user/create'),
-				'label' => 'New User',
-				'faClass' => 'fa-plus'
 			),
 
 		);
@@ -124,7 +115,7 @@ class Admin extends BaseController {
 
 	public function create()
 	{
-		$this->auth->restrict('user.create');
+		$this->auth->restrict('user.add');
 		$postData = $this->get('input')->post();
 
 		if ($postData) {

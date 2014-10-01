@@ -20,7 +20,7 @@ class Group extends BaseController {
 
 	public function index()
 	{
-		$this->auth->restrict('usergroup.manage');
+		$this->auth->restrict('usergroup.view');
 
 		$groups = $this->get('input')->post('groups');
 
@@ -39,7 +39,11 @@ class Group extends BaseController {
 			}
 		}
 
-		$groups = $this->group->all();
+		if(! $this->get('cache')->contains('groups')) {
+			$this->get('cache')->save('groups', $this->group->all());
+		}
+		$groups =$this->get('cache')->fetch('groups');
+		
 		set('groups', $groups);
 
 		$this->get('asset')
@@ -57,22 +61,19 @@ class Group extends BaseController {
 			['field' => 'description', 'label' => 'Description']
 		);
 
-
-		$ui = $this->model('UI@admin');
-		$table = $ui->datatables('group', $groups, $tableConfig);
-		$header =  $ui->header('Group', 'User Groups and Role management');
-		$toolbar = $ui->toolbar($this->_toolbarIndex());
-		$listFormed = $ui->listFormed(null, $toolbar, $table);
-		$content = $header.$listFormed;
-
-		return $this->wrap($content);
-
-		//return view();
+		return $this->layoutList('groups', __('Group'),null, null, $this->_toolbarIndex(), $tableConfig, $groups);
 	}
 
 	function _toolbarIndex()
 	{
 		return array(
+			'new' => array(
+				'type' => 'a.success',
+				'href' => admin_url('user/group/create'),
+				'label' => 'New Group',
+				'faClass' => 'fa-plus'
+			),
+
 			'delete' => array(
 				'type' => 'submit',
 				'label' => 'Delete',
@@ -81,12 +82,6 @@ class Group extends BaseController {
 				'faClass' => 'fa-trash-o'
 			),
 
-			'new' => array(
-				'type' => 'a.success',
-				'href' => admin_url('user/group/create'),
-				'label' => 'New Group',
-				'faClass' => 'fa-plus'
-			),
 
 		);
 	}
@@ -193,7 +188,7 @@ class Group extends BaseController {
 
 	public function create()
 	{
-		$this->auth->restrict('usergroup.create');
+		$this->auth->restrict('usergroup.add');
 
 		$posts = $this->get('input')->post();
 

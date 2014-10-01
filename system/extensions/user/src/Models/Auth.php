@@ -1,5 +1,6 @@
 <?php namespace Drafterbit\Extensions\User\Models;
 
+use Drafterbit\Extensions\User\Auth\Exceptions\UserNotAuthorizedException;
 use Drafterbit\Extensions\User\Models\User;
 use Drafterbit\Extensions\User\Models\UsersGroup;
 

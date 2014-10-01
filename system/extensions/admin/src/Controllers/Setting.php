@@ -2,7 +2,7 @@
 
 use Drafterbit\Extensions\Admin\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
-use Drafterbit\Extensions\Admin\Models\Setting as SettingModel;
+use Drafterbit\Extensions\System\Models\System as SettingModel;
 
 class Setting extends BaseController {
 
@@ -16,7 +16,8 @@ class Setting extends BaseController {
 
 	public function general()
 	{
-		$this->auth->restrict('setting.change');
+		// @todo
+		//$this->auth->restrict('setting.change');
 
 		$post = $this->get('input')->post();
 
@@ -46,10 +47,6 @@ class Setting extends BaseController {
 			'pageOptions' => $this->get('app')->getFrontPageOption()
 		]);
 
-		$ui = $this->model('UI@admin');
-
-		$header =  $ui->header('General Setting', 'General setting');
-
 		$tbConfig = array(
 
 			'save' => array(
@@ -62,15 +59,9 @@ class Setting extends BaseController {
 
 		);
 
-		$toolbar = $ui->toolbar($tbConfig);
-
 		$view = $this->get('template')->render('@admin/setting/general', $this->getData());
 
-		$form = $ui->form(null, $toolbar, $view);
-
-		$content = $header.$form;
-
-		return $this->wrap($content);
+		return $this->layoutForm('General Setting', null, null, $tbConfig, $view);
 	}
 
 	public function costumizeTheme()

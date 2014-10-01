@@ -1,7 +1,6 @@
 <?php
 
-if ( ! function_exists('wysiwyg'))
-{
+if ( ! function_exists('wysiwyg')) {
 	/**
 	 * Get theme path
 	 *
@@ -12,7 +11,7 @@ if ( ! function_exists('wysiwyg'))
 		// @todo create asset_url
 		$path = '/system/Resources/public/assets';
 		$src = base_url('system/vendor/web/ckeditor/ckeditor.js');
-		$browserUrl = admin_url('finder/browser?mode=image');
+		$browserUrl = admin_url('files/browser?mode=image');
 
 		$html = <<< EOD
 
@@ -20,7 +19,6 @@ if ( ! function_exists('wysiwyg'))
 <script src="$src"></script>
 <script>
 
-CKEDITOR.plugins.addExternal( 'wpmore', '/$path/ckeditor-custom/plugins/wpmore');
 
 CKEDITOR.replace('$name', {
 
@@ -32,6 +30,8 @@ CKEDITOR.replace('$name', {
 	filebrowserImageBrowseUrl : '$browserUrl'
 });
 
+CKEDITOR.plugins.addExternal( 'wpmore', '$path/ckeditor-custom/plugins/wpmore');
+
 </script>
 
 EOD;
@@ -40,8 +40,7 @@ EOD;
 	}
 }
 
-if ( ! function_exists('theme_url'))
-{
+if ( ! function_exists('theme_url')) {
 	/**
 	 * Get theme path
 	 *
@@ -56,8 +55,7 @@ if ( ! function_exists('theme_url'))
 	}
 }
 
-if ( ! function_exists('log_db'))
-{
+if ( ! function_exists('log_db')) {
 	/**
 	 * Log message to database
 	 *
@@ -66,5 +64,19 @@ if ( ! function_exists('log_db'))
 	function log_db( $what, $who = null, $where = null )
 	{
 		app('log.db')->addInfo("$who $what $where");
+	}
+}
+
+if ( ! function_exists('asset_url')) {
+	/**
+	 * Asset url
+	 *
+	 * @return void
+	 */
+	function asset_url($path)
+	{
+		$cache = app('config')->get('path.cache');
+
+		return base_url($cache.'/asset/'.$path);
 	}
 }

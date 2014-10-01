@@ -1,8 +1,8 @@
-<?php namespace Drafterbit\Extensions\Finder\Providers;
+<?php namespace Drafterbit\Extensions\Files\Providers;
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Drafterbit\Extensions\Finder\OpenFinder;
+use Drafterbit\Extensions\Files\OpenFinder;
 
 class OpenFinderServiceProvider implements ServiceProviderInterface {
 

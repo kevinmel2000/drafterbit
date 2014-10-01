@@ -1,8 +1,8 @@
 <?php return [
 	'%admin%' =>[
 		'group' => [
-			'finder/browser' => ['controller' => '@finder\Admin::browser'],
-			'finder/data' => ['controller' => '@finder\Admin::data']
+			'files/browser' => ['controller' => '@files\Admin::browser'],
+			'files/data' => ['controller' => '@files\Admin::data']
 		]
 	]
 ];

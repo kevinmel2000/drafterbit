@@ -1,4 +1,4 @@
-(function($){
+(function($, drafTerbit){
 
 	// Helper function to get parameters from the query string.
 	function getUrlParam(paramName)
@@ -19,8 +19,8 @@
 	}
 
 	$('#finder-container').openFinder({
-		url: '/backend/finder/data',
+		url: drafTerbit.adminUrl+'/files/data',
 		onISelect: ckeditorCallback
 	});
 
-})(jQuery);
+})(jQuery, drafTerbit);

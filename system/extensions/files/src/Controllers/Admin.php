@@ -207,7 +207,7 @@ class Admin extends BaseController {
 		}
 	}
 
-	public function data()
+	public function xdata()
 	{
 		$data['draw'] = 1;
 		$data['recordsTotal'] = 2;

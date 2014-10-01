@@ -1,5 +1,5 @@
 
-(function($, drafterbit) {
+(function($, drafTerbit) {
       var dt =  $("#post-data-table").dataTable({
              "oLanguage": {
               //"sLengthMenu": "Showing _MENU_ records per page",
@@ -10,7 +10,7 @@
           ]
         });
 
-    drafterbit.replaceDTSearch(dt);
+    drafTerbit.replaceDTSearch(dt);
 
     $('#post').checkAll({showIndeterminate:true});
-})(jQuery, drafterbit);
+})(jQuery, drafTerbit);

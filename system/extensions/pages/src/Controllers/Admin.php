@@ -18,7 +18,7 @@ class Admin extends BaseController {
 
 	public function index()
 	{
-		// auth restrction
+		// auth restriction
 		$this->auth->restrict('page.view');
 
 		if( $post = $this->get('input')->post()) {
@@ -68,6 +68,13 @@ class Admin extends BaseController {
 				'faClass' => 'fa-trash-o'
 			),
 		);
+		$filters = [[
+			'' => '- Status -',
+			0 => 'Unpublished',
+			1 => 'Published',
+			2 => 'Trashed',
+		]];
+
 		$editUrl = admin_url('pages/edit');
 		$header = [
 			[
@@ -83,7 +90,7 @@ class Admin extends BaseController {
 			]
 		];
 
-		return $this->layoutList('pages', __('Pages'), null, $toolbar, $header, $pages);
+		return $this->layoutList('pages', __('Pages'), null, null, $toolbar, $header, $pages, $filters);
 	}
 
 	public function create()
@@ -138,7 +145,7 @@ class Admin extends BaseController {
 		);
 
 		$inputView = $this->render('@pages/admin/edit-input', $this->getData());
-		return $this->layoutForm(__('New Page'), null,  $toolbar, $inputView);
+		return $this->layoutForm(__('New Page'), null, null,  $toolbar, $inputView);
 	}
 
 	public function edit($id)
@@ -193,7 +200,7 @@ class Admin extends BaseController {
 		);
 		$inputView = $this->render('@pages/admin/edit-input', $this->getData());
 
-		return $this->layoutForm(__('Edit Page'), null,  $toolbar, $inputView);
+		return $this->layoutForm(__('Edit Page'), null, null,  $toolbar, $inputView);
 	}
 
 	/**

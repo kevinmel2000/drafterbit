@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
-use Drafterbit\Framework\Validation\Exceptions\ValidationFailsException;
+use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\Admin\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
 use Carbon\Carbon;
@@ -42,7 +42,12 @@ class Admin extends BaseController {
 		}
 
 		$posts = $cache->fetch('posts.'.$status);
-
+		$filters = [[
+			'' => '- Status -',
+			0 => 'Unpublished',
+			1 => 'Published',
+			2 => 'Trashed',
+		]];
 		// prepare asset
 		$this->get('asset')
 			->css('@bootstrap_datatables_css')		
@@ -51,16 +56,7 @@ class Admin extends BaseController {
 			->js('@jquery_check_all')
 			->js($this->publicPath('js/admin-index.js'));
 
-		// build ui
-		$ui = $this->model('UI@admin');
-		$header 	= $ui->header('Blog', 'Blog post');
-		$table 		= $ui->datatables('post', $posts, $this->_table());
-		$toolbar 	= $ui->toolbar($this->_toolbarIndex($status));
-		$listFormed = $ui->listFormed(null, $toolbar, $table);
-		$content 	= $header.$listFormed;
-
-		// send wrapped
-		return $this->wrap($content);
+		return $this->layoutList('post', __('Blog'), null, null, $this->_toolbarIndex($status), $this->_table(), $posts, $filters);
 	}
 
 	private function _handleIndexRequest($postIds, $action)
@@ -152,13 +148,6 @@ class Admin extends BaseController {
 				'faClass' => 'fa-plus'
 			);
 		if($status != 'trashed') {
-
-			$toolbars['show-trashed'] = array(
-				'type' => 'a',
-				'href' => admin_url('blog/index/trashed'),
-				'label' => 'Show Trashed',
-				'align' => 'left'
-			);
 			
 			$toolbars['trash'] = array(
 				'type' => 'submit',
@@ -232,15 +221,8 @@ class Admin extends BaseController {
 			->js('@magicsuggest_js')
 			->js($this->publicPath('js/editor.js'));
 
-		// build ui
-		$ui = $this->model('UI@admin');
-		$header 	=  $ui->header('New Post', 'Create new post');
-		$toolbar 	= $ui->toolbar($this->_toolbarCreate());
-		$view 		= $this->render('@blog/admin/edit', $this->getData());
-		$form 		= $ui->form(null, $toolbar, $view);
-		$content 	= $header.$form;
-
-		return $this->wrap($content);
+		$inputView 		= $this->render('@blog/admin/edit', $this->getData());
+		return $this->layoutForm(__('New Post'), null, $this->_toolbarCreate(), $inputView);
 	}
 
 	private function _toolbarCreate()

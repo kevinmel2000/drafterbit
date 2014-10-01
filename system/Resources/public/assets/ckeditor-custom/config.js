@@ -8,9 +8,9 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-	config.toolbar = 'Basic';
+	config.toolbar = 'MyToolbar';
  
-	/*config.toolbar_MyToolbar =
+	config.toolbar_MyToolbar =
 	[
 		{ name: 'document', items : [ 'NewPage','Preview','Source' ] },
 		{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
@@ -23,7 +23,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'paragraph', items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote' ] },
 		{ name: 'links', items : [ 'Link','Unlink','Anchor' ] },
 		{ name: 'tools', items : [ 'Maximize','-','About', 'WPMore'] }
-	];*/
+	];
 	
 	config.toolbar_Basic =
 	[

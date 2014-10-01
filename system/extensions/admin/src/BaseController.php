@@ -132,10 +132,8 @@ class BaseController extends Controller {
 		$jsFileName = $this->get('asset')->writeJs();
 		$fileName = $this->get('asset')->writeCSS();
 		
-		//$this->data['stylesheet'] = base_url('admin/asset/css/'.$fileName.'.css');
-		//$this->data['script'] = base_url('admin/asset/js/'.$jsFileName.'.js');
-		$this->data['stylesheetHref'] = base_url('content/cache/asset/css/'.$fileName.'.css');
-		$this->data['scriptSrc'] = base_url('content/cache/asset/js/'.$jsFileName.'.js');
+		$this->data['stylesheet'] = $fileName.'.css';
+		$this->data['script'] = $jsFileName.'.js';
 
 		//gravatar
 		$session = $this->get('session');
@@ -175,24 +173,24 @@ class BaseController extends Controller {
         return array_push($this->data['messages'], $message);
     }
 
-    public function layoutList($id, $title, $action, $toolbars, $headers, $datas)
+    public function layoutList($id, $title, $subtitle, $action, $toolbars, $headers, $datas, $filters = array())
 	{
-		$data['header'] 	= $this->header($title);
-		$data['toolbars'] 	= $this->listToolbar($toolbars);
+		$data['header'] 	= $this->header($title, $subtitle);
+		$data['toolbars'] 	= $this->toolbar($toolbars, true, $filters);
 		$data['action'] 	= $action;
 		$data['table'] 		= $this->datatables($id, $datas, $headers);
-		$content = $this->render('@admin/ui/list', $data);
+		$content = $this->render('@admin/partials/list', $data);
 
 		return $this->wrap($content);
 	}
 
-	public function layoutForm($title, $action, $toolbars, $view)
+	public function layoutForm($title, $subtitle, $action, $toolbars, $view)
 	{
-		$data['header'] = $this->header($title);
+		$data['header'] = $this->header($title, $subtitle);
 		$data['toolbars'] 	= $this->toolbar($toolbars);
 		$data['action'] 	= $action;
 		$data['view'] = $view;
-		$content =  $this->render('@admin/ui/form', $data);
+		$content =  $this->render('@admin/partials/form', $data);
 		return $this->wrap($content);
 	}
 
@@ -200,37 +198,10 @@ class BaseController extends Controller {
 	{
 		$data['title'] = $title;
 		$data['subTitle'] = $subTitle;
-		return $this->render('@admin/ui/header', $data);
+		return $this->render('@admin/partials/header', $data);
 	}
 
-	public function listToolbar($config)
-	{
-		$toolbars['left'] = array();
-		$toolbars['right'] = array();
-		
-		foreach ($config as $name => $def) {
-			$c =  (object) $def;
-
-			$types = explode('.', $def['type']);
-
-			$c->type = $types[0];
-			$c->classType = isset($types[1]) ? $types[1] : 'default';
-			$c->id = $name;
-			$c->align = isset($def['align']) ?$def['align'] : 'left';
-			$c->faClass = isset($def['faClass']) ?$def['faClass'] : false;
-
-			if($c->align == 'right') {
-				$toolbars['right'][] = $c;
-			} else {
-				$toolbars['left'][] = $c;
-			}
-		}
-
-		$data['toolbars'] = $toolbars;
-		return $this->render('@admin/ui/list-toolbar', $data);
-	}
-
-	public function toolbar($config, $search = false)
+	public function toolbar($config, $search = false, $filters = array())
 	{
 		$toolbars['left'] = array();
 		$toolbars['right'] = array();
@@ -253,7 +224,9 @@ class BaseController extends Controller {
 		}
 
 		$data['toolbars'] = $toolbars;
-		return $this->render('@admin/ui/toolbar', $data);
+		$data['search'] = $search;
+		$data['filters'] = $filters;
+		return $this->render('@admin/partials/toolbar', $data);
 	}
 
 	public function nav($menuArray, $userName, $userGravatar)
@@ -264,12 +237,14 @@ class BaseController extends Controller {
 		$data['userName'] = $userName;
 		$data['userGravatar'] = $userGravatar;
 
-		return $this->render('@admin/ui/nav', $data);
+		return $this->render('@admin/partials/nav', $data);
 	}
 
 	public function footer()
 	{
-		return $this->render('@admin/ui/footer');
+		$system = $this->get('cache')->fetch('system');
+		$data['siteName'] = $system['site.name'];
+		return $this->render('@admin/partials/footer', $data);
 	}
 
 	private function createMenu($menuArray)
@@ -299,16 +274,7 @@ class BaseController extends Controller {
 		 $data['formAction'] = $action;
 		 $data['view'] = $view;
 		 $data['toolbars'] = $toolbar;
-		return $this->render('@admin/ui/form', $data);
-	}
-
-	public function listFormed($action, $toolbar, $table)
-	{
-		 $data['formAction'] = $action;
-		 $data['relatedLinks'] = false;
-		 $data['table'] = $table;
-		 $data['toolbars'] = $toolbar;
-		return $this->render('@admin/ui/list-formed', $data);
+		return $this->render('@admin/partials/form', $data);
 	}
 
 	public function datatables($name, $data, $headers)
@@ -348,7 +314,7 @@ class BaseController extends Controller {
 		$data['thead'] = $thead;
 		$data['rows'] = $rows;
 
-		return $this->render('@admin/ui/datatables', $data);
+		return $this->render('@admin/partials/datatables', $data);
 	}
 
 	/**

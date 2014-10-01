@@ -1,4 +1,4 @@
-<?php namespace Drafterbit\Extensions\Finder;
+<?php namespace Drafterbit\Extensions\Files;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
