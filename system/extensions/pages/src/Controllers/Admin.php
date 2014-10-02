@@ -2,23 +2,22 @@
 
 use Drafterbit\Extensions\Admin\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
-use Drafterbit\Extensions\Pages\Models\Page as PageModel;
+use Drafterbit\Extensions\Pages\Models\Pages as PageModel;
 use Models\Post;
 use Carbon\Carbon;
 
 class Admin extends BaseController {
 	
-	protected $page;
+	protected $pages;
 
-	public function __construct(Auth $auth, PageModel $page)
+	public function __construct(Auth $auth, PageModel $pages)
 	{
 		parent::__construct($auth);
-		$this->page = $page;
+		$this->pages = $pages;
 	}
 
-	public function index()
+	public function index($status = 'untrashed')
 	{
-		// auth restriction
 		$this->auth->restrict('page.view');
 
 		if( $post = $this->get('input')->post()) {
@@ -28,7 +27,7 @@ class Admin extends BaseController {
 			switch($post['action']) {
 				case "Delete":
 					foreach ($pageIds as $id) {
-						$this->page->delete($id);
+						$this->pages->delete($id);
 						$this->get('cache')->delete('pages');
 					}
 					message('Pages deleted !', 'success');
@@ -37,13 +36,8 @@ class Admin extends BaseController {
 					break;
 			}
 		}
-
-		// get data
-		$cache = $this->get('cache');
-		if( ! $cache->contains('pages')) {
-			$cache->save('pages', $this->page->all());
-		}
-		$pages = $cache->fetch('pages');
+		
+		$pages = $this->pages->all($status);
 
 		// prepare asset
 		$this->get('asset')
@@ -53,44 +47,24 @@ class Admin extends BaseController {
 		->js('@jquery_check_all')	
 		->js($this->publicPath('js/admin-index.js'));
 
-		$toolbar = array(
-			'new-post' => array(
-				'type' => 'a.success',
-				'href' => admin_url('pages/create'),
-				'label' => 'New Page',
-				'faClass' => 'fa-plus'
-			),
-			'trash' => array(
-				'type' => 'submit',
-				'label' => 'Trash',
-				'name'=> 'action',
-				'value' => 'trash',
-				'faClass' => 'fa-trash-o'
-			),
-		);
-		$filters = [[
-			'' => '- Status -',
-			0 => 'Unpublished',
-			1 => 'Published',
-			2 => 'Trashed',
-		]];
+		set('status', $status);
+		set('table', $this->datatables('pages', $pages, $this->_tableHeader()));
+		set('header', $this->header( __('Pages')));
 
+		return view();
+	}
+
+	private function _tableHeader()
+	{
 		$editUrl = admin_url('pages/edit');
-		$header = [
-			[
-				'field' => 'title',
-				'label' => 'Title',
-				'width' => '80%',
-				'format' => function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }
-			],
-			[
-				'field' => 'created_at',
-				'label' => 'Date',
-				'width' => '20%'
-			]
-		];
+		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; };
+		$formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
 
-		return $this->layoutList('pages', __('Pages'), null, null, $toolbar, $header, $pages, $filters);
+		return [
+			['field' => 'title', 'label' => 'Title', 'width' => '70%', 'format' => $formatTitle ],
+			['field' => 'created_at', 'label' => 'Date', 'width' => '20%'],
+			['field' => 'status', 'label' => 'Status', 'width' => '10%', 'format' => $formatStatus ]
+		];
 	}
 
 	public function create()
@@ -101,7 +75,7 @@ class Admin extends BaseController {
 				$this->validate('page', $postData);
 
 				$data = $this->createInsertData($postData);
-				$id = $this->page->insert($data);
+				$id = $this->pages->insert($data);
 
 				$this->get('cache')->delete('pages');
 
@@ -137,7 +111,7 @@ class Admin extends BaseController {
 			),
 			'cancel' => array(
 				'type' => 'a.default',
-				'href' => admin_url('pages'),
+				'href' => admin_url('pages/index'),
 				'label' => 'Cancel',
 				'faClass' => 'fa-times',
 				'faStyle' => 'color: #A94442;',
@@ -157,7 +131,7 @@ class Admin extends BaseController {
 			try {
 				$this->validate('page', $postData);
 				$data = $this->createUpdateData($postData);
-				$this->page->update($data, $id);
+				$this->pages->update($data, $id);
 				$this->get('cache')->delete('pages');
 				message('Post succesfully updated.', 'success');
 
@@ -166,7 +140,7 @@ class Admin extends BaseController {
 			}
 		}
 
-		$page = $this->page->getSingleBy('id', $id);
+		$page = $this->pages->getSingleBy('id', $id);
 
 		set(array(
 			'id' => $id,
@@ -192,7 +166,7 @@ class Admin extends BaseController {
 			),
 			'cancel' => array(
 				'type' => 'a.default',
-				'href' => admin_url('pages'),
+				'href' => admin_url('pages/index'),
 				'label' => 'Cancel',
 				'faClass' => 'fa-times',
 				'faStyle' => 'color: #A94442;',

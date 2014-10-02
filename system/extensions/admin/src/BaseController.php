@@ -88,12 +88,11 @@ class BaseController extends Controller {
 		$userName = $session->get('user.name');
 		$userGravatar = $url;
 		
-		$nav = $this->model('UI@admin')->nav($this->menu(), $userName, $userGravatar);
-		$partials['nav'] = $nav;
+		$partials['nav'] = $this->nav($this->menu(), $userName, $userGravatar);
 
 
-		$footer = $this->model('UI@admin')->footer();
-		$partials['footer'] = $footer;
+		$footer = 
+		$partials['footer'] = $this->footer();
 
 		$this->set('content', $content);
 		$this->set('partials', $partials);
@@ -117,8 +116,8 @@ class BaseController extends Controller {
 		$jsFileName = $this->get('asset')->writeJs();
 		$fileName = $this->get('asset')->writeCSS();
 		
-		$this->data['stylesheet'] = base_url('content/cache/asset/css/'.$fileName.'.css');
-		$this->data['script'] = base_url('content/cache/asset/js/'.$jsFileName.'.js');
+		$this->data['stylesheet'] = $fileName.'.css';
+		$this->data['script'] = $jsFileName.'.js';
 
 		return $this->buildTemplate();
 	}

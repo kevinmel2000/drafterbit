@@ -1,15 +1,46 @@
 <?php namespace Drafterbit\Extensions\Pages\Models;
 
-class Page extends \Drafterbit\Framework\Model {
+class Pages extends \Drafterbit\Framework\Model {
 
-	public function all()
+	public function all($status = 'untrashed')
 	{
-		return
-		$this->get('db')->createQueryBuilder()
-		->select('*')
-		->from('#_pages','p')
-		->execute()->fetchAll(\PDO::FETCH_CLASS);
+		if($this->get('debug')) {
+			return $this->doGetAll($status);
+		}
+
+		$cache = $this->get('cache');
+		if( ! $cache->contains('pages.'.$status)) {
+			$cache->save('pages'.$status, $this->doGetAll($status));
+		}
+
+		return $cache->fetch('pages.'.$status);
 	}
+
+
+	private function doGetAll($status)
+	{
+		$query = $this->withQueryBuilder()
+		->select('*')
+		->from('#_pages','p');
+
+		if($status == 'untrashed') {
+			$query->where('p.deleted_at = :deleted_at');
+			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+		} else if($status == 'trashed') {
+			$query->where('p.deleted_at != :deleted_at');
+			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+		} else {
+			$query->where('p.status = :status');
+
+			$s = $status == 'published' ? 1 : 0;
+
+			$query->setParameter(':status', $s);
+		}
+
+		return $query->fetchAllObjects();
+	}
+
+
 
 	public function insert($data)
 	{

@@ -173,7 +173,7 @@ class CMS extends Application {
 
         if( ! $this['debug']) {
             $this['exception']->error(function( NotFoundHttpException $e) {
-                return file_get_contents( $this->getResourcesPath().'views/404.html');
+                return file_get_contents( $this->getResourcesPath('views/404.html'));
             });
         }
     }
