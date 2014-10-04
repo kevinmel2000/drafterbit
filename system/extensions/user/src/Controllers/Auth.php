@@ -50,6 +50,12 @@ class Auth extends BaseController {
 			->css($this->publicPath('css/sign-in.css'))
 			->js($this->publicPath('js/sign-in.js'));
 		
+		$jsFileName = $this->get('asset')->writeJs();
+		$fileName = $this->get('asset')->writeCSS();
+		
+		$this->data['stylesheet'] = $fileName.'.css';
+		$this->data['script'] = $jsFileName.'.js';
+
 		return view();
 	}
 

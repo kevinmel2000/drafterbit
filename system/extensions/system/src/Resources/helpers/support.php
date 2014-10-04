@@ -19,7 +19,6 @@ if ( ! function_exists('wysiwyg')) {
 <script src="$src"></script>
 <script>
 
-
 CKEDITOR.replace('$name', {
 
 	customConfig : '$path/ckeditor-custom/config.js',
@@ -30,7 +29,8 @@ CKEDITOR.replace('$name', {
 	filebrowserImageBrowseUrl : '$browserUrl'
 });
 
-CKEDITOR.plugins.addExternal( 'wpmore', '$path/ckeditor-custom/plugins/wpmore');
+CKEDITOR.plugins.addExternal( 'wpmore', '/system/Resources/public/assets/ckeditor-custom/plugins/wpmore/plugin.js');
+CKEDITOR.config.extraPlugins = 'wpmore';
 
 </script>
 

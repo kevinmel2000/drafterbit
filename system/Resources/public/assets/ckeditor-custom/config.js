@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// config.language = 'fr';
 	// config.uiColor = '#AADC6E';
 	
-	config.toolbar = 'MyToolbar';
+	config.toolbar = 'Basic';
  
 	config.toolbar_MyToolbar =
 	[
@@ -28,7 +28,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.toolbar_Basic =
 	[
 		['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-',
-		'Link', 'Unlink','-','Image', 'WPMore', 'Styles', 'Format', 'Source',]
+		'Link', 'Unlink','-','Image', 'Styles', 'Format', 'Source', 'WPMore']
 	];
 
 	//config.skin = 'bootstrap';

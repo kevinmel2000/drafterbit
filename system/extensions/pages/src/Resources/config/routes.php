@@ -2,9 +2,10 @@
 	
 	'%admin%' =>[
 		'group' => [
-			'pages/index/{status}' => ['controller' => '@pages\Admin::index', 'defaults' => ['status' => 'untrashed']],
+			'pages/index' => ['controller' => '@pages\Admin::index'],
 			'pages/create' => ['controller' => '@pages\Admin::create'],
 			'pages/edit/{id}' => ['controller' => '@pages\Admin::edit'],
+			'pages/data/{status}.json' => ['controller' => '@pages\Admin::json'],
 		]
 	],
 	

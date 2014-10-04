@@ -2,26 +2,24 @@
 
 class Pages extends \Drafterbit\Framework\Model {
 
-	public function all($status = 'untrashed')
+	public function all($status = 'untrashed', $q = null)
 	{
 		if($this->get('debug')) {
-			return $this->doGetAll($status);
+			return $this->doGetAll($status, $q);
 		}
 
 		$cache = $this->get('cache');
 		if( ! $cache->contains('pages.'.$status)) {
-			$cache->save('pages'.$status, $this->doGetAll($status));
+			$cache->save('pages.'.$status, $this->doGetAll($status,$q));
 		}
 
 		return $cache->fetch('pages.'.$status);
 	}
 
 
-	private function doGetAll($status)
+	private function doGetAll($status, $q = null)
 	{
-		$query = $this->withQueryBuilder()
-		->select('*')
-		->from('#_pages','p');
+		$query = $this->withQueryBuilder() ->select('*') ->from('#_pages','p');
 
 		if($status == 'untrashed') {
 			$query->where('p.deleted_at = :deleted_at');
@@ -31,10 +29,12 @@ class Pages extends \Drafterbit\Framework\Model {
 			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 		} else {
 			$query->where('p.status = :status');
-
 			$s = $status == 'published' ? 1 : 0;
-
 			$query->setParameter(':status', $s);
+		}
+
+		if(!is_null($q) and $q !== '') {
+			$query->andWhere("p.title LIKE '%".$q."%'");
 		}
 
 		return $query->fetchAllObjects();

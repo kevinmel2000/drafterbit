@@ -316,6 +316,25 @@ class BaseController extends Controller {
 		return $this->render('@admin/partials/datatables', $data);
 	}
 
+	public function tableHeader($name, $data, $headers)
+	{
+		$thead = array();
+		foreach ($headers as $item) {
+			$th = new \StdClass;
+			$th->label = $item['label'];
+			$th->id = $item['field'];
+			$th->align = isset($item['align']) ? $item['align'] : 'left';
+			$th->width = isset($item['width']) ? $item['width'] : 'auto';
+			$th->format = (isset($item['format']) and is_callable($item['format'])) ? $item['format'] : false;
+
+			$thead[] = $th;
+		}
+
+		$data['id'] = $data['name'] = $name;
+		$data['thead'] = $thead;
+		return $this->render('@admin/partials/table-header', $data);
+	}
+
 	/**
      * Render Template.
      *

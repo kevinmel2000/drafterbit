@@ -48,10 +48,44 @@ class Admin extends BaseController {
 		->js($this->publicPath('js/admin-index.js'));
 
 		set('status', $status);
-		set('table', $this->datatables('pages', $pages, $this->_tableHeader()));
+		set('table', $this->tableHeader('pages', $pages, $this->_tableHeader()));
 		set('header', $this->header( __('Pages')));
 
 		return view();
+	}
+
+	public function json($status)
+	{
+		$search = $this->get('input')->get('search');
+
+		$q = null;
+		if(isset($search['value'])) {
+			$q = $search['value'];
+		}
+
+		$pages = $this->pages->all($status, $q);
+		
+		$editUrl = admin_url('pages/edit');
+
+
+		$pagesArr  = array();
+
+		foreach ($pages as $page) {
+			$data = array();
+			$data[] = '<input type="checkbox" name="pages[]" value="'.$page->id.'">';
+			$data[] = "<a href='$editUrl/{$page->id}'> {$page->title} <i class='fa fa-edit'></i></a>";
+			$data[] = $page->created_at;
+			$data[] = $page->status == 1 ? 'Published' : 'Unpublished';
+
+			$pagesArr[] = $data;
+		}
+
+		$ob = new \StdClass;
+		$ob->data = $pagesArr;
+  		$ob->recordsTotal= count($pagesArr);
+		$ob->recordsFiltered = count($pagesArr);
+
+		return json_encode($ob);
 	}
 
 	private function _tableHeader()

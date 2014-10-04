@@ -23,15 +23,9 @@
                 <i class="fa fa-plus" style=""></i> New Page
             </a>
 
-            <?php if('trashed' == $status):?>
-                <button class="btn btn-default btn-sm" type="submit" name="action" value="delete">
-                    <i class="fa fa-trash-o"></i> Delete Permanently
-                </button>
-            <?php else: ?>
-                <button class="btn btn-default btn-sm" type="submit" name="action" value="trash">
-                    <i class="fa fa-trash-o"></i> Trash
-                </button>
-            <?php endif; ?>
+            <button class="btn btn-default btn-sm uncreate-action" type="submit" name="action" value="trash">
+                <i class="fa fa-trash-o"></i> Trash
+            </button>
         </div>
     </div>
 </div>

@@ -16,9 +16,18 @@
             //replace datatable search box;
             replaceDTSearch: function(dt) {
               $('.dataTables_filter').remove();
+
               //search filter
-              $(document).on('keyup', "input[type=search]", function(){
-                dt.fnFilter($(this).val());
+              $(document).on('keyup', "input[type=search]", function(e){
+
+                var code = e.keyCode || e.which;
+                if (code == 13) {
+                  e.preventDefault();
+                }
+
+                var val = $(this).val();
+                dt.api().search($(this).val()).draw();
+                
               });
             }
           }
