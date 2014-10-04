@@ -401,10 +401,10 @@
             dropUL = this.$el('UL', {role: 'menu'}).addClass('dropdown-menu');
 
             menu = {
-                'rename': 'Rename',
+                //'rename': 'Rename',
                 'delete': 'Delete...',
-                'copy': 'Copy...',
-                'move': 'Move...',
+                //'copy': 'Copy...',
+                //'move': 'Move...',
             }
 
             $.each(menu, $.proxy(function(key, value) {

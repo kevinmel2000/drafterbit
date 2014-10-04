@@ -22,16 +22,16 @@ class Admin extends BaseController {
 
 		if( $post = $this->get('input')->post()) {
 
-			$postIds = $post['pages'];
+			$pageIds = $post['pages'];
 
 			switch($post['action']) {
-				case "Delete":
-					foreach ($pageIds as $id) {
-						$this->pages->delete($id);
-						$this->get('cache')->delete('pages');
-					}
-					message('Pages deleted !', 'success');
+				case "trash":
+					$this->pages->trash($pageIds);
+					message('Pages moved to trash !', 'success');
 					break;
+				case 'delete':
+					$this->pages->delete($pageIds);
+					message('Pages Deleted !', 'success');
 				default:
 					break;
 			}
@@ -58,12 +58,7 @@ class Admin extends BaseController {
 	{
 		$search = $this->get('input')->get('search');
 
-		$q = null;
-		if(isset($search['value'])) {
-			$q = $search['value'];
-		}
-
-		$pages = $this->pages->all($status, $q);
+		$pages = $this->pages->all($status);
 		
 		$editUrl = admin_url('pages/edit');
 
@@ -73,9 +68,16 @@ class Admin extends BaseController {
 		foreach ($pages as $page) {
 			$data = array();
 			$data[] = '<input type="checkbox" name="pages[]" value="'.$page->id.'">';
-			$data[] = "<a href='$editUrl/{$page->id}'> {$page->title} <i class='fa fa-edit'></i></a>";
+			$data[] = $status !== 'trashed' ? "<a href='$editUrl/{$page->id}'> {$page->title} <i class='fa fa-edit'></i></a>" : $page->title;
 			$data[] = $page->created_at;
-			$data[] = $page->status == 1 ? 'Published' : 'Unpublished';
+
+			if($status == 'trashed') {
+				$s = ucfirst($status);
+			} else {
+				$s = $page->status == 1 ? 'Published' : 'Unpublished';
+			}
+
+			$data[] = $s;
 
 			$pagesArr[] = $data;
 		}
@@ -96,7 +98,7 @@ class Admin extends BaseController {
 
 		return [
 			['field' => 'title', 'label' => 'Title', 'width' => '70%', 'format' => $formatTitle ],
-			['field' => 'created_at', 'label' => 'Date', 'width' => '20%'],
+			['field' => 'created_at', 'label' => 'Created', 'width' => '20%'],
 			['field' => 'status', 'label' => 'Status', 'width' => '10%', 'format' => $formatStatus ]
 		];
 	}

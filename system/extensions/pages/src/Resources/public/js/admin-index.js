@@ -2,7 +2,6 @@
 
     drafTerbit.pages = {};
 
-
     if(window.location.hash == '') {
         window.location.hash = 'untrashed';
     }
@@ -16,7 +15,7 @@
             url: drafTerbit.adminUrl+"/pages/data/"+urlHash+".json",
             // type: 'post'
         },
-        "serverSide": true,
+        //"serverSide": true,
         "bFilter": true,
         "oLanguage": {
           "sLengthMenu": "Showing _MENU_ records per page",
@@ -26,7 +25,6 @@
             {'orderable': false, 'searchable':false, 'targets':[0]}
         ]
     });
-
 
     drafTerbit.replaceDTSearch(drafTerbit.pages.dt);
 
@@ -41,6 +39,7 @@
         window.location.hash = status;
     }
 
+    // @todo create restore button
     changeUncreateAction = function(s){
         if(s === 'trashed') {
             $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Delete Permanently').val('delete');
@@ -48,6 +47,8 @@
             $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Trash').val('trash');
         }
     }
+
+    changeUncreateAction(urlHash);
 
     //status-filter
     $('.pages-status-filter').on('change', function(){

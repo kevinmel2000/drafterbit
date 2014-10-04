@@ -2,45 +2,42 @@
 
 class Pages extends \Drafterbit\Framework\Model {
 
-	public function all($status = 'untrashed', $q = null)
+	public function all($status = 'untrashed')
 	{
 		if($this->get('debug')) {
-			return $this->doGetAll($status, $q);
+			return $this->doGetAll($status);
 		}
 
 		$cache = $this->get('cache');
 		if( ! $cache->contains('pages.'.$status)) {
-			$cache->save('pages.'.$status, $this->doGetAll($status,$q));
+			$cache->save('pages.'.$status, $this->doGetAll($status));
 		}
 
 		return $cache->fetch('pages.'.$status);
 	}
 
 
-	private function doGetAll($status, $q = null)
+	private function doGetAll($status)
 	{
 		$query = $this->withQueryBuilder() ->select('*') ->from('#_pages','p');
 
-		if($status == 'untrashed') {
-			$query->where('p.deleted_at = :deleted_at');
-			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
-		} else if($status == 'trashed') {
+		if($status == 'trashed') {
 			$query->where('p.deleted_at != :deleted_at');
-			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');			
 		} else {
-			$query->where('p.status = :status');
-			$s = $status == 'published' ? 1 : 0;
-			$query->setParameter(':status', $s);
-		}
 
-		if(!is_null($q) and $q !== '') {
-			$query->andWhere("p.title LIKE '%".$q."%'");
+			$query->Where('p.deleted_at = :deleted_at');
+			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+
+			if($status !== 'untrashed'){
+				$query->andWhere('p.status = :status');
+				$s = $status == 'published' ? 1 : 0;
+				$query->setParameter(':status', $s);
+			}
 		}
 
 		return $query->fetchAllObjects();
 	}
-
-
 
 	public function insert($data)
 	{
@@ -52,11 +49,6 @@ class Pages extends \Drafterbit\Framework\Model {
 	{
 		return
 		$this->get('db')->update('#_pages', $data, array('id' => $id));
-	}
-
-	public function delete($id)
-	{
-		$this->get('db')->delete("#_pages", ['id'=> $id]);
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
@@ -90,5 +82,58 @@ class Pages extends \Drafterbit\Framework\Model {
 	public function getSingleBy($key, $value = null)
 	{
 		return $this->getBy($key, $value, true);
+	}
+
+	/**
+	 * Delete pages permanently
+	 *
+	 * @param array $ids
+	 * @return void
+	 */
+	public function delete($ids)
+	{
+		$ids = (array) $ids;
+		$idString = implode(',', $ids);
+
+		$this->withQueryBuilder()
+		->delete('#_pages')
+		->where('id IN ('.$idString.')')
+			->execute();
+
+		$this->clearCache();
+	}
+
+	/**
+	 * Trash pages by given ids
+	 *
+	 * @param array $ids
+	 * @return void
+	 */
+	public function trash($ids)
+	{
+		$idString = implode(',', $ids);
+		$deleted_at = new \Carbon\Carbon;
+
+		$this->withQueryBuilder()
+			->update('#_pages', 'p')
+			->set('deleted_at',"'$deleted_at'")
+			->where('p.id IN ('.$idString.')')
+			->execute();
+
+		$this->clearCache();
+	}
+
+	/**
+	 * Clear stored data cache
+	 *
+	 * @return void
+	 */
+	private function clearCache()
+	{
+		$cache = $this->get('cache');
+
+		foreach (['published', 'unpulished', 'trashed'] as $part) {
+			$cache->delete('pages.'.$part);
+		}
 	}
 }
