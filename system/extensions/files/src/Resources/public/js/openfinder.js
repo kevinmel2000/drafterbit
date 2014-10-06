@@ -55,13 +55,14 @@
 
             // context menu
             $(el).contextmenu({
-              target: '#item-context-menu',
               onItem: $.proxy(this.handleContext, this),
               before: function (e, element, target) {
-                    
+
                     var contextTarget = null;
 
                     if($(e.target).hasClass('of-context-holder')) {
+
+                        $(el).data('context-holder', e.target);
                         contextTarget = $(e.target).data('context-target');
                     } else {
                                         
@@ -69,23 +70,29 @@
                         
                         $.each(containers, function(key, value){
                             if($(value).hasClass('of-context-holder')) {
+
+                                $(el).data('context-holder', value);
                                 contextTarget = $(value).data('context-target');
                                 return false;
                             }
                         });
                     }
 
-
+                    if(null === contextTarget) {
+                        return false;
+                    }
+                    
                     $(el).data('target', contextTarget);
-
-                    console.log(containers);
-                    console.log(contextTarget);
-
                     return true;
+
+                    //console.log(containers);
+                    //console.log(contextTarget);
+
                   }
             });
 
             this.listenUpload('/');
+            this.listenCreateFolder('/');
 
             // item click
             $(el).on('click', '.of-item a', function(e){
@@ -122,6 +129,20 @@
             });
         },
 
+        listenCreateFolder: function(p) {
+
+            $('#new-folder-form').ajaxForm({
+               data: {
+                    path: p,
+                    op: 'mkdir'
+               },
+               success: $.proxy(function(data){
+                    this.refresh(p);
+
+               }, this)
+            });
+        },
+
         toggle: function(e) {
 
             e.preventDefault();
@@ -144,6 +165,7 @@
             
             //upload
             this.listenUpload(path);
+            this.listenCreateFolder(path);
 
             this.toggleSlides(a);
             this.handleHight();
@@ -155,9 +177,15 @@
         },
 
         handleContext: function(context, e) {
+
+            e.preventDefault();
+
             var op = $(e.target).parent().data('action');
-            var path = $(context).children('a').attr('href');
-            
+
+            holder = $(context).data('context-holder');
+
+            var path = $(holder).children('a').attr('href');
+
             switch(op) {
                 case 'delete':
 
@@ -169,9 +197,12 @@
 
                     break;
                 case 'new-folder':
-                    // ask folder name use dialog
 
-                    //create folder on server
+                    $('#new-folder-dialog').on('shown.bs.modal', function () {
+                        $('.new-folder-input').select();
+                    });
+                    
+                    $('#new-folder-dialog').modal('show');
 
                 break;
                 default:
@@ -338,6 +369,7 @@
 
             var toolBar = this.createToolbar();
             var uploadDialog = this.createUploadDialog();
+            var newFolderDialog = this.createNewFolderDialog();
             var itemContext = this.createItemContext();      
             var broContext = this.createBroContext();      
 
@@ -354,7 +386,8 @@
                 .append(wrapper)
                 .after(itemContext)
                 .after(broContext)
-                .after(uploadDialog);
+                .after(uploadDialog)
+                .after(newFolderDialog);
 
             var data = this.request('ls', '/');
 
@@ -406,13 +439,13 @@
 
         createUploadDialog: function(){
             
-            modal = this.createEl('DIV', {
+            var modal = this.createEl('DIV', {
                 id: 'upload-dialog'
             }).addClass('modal fade');
             
-            body = this.createEl('DIV').addClass('modal-body');
+            var body = this.createEl('DIV').addClass('modal-body');
 
-            uploadUrl = this.options.uploadUrl || this.options.url;
+            var uploadUrl = this.options.uploadUrl || this.options.url;
             
             $(body).html([
                 '<form method="POST" enctype="multipart/form-data" class="form clearfix" id="upload-form" action="'+uploadUrl+'">',
@@ -421,8 +454,35 @@
                 '<input type="submit" class="btn btn-primary pull-right" value="Submit">',
                 '</form>'].join(''));
             
-            dialog = this.createEl('DIV').addClass('modal-dialog');
-            content = this.createEl('DIV').addClass('modal-content');
+            var dialog = this.createEl('DIV').addClass('modal-dialog');
+            var content = this.createEl('DIV').addClass('modal-content');
+
+            $(content).append(body);
+            $(dialog).append(content);
+            $(modal).append(dialog);
+
+            return modal;
+        },
+
+        createNewFolderDialog: function(){
+            var modal = this.createEl('DIV', {
+                id: 'new-folder-dialog'
+            }).addClass('modal fade');
+            
+            var body = this.createEl('DIV').addClass('modal-body');
+
+            var createFolderUrl = this.options.createFolderUrl || this.options.url;
+
+            $(body).html([
+                '<form method="GET" class="form clearfix" id="new-folder-form" action="'+createFolderUrl+'">',
+                '<label class="control-label">Folder Name</label>',
+                '<input type="text" name="folder-name" value="New Folder" class="form-control new-folder-input" style="margin-bottom:10px;"/>',
+                '<input type="submit" class="btn btn-sm btn-primary pull-right" value="Submit"/>',
+                '<a href="#" style="margin-right:10px;" class="btn btn-sm btn-default pull-right" data-dismiss="modal">Cancel</a>',
+                '</form>'].join(''));
+
+            var dialog = this.createEl('DIV').addClass('modal-dialog modal-sm');
+            var content = this.createEl('DIV').addClass('modal-content');
 
             $(content).append(body);
             $(dialog).append(content);

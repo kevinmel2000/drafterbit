@@ -268,11 +268,17 @@ class Admin extends BaseController {
 				case 'delete':
 					$data = $this->get('ofinder')->delete($path);
 					break;
+				case 'mkdir':
+					$folderName = $this->get('input')->get('folder-name');
+					$data = $this->get('ofinder')->mkdir($path, $folderName);
+				break;
+
 				default:
 	 				# code...
 					break;
 			}
 
+			// upload
 			if($files = $this->get('input')->files('files', array())) {
 				$path = $this->get('input')->post('path');
 				$data = $this->get('ofinder')->upload($path, $files);

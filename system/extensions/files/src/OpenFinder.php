@@ -89,6 +89,18 @@ class OpenFinder {
 		return $items;
 	}
 
+	public function mkdir($path, $folderName)
+	{
+		$path = $this->preparePath($path);
+
+		$this->fileSystem->mkdir($path.'/'.$folderName);
+
+		$items['created'] = $folderName;
+		$items['status'] = 'ok';
+
+		return $items;
+	}
+
 	protected function format($file)
 	{
 		$path = trim($this->fileSystem->makePathRelative($file->getRealPath(), $this->root), '/');
