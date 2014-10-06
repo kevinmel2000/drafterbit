@@ -336,3 +336,6 @@ body {
     text-decoration: none;
 }
 
+.row-sticky-toolbar button {
+    margin: 2.5px;
+}

@@ -43,8 +43,10 @@
     changeUncreateAction = function(s){
         if(s === 'trashed') {
             $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Delete Permanently').val('delete');
+            $('.uncreate-action').before('<button name="action" value="restore" class="btn btn-sm btn-default pages-restore"><i class="fa fa-refresh"></i> Restore </button>');
         } else {
             $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Trash').val('trash');
+            $('.pages-restore').remove();
         }
     }
 

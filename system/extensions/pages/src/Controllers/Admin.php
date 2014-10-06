@@ -32,6 +32,10 @@ class Admin extends BaseController {
 				case 'delete':
 					$this->pages->delete($pageIds);
 					message('Pages Deleted !', 'success');
+				case 'restore':
+					$this->pages->restore($pageIds);
+					message('Pages Restored !', 'success');
+				break;
 				default:
 					break;
 			}

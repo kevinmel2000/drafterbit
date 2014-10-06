@@ -27,7 +27,7 @@
         // The first object is generally empty because we don't
         // want to alter the default options for future instances
         // of the plugin
-        this.options = $.extend( {}, defaults, options) ;
+        this.options = $.extend( {}, defaults, options);
 
         this._defaults = defaults;
         this._name = pluginName;
@@ -51,16 +51,38 @@
 
         listen: function (el, options) {
 
-            $('.ctn-nav').on('click', 'a.of-node', $.proxy(this.toggle, this));
+            $(el).on('click', 'a.of-node', $.proxy(this.toggle, this));
 
             // context menu
             $(el).contextmenu({
               target: '#item-context-menu',
-              scopes: 'li.of-item',
-              onItem: $.proxy(this.handleContext, this)
-              //onItem: function(context, e) {
-              //  var action = $(e.target).parent().data('action');
-              //}
+              onItem: $.proxy(this.handleContext, this),
+              before: function (e, element, target) {
+                    
+                    var contextTarget = null;
+
+                    if($(e.target).hasClass('of-context-holder')) {
+                        contextTarget = $(e.target).data('context-target');
+                    } else {
+                                        
+                        var containers = $(e.target).parents();
+                        
+                        $.each(containers, function(key, value){
+                            if($(value).hasClass('of-context-holder')) {
+                                contextTarget = $(value).data('context-target');
+                                return false;
+                            }
+                        });
+                    }
+
+
+                    $(el).data('target', contextTarget);
+
+                    console.log(containers);
+                    console.log(contextTarget);
+
+                    return true;
+                  }
             });
 
             this.listenUpload('/');
@@ -141,9 +163,17 @@
 
                     if(confirm('Are you sure you want to delete '+path+' ?, this cannot be undone.')) {
                         this.request('delete', path);
+                    } else {
+                        return false;
                     }
 
                     break;
+                case 'new-folder':
+                    // ask folder name use dialog
+
+                    //create folder on server
+
+                break;
                 default:
                     break;
             }
@@ -157,7 +187,7 @@
         },
 
         updateBrowser: function (data){
-            ul = this.$el('UL');
+            ul = this.createEl('UL');
 
             for(i=0; i<data.length; i++ ) {
                     
@@ -220,14 +250,14 @@
         createNode: function(path, label)
         {
 
-            var icon = this.$el('I').addClass('fa fa-folder-o');
+            var icon = this.createEl('I').addClass('fa fa-folder-o');
             
-            var a = this.$el('A', {href: path})
+            var a = this.createEl('A', {href: path})
                 .addClass('of-node')
                 .append(icon)
                 .append(' '+label);
 
-            var li = this.$el('LI').append(a);
+            var li = this.createEl('LI').append(a);
 
             return li;
         },
@@ -235,7 +265,7 @@
         buildRoot: function (data){
             
             if(data.length > 0) {
-                ul =  this.$el('UL');
+                ul =  this.createEl('UL');
                 
                 for(i=0; i<data.length; i++ ) {
                     
@@ -253,10 +283,11 @@
 
         createFileItem: function(file) {
             
-            var li = this.$el('LI').addClass('of-item');
+            var li = this.createEl('LI').addClass('of-item of-context-holder');
+             li.data('context-target', '#item-context-menu');
 
             if(file.type == 'image') {
-                 var icon = this.$el('IMG',{
+                 var icon = this.createEl('IMG',{
                     src: file.base64
                  })
                     .addClass('icon')
@@ -277,12 +308,12 @@
                     faClass = null;
                 }
 
-                var icon = this.$el('I')
+                var icon = this.createEl('I')
                     .addClass('icon')
                     .addClass(faClass);
             }
 
-            var a = this.$el('A', {href: file.path})
+            var a = this.createEl('A', {href: file.path})
                 .append(icon)
                 .append('<br/>'+file.label);
             
@@ -295,17 +326,20 @@
 
             this.ctn = {};
 
-            this.ctn.nav = this.$el('DIV').addClass('col-sm-3 ctn-nav ctn');
+            this.ctn.nav = this.createEl('DIV').addClass('col-sm-3 ctn-nav ctn');
             
-            this.ctn.bro = this.$el('DIV').addClass('col-sm-9 ctn-bro ctn');
+            this.ctn.bro = this.createEl('DIV').addClass('col-sm-9 ctn-bro ctn of-context-holder');
+
+            $(this.ctn.bro).data('context-target', '#bro-context-menu');
             
-            var row = this.$el('DIV').addClass('row');
+            var row = this.createEl('DIV').addClass('row');
 
-            var wrapper = this.$el('DIV').addClass('wrapper container-fluid');
+            var wrapper = this.createEl('DIV').addClass('wrapper container-fluid');
 
-            toolBar = this.createToolbar();
-            uploadDialog = this.createUploadDialog();
-            itemContext = this.createItemContext();      
+            var toolBar = this.createToolbar();
+            var uploadDialog = this.createUploadDialog();
+            var itemContext = this.createItemContext();      
+            var broContext = this.createBroContext();      
 
             $(row)
                 .append(this.ctn.nav)
@@ -319,6 +353,7 @@
                 .width(options.width)
                 .append(wrapper)
                 .after(itemContext)
+                .after(broContext)
                 .after(uploadDialog);
 
             var data = this.request('ls', '/');
@@ -330,29 +365,29 @@
         createToolbar: function(){
 
             /*
-            settingBtn = this.$el('A')
+            settingBtn = this.createEl('A')
                 .addClass('tool btn btn-sm btn-default pull-right')
                 .html('<i class="fa fa-gears"></i>');
 
-            listBtn =  this.$el('A')
+            listBtn =  this.createEl('A')
                 .addClass('tool btn btn-sm btn-default pull-right')
                 .html('<i class="fa fa-list"></i>');
 
-            gridBtn = this.$el('A')
+            gridBtn = this.createEl('A')
                 .addClass('tool btn btn-sm btn-default pull-right')
                 .html('<i class="fa fa-th"></i>');
                 */
 
 
-            uploadBtn =  this.$el('A', {
+            uploadBtn =  this.createEl('A', {
                     href: '#',
                     'data-toggle': 'modal',
                     'data-target': '#upload-dialog'
                 }).addClass('upload-btn tool btn btn-sm btn-primary pull-left')
                 .html('<i class="fa fa-upload"></i>');
 
-            /*searchForm = this.$el('FORM').addClass('form-inline');
-            searchInput = this.$el('INPUT', {
+            /*searchForm = this.createEl('FORM').addClass('form-inline');
+            searchInput = this.createEl('INPUT', {
                 type: 'text',
                 name: 'q',
                 placeholder: 'Type to search'
@@ -360,7 +395,7 @@
             
             $(searchForm).append(searchInput);*/
 
-            toolBar = this.$el('DIV').addClass('row toolBar');
+            toolBar = this.createEl('DIV').addClass('row toolBar');
 
             $(toolBar)
                 .append(uploadBtn);
@@ -371,11 +406,11 @@
 
         createUploadDialog: function(){
             
-            modal = this.$el('DIV', {
+            modal = this.createEl('DIV', {
                 id: 'upload-dialog'
             }).addClass('modal fade');
             
-            body = this.$el('DIV').addClass('modal-body');
+            body = this.createEl('DIV').addClass('modal-body');
 
             uploadUrl = this.options.uploadUrl || this.options.url;
             
@@ -386,8 +421,8 @@
                 '<input type="submit" class="btn btn-primary pull-right" value="Submit">',
                 '</form>'].join(''));
             
-            dialog = this.$el('DIV').addClass('modal-dialog');
-            content = this.$el('DIV').addClass('modal-content');
+            dialog = this.createEl('DIV').addClass('modal-dialog');
+            content = this.createEl('DIV').addClass('modal-content');
 
             $(content).append(body);
             $(dialog).append(content);
@@ -396,11 +431,35 @@
             return modal;
         },
 
+        createBroContext: function() {
+
+            var dropUL = this.createEl('UL', {role: 'menu'}).addClass('dropdown-menu');
+
+            var menu = {
+                //'rename': 'Rename',
+                'new-folder': 'New Folder',
+                //'copy': 'Copy...',
+                //'move': 'Move...',
+            }
+
+            $.each(menu, $.proxy(function(key, value) {
+                li = this.createContextAction(key, value);
+                $(dropUL).append(li);
+            }, this));
+
+            var contextWrapper = this.createEl('DIV', {
+                id: 'bro-context-menu'
+            }).append(dropUL);
+
+            return contextWrapper;
+        },
+
+        // right click context menu
         createItemContext: function() {
 
-            dropUL = this.$el('UL', {role: 'menu'}).addClass('dropdown-menu');
+            var dropUL = this.createEl('UL', {role: 'menu'}).addClass('dropdown-menu');
 
-            menu = {
+            var menu = {
                 //'rename': 'Rename',
                 'delete': 'Delete...',
                 //'copy': 'Copy...',
@@ -412,21 +471,24 @@
                 $(dropUL).append(li);
             }, this));
 
-            contextWrapper = this.$el('DIV', {
+            var contextWrapper = this.createEl('DIV', {
                 id: 'item-context-menu'
             }).append(dropUL);
 
             return contextWrapper;
         },
 
+        // context action
         createContextAction: function(act, text) {
-            a = this.$el('A', {href: '#'}).text(text);
-            li = this.$el('LI', {'data-action': act}).append(a);
+            a = this.createEl('A', {href: '#'}).text(text);
+            li = this.createEl('LI', {'data-action': act}).append(a);
 
             return li;
         },
 
-        $el: function(name, attr) {
+        
+        // Create element
+        createEl: function(name, attr) {
             el = document.createElement(name);
 
             if(typeof attr != 'undefined') {

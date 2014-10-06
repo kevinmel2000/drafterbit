@@ -91,7 +91,7 @@ class OpenFinder {
 
 	protected function format($file)
 	{
-		$path = '/'.trim($this->fileSystem->makePathRelative($file->getRealPath(), $this->root), '/');
+		$path = trim($this->fileSystem->makePathRelative($file->getRealPath(), $this->root), '/');
 
 		$type = 'file';
 

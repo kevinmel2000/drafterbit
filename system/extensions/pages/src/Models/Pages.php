@@ -93,6 +93,7 @@ class Pages extends \Drafterbit\Framework\Model {
 	public function delete($ids)
 	{
 		$ids = (array) $ids;
+		$ids = array_map(function($v){return "'$v'";}, $ids);
 		$idString = implode(',', $ids);
 
 		$this->withQueryBuilder()
@@ -111,12 +112,34 @@ class Pages extends \Drafterbit\Framework\Model {
 	 */
 	public function trash($ids)
 	{
+		$ids = array_map(function($v){return "'$v'";}, $ids);
 		$idString = implode(',', $ids);
 		$deleted_at = new \Carbon\Carbon;
 
 		$this->withQueryBuilder()
 			->update('#_pages', 'p')
 			->set('deleted_at',"'$deleted_at'")
+			->where('p.id IN ('.$idString.')')
+			->execute();
+
+		$this->clearCache();
+	}
+
+	/**
+	 * Restore trashed pages
+	 *
+	 * @return void
+	 */
+	public function restore($ids)
+	{
+		$ids = array_map(function($v){return "'$v'";}, $ids);
+
+		$idString = implode(',', $ids);
+		$deleted_at = new \Carbon\Carbon;
+
+		$this->withQueryBuilder()
+			->update('#_pages', 'p')
+			->set('deleted_at',"'0000-00-00 00:00:00'")
 			->where('p.id IN ('.$idString.')')
 			->execute();
 
