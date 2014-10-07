@@ -28,8 +28,9 @@ table.dataTable thead .sorting:after {
     color: rgba(50,50,50,.5);
 }
 
-table.dataTable {
-    border-bottom: 2px solid #DDDDDD;
+table.dataTable,
+table.dataTable thead tr th {
+    border-bottom: 1px solid #DDDDDD;
 }
 
 .dataTables_paginate ul a {

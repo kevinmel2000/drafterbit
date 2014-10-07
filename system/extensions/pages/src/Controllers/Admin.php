@@ -46,9 +46,11 @@ class Admin extends BaseController {
 		// prepare asset
 		$this->get('asset')
 		->css('@bootstrap_datatables_css')
+		->css($this->publicPath('css/index.css'))
 		->js('@datatables_js')
 		->js('@bootstrap_datatables_js')
 		->js('@jquery_check_all')	
+		->js('@jquery_form')
 		->js($this->publicPath('js/admin-index.js'));
 
 		set('status', $status);
@@ -72,7 +74,7 @@ class Admin extends BaseController {
 		foreach ($pages as $page) {
 			$data = array();
 			$data[] = '<input type="checkbox" name="pages[]" value="'.$page->id.'">';
-			$data[] = $status !== 'trashed' ? "<a href='$editUrl/{$page->id}'> {$page->title} <i class='fa fa-edit'></i></a>" : $page->title;
+			$data[] = $status !== 'trashed' ? "<a class='page-edit-link' href='$editUrl/{$page->id}'> {$page->title} <i class='fa fa-edit edit-icon'></i></a>" : $page->title;
 			$data[] = $page->created_at;
 
 			if($status == 'trashed') {

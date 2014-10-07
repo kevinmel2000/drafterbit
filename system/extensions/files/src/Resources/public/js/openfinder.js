@@ -39,14 +39,17 @@
 
         init: function() {
 
-            this.data = [];
-            this.data['currentPath'] = '/';
+            this._caches = {};
+            this._caches.loaded = [];
+            this._caches.data = [];
             
             this.createContainer(this.element, this.options);
 
             this.listen(this.element, this.options);
 
-            this.handleHight();
+            // init data
+            // this also make this._caches.currentPath = '/'
+            $('a[href="/"].of-node').click();            
         },
 
         listen: function (el, options) {
@@ -84,12 +87,11 @@
                     
                     $(el).data('target', contextTarget);
                     return true;
-
                   }
             });
 
-            this.listenUpload('/');
-            this.listenCreateFolder('/');
+            this.listenUpload(this._caches.currentPath);
+            this.listenCreateFolder(this._caches.currentPath);
 
             // item click
             $(el).on('click', '.of-item a', function(e){
@@ -118,7 +120,6 @@
                     this.refresh(p);
 
                     for(i=0;i<data.length;i++) {
-                        // console.log(data[i]);
                         $('.uploaded').append('<p> New file: '+data[i].uploaded+'</p>');
                     }
 
@@ -135,6 +136,7 @@
                },
                success: $.proxy(function(data){
                     this.refresh(p);
+                    $('#new-folder-dialog').modal('hide');
 
                }, this)
             });
@@ -147,18 +149,20 @@
             var path = $(a).attr('href');
 
             // load from
-            if(!$(a).data('loaded')) {
-                this.load(path);
+            if($.inArray(a, this._caches.loaded) === -1) {
+
+                var data = this.request('ls', '/'+path);
                 //save data
-                this.data[path] = data;
+                this._caches.data[path] = data;
                 
                 ul = this.buildRoot(data);
                 $(ul).hide(); // hide first to slide
                 $(a).after(ul);
-                $(a).data('loaded', true);
+                
+                this._caches.loaded.push(a);
             }
 
-            this.data['currentPath'] = path;
+            this._caches.currentPath = path;
             
             //upload
             this.listenUpload(path);
@@ -188,6 +192,9 @@
 
                     if(confirm('Are you sure you want to delete '+path+' ?, this cannot be undone.')) {
                         this.request('delete', path);
+
+                        this.refresh();
+
                     } else {
                         return false;
                     }
@@ -200,18 +207,11 @@
                     });
                     
                     $('#new-folder-dialog').modal('show');
-
+                    return;
                 break;
                 default:
                     break;
             }
-
-            this.refresh();
-        },
-
-        updateNav: function (data){
-            ul = this.buildRoot(data);
-            $(this.ctn.nav).append(ul);
         },
 
         updateBrowser: function (data){
@@ -242,14 +242,7 @@
                 $(a).siblings('ul').slideDown('fast');                
             }
 
-            this.updateBrowser(this.data[path]);
-        },
-
-        load: function(path){
-            
-            data = this.request('ls', '/'+path);
-
-            return data;
+            this.updateBrowser(this._caches.data[path]);
         },
 
         request: function(op, path) {
@@ -267,16 +260,25 @@
         refresh: function(path) {
 
             if(typeof path == 'undefined') {
-                path = this.data['currentPath'];
+                path = this._caches.currentPath;
             }
 
             data = this.request('ls', '/'+path);
-            this.data[path] = data;
+            this._caches.data[path] = data;
             this.updateBrowser(data);
+
+            this._caches.loaded = [];
+            
+            $('a[href="'+path+'"]').siblings('ul').remove();
+
+
+            if($('a[href="'+path+'"] i').hasClass('fa-folder-open-o')) {
+                $('a[href="'+path+'"]').click();
+                $('a[href="'+path+'"]').click();
+            }
         },
 
-        createNode: function(path, label)
-        {
+        createNode: function(path, label) {
 
             var icon = this.createEl('I').addClass('fa fa-folder-o');
             
@@ -293,12 +295,12 @@
         buildRoot: function (data){
             
             if(data.length > 0) {
-                ul =  this.createEl('UL');
+                var ul =  this.createEl('UL');
                 
                 for(i=0; i<data.length; i++ ) {
                     
                     if(data[i].type === 'dir') {
-                        node = this.createNode(data[i].path, data[i].label);
+                        var node = this.createNode(data[i].path, data[i].label);
                         $(ul).append(node);
                     }
                 }
@@ -386,10 +388,13 @@
                 .after(uploadDialog)
                 .after(newFolderDialog);
 
-            var data = this.request('ls', '/');
+            var roots = this.buildRoot([{
+                path: '/',
+                label: '/',
+                type: 'dir'
+            }]);
 
-            this.updateNav(data);
-            this.updateBrowser(data);
+            this.ctn.nav.append(roots);
         },
 
         createToolbar: function(){
@@ -463,17 +468,20 @@
                 '<a href="#" style="margin-right:10px;" class="btn btn-sm btn-default pull-right" data-dismiss="modal">Cancel</a>',
                 '</form>'].join('');
 
-            return this.createModal('new-folder-dialog', html);
+            return this.createModal('new-folder-dialog', html, 'modal-sm');
         },
 
-        createModal: function(id, html) {
+        createModal: function(id, html, size) {
+
+            var size = size || '';
+
             var modal = this.createEl('DIV', {
                 id: id
             }).addClass('modal fade');
             
             var body = this.createEl('DIV').addClass('modal-body');
 
-            var dialog = this.createEl('DIV').addClass('modal-dialog modal-sm');
+            var dialog = this.createEl('DIV').addClass('modal-dialog '+ size);
             var content = this.createEl('DIV').addClass('modal-content');
 
             $(body).html(html);

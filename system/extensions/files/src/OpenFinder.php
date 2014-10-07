@@ -158,7 +158,7 @@ class OpenFinder {
 				$name = $file->getClientOriginalName();
 				if($file->move($path, $name)) {
 					$array['status'] = 'ok';
-					$array['uploaded'] = $relpath.$name;
+					$array['uploaded'] = $relpath.'/'.$name;
 				}
 			}
 

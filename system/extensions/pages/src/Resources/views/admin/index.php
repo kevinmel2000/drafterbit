@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="POST">
+<form method="POST" id="pages-index-form" action="" method="post">
 <div class="container-fluid sticky-toolbar-wrapper" id="sticky-toolbar">
     <div class="container">
         <div class="row row-sticky-toolbar" style="margin:10px 0;">
@@ -22,7 +22,7 @@
             <a href="<?php echo admin_url('pages/create') ?>" class="btn btn-success btn-sm">
                 <i class="fa fa-plus" style=""></i> New Page
             </a>
-
+            
             <button class="btn btn-default btn-sm uncreate-action" type="submit" name="action" value="trash">
                 <i class="fa fa-trash-o"></i> Trash
             </button>

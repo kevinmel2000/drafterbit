@@ -1,0 +1,6 @@
+.page-edit-link .edit-icon{
+	display: none;
+}
+.page-edit-link:hover .edit-icon {
+	display: inline;
+}
