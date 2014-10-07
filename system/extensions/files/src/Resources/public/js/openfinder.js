@@ -85,9 +85,6 @@
                     $(el).data('target', contextTarget);
                     return true;
 
-                    //console.log(containers);
-                    //console.log(contextTarget);
-
                   }
             });
 
@@ -438,52 +435,48 @@
         },
 
         createUploadDialog: function(){
-            
-            var modal = this.createEl('DIV', {
-                id: 'upload-dialog'
-            }).addClass('modal fade');
-            
-            var body = this.createEl('DIV').addClass('modal-body');
 
             var uploadUrl = this.options.uploadUrl || this.options.url;
             
-            $(body).html([
+            var html =[
                 '<form method="POST" enctype="multipart/form-data" class="form clearfix" id="upload-form" action="'+uploadUrl+'">',
                 '<input multiple type="file" name="files[]" style="margin-bottom:10px;">',
                 '<div class="uploaded"></div>',
                 '<input type="submit" class="btn btn-primary pull-right" value="Submit">',
-                '</form>'].join(''));
+                '</form>'].join('');
             
             var dialog = this.createEl('DIV').addClass('modal-dialog');
             var content = this.createEl('DIV').addClass('modal-content');
 
-            $(content).append(body);
-            $(dialog).append(content);
-            $(modal).append(dialog);
-
-            return modal;
+            return this.createModal('upload-dialog', html);
         },
 
         createNewFolderDialog: function(){
-            var modal = this.createEl('DIV', {
-                id: 'new-folder-dialog'
-            }).addClass('modal fade');
-            
-            var body = this.createEl('DIV').addClass('modal-body');
 
             var createFolderUrl = this.options.createFolderUrl || this.options.url;
 
-            $(body).html([
+            var html =[ 
                 '<form method="GET" class="form clearfix" id="new-folder-form" action="'+createFolderUrl+'">',
                 '<label class="control-label">Folder Name</label>',
                 '<input type="text" name="folder-name" value="New Folder" class="form-control new-folder-input" style="margin-bottom:10px;"/>',
                 '<input type="submit" class="btn btn-sm btn-primary pull-right" value="Submit"/>',
                 '<a href="#" style="margin-right:10px;" class="btn btn-sm btn-default pull-right" data-dismiss="modal">Cancel</a>',
-                '</form>'].join(''));
+                '</form>'].join('');
+
+            return this.createModal('new-folder-dialog', html);
+        },
+
+        createModal: function(id, html) {
+            var modal = this.createEl('DIV', {
+                id: id
+            }).addClass('modal fade');
+            
+            var body = this.createEl('DIV').addClass('modal-body');
 
             var dialog = this.createEl('DIV').addClass('modal-dialog modal-sm');
             var content = this.createEl('DIV').addClass('modal-content');
 
+            $(body).html(html);
             $(content).append(body);
             $(dialog).append(content);
             $(modal).append(dialog);
@@ -492,39 +485,24 @@
         },
 
         createBroContext: function() {
-
-            var dropUL = this.createEl('UL', {role: 'menu'}).addClass('dropdown-menu');
-
-            var menu = {
-                //'rename': 'Rename',
+            return this.createContextMenu('bro-context-menu', {
                 'new-folder': 'New Folder',
-                //'copy': 'Copy...',
-                //'move': 'Move...',
-            }
-
-            $.each(menu, $.proxy(function(key, value) {
-                li = this.createContextAction(key, value);
-                $(dropUL).append(li);
-            }, this));
-
-            var contextWrapper = this.createEl('DIV', {
-                id: 'bro-context-menu'
-            }).append(dropUL);
-
-            return contextWrapper;
+            });
         },
 
         // right click context menu
         createItemContext: function() {
-
-            var dropUL = this.createEl('UL', {role: 'menu'}).addClass('dropdown-menu');
-
-            var menu = {
+            return this.createContextMenu('item-context-menu', {
                 //'rename': 'Rename',
                 'delete': 'Delete...',
                 //'copy': 'Copy...',
                 //'move': 'Move...',
-            }
+            });
+        },
+
+        createContextMenu: function(id, menu){
+
+            var dropUL = this.createEl('UL', {role: 'menu'}).addClass('dropdown-menu');
 
             $.each(menu, $.proxy(function(key, value) {
                 li = this.createContextAction(key, value);
@@ -532,7 +510,7 @@
             }, this));
 
             var contextWrapper = this.createEl('DIV', {
-                id: 'item-context-menu'
+                id: id
             }).append(dropUL);
 
             return contextWrapper;
