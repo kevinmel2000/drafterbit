@@ -5,13 +5,12 @@ date_default_timezone_set('UTC');
 
 $loader = require __DIR__.'/vendor/autoload.php';
 
-use Drafterbit\CMS\CMS;
-use Drafterbit\CMS\InstallationException;
+use Drafterbit\Framework\Application;
+use Drafterbit\Framework\InstallationException;
 
+class app extends Application {}
 
-class Application extends CMS {}
-
-$app = new Application(ENVIRONMENT);
+$app = new app(ENVIRONMENT);
 
 $app['loader'] = $loader;
 $app['path.install'] = $app['path.public'] =  __DIR__ .'/../';

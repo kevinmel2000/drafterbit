@@ -183,12 +183,13 @@ class BaseController extends Controller {
 		return $this->wrap($content);
 	}
 
-	public function layoutForm($title, $subtitle, $action, $toolbars, $view)
+	public function layoutForm($id, $title, $subtitle, $action, $toolbars, $view)
 	{
 		$data['header'] = $this->header($title, $subtitle);
 		$data['toolbars'] 	= $this->toolbar($toolbars);
 		$data['action'] 	= $action;
 		$data['view'] = $view;
+		$data['id'] = $id;
 		$content =  $this->render('@admin/partials/form', $data);
 		return $this->wrap($content);
 	}

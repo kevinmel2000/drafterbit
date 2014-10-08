@@ -34,9 +34,4 @@
             "dev-master": "0.1-dev"
         }
   },
-  "autoload": {
-    "psr-4": {
-      "Drafterbit\\CMS\\": "system/src"
-    }
-  }
 }

@@ -1,5 +1,5 @@
 <?php echo $header; ?>
-<form method="POST" action="<?php echo $action; ?>">
+<form id="<?php echo $id ?>-form" method="POST" action="<?php echo $action; ?>">
     <?php echo $toolbars ?>
     <?php echo $view ?>
 <!-- /.container-fluid -->

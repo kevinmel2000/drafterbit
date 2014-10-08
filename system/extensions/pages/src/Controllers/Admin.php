@@ -142,6 +142,7 @@ class Admin extends BaseController {
 		
 		$this->get('asset')
 			->css($this->publicPath('css/editor.css'))
+			->js('@jquery_form')
 			->js($this->publicPath('js/editor.js'));
 
 		$toolbar = array('save-draft' => array(
@@ -160,8 +161,8 @@ class Admin extends BaseController {
 			),
 		);
 
-		$inputView = $this->render('@pages/admin/edit-input', $this->getData());
-		return $this->layoutForm(__('New Page'), null, null,  $toolbar, $inputView);
+		$inputView = $this->render('@pages/admin/editor', $this->getData());
+		return $this->layoutForm('page-create', __('New Page'), null, null,  $toolbar, $inputView);
 	}
 
 	public function edit($id)
@@ -214,9 +215,9 @@ class Admin extends BaseController {
 				'faStyle' => 'color: #A94442;',
 			),
 		);
-		$inputView = $this->render('@pages/admin/edit-input', $this->getData());
+		$inputView = $this->render('@pages/admin/editor', $this->getData());
 
-		return $this->layoutForm(__('Edit Page'), null, null,  $toolbar, $inputView);
+		return $this->layoutForm('pages-edit', __('Edit Page'), null, null,  $toolbar, $inputView);
 	}
 
 	/**
