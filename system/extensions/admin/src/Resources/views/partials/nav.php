@@ -10,7 +10,7 @@
                 <a class="navbar-brand" href="<?php echo admin_url('dashboard'); ?>"><i class="fa fa-send"></i></a>
             </div>
             <!-- /.navbar-header -->
-            <ul id="off-canvas" class="nav navbar-top-links navbar-left">
+            <ul class="nav navbar-top-links navbar-left dt-off-canvas">
                 <?php foreach ($menus as $menu): ?>
                     
                     <?php if($menu->hasChildren()): ?>

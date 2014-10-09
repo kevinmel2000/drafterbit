@@ -1,8 +1,8 @@
 <?php return [
 	'%admin%' =>[
-		'group' => [
+		'subRoutes' => [
 			'user' => [
-				'group' => [
+				'subRoutes' => [
 					'index' => ['controller' => '@user\Admin::index'],
 					'create' => ['controller' => '@user\Admin::create'],
 					'edit/{id}' => ['controller' => '@user\Admin::edit'],

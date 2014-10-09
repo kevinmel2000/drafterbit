@@ -63,7 +63,7 @@ class Auth extends BaseController {
 	{
 		$session = $this->get('session');
 
-		$userId = $session->get('uid');
+		$userId = $session->get('user.id');
 		$userName = $session->get('user.name');
 		
 		$url = admin_url("user/edit/{$userId}");

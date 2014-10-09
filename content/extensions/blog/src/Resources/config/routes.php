@@ -1,7 +1,7 @@
 <?php return [
 
 '%admin%' => [
-	'group' => [
+	'subRoutes' => [
 		'blog' => ['controller' => '@blog\Admin::index'],
 		'blog/create' => ['controller' => '@blog\Admin::create'],
 		'blog/edit/{id}' => ['controller' => '@blog\Admin::edit']

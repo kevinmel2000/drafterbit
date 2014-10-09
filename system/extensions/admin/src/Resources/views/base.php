@@ -12,7 +12,7 @@
           drafTerbit = {
             baseUrl: "<?php echo base_url() ?>",
             adminUrl: "<?php echo admin_url() ?>",
-
+            csrfToken: "<?php echo csrf_token() ?>",
 
             //replace datatable search box;
             replaceDTSearch: function(dt) {

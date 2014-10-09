@@ -1,18 +1,25 @@
 <?php return [
 	
 	'%admin%' =>[
-		'group' => [
-			'pages/index' => ['controller' => '@pages\Admin::index'],
-			'pages/create' => ['controller' => '@pages\Admin::create'],
-			'pages/edit/{id}' => ['controller' => '@pages\Admin::edit'],
-			'pages/data/{status}.json' => ['controller' => '@pages\Admin::json'],
+		'subRoutes' => [
+			'pages' => [
+				'subRoutes' => [
+					'index' => ['controller' => '@pages\Admin::index'],
+					'create' => ['controller' => '@pages\Admin::create'],
+					'edit/{id}' => ['controller' => '@pages\Admin::edit'],
+					'data/{status}.json' => ['controller' => '@pages\Admin::filter'],
+					'save' => ['controller' => '@pages\Admin::save', 'csrf' => true]
+				]
+			]
 		]
 	],
 	
 	'/{slug}' => [
 		'controller' => '@pages\Pages::view',
 		'requirements' => [
-			//'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
+
+			// @todo
+			// @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
 			'slug' => "^(?!(?:"."%admin%"."|blog|)(?:/|$)).*$"
 		]
 	],

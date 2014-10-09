@@ -1,7 +1,7 @@
 <?php return [
 
 	'%admin%' => [
-		'group' => [
+		'subRoutes' => [
 			'dashboard' => ['controller' => '@admin\Admin::dashboard'],
 			'login' => ['controller' => '@user\Auth::login'],
 			'logout' => ['controller' => '@user\Auth::logout'],
@@ -20,7 +20,7 @@
 			],
 		],
 		'methods' => 'get|post',
-		'before' => '@user\Models\Auth::authenticate'
+		'before' => '@user\Models\Auth::authenticate',
 	],
 
 	'%admin%/setting/themes/widget/save' => [

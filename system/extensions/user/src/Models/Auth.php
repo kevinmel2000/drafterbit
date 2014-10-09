@@ -29,9 +29,11 @@ class Auth extends \Drafterbit\Framework\Model {
 		// everything is fine ,lets register session
 		$this->registerSession($user);
 
+		// pending
+		/*
 		if ($remember) {
 			$this->rememberUser($user);
-		}
+		}*/
 	}
 
 	/**
@@ -48,10 +50,17 @@ class Auth extends \Drafterbit\Framework\Model {
 		$userPermissions = $encrypter->encrypt(serialize($this->user->getPermissions($user->id)));
 		
 		$session = $this->get('session');
-		$session->set('uid', $user->id);
-		$session->set('user.email', $user->email);
-		$session->set('user.name', $user->real_name);
-		$session->set('user.permissions', $userPermissions);
+		$data = array(
+			'user.id' => $user->id,
+			'user.email' => $user->email,
+			'user.name' => $user->real_name,
+			'user.permissions' => $userPermissions,
+			'_token' => sha1( (string) microtime(true)),
+		);
+
+		foreach ( $data as $key => $value) {
+			$session->set($key, $value);
+		}
 		
 		$url = admin_url("user/edit/{$user->id}");
 		log_db("Logged in", "<a href='$url'>{$user->real_name}</a>");
@@ -138,7 +147,7 @@ class Auth extends \Drafterbit\Framework\Model {
 
 	public function isLoggedIn()
 	{
-		return $this->get('session')->get('uid');
+		return $this->get('session')->get('user.id');
 	}
 
 	public function isRemembered()
@@ -150,7 +159,7 @@ class Auth extends \Drafterbit\Framework\Model {
 	{
 		$logToken = str_random(32);
 		$this->user->update(array('log_token' => '\''.$logToken.'\''), array('id' => $user->id));
-		set_cookie('log_token', $logToken);
+		set_cookie('log_token', $logToken, 2628000);
 	}
 
 	private function verifyPassword($password, $hash)

@@ -2,11 +2,12 @@ $(function(){
 
 	//mobile
 	$('.navbar-toggle').click(function(){
-        leftOffset = $('#off-canvas').css('left');
+
+        leftOffset = $('.dt-off-canvas').css('left');
         if (leftOffset === '0px') {
-            $('#off-canvas').animate({left:-200}, 300);
+            $('.dt-off-canvas').animate({left:-200}, 300);
         } else {
-            $('#off-canvas').animate({left:0}, 300);
+            $('.dt-off-canvas').animate({left:0}, 300);
         }
     })
 

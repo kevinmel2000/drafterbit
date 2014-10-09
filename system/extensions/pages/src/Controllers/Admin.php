@@ -60,14 +60,13 @@ class Admin extends BaseController {
 		return view();
 	}
 
-	public function json($status)
+	public function filter($status)
 	{
 		$search = $this->get('input')->get('search');
 
 		$pages = $this->pages->all($status);
 		
 		$editUrl = admin_url('pages/edit');
-
 
 		$pagesArr  = array();
 
@@ -94,6 +93,14 @@ class Admin extends BaseController {
 		$ob->recordsFiltered = count($pagesArr);
 
 		return json_encode($ob);
+	}
+
+	/**
+	 * Save submitted post data
+	 */
+	public function save()
+	{
+		var_dump($this->get('input')->post());
 	}
 
 	private function _tableHeader()
@@ -162,7 +169,7 @@ class Admin extends BaseController {
 		);
 
 		$inputView = $this->render('@pages/admin/editor', $this->getData());
-		return $this->layoutForm('page-create', __('New Page'), null, null,  $toolbar, $inputView);
+		return $this->layoutForm('page-create', __('New Page'), null, admin_url('pages/save'),  $toolbar, $inputView);
 	}
 
 	public function edit($id)

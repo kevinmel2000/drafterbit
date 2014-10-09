@@ -122,20 +122,20 @@ body {
         height: 40px;
     }
 
-    #off-canvas li.dropdown {
+    .dt-off-canvas li.dropdown {
         display: block;
     }
 
-    #off-canvas li a.dropdown-toggle {
+    .dt-off-canvas li a.dropdown-toggle {
         padding: 10px !important;
     }
 
-    #off-canvas a.navbar-link i,
-    #off-canvas > li > ul > .dropdown-caret{
+    .dt-off-canvas a.navbar-link i,
+    .dt-off-canvas > li > ul > .dropdown-caret{
         display: none;
     }
 
-    #off-canvas .dropdown-menu {
+    .dt-off-canvas .dropdown-menu {
         position: relative;
         width: 100%;
         box-shadow: none;
@@ -143,10 +143,10 @@ body {
         background: inherit;
     }
 
-    #off-canvas {
+    .dt-off-canvas {
         display: block;
         z-index: 9999;
-        position: fixed;
+        position: relative;
         background-color: #e8e8e8;
         top:40px;
         bottom:0;
