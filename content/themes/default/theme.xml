@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<theme>
+	<id>Default Theme</id>
+	<name>Default Theme</name>
+	<version>0.1.0</version>
+	<url> - </url>
+	<author>egig</author>
+	<authorUrl> - </authorUrl>
+	<description> - </description>
+	<license> - </license>
+	<licenseUrl> - </licenseUrl>
+
+	<widget>
+		<position>position-1</position>
+		<position>position-2</position>
+	</widget>
+
+</theme>

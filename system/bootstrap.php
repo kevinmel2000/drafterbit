@@ -4,22 +4,26 @@
 date_default_timezone_set('UTC');
 
 $loader = require __DIR__.'/vendor/autoload.php';
+$loader->addPsr4('Drafterbit\\System\\', __DIR__.'/src');
 
-use Drafterbit\Framework\Application;
-use Drafterbit\Framework\InstallationException;
+use Drafterbit\System\Kernel;
+use Drafterbit\System\InstallationException;
 
-class app extends Application {}
+class App extends Kernel {}
 
-$app = new app(ENVIRONMENT);
+$app = new App(ENVIRONMENT);
+
+$app['path.content'] = rtrim($content,'/').'/'; unset($content);
+
+$app['path.extensions'] = $app['path.content'] . '/extensions';
+$app['path.widgets'] = $app['path.content'] . '/widgets';
 
 $app['loader'] = $loader;
-$app['path.install'] = $app['path.public'] =  __DIR__ .'/../';
-
-$app['extension.manager']->load('system');
+$app['path.install'] = $app['path.public'] =  realpath(__DIR__ .'/../').'/';
 
 try {
 
-	$app->configureCMS();
+	$app->configure();
 
 } catch(InstallationException $e) {
 

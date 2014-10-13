@@ -1,7 +1,7 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
 use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
-use Drafterbit\Extensions\Admin\BaseController;
+use Drafterbit\Extensions\System\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
 use Carbon\Carbon;
 use Drafterbit\Blog\Models\Post;
