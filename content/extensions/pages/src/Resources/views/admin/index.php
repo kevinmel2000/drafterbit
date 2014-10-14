@@ -1,6 +1,6 @@
 <?php echo $header; ?>
 
-<form method="POST" id="pages-index-form" action="" method="post">
+<form method="POST" id="pages-index-form" action="">
 <div class="container-fluid sticky-toolbar-wrapper" id="sticky-toolbar">
     <div class="container">
         <div class="row row-sticky-toolbar" style="margin:10px 0;">

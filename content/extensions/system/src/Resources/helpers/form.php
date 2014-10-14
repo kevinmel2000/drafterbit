@@ -14,7 +14,7 @@ if ( ! function_exists('form_open')) {
  * @return	string
  */
 
-	function form_open($action = '', $attributes = '', $hidden = array())
+	function form($action = '', $attributes = '', $hidden = array())
 	{
 		if ($attributes == '') {
 			$attributes = 'method="post"';

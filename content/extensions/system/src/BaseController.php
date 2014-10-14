@@ -177,7 +177,7 @@ class BaseController extends Controller {
 		$data['header'] 	= $this->header($title, $subtitle);
 		$data['toolbars'] 	= $this->toolbar($toolbars, true, $filters);
 		$data['action'] 	= $action;
-		$data['table'] 		= $this->datatables($id, $datas, $headers);
+		$data['table'] 		= $this->datatables($id, $headers, $datas);
 		$content = $this->render('@system/partials/list', $data);
 
 		return $this->wrap($content);
@@ -277,7 +277,7 @@ class BaseController extends Controller {
 		return $this->render('@system/partials/form', $data);
 	}
 
-	public function datatables($name, $data, $headers)
+	public function datatables($id, $headers, $data)
 	{
 		$thead = array();
 		foreach ($headers as $item) {
@@ -310,7 +310,7 @@ class BaseController extends Controller {
 			$rows[] = $row;
 		}
 
-		$data['id'] = $data['name'] = $name;
+		$data['id'] = $data['name'] = $id;
 		$data['thead'] = $thead;
 		$data['rows'] = $rows;
 
@@ -344,6 +344,27 @@ class BaseController extends Controller {
      */
     public function render($template, $data = array())
     {
-         return $this->get('template')->render( $template, $data);
+
+		$jsFileName = $this->get('asset')->writeJs();
+		$fileName = $this->get('asset')->writeCSS();
+
+		//gravatar
+		$session = $this->get('session');
+		$hash = md5(strtolower($session->get('user.email')));
+		$url = "http://www.gravatar.com/avatar/$hash?d=mm&s=17";
+		$userName = $session->get('user.name');
+		$userGravatar = $url;
+
+		$system = $this->get('cache')->fetch('system');
+		
+		$this->get('template')
+			->addGlobal('stylesheet', $fileName.'.css')
+			->addGlobal('script', $jsFileName.'.js')
+			->addGlobal('menus', $this->createMenu($this->menu()))
+			->addGlobal('userName', $userName)
+			->addGlobal('userGravatar', $userGravatar)
+			->addGlobal('siteName', $system['site.name']);
+
+        return $this->get('template')->render( $template, $data);
     }
 }

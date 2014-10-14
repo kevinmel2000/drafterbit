@@ -13,7 +13,6 @@
   ],
   "require": {
       "drafterbit/framework": "dev-master",
-      "symfony/yaml": "2.5.*",
       "symfony/filesystem": "2.5.*",
       "symfony/finder": "2.5.*",
       "twig/twig": "1.15.*",
@@ -22,7 +21,8 @@
       "kriswallsmith/assetic": "1.1.*",
       "natxet/CssMin": "3.0.2",
       "mrclay/minify": "2.2.*",
-      "gregwar/image": "2.0.*"
+      "gregwar/image": "2.0.*",
+    "symfony/templating": "@stable"
   },
   "config": {
     "vendor-dir": "system/vendor",
@@ -33,5 +33,5 @@
         "branch-alias": {
             "dev-master": "0.1-dev"
         }
-  },
+  }
 }

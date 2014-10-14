@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Extensions\User\Controllers;
 
-use Drafterbit\Framework\Validation\Exceptions\ValidationFailsException;
+use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
 use Drafterbit\Extensions\User\Models\User as UserModel;
@@ -51,15 +51,21 @@ class Admin extends BaseController {
 		}
 
 		set('users', $users);
+		set('id', 'users');
+		set('title', __('Users'));
+		set('usersTable', $this->datatables('users', $this->_table(), $users));
 
 		$this->get('asset')->css('@bootstrap_datatables_css')
-		
 		->js('@datatables_js')
 		->js('@bootstrap_datatables_js')
 		->js('@jquery_check_all')
 		->js($this->publicPath('js/index.js'));
 
-		return $this->layoutList('users', __('User'), null, null, $this->_toolbarIndex(), $this->_table(), $users, array());
+		return $this->render('@user/admin/index', $this->getData());
+		//return view();
+
+		//return $this->wrap($this->render('@user/admin/index', $this->getData()));
+		//return $this->layoutList('users', __('User'), null, null, $this->_toolbarIndex(), $this->_table(), $users, array());
 	}
 
 	private function _table()
@@ -69,39 +75,16 @@ class Admin extends BaseController {
 		return array(
 			['field' => 'real_name', 'label' => 'Name', 'format' => function($value, $item) use ($editUrl) {
 					return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }],
-			['field' => 'email', 'label' => 'Email']
-		);
-	}
-
-	private function _toolbarIndex()
-	{
-		return array(
-			'new-user' => array(
-				'type' => 'a.success',
-				'href' => admin_url('user/create'),
-				'label' => 'New User',
-				'faClass' => 'fa-plus'
-			),
-			'trash' => array(
-				'type' => 'submit',
-				'label' => 'Delete',
-				'name'=> 'action',
-				'value' => 'delete',
-				'faClass' => 'fa-trash-o'
-			),
-
+			['field' => 'email', 'label' => 'Email'],
+			['field' => 'status', 'label' => 'Status', 'format' => function($value, $item) {
+					return $value == 1 ? __('active') : __('blocked'); }],
+			['field' => 'groups', 'label' => 'Group']
 		);
 	}
 
 	private function _toolbarEdit()
 	{
 		return array(
-			'trash' => array(
-				'type' => 'a',
-				'href' => admin_url('user/create'),
-				'label' => 'Delete',
-				'faClass' => 'fa-trash-o'
-			),
 			'new-post' => array(
 				'type' => 'submit.success',
 				'label' => 'Update',
@@ -109,7 +92,12 @@ class Admin extends BaseController {
 				'value' => 'update',
 				'faClass' => 'fa-check'
 			),
-
+			'trash' => array(
+				'type' => 'a',
+				'href' => admin_url('user/create'),
+				'label' => 'Delete',
+				'faClass' => 'fa-trash-o'
+			),
 		);
 	}
 
@@ -158,19 +146,16 @@ class Admin extends BaseController {
 		->js('@chosen_js')
 		->js($this->publicPath('js/create.js'));
 
-		$ui = $this->model('UI@system');
-		$header 	=  $ui->header('User', 'User management');
-		//$toolbar 	= $ui->toolbar($this->_toolbarCreate());
-		$view 		= $this->render('admin/create', $this->getData());
-		$form 		= $ui->form(null, null,$view);
-		$content 	= $header.$form;
+		$header 	=  $this->header('Create User');
+		$view 		= $this->render('@user/admin/create', $this->getData());
 
-		return $this->wrap($content);
+		return $this->wrap($header.$view);
 	}
 
 	public function edit($id = null)
 	{
 		$this->auth->restrict('user.edit');
+
 		$groups = $this->group->all();
 
 		$postData = $this->get('input')->post();
@@ -202,7 +187,7 @@ class Admin extends BaseController {
 			'website' => $user->website,
 			'bio' => $user->bio,
 			'groupIds' => $user->groupIds,
-			'active' => $user->active
+			'active' => $user->status
 		]);
 		
 		$this->get('asset')
@@ -210,15 +195,10 @@ class Admin extends BaseController {
 		->css('@chosen_css', '@chosen_css')
 		->js('@chosen_js')
 		->js($this->publicPath('js/create.js'));
+		
+		$inputView 		= $this->render('@user/admin/edit', $this->getData());
 
-		$ui = $this->model('UI@system');
-		$header 	=  $ui->header('User', 'User management');
-		$toolbar 	= $ui->toolbar($this->_toolbarEdit());
-		$view 		= $this->render('admin/edit', $this->getData());
-		$form 		= $ui->form(null, $toolbar,$view);
-		$content 	= $header.$form;
-
-		return $this->wrap($content);
+		return $this->layoutForm('user-edit', __('Edit User'), null, null,  $this->_toolbarEdit(), $inputView);
 	}
 
 	protected function insertGroups($groups, $id)
@@ -248,7 +228,6 @@ class Admin extends BaseController {
 		if( ! $update) {
 			$data['created_at'] = Carbon::Now();
 		}
-
 
 		return $data;
 	}

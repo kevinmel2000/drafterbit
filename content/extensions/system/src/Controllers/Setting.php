@@ -61,7 +61,7 @@ class Setting extends BaseController {
 
 		$view = $this->get('template')->render('@system/setting/general', $this->getData());
 
-		return $this->layoutForm('General Setting', null, null, $tbConfig, $view);
+		return $this->layoutForm('general-setting', 'General Setting', null, null, $tbConfig, $view);
 	}
 
 	public function costumizeTheme()
