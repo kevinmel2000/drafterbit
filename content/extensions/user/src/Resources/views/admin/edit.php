@@ -1,5 +1,19 @@
-<div class="container">
-<div class="row row-header">
+<?php $this->extend('@system/main-edit') ?>
+
+<?php $this->css(':chosen_css', ':chosen_css'); ?>
+<?php $this->css(':chosen_bootstrap_css'); ?>
+
+<?php $this->start('action'); ?>
+<button class="btn btn-success btn-sm" type="submit" name="action" value="update">
+    <i class="fa fa-check"></i> Update
+</button>
+<a href="<?php echo admin_url('user/index'); ?>" class="btn btn-default btn-sm">
+    <i class="fa fa-times" style=""></i> Cancel
+</a>
+<?php $this->end(); ?>
+
+
+<div class="row">
 	<div class="col-md-6 content-full">
 		<div class="form-group">
     		<label for="real-name" class="control-label">Real Name</label>
@@ -47,4 +61,5 @@
 		</div>
 	</div>
 </div>
-</div>
+
+<?php $this->js(':chosen_js, @user/js/create.js'); ?>

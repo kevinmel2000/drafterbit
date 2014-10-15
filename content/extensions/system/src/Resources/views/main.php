@@ -6,7 +6,18 @@
         <title><?php echo $title ?> | Drafterbit</title>
         <!-- Core CSS - Include with every page -->
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" type="text/css" href="<?php echo asset_url('css/'.$stylesheet) ?>"/>
+
+        <?php $this->css(':fontawesome', ':fontawesome'); ?>
+        <?php $this->css('
+          :bootstrap_css,
+          :toastr_css,
+          @system/css/overrides-bootstrap.css,
+          @system/css/overrides-toastr.css,
+          @system/css/overrides-datatables.css,
+          @system/css/style.css
+        ') ?>
+        <?php echo $this->block('css'); ?>
+
         <script>
         (function(){
           drafTerbit = {
@@ -58,7 +69,9 @@
             <!-- footer -->
             <?php echo $this->render('@system/partials/footer'); ?>
 
-        <script src="<?php echo asset_url('js/'.$script);?>"></script>
+        <!-- script -->
+        <?php $this->js(':jquery, :bootstrap_js, :toastr_js, @system/js/layout.js, @system/js/app.js'); ?>
+        <?php echo $this->block('js'); ?>
         
         <?php if(isset($messages)): ?>
         <script>

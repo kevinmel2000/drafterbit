@@ -55,17 +55,7 @@ class Admin extends BaseController {
 		set('title', __('Users'));
 		set('usersTable', $this->datatables('users', $this->_table(), $users));
 
-		$this->get('asset')->css('@bootstrap_datatables_css')
-		->js('@datatables_js')
-		->js('@bootstrap_datatables_js')
-		->js('@jquery_check_all')
-		->js($this->publicPath('js/index.js'));
-
 		return $this->render('@user/admin/index', $this->getData());
-		//return view();
-
-		//return $this->wrap($this->render('@user/admin/index', $this->getData()));
-		//return $this->layoutList('users', __('User'), null, null, $this->_toolbarIndex(), $this->_table(), $users, array());
 	}
 
 	private function _table()
@@ -139,17 +129,10 @@ class Admin extends BaseController {
 
 		$groups = $this->group->all();
 		set('groupOptions', $groups);
+		set('id', 'pages-create');
+		set('title', __('Create New Page'));
 
-		$this->get('asset')
-		->css('@chosen_bootstrap_css')
-		->css('@chosen_css', '@chosen_css')
-		->js('@chosen_js')
-		->js($this->publicPath('js/create.js'));
-
-		$header 	=  $this->header('Create User');
-		$view 		= $this->render('@user/admin/create', $this->getData());
-
-		return $this->wrap($header.$view);
+		return $this->render('@user/admin/create', $this->getData());		
 	}
 
 	public function edit($id = null)
@@ -187,18 +170,14 @@ class Admin extends BaseController {
 			'website' => $user->website,
 			'bio' => $user->bio,
 			'groupIds' => $user->groupIds,
-			'active' => $user->status
+			'active' => $user->status,
+			'userId' => $user->id,
+			'id' => 'pages-edit',
+			'title' => __('Edit Pages')
 		]);
+	
 		
-		$this->get('asset')
-		->css('@chosen_bootstrap_css')
-		->css('@chosen_css', '@chosen_css')
-		->js('@chosen_js')
-		->js($this->publicPath('js/create.js'));
-		
-		$inputView 		= $this->render('@user/admin/edit', $this->getData());
-
-		return $this->layoutForm('user-edit', __('Edit User'), null, null,  $this->_toolbarEdit(), $inputView);
+		return $this->render('@user/admin/edit', $this->getData());
 	}
 
 	protected function insertGroups($groups, $id)

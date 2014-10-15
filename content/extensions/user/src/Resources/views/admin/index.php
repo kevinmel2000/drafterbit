@@ -20,3 +20,5 @@
 <?php $this->end(); ?>
 
 <?php echo $usersTable; ?>
+
+<?php $this->js('@user/js/index.js'); ?>

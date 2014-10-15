@@ -9,12 +9,16 @@
     <link rel="shortcut icon" href="/img/ico/favicon.ico">
 
     <title>Signin</title>
-    <link href="<?php echo asset_url('css/'.$stylesheet) ?>" rel="stylesheet" type="text/css">
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <?php $this->css(':fontawesome', ':fontawesome'); ?>
+    <?php $this->css(':bootstrap_css, @user/css/sign-in.css'); ?>
+    <?php echo $this->block('css');?>
+
   </head>
 
   <body>

@@ -22,7 +22,6 @@
       "natxet/CssMin": "3.0.2",
       "mrclay/minify": "2.2.*",
       "gregwar/image": "2.0.*",
-    "symfony/templating": "@stable"
   },
   "config": {
     "vendor-dir": "system/vendor",

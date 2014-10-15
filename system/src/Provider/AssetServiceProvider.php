@@ -2,7 +2,7 @@
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Drafterbit\System\Asset\AssetManager;
+use Drafterbit\Component\Template\Asset\AssetManager;
 
 class AssetServiceProvider implements ServiceProviderInterface {
 

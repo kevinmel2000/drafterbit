@@ -1,5 +1,7 @@
 <?php $this->extend('@system/main'); ?>
 
+<?php $this->css(':bootstrap_datatables_css'); ?>
+
 <form method="POST" id="<?php echo $id; ?>-index-form" action="">
     <div class="container-fluid sticky-toolbar-wrapper" id="sticky-toolbar">
         <div class="container">
@@ -27,3 +29,5 @@
         </div>
      </div>
 </form>
+
+<?php $this->js(':datatables_js, :bootstrap_datatables_js, :jquery_check_all, :jquery_form'); ?>

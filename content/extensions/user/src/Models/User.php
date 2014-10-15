@@ -48,25 +48,25 @@ class User extends \Drafterbit\Framework\Model {
 	
 	public function update($data, $where)
 	{
-		return $this->get('db')->update('users', $data, $where);
+		return $this->get('db')->update('#_users', $data, $where);
 	}
 
 	public function insert($data)
 	{
-		$this->get('db')->insert('users', $data);
+		$this->get('db')->insert('#_users', $data);
 		return $this->get('db')->lastInsertId();
 	}
 
 	public function delete($id)
 	{
-		$this->get('db')->delete('users_groups', ['user_id'=> $id]);
-		$this->get('db')->delete('users', ['id' => $id]);
+		$this->get('db')->delete('#_users_groups', ['user_id'=> $id]);
+		$this->get('db')->delete('#_users', ['id' => $id]);
 	}
 
 	public function clearGroups($id)
 	{
 		return $this->get('db')
-			->delete('users_groups', array('user_id' => $id));
+			->delete('#_users_groups', array('user_id' => $id));
 	}
 
 	public function insertGroup($groupId, $userId) {
@@ -75,7 +75,7 @@ class User extends \Drafterbit\Framework\Model {
 		$data['user_id'] = $userId;
 
 		return $this->get('db')
-			->insert('users_groups', $data);
+			->insert('#_users_groups', $data);
 	}
 
 	public function getGroupIds($id)

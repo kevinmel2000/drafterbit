@@ -15,6 +15,8 @@ $app = new App(ENVIRONMENT);
 
 $app['path.content'] = rtrim($content,'/').'/'; unset($content);
 
+$app['dir.content'] = basename($app['path.content']);
+
 $app['path.extensions'] = $app['path.content'] . '/extensions';
 $app['path.widgets'] = $app['path.content'] . '/widgets';
 

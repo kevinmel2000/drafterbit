@@ -5,12 +5,8 @@ class Admin extends BaseController {
 	
 	public function dashboard()
 	{
-		$this->get('asset')->css($this->publicPath('css/index.css'));
-
-		$header = $this->header(__('Dashboard'));
-
-		$view = $this->render('@system/admin/dashboard');
-
-		return $this->wrap($header.$view);
+		$data['title'] = __('Dashboard');
+		
+		return $this->render('@system/admin/dashboard', $data);
 	}
 }

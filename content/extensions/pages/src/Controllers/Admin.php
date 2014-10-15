@@ -42,22 +42,14 @@ class Admin extends BaseController {
 		}
 		
 		$pages = $this->pages->all($status);
-
-		// prepare asset
-		$this->get('asset')
-		->css('@bootstrap_datatables_css')
-		->css($this->publicPath('css/index.css'))
-		->js('@datatables_js')
-		->js('@bootstrap_datatables_js')
-		->js('@jquery_check_all')	
-		->js('@jquery_form')
-		->js($this->publicPath('js/admin-index.js'));
-
+		
 		set('status', $status);
-		set('table', $this->tableHeader('pages', $pages, $this->_tableHeader()));
-		set('header', $this->header( __('Pages')));
+		set('pages', $pages);
+		set('id', 'pages');
+		set('title', __('Pages'));
+		set('pagesTable', $this->datatables('pages', $this->_tableHeader(), $pages));
 
-		return view();
+		return $this->render('@pages/admin/index', $this->getData());
 	}
 
 	public function filter($status)
@@ -137,39 +129,19 @@ class Admin extends BaseController {
 
 		//set default
 		set(array(
-			'id' => null,
-			'title' => null,
+			'pageId' => null,
+			'pageTitle' => null,
 			'slug' => null,
 			'content' => null,
 			'layout' => null,
 			'layoutOptions' => $this->getLayoutOptions(),
+			'id' => 'page-create',
 			'status' => 1,
-			)
-		);
-		
-		$this->get('asset')
-			->css($this->publicPath('css/editor.css'))
-			->js('@jquery_form')
-			->js($this->publicPath('js/editor.js'));
-
-		$toolbar = array('save-draft' => array(
-				'type' => 'submit.success',
-				'label' => 'Save',
-				'name'=> 'action',
-				'value' => 'save',
-				'faClass' => 'fa-check'
-			),
-			'cancel' => array(
-				'type' => 'a.default',
-				'href' => admin_url('pages/index'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times',
-				'faStyle' => 'color: #A94442;',
-			),
+			'action' => admin_url('pages/save'),
+			'title' => __('Create New Page'))
 		);
 
-		$inputView = $this->render('@pages/admin/editor', $this->getData());
-		return $this->layoutForm('page-create', __('New Page'), null, admin_url('pages/save'),  $toolbar, $inputView);
+		return $this->render('@pages/admin/editor', $this->getData());
 	}
 
 	public function edit($id)
@@ -193,38 +165,20 @@ class Admin extends BaseController {
 		$page = $this->pages->getSingleBy('id', $id);
 
 		set(array(
-			'id' => $id,
-			'title' => $page->title,
+			'pageId' => $id,
+			'pageTitle' => $page->title,
 			'slug' => $page->slug,
 			'content' => $page->content,
 			'layout' => $page->layout,
 			'layoutOptions' => $this->getLayoutOptions(),
 			'status' => $page->status,
+			'id' => 'page-edit',
+			'status' => 1,
+			'action' => admin_url('pages/save'),
+			'title' => __('Edit New Page')
 		));
 
-		$this->get('asset')
-		->css($this->publicPath('css/editor.css'))
-		->js($this->publicPath('js/editor.js'));
-
-		$toolbar = array(
-			'update' => array(
-				'type' => 'submit.success',
-				'label' => 'Update',
-				'name'=> 'action',
-				'value' => 'update',
-				'faClass' => 'fa-check'
-			),
-			'cancel' => array(
-				'type' => 'a.default',
-				'href' => admin_url('pages/index'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times',
-				'faStyle' => 'color: #A94442;',
-			),
-		);
-		$inputView = $this->render('@pages/admin/editor', $this->getData());
-
-		return $this->layoutForm('pages-edit', __('Edit Page'), null, null,  $toolbar, $inputView);
+		return $this->render('@pages/admin/editor', $this->getData());
 	}
 
 	/**

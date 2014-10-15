@@ -21,24 +21,6 @@ class BaseController extends Controller {
 				if(isset($message['text'], $message['type']))
 				app('current.controller')->message($message['text'], $message['type']);
 		});
-
-		// assets
-		$adminCSS = $this->getExtension('system')->getResourcesPath('public/css/');
-		$adminJs = $this->getExtension('system')->getResourcesPath('public/js/');
-		$this->get('asset')
-			->css('@fontawesome', '@fontawesome')
-			->css('@bootstrap_css')
-			->css('@toastr_css')
-			->css($adminCSS.'overrides-toastr.css')
-			->css($adminCSS.'overrides-bootstrap.css')
-			->css($adminCSS.'overrides-datatables.css')
-			->css($adminCSS.'style.css')
-	
-			->js('@jquery')
-			->js('@bootstrap_js')
-			->js('@toastr_js')
-			->js($adminJs.'layout.js')
-			->js($adminJs.'app.js');
 	}
 
 	private function menu()
@@ -345,9 +327,6 @@ class BaseController extends Controller {
     public function render($template, $data = array())
     {
 
-		$jsFileName = $this->get('asset')->writeJs();
-		$fileName = $this->get('asset')->writeCSS();
-
 		//gravatar
 		$session = $this->get('session');
 		$hash = md5(strtolower($session->get('user.email')));
@@ -358,8 +337,6 @@ class BaseController extends Controller {
 		$system = $this->get('cache')->fetch('system');
 		
 		$this->get('template')
-			->addGlobal('stylesheet', $fileName.'.css')
-			->addGlobal('script', $jsFileName.'.js')
 			->addGlobal('menus', $this->createMenu($this->menu()))
 			->addGlobal('userName', $userName)
 			->addGlobal('userGravatar', $userGravatar)
