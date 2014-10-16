@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <theme>
-	<id>Default Theme</id>
-	<name>Default Theme</name>
+	<id>default</id>
+	<name>Default</name>
 	<version>0.1.0</version>
 	<url> - </url>
 	<author>egig</author>

@@ -1,3 +1,7 @@
+<?php $this->extend('@system/main'); ?>
+
+<?php $this->css(':jquery_ui_css'); ?>
+
 <div class="container">
 	<div class="row row-content">
 
@@ -32,6 +36,7 @@
 		</div>
 	</div>
 </div>
+
 <div class="modal fade widgets">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -57,3 +62,5 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<?php $this->js(':jquery_form, @system/js/widget.js'); ?>

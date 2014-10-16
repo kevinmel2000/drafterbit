@@ -30,22 +30,12 @@ class Themes extends BaseController {
 		}
 
 		// @todo
-		$settings = $cache->fetch('system')
-		;
+		$settings = $cache->fetch('system');
+
 		set('currentTheme', $settings['theme']);
 
 		$themesDir = $this->get('path.themes');
-		$themesDetected = $this->get('themes')->all();
-
-		$themes = array();
-		foreach ($themesDetected as $dir => $config) {
-
-			if( is_file($path = $themesDir.$dir.'/config.yml')) {
-				$themes[$dir] = $this->get('yaml')->parse(file_get_contents($path));
-			} else {
-				continue;
-			}
-		}
+		$themes = $this->get('themes')->all();
 
 		set('themes', $themes);
 		set('id', 'themes');
@@ -60,9 +50,10 @@ class Themes extends BaseController {
 	public function widget()
 	{
 		$currentTheme = $this->get('themes')->get();
-		$positions = $currentTheme['widget_positions'];
 
-		if(!isset($currentTheme['widget_positions'])) {
+		$positions = $currentTheme['widget']['position'];
+
+		if(!isset($currentTheme->widget->position)) {
 			//return 'Current theme does not support widget';
 		}
 
@@ -87,25 +78,11 @@ class Themes extends BaseController {
 		set('widg', $widg);
 		set('positions', $positions);
 		set('widgets', $widgets);
-
-		$ui = $this->model('UI@system');
-
-		$header =  $ui->header('Widget', 'Widget for current theme');
+		set('title', __('Widget'));
 
 		set('theme', $this->get('themes')->current());
-		$view = $this->get('template')->render('@system/setting/themes/widget', $this->getData());
-
-		//$toolbar = $ui->toolbar($this->_toolbarIndex());
-
-		$content = $header.$view;
-
-		$this->get('asset')
-			->css('@jquery_ui_css')
-			->js('@jquery_ui_js')
-			->js('@jquery_form')
-			->js($this->publicPath('js/widget.js'));
-
-		return $this->wrap($content);
+		
+		return $this->render('@system/setting/themes/widget', $this->getData());
 	}
 
 	private function _toolbarIndex()

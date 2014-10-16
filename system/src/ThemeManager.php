@@ -24,13 +24,21 @@ class ThemeManager {
         foreach ($this->path as $path) {
             $themes = $this->createFinder()->in($path)->directories()->depth(0);
 
-            foreach ($themes as $theme) {
-                
-                $config = new \SimpleXmlElement(file_get_contents($theme.'/theme.xml'));
-                
+            foreach ($themes as $theme) {                
+
+                $config = $this->parseConfig($theme.'/theme.xml');
                 $this->register($theme->getFilename(), $config);
             }
         }
+    }
+
+    private function parseConfig($configFile)
+    {
+        $xml = simplexml_load_string(file_get_contents($configFile));
+        $json = json_encode($xml);
+        $array = json_decode($json,TRUE);
+
+        return $array;
     }
 
     /**

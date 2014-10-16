@@ -263,7 +263,7 @@ class Admin extends BaseController {
 		$data['title'] = $post['title'];
 		$data['slug'] = $post['slug'];
 		$data['content'] = $post['content'];
-		$data['user_id'] = $this->get('session')->get('uid');
+		$data['user_id'] = $this->get('session')->get('user.id');
 		$data['updated_at'] = Carbon::now();
 		$data['status'] = ($post['action'] == 'publish') ? 'published' : 'unpublished';
 		

@@ -90,8 +90,8 @@
                   "hideMethod": "fadeOut"
                 }
                 <?php foreach( $messages as $message ): ?>
-                    msg = "<?php echo addslashes($message['text']) ?>";
-                    toastr.<?php echo $message['type'] ?>(msg, "<?php echo $message['title'] ?>");
+                    msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
+                    toastr.<?php echo $message['type'] ?>(msg, "<?php echo $this->escape($message['title'], 'js'); ?>");
                 <?php endforeach; ?>
         </script>
         <?php endif;?>

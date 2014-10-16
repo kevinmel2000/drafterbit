@@ -9,7 +9,7 @@ class Widget extends Model {
 		$qb = $this->get('db')->createQueryBuilder();
 		
 		$widgets = $qb->select('*')
-			->from('widgets','w')
+			->from('#_widgets','w')
 			->where('position=:position')
 			->setParameter('position', $position)
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
@@ -22,7 +22,7 @@ class Widget extends Model {
 		$theme = $this->get('themes')->current();
 
 		$this->get('db')
-		    ->insert('widgets',  array(
+		    ->insert('#_widgets',  array(
 		            'name' => $name,
 		            'position' =>  $pos,
 		            'theme' =>  $theme
@@ -36,7 +36,7 @@ class Widget extends Model {
 		$qb = $this->get('db')->createQueryBuilder();
 		
 		$widget = $qb->select('*')
-			->from('widgets','w')
+			->from('#_widgets','w')
 			->where('id=:id')
 			->setParameter('id', $id)
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
@@ -46,7 +46,7 @@ class Widget extends Model {
 
 	public function remove($id)
 	{
-		return $this->get('db')->delete("widgets", ['id'=> $id]);
+		return $this->get('db')->delete("#_widgets", ['id'=> $id]);
 	}
 
 	public function save($id, $title, $data, $name = null, $position = null, $theme = null)
@@ -54,7 +54,7 @@ class Widget extends Model {
 		$data =  json_encode($data);
 
 		if($this->has($id)) {
-			return $this->get('db')->update('widgets', array('title' => $title, 'data' => $data), array('id' => $id));
+			return $this->get('db')->update('#_widgets', array('title' => $title, 'data' => $data), array('id' => $id));
 		}
 
 		$data = array(
@@ -65,7 +65,7 @@ class Widget extends Model {
 			'position' => $position,
 			'theme' => $theme
 		);
-		return $this->get('db')->insert('widgets', $data);
+		return $this->get('db')->insert('#_widgets', $data);
 	}
 
 	public function has($id)

@@ -34,8 +34,7 @@ class Setting extends BaseController {
 		
 		set([
 			'siteName' => $config['site.name'],
-			'tagLine' => $config['site.tagline'],
-			'address' => $config['site.address'],
+			'tagLine' => $config['site.description'],
 			'offline' => $config['offline'],
 			'offlineMessage' => $config['offline.message'],
 			'adminEmail' => $config['email'],

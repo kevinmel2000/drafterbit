@@ -1,4 +1,4 @@
-(function($, drafterbit){
+(function($, drafTerbit){
 
 	$('.widget-item').on('click', function(e) {
 		e.preventDefault();
@@ -7,7 +7,7 @@
 		var pos = $(a).data('position');
 
 		$('.widget-form-container .modal-content').load(
-			[drafterbit.adminUrl,'/setting/themes/widget/add/',widget,"?pos="+pos].join(''),
+			[drafTerbit.adminUrl,'/setting/themes/widget/add/',widget,"?pos="+pos].join(''),
 			function(){
 				$('.widget-form-container').modal('show');
 			}
@@ -21,7 +21,7 @@
 
 		var id = $(e.currentTarget).data('id');
 
-		$.post(drafterbit.adminUrl+'/setting/themes/widget-remove/', {id:id})
+		$.post(drafTerbit.adminUrl+'/setting/themes/widget-remove/', {id:id})
 			.done(function(){
 				$('#widget-'+id).remove();
 			});
@@ -40,7 +40,7 @@
 		var id = $(a).data('id');
 
 		$('.widget-form-container .modal-content').load(
-			[drafterbit.adminUrl,'/setting/themes/widget/edit/',id].join(''),
+			[drafTerbit.adminUrl,'/setting/themes/widget/edit/',id].join(''),
 			function(){
 				$('.widget-form-container').modal('show');
 			}
@@ -51,8 +51,8 @@
 	$(document).on('submit', '.widget-edit-form', function(e){
 		e.preventDefault();
 		$(this).ajaxSubmit({
-			url: drafterbit.adminUrl+'/setting/themes/widget/save'
+			url: drafTerbit.adminUrl+'/setting/themes/widget/save'
 		});
 	});
 
-})(jQuery, drafterbit);
+})(jQuery, drafTerbit);

@@ -11,6 +11,12 @@
       "email": "egigundari@gmail.com"
     }
   ],
+ "repositories": [
+      {
+          "type": "vcs",
+          "url": "https://github.com/drafterbit/framework.git"
+      }
+  ],
   "require": {
       "drafterbit/framework": "dev-master",
       "symfony/filesystem": "2.5.*",
@@ -22,6 +28,7 @@
       "natxet/CssMin": "3.0.2",
       "mrclay/minify": "2.2.*",
       "gregwar/image": "2.0.*",
+      "patchwork/utf8": "~1.2"
   },
   "config": {
     "vendor-dir": "system/vendor",

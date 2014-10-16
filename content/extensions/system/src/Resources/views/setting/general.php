@@ -35,16 +35,12 @@
 		<div class="form-group">
 		      <textarea name="offline-message" class="form-control" placeholder="Offline message"><?php echo value('offline-message', $offlineMessage) ?></textarea>
 		 </div>
-		 <div class="form-group">
-		    <label for="email" class="control-label">Email</label>
-		      <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo value('email', $adminEmail); ?>">
-		      <span class="help-block">This address is used for admin purposes, like new user notification.</span>
-		 </div>
 	</div>
 	<div class="col-md-6 content-full">
 		<div class="form-group">
-		    <label for="site-address" class="control-label">Site Address</label>
-		      <input name="site-address" type="text" class="form-control" placeholder="http://" value="<?php echo value('address', $address) ?>">
+		    <label for="email" class="control-label">Email</label>
+		      <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo value('email', $adminEmail); ?>">
+		      <span class="help-block">This address is used for admin purposes, like new user notification.</span>
 		 </div>
 		<div class="form-group">
 		    <label for="language" class="control-label">Language</label>

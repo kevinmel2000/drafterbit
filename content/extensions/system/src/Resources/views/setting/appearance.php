@@ -13,7 +13,7 @@
 		<?php foreach ($themes as $theme => $prop): ?>
 			<div class="col-md-4">
 				<div class="well well-sm clearfix">
-				<div style="height:160px;overflow:hidden;"><img width="100%;" src="<?php echo base_url(app('config')->get('path.theme').'/'.$prop['id'].'/screenshot.png') ?>"></div>
+				<div style="height:160px;overflow:hidden;"><img width="100%;" src="<?php echo base_url(app('dir.content').'/themes/'.$prop['id'].'/screenshot.png') ?>"></div>
 					<h4><?php echo $prop['name'] ?></h4>
 
 					<?php  if($currentTheme == $prop['id']): ?>
