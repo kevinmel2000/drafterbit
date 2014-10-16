@@ -8,9 +8,8 @@ class Setting extends BaseController {
 
 	protected $setting;
 
-	public function __construct(Auth $auth, SettingModel $setting)
+	public function __construct(SettingModel $setting)
 	{
-		parent::__construct($auth);
 		$this->setting = $setting;
 	}
 
@@ -31,7 +30,7 @@ class Setting extends BaseController {
 			message('Setting updated !', 'success');
 		}
 		
-		$config = $this->get('cache')->fetch('settings');
+		$config = $this->get('cache')->fetch('system');
 		
 		set([
 			'siteName' => $config['site.name'],
@@ -44,24 +43,12 @@ class Setting extends BaseController {
 			'timezone' => $config['timezone'],
 			'dateFormat' => $config['format.date'],
 			'timeFormat' => $config['format.time'],
-			'pageOptions' => $this->get('app')->getFrontPageOption()
+			'pageOptions' => $this->get('app')->getFrontPageOption(),
+			'title' => __('General Setting'),
+			'id' => 'setting'
 		]);
 
-		$tbConfig = array(
-
-			'save' => array(
-				'type' => 'submit.success',
-				'label' => 'Update',
-				'name' => 'action',
-				'value' => 'update',
-				'faClass' => 'fa-check'
-			),
-
-		);
-
-		$view = $this->get('template')->render('@system/setting/general', $this->getData());
-
-		return $this->layoutForm('general-setting', 'General Setting', null, null, $tbConfig, $view);
+		return $this->render('@system/setting/general', $this->getData());
 	}
 
 	public function costumizeTheme()

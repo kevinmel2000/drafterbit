@@ -37,48 +37,16 @@ class System extends BaseController {
 
 		$logs = $this->log->all();
 
-		$this->
-			get('asset')
-				->css('@bootstrap_datatables_css')
-				->js('@datatables_js')
-				->js('@bootstrap_datatables_js')
-				->js('@jquery_check_all')
-				->js($this->publicPath('js/log.js'));
+		set('title', __('Logs'));
+		set('id', 'log');
 
-		$ui = $this->model('UI@system');
-		
-		$tbConfig = array(
-			'delete' => array(
-				'type' => 'submit',
-				'label' => 'Delete',
-				'name'=> 'action',
-				'value' => 'delete',
-				'faClass' => false
-			),
-			'clear' => array(
-				'type' => 'submit',
-				'label' => 'Clear',
-				'name'=> 'action',
-				'value' => 'clear',
-				'faClass' =>  false
-			)
-		);
-
-		$tableConfig = array(
+		$tableHead = array(
 			['field' => 'time', 'label' => 'Time'],
 			['field' => 'message', 'label' => 'Message']
 		);
+		set('logTable', $this->datatables('log', $tableHead, $logs));
 
-		$header =  $ui->header('Log', 'Activity logs');
-		$table = $ui->datatables('log', $logs, $tableConfig);
-
-		$toolbar = $ui->toolbar($tbConfig);
-
-		$listFormed = $ui->listFormed(null, $toolbar, $table);
-
-		$content = $header.$listFormed;
-
-		return $this->wrap($content);
+		return $this->render('@system/admin/log', $this->getData());
 	}
 
 	public function cache()
@@ -98,45 +66,18 @@ class System extends BaseController {
 
 		$caches = $model->all();
 
-		//set('stat', $this->get('cache')->getStats());
-
-		// @todo append asset from ui model automatically
-		$this->
-			get('asset')
-				->css('@bootstrap_datatables_css')
-				->js('@datatables_js')
-				->js('@bootstrap_datatables_js')
-				->js('@jquery_check_all')
-				->js($this->publicPath('js/cache.js'));
-
-		$ui = $this->model('UI@system');
-		
-		$tbConfig = array(
-			'delete' => array(
-				'type' => 'submit',
-				'label' => 'Delete',
-				'name'=> 'action',
-				'value' => 'delete',
-				'faClass' =>  false
-			)
-		);
-
-		$header =  $ui->header('Cache', 'Cache manager');
-		$toolbar = $ui->toolbar($tbConfig);
-		//$view = $this->get('template')->render('admin/cache@system', $this->getData());
-		//$form = $ui->form(null, $toolbar, $view);
-
-		$tableConfig = array(
+		$tableHead = array(
 			['field' => 'name', 'label' => 'Name'],
 			['field' => 'size', 'label' => 'Filesize']
 		);
 
-		$table = $ui->datatables('cache', $caches, $tableConfig);
-		$list = $ui->listFormed(null, $toolbar, $table);
+		$cacheTable = $this->datatables('cache', $tableHead, $caches);
 
-		$content = $header.$list;
+		set('id','cache');
+		set('title',__('Cache'));
+		set('cacheTable', $cacheTable);
 
-		return $this->wrap($content);
+		return $this->render('@system/admin/cache', $this->getData());
 	}
 
 	public function info()

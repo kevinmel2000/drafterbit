@@ -1,4 +1,4 @@
-(function($, drafterbit) {
+(function($, drafTerbit) {
     
     var dt = $("#log-data-table").dataTable({
                 "oLanguage": {
@@ -10,8 +10,8 @@
                 ]
             });
 
-    drafterbit.replaceDTSearch(dt);
+    drafTerbit.replaceDTSearch(dt);
 
-    $('#log').checkAll({showIndeterminate:true});
+    $('#log-checkall').checkAll({showIndeterminate:true});
     
-})(jQuery,drafterbit);
+})(jQuery,drafTerbit);

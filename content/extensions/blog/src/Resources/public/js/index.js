@@ -1,6 +1,6 @@
 
 (function($, drafTerbit) {
-      var dt =  $("#post-data-table").dataTable({
+      var dt =  $("#posts-data-table").dataTable({
              "oLanguage": {
               //"sLengthMenu": "Showing _MENU_ records per page",
               ///"sSearch": "Search this table: _INPUT_",
@@ -12,5 +12,5 @@
 
     drafTerbit.replaceDTSearch(dt);
 
-    $('#post').checkAll({showIndeterminate:true});
+    $('#posts-checkall').checkAll({showIndeterminate:true});
 })(jQuery, drafTerbit);

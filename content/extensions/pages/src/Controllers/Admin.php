@@ -175,7 +175,7 @@ class Admin extends BaseController {
 			'id' => 'page-edit',
 			'status' => 1,
 			'action' => admin_url('pages/save'),
-			'title' => __('Edit New Page')
+			'title' => __('Edit Page')
 		));
 
 		return $this->render('@pages/admin/editor', $this->getData());

@@ -42,21 +42,13 @@ class Admin extends BaseController {
 		}
 
 		$posts = $cache->fetch('posts.'.$status);
-		$filters = [[
-			'' => '- Status -',
-			0 => 'Unpublished',
-			1 => 'Published',
-			2 => 'Trashed',
-		]];
-		// prepare asset
-		$this->get('asset')
-			->css('@bootstrap_datatables_css')		
-			->js('@datatables_js')
-			->js('@bootstrap_datatables_js')
-			->js('@jquery_check_all')
-			->js($this->publicPath('js/admin-index.js'));
 
-		return $this->layoutList('post', __('Blog'), null, null, $this->_toolbarIndex($status), $this->_table(), $posts, $filters);
+		set('status', $status);
+		set('title', __('Blog'));
+		set('id', 'posts');
+		set('blogTable', $this->datatables('posts', $this->_table(), $posts));
+
+		return $this->render('@blog/admin/index', $this->getData());
 	}
 
 	private function _handleIndexRequest($postIds, $action)
@@ -139,53 +131,6 @@ class Admin extends BaseController {
 		);
 	}
 
-	private function _toolbarIndex($status)
-	{
-		$toolbars['new-post'] = array(
-				'type' => 'a.success',
-				'href' => admin_url('blog/create'),
-				'label' => 'New Post',
-				'faClass' => 'fa-plus'
-			);
-		if($status != 'trashed') {
-			
-			$toolbars['trash'] = array(
-				'type' => 'submit',
-				'label' => 'Trash',
-				'name'=> 'action',
-				'value' => 'trash',
-				'faClass' => 'fa-trash-o'
-			);
-
-		} else {
-			$toolbars['index'] = array(
-				'type' => 'a',
-				'href' => admin_url('blog'),
-				'label' => 'Back to Index',
-				'align' => 'left'
-			);
-
-			$toolbars['restore'] = array(
-				'type' => 'submit',
-				'label' => 'Restore',
-				'name'=> 'action',
-				'value' => 'restore',
-				'faClass' => 'fa-recycle'
-			);
-
-			$toolbars['delete'] = array(
-				'type' => 'submit',
-				'label' => 'Delete Permanently',
-				'name'=> 'action',
-				'value' => 'delete',
-			);
-		}
-		
-
-
-		return $toolbars;
-	}
-
 	public function create()
 	{
 		// restrict
@@ -205,71 +150,17 @@ class Admin extends BaseController {
 		$tagOptions = rtrim($tagOptions, ',').']';
 
 		set(array(
-			'id' => null,
-			'title' => null,
+			'postId' => null,
+			'postTitle' => null,
 			'slug' => null,
 			'content' => null,
 			'tagOptions' => $tagOptions,
-			'tags' => array()
+			'tags' => array(),
+			'title' => __('New Post'),
+			'id' => 'post-create'
 		));
 
-		// prepare asset
-		$this->get('asset')
-			->css('@magicsuggest_css')
-			->css($this->publicPath('css/editor.css'))
-
-			->js('@magicsuggest_js')
-			->js($this->publicPath('js/editor.js'));
-
-		$inputView 		= $this->render('@blog/admin/edit', $this->getData());
-		return $this->layoutForm(__('New Post'), null, $this->_toolbarCreate(), $inputView);
-	}
-
-	private function _toolbarCreate()
-	{
-		return array(
-			'publish' => array(
-				'type' => 'submit.success',
-				'label' => 'Publish',
-				'name'=> 'action',
-				'value' => 'publish',
-				'faClass' => 'fa-check'
-			),
-			'save-draft' => array(
-				'type' => 'submit.default',
-				'label' => 'Save',
-				'name'=> 'action',
-				'value' => 'save',
-				'faClass' => false
-			),
-			'cancel' => array(
-				'type' => 'a.default',
-				'href' => admin_url('blog'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times',
-				'faStyle' => 'color: #A94442;',
-			),
-		);
-	}
-
-	private function _toolbarEdit()
-	{
-		return array(
-			'update' => array(
-				'type' => 'submit.success',
-				'label' => 'Update',
-				'name'=> 'action',
-				'value' => 'update',
-				'faClass' => 'fa-check'
-			),
-			'cancel' => array(
-				'type' => 'a.default',
-				'href' => admin_url('blog'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times',
-				'faStyle' => 'color: #A94442;',
-			),
-		);
+		return $this->render('@blog/admin/edit', $this->getData());
 	}
 
 	private function _handleCreateRequest($postData)
@@ -342,33 +233,17 @@ class Admin extends BaseController {
 		}
 
 		set(array(
-			'id' => $id,
-			'title' => $post->title,
+			'postId' => $id,
+			'postTitle' => $post->title,
 			'slug' => $post->slug,
 			'content' => $post->content,
 			'tags' => $tags,
-			'tagOptions' => $tagOptions
+			'tagOptions' => $tagOptions,
+			'title' => __('Edit Post'),
+			'id' => 'post-create'
 		));
-
-
-		$this->get('asset')
-		->css('@magicsuggest_css')
-		->css($this->publicPath('css/editor.css'))
-
-		->js('@magicsuggest_js')
-		->js($this->publicPath('js/editor.js'));
-
-		// build ui
-		$ui = $this->model('UI@admin');
-		$header 	= $ui->header('Edit Post', 'Edit');
-		$toolbar 	= $ui->toolbar($this->_toolbarEdit());
-		$view 		= $this->render('@blog/admin/edit', $this->getData());
-		$form 		= $ui->form(null, $toolbar, $view);
-		$content 	= $header.$form;
-
-		return $this->wrap($content);
 		
-		//return view();
+		return $this->render('@blog/admin/edit', $this->getData());
 	}
 
 	public function delete(){

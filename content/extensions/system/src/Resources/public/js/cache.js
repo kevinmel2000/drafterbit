@@ -1,4 +1,5 @@
-(function($,drafterbit) {
+(function($,drafTerbit) {
+
         var dt = $("#cache-data-table").dataTable({
              "oLanguage": {
               "sLengthMenu": "Showing _MENU_ records per page",
@@ -9,7 +10,8 @@
           ]
         });
 
-    drafterbit.replaceDTSearch(dt);
+    drafTerbit.replaceDTSearch(dt);
 
-    $('#cache').checkAll({showIndeterminate:true});
-})(jQuery,drafterbit);
+    $('#cache-checkall').checkAll({showIndeterminate:true});
+
+})(jQuery,drafTerbit);

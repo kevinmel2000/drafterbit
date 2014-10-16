@@ -46,22 +46,17 @@ class Group extends BaseController {
 		
 		set('groups', $groups);
 
-		$this->get('asset')
-		->css('@bootstrap_datatables_css')
-		
-		->js('@datatables_js')
-		->js('@bootstrap_datatables_js')
-		->js('@jquery_check_all')
-		->js($this->publicPath('js/group/admin-index.js'));
-
-		
 		$editUrl = admin_url('user/group/edit');
-		$tableConfig = array(
+		$tableHead = array(
 			['field' => 'label', 'label' => 'Group', 'format' => function($value, $item) use ($editUrl)  {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>";}],
 			['field' => 'description', 'label' => 'Description']
 		);
 
-		return $this->layoutList('groups', __('Group'),null, null, $this->_toolbarIndex(), $tableConfig, $groups);
+		set('id', 'groups');
+		set('title', __('Group'));
+		set('groupTable', $this->datatables('groups', $tableHead, $groups));
+
+		return $this->render('@user/admin/group/index', $this->getData());
 	}
 
 	function _toolbarIndex()
@@ -108,28 +103,6 @@ class Group extends BaseController {
 		);
 	}
 
-	function _toolbarCreate()
-	{
-		return array(
-			'cancel' => array(
-				'type' => 'a',
-				'href' => admin_url('user/group'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times'
-			),
-
-			'update' => array(
-				'type' => 'submit.success',
-				'label' => 'Save',
-				'name'=> 'action',
-				'value' => 'save',
-				'faClass' => 'fa-check'
-			),
-
-
-		);
-	}
-
 	public function delete($id)
 	{
 		$this->auth->restrict('usergroup.delete');
@@ -138,7 +111,8 @@ class Group extends BaseController {
 
 	public function edit($id = null)
 	{
-		$this->auth->restrict('usergroup.edit');
+		// @todo pending
+		//$this->auth->restrict('usergroup.edit');
 
 		$posts = $this->get('input')->post();
 
@@ -173,17 +147,12 @@ class Group extends BaseController {
 			'groupName' => $group->label,
 			'description' => $group->description,
 			'permissions' => $permissions,
-			'permissionIds' => $group->permissionIds
+			'permissionIds' => $group->permissionIds,
+			'id' => 'group-edit',
+			'title' => __('Edit Group'),
 		]);
 
-		$ui = $this->model('UI@system');
-		$header =  $ui->header('Edit Group', 'Edit Group');
-		$toolbar = $ui->toolbar($this->_toolbarEdit());
-		$view = $this->render('admin/group/edit', $this->getData());
-		$form = $ui->form(null, $toolbar, $view);
-		$content = $header.$form;
-
-		return $this->wrap($content);
+		return $this->render('@user/admin/group/edit', $this->getData());
 	}
 
 	public function create()
@@ -219,20 +188,15 @@ class Group extends BaseController {
 		set([
 			'groupName' => null,
 			'description' => null,
-			'permissionIds' => array()
+			'permissionIds' => array(),
+			'id' => 'group-create',
+			'title' => __('Add Group')
 		]);
 
 		$permissions = $this->group->getPermission()->all();
 		set(['permissions' => $permissions ]);
 
-		$ui = $this->model('UI@system');
-		$header =  $ui->header('New Group', 'Create new group');
-		$toolbar = $ui->toolbar($this->_toolbarCreate());
-		$view = $this->render('admin/group/edit', $this->getData());
-		$form = $ui->form(null, $toolbar, $view);
-		$content = $header.$form;
-
-		return $this->wrap($content);
+		return $this->render('@user/admin/group/edit', $this->getData());
 	}
 
 	protected function createGroupsInsertData($post)

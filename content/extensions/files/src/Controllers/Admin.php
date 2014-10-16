@@ -229,24 +229,7 @@ class Admin extends BaseController {
 
 	
 	public function browser()
-	{
-		$this->get('asset')
-			->css('@bootstrap_css')
-			->css('@fontawesome', '@fontawesome')
-			->css($this->publicPath('css/openfinder.css'))
-
-			->js('@jquery')
-			->js('@jquery_form')
-			->js('@bootstrap_js')
-			->js('@bootstrap_contextmenu')
-			->js($this->publicPath('js/openfinder.js'))
-			->js($this->publicPath('js/browser.js'));
-		
-		$js = $this->get('asset')->writeJs();		
-		$css = $this->get('asset')->writeCSS();
-
-		set('js', base_url('content/cache/asset/js/'.$js.'.js'));
-		set('css', base_url('content/cache/asset/css/'.$css.'.css'));
+	{	
 		return $this->render($this->getTemplate(), $this->getData());
 	}
 

@@ -8,13 +8,10 @@ class Themes extends BaseController {
 
 	protected $setting;
 
-	public function __construct(Auth $auth)
-	{
-		parent::__construct($auth);
-	}
-
 	public function index()
 	{
+		$this->setting = $this->model('System');
+
 		$cache = $this->get('cache');
 		$post = $this->get('input')->post();
 
@@ -32,12 +29,9 @@ class Themes extends BaseController {
 			//return redirect(base_url("admin/setting/themes"));
 		}
 
-		if(!$cache->contains('settings')) {
-			$cache->save('settings', $this->setting->all());
-		}
-
 		// @todo
-		$settings = $cache->fetch('settings');
+		$settings = $cache->fetch('system')
+		;
 		set('currentTheme', $settings['theme']);
 
 		$themesDir = $this->get('path.themes');
@@ -54,18 +48,10 @@ class Themes extends BaseController {
 		}
 
 		set('themes', $themes);
+		set('id', 'themes');
+		set('title', __('Themes'));
 
-		$ui = $this->model('UI@system');
-
-		$header =  $ui->header('Themes', 'Appearance setting');
-
-		$view = $this->get('template')->render('@system/setting/appearance', $this->getData());
-
-		$form = $ui->form(null, null, $view);
-
-		$content = $header.$form;
-
-		return $this->wrap($content);
+		return $this->render('@system/setting/appearance', $this->getData());
 	}
 
 	/**

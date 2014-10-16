@@ -1,3 +1,5 @@
+<?php $this->extend('@system/main'); ?>
+
 <div class="container">
 	<div class="row row-content">
 

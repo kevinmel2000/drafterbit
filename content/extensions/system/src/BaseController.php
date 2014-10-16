@@ -18,8 +18,8 @@ class BaseController extends Controller {
 
 		app('dispatcher')->addListener('controller.before.call', function() use ($message) {
 				
-				if(isset($message['text'], $message['type']))
-				app('current.controller')->message($message['text'], $message['type']);
+			if(isset($message['text'], $message['type']))
+			app('current.controller')->message($message['text'], $message['type']);
 		});
 	}
 

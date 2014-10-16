@@ -13,9 +13,9 @@
 			'setting/themes/widget/edit/{name}' => ['controller' => '@system\Setting\Themes::widgetEdit'],
 
 			'system' => [
-				'group' => [
-					'log' => ['controller' => '@system\Admin::log'],
-					'cache' => ['controller' => '@system\Admin::cache']
+				'subRoutes' => [
+					'log' => ['controller' => '@system\System::log'],
+					'cache' => ['controller' => '@system\System::cache']
 				],
 			],
 		],
