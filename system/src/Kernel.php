@@ -8,6 +8,20 @@ use Drafterbit\System\Log\DoctrineDBALHandler;
 
 class Kernel extends Application {
 
+    /**
+     * Application admin menus.
+     *
+     * @var array
+     */
+    protected $menu = array();
+    
+    /**
+     * Application Fronpage options.
+     *
+     * @var array
+     */
+    protected $frontpage = array();
+
     public function __construct($environment = 'development', $debug = true)
     {
     	parent::__construct($environment, $debug);
@@ -123,6 +137,24 @@ class Kernel extends Application {
             $record['formatted'] = "%message%";
             return $record;
         });
+
+
+        $this['dispatcher']->addListener('boot', function(){
+
+            $this->frontpage = array_merge($this->frontpage, $this->frontpage());
+            
+            $system = $this['cache']->fetch('system');
+
+            $homepage = $system['homepage'];
+            
+            $route = $this->frontpage[$homepage];
+
+            $this['router']->addRouteDefinition('/', [
+                'controller' => $route['controller'],
+                'defaults' => $route['defaults']
+                ]
+            );
+        });
     }
 
     public function frontpage()
@@ -136,7 +168,11 @@ class Kernel extends Application {
         $options = array();
 
         foreach ($pages as $page) {
-            $options["pages[{$page->id}]"] = $page->title;
+            $options[$page->slug] = [
+                'label' => $page->title,
+                'controller' => '@pages\Pages::home',
+                'defaults' => ['id' => $page->id]
+            ];
         }
 
         return $options;
@@ -149,7 +185,13 @@ class Kernel extends Application {
 
     public function getFrontPageOption()
     {
-        return $this->frontpage;
+        $options = array();
+
+        foreach ($this->frontpage as $id => $param) {
+            $options[$id] = $param['label'];
+        }
+
+        return $options;
     }
 
     /**

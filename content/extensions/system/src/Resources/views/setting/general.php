@@ -21,7 +21,7 @@
 		    <label for="format-time" class="control-label">Front Page</label>
 		      <select class="form-control" name="homepage">
 		      	<?php foreach($pageOptions as $value => $label): ?>
-		      		<option value="<?php echo $value ?>"><?php echo $label ?></option>
+		      		<option <?php echo selected('homepage', $value, $homepage == $value ); ?> value="<?php echo $value ?>"><?php echo $label ?></option>
 	   			<?php endforeach; ?>
 		      </select>
 		 </div>

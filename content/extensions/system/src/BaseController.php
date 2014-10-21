@@ -29,22 +29,26 @@ class BaseController extends Controller {
 		$children = array();
 		$i = 0;
 
-		foreach (app()->getMenu() as $item) {
+		foreach ($this->get('app')->getMenu() as $item) {
 
 			$order = isset($item['order']) ? $item['order'] : $i;
 			
 			if(isset($item['parent'])) {
-				$children[$item['parent']][$i] = $item;
+				$children[$item['parent']][$order] = $item;
 
 			} else {
-				$sorted[$order] = $item;
+				$sorted[$order][] = $item;
 			}
-
 
 			$i++;
 		}
 
-		foreach ($sorted as &$menu) {
+		$sorted2 = array();
+		foreach ($sorted as $index => $menu) {
+			$sorted2 = array_merge($sorted2, array_values($menu));
+		}
+		
+		foreach ($sorted2 as &$menu) {
 
 			if(isset($children[$menu['id']])) {
 				ksort($children[$menu['id']]);
@@ -52,8 +56,9 @@ class BaseController extends Controller {
 			}
 		}
 
-		ksort($sorted);
-		return $sorted;
+		ksort($sorted2);
+
+		return $sorted2;
 	}
 
 	public function buildTemplate()
@@ -82,57 +87,6 @@ class BaseController extends Controller {
 		return $this->get('template')->render('@system/base', $this->data);
 	}
 
-	public function view()
-	{
-		if( strtolower($this->get('input')
-					->server('HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest') {
-			
-			// @todo append js on demand
-			return parent::view();
-		}
-
-		if(!isset($this->data['messages'])) {
-            $this->data['messages'] = false;
-        }
-
-		$jsFileName = $this->get('asset')->writeJs();
-		$fileName = $this->get('asset')->writeCSS();
-		
-		$this->data['stylesheet'] = $fileName.'.css';
-		$this->data['script'] = $jsFileName.'.js';
-
-		return $this->buildTemplate();
-	}
-
-	public function wrap($content)
-	{
-		if(!isset($this->data['messages'])) {
-            $this->data['messages'] = false;
-        }
-
-		$jsFileName = $this->get('asset')->writeJs();
-		$fileName = $this->get('asset')->writeCSS();
-		
-		$this->data['stylesheet'] = $fileName.'.css';
-		$this->data['script'] = $jsFileName.'.js';
-
-		//gravatar
-		$session = $this->get('session');
-		$hash = md5(strtolower($session->get('user.email')));
-		$url = "http://www.gravatar.com/avatar/$hash?d=mm&s=17";
-		$userName = $session->get('user.name');
-		$userGravatar = $url;
-
-		$nav = $this->nav($this->menu(), $userName, $userGravatar);
-		$footer = $this->footer();
-		$partials['nav'] = $nav;
-		$partials['footer'] = $footer;
-
-		$this->set('content', $content);
-		$this->set('partials', $partials);
-		return $this->get('template')->render('@system/base', $this->data);
-	}
-
 	/**
      * Add Message.
      *
@@ -153,82 +107,7 @@ class BaseController extends Controller {
 
         return array_push($this->data['messages'], $message);
     }
-
-    public function layoutList($id, $title, $subtitle, $action, $toolbars, $headers, $datas, $filters = array())
-	{
-		$data['header'] 	= $this->header($title, $subtitle);
-		$data['toolbars'] 	= $this->toolbar($toolbars, true, $filters);
-		$data['action'] 	= $action;
-		$data['table'] 		= $this->datatables($id, $headers, $datas);
-		$content = $this->render('@system/partials/list', $data);
-
-		return $this->wrap($content);
-	}
-
-	public function layoutForm($id, $title, $subtitle, $action, $toolbars, $view)
-	{
-		$data['header'] = $this->header($title, $subtitle);
-		$data['toolbars'] 	= $this->toolbar($toolbars);
-		$data['action'] 	= $action;
-		$data['view'] = $view;
-		$data['id'] = $id;
-		$content =  $this->render('@system/partials/form', $data);
-		return $this->wrap($content);
-	}
-
-	public function header($title, $subTitle = null)
-	{
-		$data['title'] = $title;
-		$data['subTitle'] = $subTitle;
-		return $this->render('@system/partials/header', $data);
-	}
-
-	public function toolbar($config, $search = false, $filters = array())
-	{
-		$toolbars['left'] = array();
-		$toolbars['right'] = array();
-		foreach ($config as $name => $def) {
-			$c =  (object) $def;
-
-			$types = explode('.', $def['type']);
-
-			$c->type = $types[0];
-			$c->classType = isset($types[1]) ? $types[1] : 'default';
-			$c->id = $name;
-			$c->align = isset($def['align']) ?$def['align'] : 'left';
-			$c->faClass = isset($def['faClass']) ?$def['faClass'] : false;
-
-			if($c->align == 'right') {
-				$toolbars['right'][] = $c;
-			} else {
-				$toolbars['left'][] = $c;
-			}
-		}
-
-		$data['toolbars'] = $toolbars;
-		$data['search'] = $search;
-		$data['filters'] = $filters;
-		return $this->render('@system/partials/toolbar', $data);
-	}
-
-	public function nav($menuArray, $userName, $userGravatar)
-	{
-		$menus = $this->createMenu($menuArray);
-
-		$data['menus'] = $menus;
-		$data['userName'] = $userName;
-		$data['userGravatar'] = $userGravatar;
-
-		return $this->render('@system/partials/nav', $data);
-	}
-
-	public function footer()
-	{
-		$system = $this->get('cache')->fetch('system');
-		$data['siteName'] = $system['site.name'];
-		return $this->render('@system/partials/footer', $data);
-	}
-
+    
 	private function createMenu($menuArray)
 	{
 		$menus = array();
@@ -248,15 +127,6 @@ class BaseController extends Controller {
 		}
 
 		return $menus;
-	}
-
-	public function form($action, $toolbar, $view)
-	{
-		 $data['relatedLinks'] = false;
-		 $data['formAction'] = $action;
-		 $data['view'] = $view;
-		 $data['toolbars'] = $toolbar;
-		return $this->render('@system/partials/form', $data);
 	}
 
 	public function datatables($id, $headers, $data)

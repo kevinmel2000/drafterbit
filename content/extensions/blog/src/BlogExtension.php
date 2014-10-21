@@ -18,7 +18,22 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 			$this['twig']->addExtension( new $extensionClass);
 		}
 
-		$this->getApplication()->addFrontPageOption(['blog' => 'Blog']);
+		$this->getApplication()->addFrontPageOption(['blog' => [
+			'label' => 'Blog',
+			'controller' => '@blog\Blog::index',
+			'defaults' => array()
+			]
+		]);
+
+	}
+
+	public function getComments($id)
+	{
+		$model = $this->model('@blog\Comment');
+
+		$comments = $model->getByPostId($id);
+
+		return $comments;
 	}
 
 	public function createTables()
@@ -75,5 +90,16 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 		$comments->addForeignKeyConstraint('#_posts', ['post_id'], ['id']);
 		$comments->addForeignKeyConstraint('#_users', ['user_id'], ['id']);
 		$this['db']->getSchemaManager()->createTable($comments);
+	}
+
+	function getSearchQuery()
+	{
+		$query = $this['db']->createQueryBuilder()
+			->select('*')
+			->from('#_posts', 'p')
+			->where("p.title like :q")
+			->orWhere("p.content like :q");
+
+		return array('blog', $query);
 	}
 }

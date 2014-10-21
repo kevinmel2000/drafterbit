@@ -9,6 +9,7 @@
 	],
 	'menus' => [
 		[ 'id' => 'blog', 'parent' => 'content', 'label' => 'Blog', 'href' => 'blog'],
+		[ 'id' => 'comments', 'label' => 'Comments', 'href' => 'blog/comments', 'order' => 2]
 	],
 	'permissions' => [
 		'blog.view' => 'view blog',

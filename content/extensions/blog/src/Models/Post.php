@@ -17,7 +17,7 @@ class Post extends \Drafterbit\Framework\Model {
 			->setParameter('status', $status);
 		}
 
-		return $queryBuilder->execute()->fetchAll(\PDO::FETCH_CLASS);
+		return $queryBuilder->fetchAllObjects();
 	}
 
 	public function insert($data)

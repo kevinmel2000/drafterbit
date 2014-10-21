@@ -42,6 +42,7 @@ class Setting extends BaseController {
 			'timezone' => $config['timezone'],
 			'dateFormat' => $config['format.date'],
 			'timeFormat' => $config['format.time'],
+			'homepage' => $config['homepage'],
 			'pageOptions' => $this->get('app')->getFrontPageOption(),
 			'title' => __('General Setting'),
 			'id' => 'setting'
@@ -61,7 +62,7 @@ class Setting extends BaseController {
 
 		$data['site_name'] = $p['site-name'];	
 		$data['site.tagline'] = $p['site-tagline'];	
-		$data['site.address'] = $p['site-address'];	
+		//$data['site.address'] = $p['site-address'];	
 		$data['email'] = $p['email'];	
 		$data['language'] = $p['language'];	
 		$data['timezone'] = $p['timezone'];

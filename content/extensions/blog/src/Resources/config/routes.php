@@ -4,9 +4,12 @@
 	'subRoutes' => [
 		'blog' => ['controller' => '@blog\Admin::index'],
 		'blog/create' => ['controller' => '@blog\Admin::create'],
-		'blog/edit/{id}' => ['controller' => '@blog\Admin::edit']
+		'blog/edit/{id}' => ['controller' => '@blog\Admin::edit'],
+		'blog/comments' => ['controller' => '@blog\Comment::index'],
+
 	]
 ],
+
 
 'blog' => [
 	'controller' => '@blog\Blog::index'
@@ -19,6 +22,8 @@
 		'yyyy' => '\d{4}',
 		'mm' => '\d{2}'
 		]
-	]
+	],
+
+'blog/comment/submit' => ['controller' => '@blog\Comment::submit', 'methods' => 'post'],
 
 ];

@@ -4,20 +4,7 @@ class PagesExtension extends \Drafterbit\Framework\Extension {
 
 	public function boot()
 	{
-		$app = $this->GetApplication();
-		$app->frontpage = array_merge($app->frontpage, $app->frontpage());
 
-		$system = $this['cache']->fetch('system');
-
-		$homepage = $system['homepage'];
-
-		if(strpos($homepage, 'pages') !==  FALSE) {
-			$this['router']->addRouteDefinition('/', ['controller' => '@pages\Pages::home']);
-			$id = substr($homepage, -2, -1);
-			$this['homepage.id'] = $id;
-		} else {
-			// @todo add non-page homepage
-		}
 	}
 
 	public function createTables()
@@ -39,5 +26,16 @@ class PagesExtension extends \Drafterbit\Framework\Extension {
 		$pages->addForeignKeyConstraint('#_users', ['user_id'], ['id']);
 		$pages->setPrimaryKey(['id']);
 		$this['db']->getSchemaManager()->createTable($pages);
+	}
+
+	function getSearchQuery()
+	{
+		$query = $this['db']->createQueryBuilder()
+			->select('*')
+			->from('#_pages', 'p')
+			->where("p.title like :q")
+			->orWhere("p.content like :q");
+
+		return array('page', $query);
 	}
 }

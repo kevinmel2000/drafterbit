@@ -10,18 +10,10 @@ class SystemExtension extends \Drafterbit\Framework\Extension {
 		$this['config']->addReplaces('%path.vendor.asset%', $this['path'].'vendor/web');
 		$this['config']->addReplaces('%path.system.asset%', $this['path'].'Resources/public/assets');
 
-		$this['helper']->register('form',$this->getResourcesPath('helpers/form.php'));
-		$this['helper']->register('support', $this->getResourcesPath('helpers/support.php'));
-		$this['helper']->register('twig', $this->getResourcesPath('helpers/twig.php'));
-		
-		$this['helper']->load('form');
-		$this['helper']->load('support');
-		$this['helper']->load('twig');
-
-		$this['helper']->register('message', $this->getResourcesPath('helpers/message.php'));
-		$this['helper']->register('admin', $this->getResourcesPath('helpers/admin.php'));
-		$this['helper']->load('message');
-		$this['helper']->load('admin');
+		foreach (['form', 'support', 'twig'] as $helper) {
+			$this['helper']->register( $helper, $this->getResourcesPath("helpers/$helper.php"));
+			$this['helper']->load($helper);
+		}
 
 		//theme
 		$config = $this['config'];
@@ -34,7 +26,7 @@ class SystemExtension extends \Drafterbit\Framework\Extension {
 		
 		$this['themes']->registerAll();
 
-		$this['path.theme'] = $this['path.themes'].$this['themes']->current().'/';
+		$this['path.theme'] = $this['path.themes'].$this['themes']->current().'/';		
 	}
 
 	private function getTheme()

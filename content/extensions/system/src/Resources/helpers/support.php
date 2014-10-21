@@ -1,5 +1,21 @@
 <?php
 
+if ( ! function_exists('admin_url'))
+{
+     /**
+     * admin url
+     *
+     * @param string $sub
+     * @return string
+     */
+     function admin_url($sub = null)
+     {
+          $admin = app('config')['path.admin'];
+          $path = is_null($sub) ? $admin : $admin.'/'.$sub;
+          return base_url($path);
+     }
+}
+
 if ( ! function_exists('wysiwyg')) {
 	/**
 	 * Get theme path
@@ -79,5 +95,20 @@ if ( ! function_exists('asset_url')) {
 		$cachePath = str_replace(app('path.public'), '', app('path.content')).'cache';
 
 		return base_url($cachePath.'/asset/'.$path);
+	}
+}
+
+if ( ! function_exists('message'))
+{
+	/**
+     * Add Message.
+     *
+     * @param string $text
+     * @param string $type
+     * @param string $title
+     */
+	function message($text, $type = 'info', $title = null)
+	{
+		return app('current.controller')->message($text, $type, $title);
 	}
 }

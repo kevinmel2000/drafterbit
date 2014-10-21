@@ -19,6 +19,17 @@ class Blog extends BaseController {
 	{
 		$posts = $this->post->all();
 		set('posts', $posts);
+
+		foreach ($posts as &$post) {
+
+			$date = date('Y/m', strtotime($post->created_at));
+
+			$post->url = base_url('blog/'.$date.'/'.$post->slug);
+
+			$post->excerpt = current(explode('<!--more-->', $post->content));
+			$post->excerpt .= '&hellip; <a href="'.$post->url.'" />Read more </a></p>';
+		}
+
 		return $this->get('twig')->render('blog/index.html', $this->data);
 	}
 

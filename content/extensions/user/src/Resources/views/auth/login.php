@@ -26,7 +26,7 @@
     <div class="container">
       <div class="panel panel-default form-signin-panel">
         <div class="panel-body">
-            <div style="text-align:center; margin-bottom:20px;"><h1 class="title"><i class="fa fa-send"></i> Drafterbit</h1></div>
+            <div style="text-align:center; margin-bottom:20px;"><h1 class="title">Drafterbit</h1></div>
   			
 		  			<?php if( ! empty($messages)): ?>
 		  				<div class="alert alert-danger">

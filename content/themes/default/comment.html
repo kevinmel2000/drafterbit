@@ -1,0 +1,30 @@
+<div style="margin-left:20px;" id="comment-{{ comment.id }}">
+	<div><a href="http://{{ comment.url }}">{{ comment.name }}</a> :</div>
+	<p>{{comment.content}} <a href="#">Reply</a></p>
+	<div>
+		<form method="post" action="{{ base_url }}blog/comment/submit">
+			<div>
+				<label class="label" for="comment[name]">Name</label>
+				<input type="text" name="comment[name]" required/>
+			</div>
+			<div>
+				<label class="label" for="comment[email]">Email</label>
+				<input type="email" name="comment[email]" required />
+			</div>
+			<div>
+				<label class="label" for="comment[url]">URL</label>
+				<input type="text" name="comment[url]"/>
+			</div>
+			<div>
+				<label class="label">Comment</label>
+				<textarea name="comment[content]"></textarea>
+			</div>
+			<div>
+				<input type="hidden" name="comment[parent_id]" value="{{ parent_id }}">
+				<input type="hidden" name="comment[post_id]" value="{{ post_id }}">
+				<input type="submit" name="submit" value="Submit"/>
+			</div>
+		</form>
+	</div>
+	<div>{{ comment.childs }}</div>
+</div>

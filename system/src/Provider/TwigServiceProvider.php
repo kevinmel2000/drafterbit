@@ -22,8 +22,16 @@ class TwigServiceProvider implements ServiceProviderInterface {
 
             $twig = new \Twig_Environment($app['twig.loader'], $app['twig.options']);
             $twig->addGlobal('app', $app);
-            $twig->addGlobal('theme_url', theme_url());
-            $twig->addGlobal('base_url', base_url());
+
+            $globalVar = [
+                'base_url' => base_url(),
+                'theme_url' => theme_url(),
+                'csrf_token' => csrf_token()
+            ];
+
+            foreach ($globalVar as $key => $val) {
+                $twig->addGlobal($key, $val);
+            }
 
             //add widget function
             $function = new \Twig_SimpleFunction('widget', function($p){

@@ -20,7 +20,13 @@
 
 			// @todo
 			// @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
-			'slug' => "^(?!(?:"."%admin%"."|blog|)(?:/|$)).*$"
+			/*
+				reserved url:
+				    - %admin%
+				    - blog
+				    - search
+			*/
+			'slug' => "^(?!(?:"."%admin%"."|blog|search|)(?:/|$)).*$"
 		]
 	],
 ];

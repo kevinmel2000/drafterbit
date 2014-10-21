@@ -1,9 +1,23 @@
 html {
-  font-family: Arial, sans-serif; /* 1 */
-  -ms-text-size-adjust: 100%; /* 2 */
-  -webkit-text-size-adjust: 100%; /* 2 */
+  font-family: Arial, sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+
+body {
+	font-size: 14px;
 }
 
 h1, h2, h3, h4, h5, h6{
-  font-family: Georgia, serif; /* 1 */
+  font-family: Georgia, serif;
+}
+
+a {
+	text-decoration: none;
+}
+/* form */
+
+.label {
+	display: block;
 }

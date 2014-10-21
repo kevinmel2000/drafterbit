@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo admin_url('dashboard'); ?>"><i class="fa fa-send"></i></a>
+                <a class="navbar-brand" href="<?php echo admin_url('dashboard'); ?>"><i class="fa fa-home"></i></a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-left dt-off-canvas">

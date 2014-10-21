@@ -26,5 +26,9 @@
 	'%admin%/setting/themes/widget/save' => [
 		'controller' => '@system\Setting\Themes::widgetSave',
 		'methods' => 'post'
+	],
+
+	'search' => [
+			'controller' => '@system\System::search'
 	]
 ];
