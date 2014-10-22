@@ -1,6 +1,6 @@
 <?php return [
 	
-	'up' => function($app)
+	'up' => function() use($app)
 	{
 		$schema = $app['db']->getSchemaManager()->createSchema();		
 		
@@ -21,8 +21,8 @@
 		$app['db']->getSchemaManager()->createTable($pages);
 	},
 
-	'down' => function($app)
+	'down' => function()
 	{
-		
+
 	}
 ];

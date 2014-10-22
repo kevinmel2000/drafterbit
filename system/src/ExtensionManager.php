@@ -151,7 +151,7 @@ class ExtensionManager {
 	 */
 	public function load($extension)
 	{
-		$this->app->addExtension($this->get($extension));
+		return $this->app->addExtension($this->get($extension));
 	}
 
 	/**

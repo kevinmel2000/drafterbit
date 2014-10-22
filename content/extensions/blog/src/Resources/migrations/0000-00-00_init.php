@@ -1,6 +1,6 @@
 <?php return [
 	
-	'up' => function ()
+	'up' => function () use($app)
 	{
 		$schema = $app['db']->getSchemaManager()->createSchema();		
 		

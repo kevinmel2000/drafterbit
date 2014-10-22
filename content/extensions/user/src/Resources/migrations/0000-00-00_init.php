@@ -1,5 +1,5 @@
 <?php return [
-	'up' => function ($app)
+	'up' => function() use($app)
 	{
 		$schema = $app['db']->getSchemaManager()->createSchema();		
 		
@@ -59,7 +59,8 @@
 		$app['db']->getSchemaManager()->createTable($groups_permissions);
 	},
 
-	'down' => function(){
+	'down' => function()
+	{
 
 	}
 ];

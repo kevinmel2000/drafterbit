@@ -2,8 +2,11 @@
 <html>
 <head>
 	<title>Drafterbit Installation</title>
+
+		<?php $this->css(':bootstrap_css, :bootstrap_validator_css'); ?>
+		<?php echo $this->block('css');?>
+
 	<style>
-		<?php echo $css; ?>
 		input, button, .btn, textarea {
 			border-radius: 2px !important;
 		}
@@ -33,7 +36,7 @@
 				<span class="help-block">This pack is not installed yet.</span>
 				<br/>
 				<br/>
-				<a href="#" data-next="#database-connect" class="btn btn-default begin-button"/> Begin </a>
+				<a href="#" data-next="#database-connect" class="btn btn-default begin-button"/> Install </a>
 			</div>
 		</div>
 		
@@ -125,8 +128,9 @@
 		</div>
 
 	</div>
-	<script>
-	<?php echo $js; ?>
-	</script>
+
+	<?php $this->js(':jquery, :bootstrap_js, :bootstrap_validator_js, :jquery_form, @installer/js/install.js'); ?>;
+	<?php echo $this->block('js') ?>
+
 </body>
 </html>

@@ -9,40 +9,7 @@
  * exemple: if you set this to 'admin' then you can access the admin panel
  * at 'http://domain.tld/admin'.
  */
-'path.admin' =>  'backend',
-
-/**
- * ---------------------------------------------------------------------------
- * Cache Folder
- * ---------------------------------------------------------------------------
- *
- * This is folder where all application cache will be stored. Feel free to
- * change it but note that the value must be writable and reletive to
- * installation folder.
- */
-'path.cache' =>  'content/cache',
-
-/**
- * ---------------------------------------------------------------------------
- * Themes Install Dir
- * ---------------------------------------------------------------------------
- *
- * This is folder where all themes are installed. Feel free to
- * change it but note that the value must be writable and reletive to
- * installation folder.
- */
-'path.theme' => 'content/themes',
-
-/**
- * ---------------------------------------------------------------------------
- * Widget install Dir
- * ---------------------------------------------------------------------------
- *
- * This is folder where all widget are installed. Feel free to
- * change it but note that the value must be writable and reletive to
- * installation folder.
- */
-'path.widget' =>  'content/widget',
+'path.admin' =>  'admin',
 
 /**
  * ---------------------------------------------------------------------------
@@ -57,34 +24,22 @@
 
 /**
  * ---------------------------------------------------------------------------
- * Modules Install Dir
- * ---------------------------------------------------------------------------
- *
- * This is folder where all modules will be installed. Feel free to
- * change it but note that the value must be writable and reletive to
- * installation folder.
- */
-'path.modules' =>  'content/modules',
-
-/**
- * ---------------------------------------------------------------------------
  * Database Connection Config
  * ---------------------------------------------------------------------------
  *
- * This is folder where all modules will be installed. Feel free to
- * change it but note that the value must be writable and reletive to
- * installation folder.
+ * This is database connection detail you need to provide to connect the
+ * application to database. Driver that supported is only 'pdo_mysql' for now.
  */
 
 'database' => [
-	'driver'       => 'pdo_mysql',
+    'driver'       => 'pdo_mysql',
     'user'         => 'root',
     'password'     => '',
     'host'         => 'localhost',
     'port'         => '3306',
-    'dbname'       => 'drafterbit',
+    'dbname'       => '',
     'charset'      => 'utf8',
     'collation'    => 'utf8_unicode_ci',
     'prefix'       => 'dt_',
-	]
+    ]
 ];

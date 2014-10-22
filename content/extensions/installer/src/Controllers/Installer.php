@@ -5,20 +5,8 @@ use Drafterbit\Framework\Controller;
 class Installer extends Controller {
 	
 	public function index()
-	{
-		$asset = $this->get('asset')
-		->css('@bootstrap_css')
-		->css('@bootstrap_validator_css')
-		->js('@jquery')
-		->js('@bootstrap_js')
-		->js('@bootstrap_validator_js')
-		->js('@jquery_form')
-		->js($this->publicPath('js/install.js'));
-
+	{	
 		$start = $this->getExtension()->getStart();
-		set('css', $asset->dump('css'));
-		set('js', $asset->dump('js'));
-		
 		// @todo: set start before installing
 		set('start', $start);
 
@@ -89,11 +77,12 @@ class Installer extends Controller {
  		$extMgr->addPath($this->get('path.install').$config['path.extension']);
 		$extMgr->refreshInstalled();
 
- 		// table creations 		
+ 		// migrations	
  		foreach ($extMgr->getCoreExtension() as $extension) {
- 			$extMgr->load($extension);
  			
- 			//@todo run install migration here ??
+ 			// add and return the extension
+ 			$ext = $extMgr->load($extension);
+ 			$this->get('migrator')->create($ext->getResourcesPath('migrations'))->run();
  		}
 
  		$model = $this->model('Installer');
