@@ -92,9 +92,8 @@ class Installer extends Controller {
  		// table creations 		
  		foreach ($extMgr->getCoreExtension() as $extension) {
  			$extMgr->load($extension);
- 			if(method_exists($this->getExtension($extension), 'createTables')) {
- 				$this->getExtension($extension)->createTables();
- 			}
+ 			
+ 			//@todo run install migration here ??
  		}
 
  		$model = $this->model('Installer');
