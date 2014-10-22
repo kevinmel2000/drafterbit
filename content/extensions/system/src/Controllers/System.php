@@ -1,18 +1,8 @@
 <?php namespace Drafterbit\Extensions\System\Controllers;
 
-use Drafterbit\Extensions\User\Models\Auth;
 use Drafterbit\Extensions\System\BaseController;
-use Drafterbit\Extensions\System\Models\Log;
 
 class System extends BaseController {
-
-	protected $log;
-
-	public function __construct( Auth $auth, Log $log)
-	{
-		parent::__construct($auth);
-		$this->log = $log;
-	}
 
 	public function log()
 	{
@@ -23,19 +13,19 @@ class System extends BaseController {
 			case "delete":
 				if($logIds) {
 					foreach ($logIds as $id) {
-						$this->log->delete($id);
+						$this->model('@system\Log')->delete($id);
 					}
 					message('Logs deleted !', 'success');
 				}
 				break;
 			case "clear":
-				$this->log->clear();
+				$this->model('@system\Log')->clear();
 				message('Logs cleared !', 'success');
 			default:
 				break;
 		}
 
-		$logs = $this->log->all();
+		$logs = $this->model('@system\Log')->all();
 
 		set('title', __('Logs'));
 		set('id', 'log');

@@ -1,23 +1,12 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
-use Drafterbit\Blog\Models\Post;
-use Drafterbit\Blog\Models\Tag;
 use Drafterbit\Extensions\System\Controller as BaseController;
 
 class Blog extends BaseController {
 
-	protected $post;
-	protected $tag;
-
-	public function __construct(Post $post, Tag $tag)
-	{
-		$this->post = $post;
-		$this->tag = $tag;
-	}
-
 	public function index()
 	{
-		$posts = $this->post->all();
+		$posts = $this->model('@blog\Post')->all();
 		set('posts', $posts);
 
 		foreach ($posts as &$post) {
@@ -35,13 +24,13 @@ class Blog extends BaseController {
 
 	public function view($yyyy = null, $mm = null, $slug = null)
 	{
-		$post = $this->post->getSingleBy('slug', $slug);
+		$post = $this->model('@blog\Post')->getSingleBy('slug', $slug);
 		
 		if(!$post) {
 			show_404();
 		}
 
-		$post->tags = $this->tag->getByPost($post->id);
+		$post->tags = $this->model('@blog\Tag')->getByPost($post->id);
 
 		set('post', $post);
 		return $this->get('twig')->render('blog/view.html', $this->data);

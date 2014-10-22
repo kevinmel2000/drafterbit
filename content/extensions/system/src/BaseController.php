@@ -8,9 +8,8 @@ class BaseController extends Controller {
 
 	protected $baseTemplate;
 
-	public function __construct( Auth $auth )
+	public function __construct( )
 	{
-		$this->auth = $auth;
 		$session = $this->get('session');
 
 		//flash message

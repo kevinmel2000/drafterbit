@@ -2,23 +2,13 @@
 
 use Drafterbit\Extensions\System\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
-use Drafterbit\Extensions\Pages\Models\Pages as PageModel;
-use Models\Post;
 use Carbon\Carbon;
 
 class Admin extends BaseController {
-	
-	protected $pages;
-
-	public function __construct(Auth $auth, PageModel $pages)
-	{
-		parent::__construct($auth);
-		$this->pages = $pages;
-	}
 
 	public function index($status = 'untrashed')
 	{
-		$this->auth->restrict('page.view');
+		$this->model('@user\Auth')->restrict('page.view');
 
 		if( $post = $this->get('input')->post()) {
 
@@ -26,14 +16,14 @@ class Admin extends BaseController {
 
 			switch($post['action']) {
 				case "trash":
-					$this->pages->trash($pageIds);
+					$this->model('@pages\Pages')->trash($pageIds);
 					message('Pages moved to trash !', 'success');
 					break;
 				case 'delete':
-					$this->pages->delete($pageIds);
+					$this->model('@pages\Pages')->delete($pageIds);
 					message('Pages Deleted !', 'success');
 				case 'restore':
-					$this->pages->restore($pageIds);
+					$this->model('@pages\Pages')->restore($pageIds);
 					message('Pages Restored !', 'success');
 				break;
 				default:
@@ -41,7 +31,7 @@ class Admin extends BaseController {
 			}
 		}
 		
-		$pages = $this->pages->all($status);
+		$pages = $this->model('@pages\Pages')->all($status);
 		
 		set('status', $status);
 		set('pages', $pages);
@@ -56,7 +46,7 @@ class Admin extends BaseController {
 	{
 		$search = $this->get('input')->get('search');
 
-		$pages = $this->pages->all($status);
+		$pages = $this->model('@pages\Pages')->all($status);
 		
 		$editUrl = admin_url('pages/edit');
 
@@ -110,13 +100,13 @@ class Admin extends BaseController {
 
 	public function create()
 	{
-		$this->auth->restrict('page.add');		
+		$this->model('@user\Auth')->restrict('page.add');		
 		if ($postData = $this->get('input')->post()) {			
 			try {
 				$this->validate('page', $postData);
 
 				$data = $this->createInsertData($postData);
-				$id = $this->pages->insert($data);
+				$id = $this->model('@pages\Pages')->insert($data);
 
 				$this->get('cache')->delete('pages');
 
@@ -146,14 +136,14 @@ class Admin extends BaseController {
 
 	public function edit($id)
 	{
-		$this->auth->restrict('page.edit');
+		$this->model('@user\Auth')->restrict('page.edit');
 		
 		if ($postData = $this->get('input')->post() ) {
 
 			try {
 				$this->validate('page', $postData);
 				$data = $this->createUpdateData($postData);
-				$this->pages->update($data, $id);
+				$this->model('@pages\Pages')->update($data, $id);
 				$this->get('cache')->delete('pages');
 				message('Post succesfully updated.', 'success');
 
@@ -162,7 +152,7 @@ class Admin extends BaseController {
 			}
 		}
 
-		$page = $this->pages->getSingleBy('id', $id);
+		$page = $this->model('@pages\Pages')->getSingleBy('id', $id);
 
 		set(array(
 			'pageId' => $id,

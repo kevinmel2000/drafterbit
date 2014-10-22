@@ -10,12 +10,7 @@ use Drafterbit\Extensions\User\Models\Auth as authModel;
 class Auth extends BaseController {
 
 	protected $placeBeforeLogin = '/';
-	protected $authModel;
 
-	public function __construct( User $user, UsersGroup $group, AuthModel $authModel)
-	{
-		$this->authModel = $authModel;
-	}
 
 	public function login()
 	{
@@ -36,7 +31,7 @@ class Auth extends BaseController {
 			try {
 				
 				$this->validate('login', $post);
-				$this->authModel->doLogin($post['email'], $post['password'], $remember);
+				$this->model('@user\Auth')->doLogin($post['email'], $post['password'], $remember);
 				
 				return redirect($redirectAfterLogin);
 			} catch (\Exception $e) {

@@ -2,21 +2,13 @@
 
 use Drafterbit\Extensions\System\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
-use Drafterbit\Extensions\System\Models\System as SettingModel;
 
 class Setting extends BaseController {
-
-	protected $setting;
-
-	public function __construct(SettingModel $setting)
-	{
-		$this->setting = $setting;
-	}
 
 	public function general()
 	{
 		// @todo
-		//$this->auth->restrict('setting.change');
+		//$this->model('@user\Auth')->restrict('setting.change');
 
 		$post = $this->get('input')->post();
 
@@ -25,7 +17,7 @@ class Setting extends BaseController {
 			// @todo validate setting
 
 			$data = $this->setupData($post);
-			$this->setting->updateSetting($data);
+			$this->model('@system\System')->updateSetting($data);
 
 			message('Setting updated !', 'success');
 		}

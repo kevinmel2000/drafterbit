@@ -4,26 +4,13 @@ use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BaseController;
 use Drafterbit\Extensions\User\Models\Auth;
 use Carbon\Carbon;
-use Drafterbit\Blog\Models\Post;
-use Drafterbit\Blog\Models\Tag;
 
 class Admin extends BaseController {
-
-	protected $tag;
-	protected $post;
-
-	public function __construct( Auth $auth, Post $post, Tag $tag)
-	{
-		parent::__construct($auth);
-
-		$this->post = $post;
-		$this->tag = $tag;
-	}
 
 	public function index($status = 'published')
 	{
 		// authorize restriction
-		$this->auth->restrict('blog.view');
+		$this->model('@user\Auth')->restrict('blog.view');
 
 		// handle request
 		if($post = $this->get('input')->post()) {
@@ -38,7 +25,7 @@ class Admin extends BaseController {
 		// get data
 		$cache = $this->get('cache');
 		if( ! $cache->contains('posts.'.$status) ) {
-			$cache->save('posts.'.$status, $this->post->all($status));
+			$cache->save('posts.'.$status, $this->model('@blog\Post')->all($status));
 		}
 
 		$posts = $cache->fetch('posts.'.$status);
@@ -59,7 +46,7 @@ class Admin extends BaseController {
 					// $ids = '';
 					 foreach ($postIds as $id) {
 					// 	$ids .= ", $id";
-					 	$this->post->delete($id);
+					 	$this->model('@blog\Post')->delete($id);
 					 }
 					// $ids = ltrim($ids, ',');
 
@@ -73,7 +60,7 @@ class Admin extends BaseController {
 				case 'trash':
 					$data['status'] = 'trashed';
 					foreach ($postIds as $id) {
-						$this->post->update($data, $id);
+						$this->model('@blog\Post')->update($data, $id);
 					}
 
 					$this->refreshCache();
@@ -82,7 +69,7 @@ class Admin extends BaseController {
 				case 'restore':
 					$data['status'] = 'published';
 					foreach ($postIds as $id) {
-						$this->post->update($data, $id);
+						$this->model('@blog\Post')->update($data, $id);
 					}
 
 					$this->refreshCache();
@@ -134,7 +121,7 @@ class Admin extends BaseController {
 	public function create()
 	{
 		// restrict
-		$this->auth->restrict('blog.add');
+		$this->model('@user\Auth')->restrict('blog.add');
 
 		// handle request
 		if ($post = $this->get('input')->post()) {
@@ -142,7 +129,7 @@ class Admin extends BaseController {
 		}
 
 		//get data
-		$tagOptionsArray = $this->tag->all();
+		$tagOptionsArray = $this->model('@blog\Tag')->all();
 		$tagOptions = '[';
 		foreach ($tagOptionsArray as $tO) {
 			$tagOptions .= "'{$tO->label}',";
@@ -169,7 +156,7 @@ class Admin extends BaseController {
 				$this->validate('blog', $postData);
 				
 				$data = $this->createInsertData($postData);
-				$id = $this->post->insert($data);
+				$id = $this->model('@blog\Post')->insert($data);
 
 				if(isset($postData['tags']))
 				$this->insertTags( $postData['tags'], $id);
@@ -197,14 +184,14 @@ class Admin extends BaseController {
 
 	public function edit($id)
 	{
-		$this->auth->restrict('blog.edit');
+		$this->model('@user\Auth')->restrict('blog.edit');
 		
 		if ($postData = $this->get('input')->post()) {
 
 			try {
 				$this->validate('blog', $postData);
 				$data = $this->createUpdateData($postData);
-				$this->post->update($data, $id);
+				$this->model('@blog\Post')->update($data, $id);
 
 				$this->insertTags( $postData['tags'], $id);
 				message('Post succesfully updated.', 'success');
@@ -215,17 +202,17 @@ class Admin extends BaseController {
 		}
 
 		//options
-		$tagOptionsArray = $this->tag->all();
+		$tagOptionsArray = $this->model('@blog\Tag')->all();
 		$tagOptions = '[';
 		foreach ($tagOptionsArray as $tO) {
 			$tagOptions .= "'{$tO->label}',";
 		}
 		$tagOptions = rtrim($tagOptions, ',').']';
 
-		$post = $this->post->getBy('id', $id);
+		$post = $this->model('@blog\Post')->getBy('id', $id);
 
 		//used
-		$post->tags = $this->post->getTags($id);
+		$post->tags = $this->model('@blog\Post')->getTags($id);
 		
 		$tags = array();
 		foreach ($post->tags as $tag) {
@@ -247,7 +234,7 @@ class Admin extends BaseController {
 	}
 
 	public function delete(){
-		$this->auth->restrict('blog.delete');
+		$this->model('@user\Auth')->restrict('blog.delete');
 		//..
 	}
 
@@ -288,14 +275,14 @@ class Admin extends BaseController {
 	protected function insertTags($tags, $postId)
 	{
 		//delete all related tag first
-		$this->post->clearTag($postId);
+		$this->model('@blog\Post')->clearTag($postId);
 
 		foreach ($tags as $tag) {
-			if( ! $tagId = $this->tag->getIdBy('label', $tag)) {
-				$tagId = $this->tag->save($tag);
+			if( ! $tagId = $this->model('@blog\Tag')->getIdBy('label', $tag)) {
+				$tagId = $this->model('@blog\Tag')->save($tag);
 			}
 
-			$this->post->addTag($tagId, $postId);
+			$this->model('@blog\Post')->addTag($tagId, $postId);
 		}
 	}
 }

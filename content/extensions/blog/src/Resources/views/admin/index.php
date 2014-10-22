@@ -23,4 +23,4 @@
 
 <?php echo $blogTable; ?>
 
-<?php $this->js('@blog/js/index.js'); ?>;
+<?php $this->js('@blog/js/index.js'); ?>

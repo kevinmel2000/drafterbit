@@ -2,25 +2,12 @@
 
 use Drafterbit\Framework\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BaseController;
-use Drafterbit\Extensions\User\Models\Auth;
-use Drafterbit\Extensions\User\Models\UsersGroup;
-use Drafterbit\Extensions\User\Models\User as UserModel;
 
 class Group extends BaseController {
 
-	protected $user;
-	protected $group;
-
-	public function __construct( Auth $auth, UserModel $user, UsersGroup $group)
-	{
-		parent::__construct($auth);
-		$this->user = $user;
-		$this->group = $group;
-	}
-
 	public function index()
 	{
-		$this->auth->restrict('usergroup.view');
+		$this->model('@user\Auth')->restrict('usergroup.view');
 
 		$groups = $this->get('input')->post('groups');
 
@@ -30,7 +17,7 @@ class Group extends BaseController {
 			switch($action) {
 				case "Delete":
 					foreach ($groups as $group) {
-						$this->group->delete($group);
+						$this->model('@user\UsersGroup')->delete($group);
 					}
 					message('Groups deleted !', 'success');
 					break;
@@ -40,7 +27,7 @@ class Group extends BaseController {
 		}
 
 		if(! $this->get('cache')->contains('groups')) {
-			$this->get('cache')->save('groups', $this->group->all());
+			$this->get('cache')->save('groups', $this->model('@user\UsersGroup')->all());
 		}
 		$groups =$this->get('cache')->fetch('groups');
 		
@@ -105,14 +92,14 @@ class Group extends BaseController {
 
 	public function delete($id)
 	{
-		$this->auth->restrict('usergroup.delete');
-		$this->group->delete($id);
+		$this->model('@user\Auth')->restrict('usergroup.delete');
+		$this->model('@user\UsersGroup')->delete($id);
 	}
 
 	public function edit($id = null)
 	{
 		// @todo pending
-		//$this->auth->restrict('usergroup.edit');
+		//$this->model('@user\Auth')->restrict('usergroup.edit');
 
 		$posts = $this->get('input')->post();
 
@@ -124,7 +111,7 @@ class Group extends BaseController {
 				//insert froup
 				$data = $this->createGroupsInsertData($posts);
 				
-				$this->group->update($data, array('id' => $id));
+				$this->model('@user\UsersGroup')->update($data, array('id' => $id));
 
 				//insert permission
 				if(isset($posts['permissions'])) {
@@ -139,10 +126,10 @@ class Group extends BaseController {
 			}
 		}
 
-		$group = $this->group->getsingleBy('id', $id);
-		$group->permissionIds = $this->group->getPermissionIds($id);
+		$group = $this->model('@user\UsersGroup')->getsingleBy('id', $id);
+		$group->permissionIds = $this->model('@user\UsersGroup')->getPermissionIds($id);
 
-		$permissions = $this->group->getPermission()->all();
+		$permissions = $this->model('@user\UsersGroup')->getPermission()->all();
 		set([
 			'groupName' => $group->label,
 			'description' => $group->description,
@@ -157,7 +144,7 @@ class Group extends BaseController {
 
 	public function create()
 	{
-		$this->auth->restrict('usergroup.add');
+		$this->model('@user\Auth')->restrict('usergroup.add');
 
 		$posts = $this->get('input')->post();
 
@@ -167,7 +154,7 @@ class Group extends BaseController {
 
 				//insert group
 				$data = $this->createGroupsInsertData($posts);
-				$id = $this->group->insert($data);
+				$id = $this->model('@user\UsersGroup')->insert($data);
 
 				//insert permission
 				if(isset($posts['permissions'])) {
@@ -193,7 +180,7 @@ class Group extends BaseController {
 			'title' => __('Add Group')
 		]);
 
-		$permissions = $this->group->getPermission()->all();
+		$permissions = $this->model('@user\UsersGroup')->getPermission()->all();
 		set(['permissions' => $permissions ]);
 
 		return $this->render('@user/admin/group/edit', $this->getData());
@@ -209,10 +196,10 @@ class Group extends BaseController {
 
 	protected function insertPermissions($permissions, $id)
 	{
-		$this->group->clearPermissions($id);
+		$this->model('@user\UsersGroup')->clearPermissions($id);
 
 		foreach ($permissions as $permission) {
-			$this->group->insertPermission($permission, $id);
+			$this->model('@user\UsersGroup')->insertPermission($permission, $id);
 		}
 	}
 }

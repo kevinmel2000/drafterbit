@@ -2,26 +2,13 @@
 
 use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BaseController;
-use Drafterbit\Extensions\User\Models\Auth;
-use Drafterbit\Extensions\User\Models\User as UserModel;
-use Drafterbit\Extensions\User\Models\UsersGroup;
 use Carbon\Carbon;
 
 class Admin extends BaseController {
 
-	protected $user;
-	protected $group;
-
-	public function __construct( Auth $auth, UserModel $user, UsersGroup $group)
-	{
-		parent::__construct($auth);
-		$this->user = $user;
-		$this->group = $group;
-	}
-
 	public function index()
 	{
-		$this->auth->restrict('user.view');
+		$this->model('@user\Auth')->restrict('user.view');
 		$userIds = $this->get('input')->post('users');
 
 		if($userIds) {
@@ -30,7 +17,7 @@ class Admin extends BaseController {
 			switch($action) {
 				case "Delete":
 					foreach ($userIds as $id) {
-						$this->user->delete($id);
+						$this->model('@user\User')->delete($id);
 					}
 					message('Users deleted !', 'success');
 					break;
@@ -42,12 +29,12 @@ class Admin extends BaseController {
 		// get data
 		$cache = $this->get('cache');
 		if( ! $cache->contains('users')) {
-			$cache->save('users', $this->user->all());
+			$cache->save('users', $this->model('@user\User')->all());
 		}
 		$users = $cache->fetch('users');
 
 		foreach ($users as $user) {
-			$user->groups = $this->group->getByUser($user->id);
+			$user->groups = $this->model('@user\UsersGroup')->getByUser($user->id);
 		}
 
 		set('users', $users);
@@ -93,19 +80,19 @@ class Admin extends BaseController {
 
 	public function create()
 	{
-		$this->auth->restrict('user.add');
+		$this->model('@user\Auth')->restrict('user.add');
 		$postData = $this->get('input')->post();
 
 		if ($postData) {
 			try {
 				$this->validate('user', $postData);
 
-				if($this->user->getByEmail($postData['email'])) {
+				if($this->model('@user\User')->getByEmail($postData['email'])) {
 					throw new ValidationFailsException('That email was registered.');
 				}
 				
 				$data = $this->createInsertData($postData);
-				$id = $this->user->insert($data);
+				$id = $this->model('@user\User')->insert($data);
 				set('justSaved', true);
 
 				//insert group
@@ -127,7 +114,7 @@ class Admin extends BaseController {
 			}
 		}
 
-		$groups = $this->group->all();
+		$groups = $this->model('@user\UsersGroup')->all();
 		set('groupOptions', $groups);
 		set('id', 'pages-create');
 		set('title', __('Create New Page'));
@@ -137,9 +124,9 @@ class Admin extends BaseController {
 
 	public function edit($id = null)
 	{
-		$this->auth->restrict('user.edit');
+		$this->model('@user\Auth')->restrict('user.edit');
 
-		$groups = $this->group->all();
+		$groups = $this->model('@user\UsersGroup')->all();
 
 		$postData = $this->get('input')->post();
 
@@ -148,7 +135,7 @@ class Admin extends BaseController {
 				$this->validate('user', $postData);
 				
 				$data = $this->createUpdateData($postData);
-				$this->user->update($data, array('id' => $id));
+				$this->model('@user\User')->update($data, array('id' => $id));
 
 				//insert group
 				$this->insertGroups( $postData['groups'], $id );
@@ -160,8 +147,8 @@ class Admin extends BaseController {
 			}
 		}
 
-		$user = $this->user->getSingleBy('id', $id);
-		$user->groupIds = $this->user->getGroupIds($user->id);
+		$user = $this->model('@user\User')->getSingleBy('id', $id);
+		$user->groupIds = $this->model('@user\User')->getGroupIds($user->id);
 		
 		set([
 			'groupOptions' => $groups,
@@ -182,10 +169,10 @@ class Admin extends BaseController {
 
 	protected function insertGroups($groups, $id)
 	{
-		$this->user->clearGroups($id);
+		$this->model('@user\User')->clearGroups($id);
 
 		foreach($groups as $group) {
-			$this->user->insertGroup($group, $id);
+			$this->model('@user\User')->insertGroup($group, $id);
 		}
 	}
 
