@@ -17,7 +17,37 @@ if ( ! function_exists('comment'))
 
           $content = _render($comments, $id);
 
-          return $content;
+          $js = app('asset')->add('js', '@blog/js/comments/front-snippet.js')->dump('js');
+          $js = '<script>'.$js.'</script>';
+
+
+          $form = '<div>
+          <form method="post" action="'.base_url('blog/comment/submit').'">
+               <div>
+                    <label class="label" for="comment[name]">Name</label>
+                    <input type="text" name="comment[name]" required/>
+               </div>
+               <div>
+                    <label class="label" for="comment[email]">Email</label>
+                    <input type="email" name="comment[email]" required />
+               </div>
+               <div>
+                    <label class="label" for="comment[url]">URL</label>
+                    <input type="text" name="comment[url]"/>
+               </div>
+               <div>
+                    <label class="label">Comment</label>
+                    <textarea name="comment[content]"></textarea>
+               </div>
+               <div>
+                    <input type="hidden" name="comment[parent_id]" value="0">
+                    <input type="hidden" name="comment[post_id]" value="'.$id.'">
+                    <input type="submit" name="submit" value="Submit"/>
+               </div>
+          </form>
+     </div>';
+
+          return $content.$form.$js;
      }
 
      function _render($comments, $post_id, $parent_id = 0)

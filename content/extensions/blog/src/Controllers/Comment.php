@@ -50,6 +50,7 @@ class Comment extends BaseController {
 		$data['email'] = $comments['email'];
 		$data['url'] = $comments['url'];
 		$data['content'] = $comments['content'];
+		$data['parent_id'] = $comments['parent_id'];
 		$data['post_id'] = $comments['post_id'];
 
 		$id = $this->model('@blog\Comment')->insert($data);
