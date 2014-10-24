@@ -125,7 +125,25 @@ class Kernel extends Application {
 
         $this['widget']->registerAll();
 
-        $this->configureApplication();
+        $config = $this['config']['app'];
+        
+        date_default_timezone_set($config['timezone']);
+        
+        $this['debug'] = $config['debug'];
+        $this['exception']->setDebug($this['debug']);
+
+        if ($config['error.log']) {
+            $this['exception']
+                ->error(function(\Exception $exception, $code) {
+                    $this['log']->addError($exception);
+                });
+        }
+
+        if( ! $this['debug']) {
+            $this['exception']->error(function( NotFoundHttpException $e) {
+                return file_get_contents( $this->getResourcesPath('views/404.html'));
+            });
+        }
 
         $this['log.db'] = function(){
             $logger =  new Logger('db.log');
@@ -192,33 +210,5 @@ class Kernel extends Application {
         }
 
         return $options;
-    }
-
-    /**
-     * Configure the application.
-     *
-     * @return void
-     */
-    protected function configureApplication()
-    {
-        $config = $this['config']['app'];
-        
-        date_default_timezone_set($config['timezone']);
-        
-        $this['debug'] = $config['debug'];
-        $this['exception']->setDebug($this['debug']);
-
-        if ($config['error.log']) {
-            $this['exception']
-                ->error(function(\Exception $exception, $code) {
-                    $this['log']->addError($exception);
-                });
-        }
-
-        if( ! $this['debug']) {
-            $this['exception']->error(function( NotFoundHttpException $e) {
-                return file_get_contents( $this->getResourcesPath('views/404.html'));
-            });
-        }
     }
 }
