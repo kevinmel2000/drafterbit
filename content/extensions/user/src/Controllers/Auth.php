@@ -32,6 +32,12 @@ class Auth extends BaseController {
 				
 				$this->validate('login', $post);
 				$this->model('@user\Auth')->doLogin($post['email'], $post['password'], $remember);
+
+				$userId = $this->get('session')->get('user.id');
+				$userName = $this->get('session')->get('user.name');
+
+				$url = admin_url("user/edit/$userId");
+				log_activity("logged in");
 				
 				return redirect($redirectAfterLogin);
 			} catch (\Exception $e) {
@@ -45,24 +51,20 @@ class Auth extends BaseController {
 	public function logout()
 	{
 		$session = $this->get('session');
-
 		$userId = $session->get('user.id');
 		$userName = $session->get('user.name');
 		
-		$url = admin_url("user/edit/{$userId}");
-
 		$session->clear();
 		$session->invalidate();
 
-		$response = new RedirectResponse(admin_url('login'));
-
 		$cookies = $this->get('input')->cookies();
 		
+		$response = new RedirectResponse(admin_url('login?logged_out=1'));
 		foreach ($cookies as $key => $value) {
 			$response->headers->clearCookie($key);
 		}
 
-		log_db("Logged out", "<a href='$url'>{$userName}</a>");
+		log_activity("logged out", array('user_id' => $userId, 'user_name' => $userName));
 
 		return $response;
 	}

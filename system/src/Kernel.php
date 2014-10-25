@@ -87,6 +87,8 @@ class Kernel extends Application {
                 $this['cache']->save('system', $model->all());
             }
 
+            return $this['cache']->fetch('system');
+
         } catch (\PDOException $e) {
 
             //if access denied or unknown database, we'll just start all over
@@ -110,9 +112,27 @@ class Kernel extends Application {
         
         $this['path.cache'] =  $this['path.content'].'cache/data';
 
-        $this->loadsystem();
+        // asset
+        $this['config']->addReplaces('%path.vendor.asset%', $this['path'].'vendor/web');
+        $this['config']->addReplaces('%path.system.asset%', $this['path'].'Resources/public/assets');
 
-        $system = $this['cache']->fetch('system');
+
+        foreach ($this['config']->get('asset.assets') as $name => $value) {
+            $this['asset']->register($name, $value);
+        }
+
+        $this['asset']->setCachePath($this['path.content'].'cache/asset');
+        
+        foreach (
+            [
+            'fontawesome' => 'Drafterbit\\System\\Asset\Filter\\DrafterbitFontAwesomeFilter',
+            'chosen_css' => 'Drafterbit\\System\\Asset\Filter\\DrafterbitChosenFilter'
+            ]
+            as $name => $class) {
+                $this['asset']->getFilterManager()->set($name, new $class(basename($this['path']).'/vendor/web'));
+        }
+
+        $system = $this->loadsystem();
 
         $extensions = array();
         if($system !== false) {
@@ -127,7 +147,7 @@ class Kernel extends Application {
 
         $config = $this['config']['app'];
         
-        date_default_timezone_set($config['timezone']);
+        date_default_timezone_set($system['timezone']);
         
         $this['debug'] = $config['debug'];
         $this['exception']->setDebug($this['debug']);
@@ -156,9 +176,9 @@ class Kernel extends Application {
             return $record;
         });
 
-
         $this['dispatcher']->addListener('boot', function(){
 
+            // Fronpage
             $this->frontpage = array_merge($this->frontpage, $this->frontpage());
             
             $system = $this['cache']->fetch('system');

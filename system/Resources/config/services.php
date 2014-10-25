@@ -10,7 +10,6 @@
  */
     
     'Drafterbit\\System\\Provider\\ImageServiceProvider' => ['image'],
-    'Drafterbit\\System\\Provider\\AssetServiceProvider' => ['asset'],
     'Drafterbit\\System\\Provider\\TwigServiceProvider' => ['twig'],
     'Drafterbit\\System\\Provider\\ThemeServiceProvider' => ['themes'],
 

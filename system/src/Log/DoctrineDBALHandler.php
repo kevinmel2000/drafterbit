@@ -27,6 +27,7 @@ class DoctrineDBALHandler extends AbstractProcessingHandler
             'level' => $record['level'],
             'message' => $record['message'],
             'time' => $record['datetime']->format('U'),
+            'user_id' => isset($record['context']['user_id']) ? $record['context']['user_id'] : 0
         ));
     }
 
@@ -38,7 +39,7 @@ class DoctrineDBALHandler extends AbstractProcessingHandler
         );
 
         $this->statement = $this->connection->prepare(
-            'INSERT INTO #_logs (channel, level, message, time) VALUES (:channel, :level, :message, :time)'
+            'INSERT INTO #_logs (channel, level, message, time, user_id) VALUES (:channel, :level, :message, :time, :user_id)'
         );
 
         $this->initialized = true;

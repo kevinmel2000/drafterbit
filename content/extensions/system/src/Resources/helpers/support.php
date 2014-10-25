@@ -72,15 +72,20 @@ if ( ! function_exists('theme_url')) {
 	}
 }
 
-if ( ! function_exists('log_db')) {
+if ( ! function_exists('log_activity')) {
 	/**
 	 * Log message to database
 	 *
 	 * @return void
 	 */
-	function log_db( $what, $who = null, $where = null )
+	function log_activity($message, $context = array())
 	{
-		app('log.db')->addInfo("$who $what $where");
+		if(!isset($context['user_id'])) {
+			$context['user_id'] = app('session')->get('user.id');
+			$context['user_name'] = app('session')->get('user.name');
+		}
+		
+		app('log.db')->addInfo($message, $context);
 	}
 }
 

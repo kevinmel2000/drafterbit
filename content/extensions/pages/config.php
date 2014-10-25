@@ -2,7 +2,7 @@
 
 	'name' => 'pages',
 	'menus' => [
-			[ 'id'=>'pages', 'parent' =>'content', 'label' => 'Pages', 'href' => 'pages/index'],
+			[ 'id'=>'pages', 'parent' =>'content', 'label' => 'Pages', 'href' => 'pages/index', 'order' => 1],
 	],
 	'permissions' => [
 		'page.view' => 'view page',

@@ -9,6 +9,14 @@ class Log extends \Drafterbit\Framework\Model {
 		return $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
 	}
 
+	public function recent()
+	{
+		$queryBuilder = $this->get('db')->createQueryBuilder();
+		$stmt = $queryBuilder->select('*')->from('#_logs', 'l')->orderBy('time', 'DESC')->setMaxResults(10);
+
+		return $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);	
+	}
+
 	public function delete($id)
 	{
 		return $this->get('db')->delete('#_logs', ['id' => $id]);

@@ -61,9 +61,6 @@ class Auth extends \Drafterbit\Framework\Model {
 		foreach ( $data as $key => $value) {
 			$session->set($key, $value);
 		}
-		
-		$url = admin_url("user/edit/{$user->id}");
-		log_db("Logged in", "<a href='$url'>{$user->real_name}</a>");
 	}
 
 	public function authenticate($route)

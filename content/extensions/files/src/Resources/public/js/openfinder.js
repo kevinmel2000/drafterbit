@@ -5,7 +5,7 @@
  * https://github.com/egig/openfinder
  *
  * Free file finder for web
- * make use of twbs and font awesome.
+ * make use of twbs and fontawesome.
  *
  * Licensed under MIT
  * ========================================================= */
@@ -418,8 +418,8 @@
                     href: '#',
                     'data-toggle': 'modal',
                     'data-target': '#upload-dialog'
-                }).addClass('upload-btn tool btn btn-sm btn-primary pull-left')
-                .html('<i class="fa fa-upload"></i>');
+                }).addClass('upload-btn tool btn btn-sm btn-success pull-left')
+                .html('<i class="fa fa-upload"></i> Upload');
 
             /*searchForm = this.createEl('FORM').addClass('form-inline');
             searchInput = this.createEl('INPUT', {

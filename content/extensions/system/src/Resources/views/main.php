@@ -14,8 +14,11 @@
           @system/css/overrides-bootstrap.css,
           @system/css/overrides-toastr.css,
           @system/css/overrides-datatables.css,
-          @system/css/style.css
+          @system/css/style.css,
+          @system/css/style-desktop.css,
+          @system/css/style-mobile.css
         ') ?>
+        
         <?php echo $this->block('css'); ?>
 
         <script>

@@ -10,12 +10,16 @@
 	}
 	var funcNum = getUrlParam('CKEditorFuncNum');
 
-	ckeditorCallback = function(e){
-		e.preventDefault( );
-		url = $(e.currentTarget).attr('href');
-		console.log(e.currentTarget);
-		window.opener.CKEDITOR.tools.callFunction(funcNum, '/content/files/'+url);
-		window.close();
+	var ckeditorCallback;
+	if(funcNum != '') {
+
+		ckeditorCallback = function(e){
+			e.preventDefault( );
+			url = $(e.currentTarget).attr('href');
+			console.log(e.currentTarget);
+			window.opener.CKEDITOR.tools.callFunction(funcNum, '/content/files/'+url);
+			window.close();
+		}
 	}
 
 	$('#finder-container').openFinder({

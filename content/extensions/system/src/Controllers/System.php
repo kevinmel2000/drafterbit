@@ -31,8 +31,20 @@ class System extends BaseController {
 		set('id', 'log');
 
 		$tableHead = array(
-			['field' => 'time', 'label' => 'Time'],
-			['field' => 'message', 'label' => 'Message']
+			['field' => 'time', 'width' => '20%', 'label' => 'Time', 'format' => function($val, $item) {
+				return date('d-m-Y H:i:s', $val);
+			}],
+			['field' => 'message', 'label' => 'Message', 'format' => function($val, $item){
+				$name = $item->user_name;
+
+				if($item->user_id == $this->get('session')->get('user.id')) {
+					$name = __('You');
+				}
+
+				$userUrl = admin_url('user/edit/'.$item->user_id);
+
+				return '<a href="'.$userUrl.'">'.$name.'</a> '.$item->message;
+			}]
 		);
 		set('logTable', $this->datatables('log', $tableHead, $logs));
 

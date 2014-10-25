@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin-bottom: 0">
-    <div class="container">
+    <div class="container nav-container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -10,7 +10,8 @@
                 <a class="navbar-brand" href="<?php echo admin_url('dashboard'); ?>"><i class="fa fa-home"></i></a>
             </div>
             <!-- /.navbar-header -->
-            <ul class="nav navbar-top-links navbar-left dt-off-canvas">
+            <div class="dt-off-canvas">
+            <ul class="nav navbar-top-links navbar-left">
                 <?php foreach ($menus as $menu): ?>
                     
                     <?php if($menu->hasChildren()): ?>
@@ -41,6 +42,7 @@
 
                 <?php endforeach ?>
             </ul>
+            </div>
 
             <ul class="nav navbar-top-links navbar-right user-preferences">
                 <!-- /.dropdown -->

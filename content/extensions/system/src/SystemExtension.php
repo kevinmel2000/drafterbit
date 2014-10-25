@@ -7,9 +7,6 @@ class SystemExtension extends \Drafterbit\Framework\Extension {
 
 	function boot()
 	{
-		$this['config']->addReplaces('%path.vendor.asset%', $this['path'].'vendor/web');
-		$this['config']->addReplaces('%path.system.asset%', $this['path'].'Resources/public/assets');
-
 		foreach (['form', 'support', 'twig'] as $helper) {
 			$this['helper']->register( $helper, $this->getResourcesPath("helpers/$helper.php"));
 			$this['helper']->load($helper);

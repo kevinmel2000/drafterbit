@@ -14,18 +14,6 @@
 
 /**
  *--------------------------------------------------------------------------
- * Application Timezone
- *--------------------------------------------------------------------------
- *
- * Here you may specify the default timezone for your application which will
- * be used by the PHP date and time functions. You probably want to check
- * supported timzone: http://id1.php.net/timezones
- */
-
-'timezone' => 'UTC',
-
-/**
- *--------------------------------------------------------------------------
  * Application Character Set
  *--------------------------------------------------------------------------
  *
