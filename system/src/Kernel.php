@@ -81,13 +81,7 @@ class Kernel extends Application {
                 throw new InstallationException("No System Table", 2);
             }
 
-            $model = $this->getExtension('system')->model('System');
-
-            if(!$this['cache']->contains('system') ) {
-                $this['cache']->save('system', $model->all());
-            }
-
-            return $this['cache']->fetch('system');
+            return $this->getExtension('system')->model('System')->all();
 
         } catch (\PDOException $e) {
 
@@ -181,7 +175,7 @@ class Kernel extends Application {
             // Fronpage
             $this->frontpage = array_merge($this->frontpage, $this->frontpage());
             
-            $system = $this['cache']->fetch('system');
+            $system = $this->getExtension('system')->model('@system\System')->all();
 
             $homepage = $system['homepage'];
             

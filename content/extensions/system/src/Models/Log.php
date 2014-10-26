@@ -2,7 +2,7 @@
 
 class Log extends \Drafterbit\Framework\Model {
 
-	public function all()
+	public function queryAll()
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 		$stmt = $queryBuilder->select('*')->from('#_logs', 'l')->orderBy('time', 'DESC');

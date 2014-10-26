@@ -9,7 +9,7 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 		$this->permission = $permission;
 	}
 
-	public function all()
+	public function queryAll()
 	{
 		return $this->get('db')
 			->fetchAllObjects('SELECT * from #_groups');

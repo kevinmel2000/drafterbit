@@ -2,7 +2,7 @@
 
 class Tag extends \Drafterbit\Framework\Model {
 
-	public function all()
+	public function queryAll()
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 		return

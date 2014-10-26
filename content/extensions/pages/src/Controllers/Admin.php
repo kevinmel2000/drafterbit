@@ -31,7 +31,7 @@ class Admin extends BaseController {
 			}
 		}
 		
-		$pages = $this->model('@pages\Pages')->all($status);
+		$pages = $this->model('@pages\Pages')->all(['status' => $status]);
 		
 		set('status', $status);
 		set('pages', $pages);
@@ -46,7 +46,7 @@ class Admin extends BaseController {
 	{
 		$search = $this->get('input')->get('search');
 
-		$pages = $this->model('@pages\Pages')->all($status);
+		$pages = $this->model('@pages\Pages')->all(['status' => $status]);
 		
 		$editUrl = admin_url('pages/edit');
 

@@ -6,7 +6,7 @@ class Blog extends BaseController {
 
 	public function index()
 	{
-		$posts = $this->model('@blog\Post')->all();
+		$posts = $this->model('@blog\Post')->all(['status' => 'published']);
 		set('posts', $posts);
 
 		foreach ($posts as &$post) {

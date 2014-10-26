@@ -22,13 +22,7 @@ class Admin extends BaseController {
 			}
 		}
 
-		// get data
-		$cache = $this->get('cache');
-		if( ! $cache->contains('posts.'.$status) ) {
-			$cache->save('posts.'.$status, $this->model('@blog\Post')->all($status));
-		}
-
-		$posts = $cache->fetch('posts.'.$status);
+		$posts = $this->model('@blog\Post')->all(['status' => $status]);
 
 		set('status', $status);
 		set('title', __('Blog'));

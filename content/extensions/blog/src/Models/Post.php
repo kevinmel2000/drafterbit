@@ -2,7 +2,7 @@
 
 class Post extends \Drafterbit\Framework\Model {
 
-	public function all($status = null)
+	public function queryAll($filters)
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 
@@ -10,6 +10,8 @@ class Post extends \Drafterbit\Framework\Model {
 		->select('p.*, u.email as authorEmail, u.real_name as authorName')
 		->from('#_posts','p')
 		->leftJoin('p','#_users','u', 'p.user_id = u.id');
+
+		$status = $filters['status'];
 
 		if($status) {
 			$queryBuilder

@@ -26,12 +26,7 @@ class Admin extends BaseController {
 			}
 		}
 
-		// get data
-		$cache = $this->get('cache');
-		if( ! $cache->contains('users')) {
-			$cache->save('users', $this->model('@user\User')->all());
-		}
-		$users = $cache->fetch('users');
+		$users = $this->model('@user\User')->all();
 
 		foreach ($users as $user) {
 			$user->groups = $this->model('@user\UsersGroup')->getByUser($user->id);
@@ -59,24 +54,6 @@ class Admin extends BaseController {
 		);
 	}
 
-	private function _toolbarEdit()
-	{
-		return array(
-			'new-post' => array(
-				'type' => 'submit.success',
-				'label' => 'Update',
-				'name'=> 'action',
-				'value' => 'update',
-				'faClass' => 'fa-check'
-			),
-			'trash' => array(
-				'type' => 'a',
-				'href' => admin_url('user/create'),
-				'label' => 'Delete',
-				'faClass' => 'fa-trash-o'
-			),
-		);
-	}
 
 	public function create()
 	{

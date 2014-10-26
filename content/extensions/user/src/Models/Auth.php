@@ -134,13 +134,8 @@ class Auth extends \Drafterbit\Framework\Model {
 	 */
 	private function getPermissions()
 	{
-		if( ! $this->get('cache')->contains('permissions')) {
-			$this->get('cache')->save('permissions', $this->group->getPermissions());
-		}
-		
-		return $this->get('cache')->fetch('permissions');
+		return $this->group->cachedQuery('permissions', 'getPermissions');
 	}
-
 
 	public function isLoggedIn()
 	{

@@ -26,8 +26,8 @@ class Admin extends BaseController {
 
 		// site info
 		$data['os'] = $this->getOs();
-		$data['diskSpace'] = disk_total_space($this->get('path.install'));
 		$data['usersCount'] = count($this->get('cache')->fetch('users'));
+		$data['db'] = $this->getDatabaseServerInfo();
 		return $this->render('@system/admin/dashboard', $data);
 	}
 
@@ -69,5 +69,21 @@ class Admin extends BaseController {
 	    }   
 
 	    return $os_platform;
+	}
+
+	private function getDatabaseServerInfo()
+	{
+		$driver = $this->get('db')->getDriver()->getName();
+		switch ($driver) {
+			case 'pdo_mysql':
+			return 'MySql '.$this->get('db')->getWrappedConnection()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+
+		return 'Unknown database server';
 	}
 }

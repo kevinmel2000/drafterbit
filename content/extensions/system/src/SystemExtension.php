@@ -28,7 +28,7 @@ class SystemExtension extends \Drafterbit\Framework\Extension {
 
 	private function getTheme()
 	{
-		$system = $this['cache']->fetch('system');
+		$system = $this->model('@system\System')->all();
 
 		return $system['theme'];
 	}

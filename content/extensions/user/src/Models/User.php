@@ -2,7 +2,7 @@
 
 class User extends \Drafterbit\Framework\Model {
 
-	public function all()
+	public function queryAll()
 	{
 		return $this->get('db')
 			->fetchAllObjects("SELECT * FROM #_users");

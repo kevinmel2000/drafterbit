@@ -2,7 +2,7 @@
 
 class System extends \Drafterbit\Framework\Model {
 
-	public function all()
+	public function queryAll()
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 

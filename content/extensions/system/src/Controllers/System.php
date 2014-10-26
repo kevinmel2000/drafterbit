@@ -66,7 +66,7 @@ class System extends BaseController {
 
 		$model = $this->model('cache');
 
-		$caches = $model->all();
+		$caches = $model->getAll();
 
 		$tableHead = array(
 			['field' => 'name', 'label' => 'Name'],

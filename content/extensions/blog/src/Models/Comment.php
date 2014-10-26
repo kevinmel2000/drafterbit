@@ -4,7 +4,7 @@ use Drafterbit\Framework\Model;
 
 class Comment extends Model {
 
-	public function all($status = null)
+	public function queryAll($status = null)
 	{
 		$query = $this ->withQueryBuilder()
 		->select('c.*')

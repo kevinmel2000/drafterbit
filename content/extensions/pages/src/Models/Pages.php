@@ -2,24 +2,11 @@
 
 class Pages extends \Drafterbit\Framework\Model {
 
-	public function all($status = 'untrashed')
-	{
-		if($this->get('debug')) {
-			return $this->doGetAll($status);
-		}
-
-		$cache = $this->get('cache');
-		if( ! $cache->contains('pages.'.$status)) {
-			$cache->save('pages.'.$status, $this->doGetAll($status));
-		}
-
-		return $cache->fetch('pages.'.$status);
-	}
-
-
-	private function doGetAll($status)
+	protected function queryAll($filters)
 	{
 		$query = $this->withQueryBuilder() ->select('*') ->from('#_pages','p');
+
+		$status = $filters['status'];
 
 		if($status == 'trashed') {
 			$query->where('p.deleted_at != :deleted_at');

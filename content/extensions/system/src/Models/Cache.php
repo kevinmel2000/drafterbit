@@ -2,7 +2,7 @@
 
 class Cache extends \Drafterbit\Framework\Model {
 
-	public function all()
+	public function getAll()
 	{
 		$finder = $this->get('finder');
 		$finder->in($this->get('path.cache'))->directories();

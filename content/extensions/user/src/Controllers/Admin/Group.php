@@ -26,10 +26,7 @@ class Group extends BaseController {
 			}
 		}
 
-		if(! $this->get('cache')->contains('groups')) {
-			$this->get('cache')->save('groups', $this->model('@user\UsersGroup')->all());
-		}
-		$groups =$this->get('cache')->fetch('groups');
+		$groups = $this->model('@user\UsersGroup')->all();
 		
 		set('groups', $groups);
 
@@ -44,50 +41,6 @@ class Group extends BaseController {
 		set('groupTable', $this->datatables('groups', $tableHead, $groups));
 
 		return $this->render('@user/admin/group/index', $this->getData());
-	}
-
-	function _toolbarIndex()
-	{
-		return array(
-			'new' => array(
-				'type' => 'a.success',
-				'href' => admin_url('user/group/create'),
-				'label' => 'New Group',
-				'faClass' => 'fa-plus'
-			),
-
-			'delete' => array(
-				'type' => 'submit',
-				'label' => 'Delete',
-				'name'=> 'action',
-				'value' => 'delete',
-				'faClass' => 'fa-trash-o'
-			),
-
-
-		);
-	}
-
-	function _toolbarEdit()
-	{
-		return array(
-			'cancel' => array(
-				'type' => 'a',
-				'href' => admin_url('user/group'),
-				'label' => 'Cancel',
-				'faClass' => 'fa-times'
-			),
-
-			'update' => array(
-				'type' => 'submit.success',
-				'label' => 'Update',
-				'name'=> 'action',
-				'value' => 'update',
-				'faClass' => 'fa-check'
-			),
-
-
-		);
 	}
 
 	public function delete($id)
