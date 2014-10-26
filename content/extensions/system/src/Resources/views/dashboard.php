@@ -3,12 +3,13 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-2">
+			<?php if($shortcuts): ?>
 			<ul class="nav nav-pills nav-stacked">
-			  <li><a href="<?php echo admin_url('blog/create') ?>"><i class="fa fa-edit"></i> New Post</a></li>
-			  <li><a href="<?php echo admin_url('pages/create') ?>"><i class="fa fa-laptop"></i> New Page</a></li>
-			  <li><a href="<?php echo admin_url('files/index') ?>"><i class="fa fa-upload"></i> Upload</a></li>
-			  <li><a href="<?php echo admin_url('user/index') ?>"><i class="fa fa-users"></i> Manage Users</a></li>
+				<?php foreach($shortcuts as $shortcut): ?>
+			  		<li><a href="<?php echo $shortcut['href'] ?>"><i class="<?php echo $shortcut['icon'] ?>"></i> <?php echo $shortcut['label'] ?></a></li>
+			    <?php endforeach; ?>
 			</ul>
+			<?php endif ?>
 		</div>
 		<div class="col-md-5">
 			<div class="panel panel-default">

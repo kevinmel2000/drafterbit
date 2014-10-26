@@ -2,7 +2,7 @@
 
 	'%admin%' => [
 		'subRoutes' => [
-			'dashboard' => ['controller' => '@system\Admin::dashboard'],
+			'dashboard' => ['controller' => '@system\System::dashboard'],
 			'login' => ['controller' => '@user\Auth::login'],
 			'logout' => ['controller' => '@user\Auth::logout'],
 			

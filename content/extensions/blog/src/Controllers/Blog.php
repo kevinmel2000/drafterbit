@@ -1,8 +1,8 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
-use Drafterbit\Extensions\System\Controller as BaseController;
+use Drafterbit\Extensions\System\FrontendController;
 
-class Blog extends BaseController {
+class Blog extends FrontendController {
 
 	public function index()
 	{

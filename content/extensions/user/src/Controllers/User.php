@@ -1,7 +1,7 @@
 <?php namespace Drafterbit\Extensions\User\Controllers;
 
-use Drafterbit\Extensions\System\BaseController;
+use Drafterbit\Extensions\System\FrontendController;
 
-class User extends BaseController {
+class User extends FrontendController {
 	//..
 }

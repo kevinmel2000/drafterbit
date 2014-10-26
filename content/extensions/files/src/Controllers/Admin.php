@@ -1,12 +1,12 @@
 <?php namespace Drafterbit\Extensions\Files\Controllers;
 
-use Drafterbit\Extensions\System\BaseController ;
+use Drafterbit\Extensions\System\BackendController ;
 use Drafterbit\Extensions\Files\Exceptions\FileUploadException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class Admin extends BaseController {
+class Admin extends BackendController {
 
 	public function index()
 	{

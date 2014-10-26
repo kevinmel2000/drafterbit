@@ -11,4 +11,11 @@ class FilesExtension extends \Drafterbit\Framework\Extension {
 		$app['helper']->register('files', $this->getResourcesPath('helpers/files.php'));
 		$app['helper']->load('files');
 	}
+
+	function getShortcuts()
+	{
+		return [
+			['href' => admin_url('files/index'), 'icon' => 'fa fa-upload','label' => 'Upload']
+		];
+	}
 }

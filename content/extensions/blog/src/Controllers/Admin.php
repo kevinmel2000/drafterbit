@@ -1,11 +1,10 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
 use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
-use Drafterbit\Extensions\System\BaseController;
-use Drafterbit\Extensions\User\Models\Auth;
+use Drafterbit\Extensions\System\BackendController;
 use Carbon\Carbon;
 
-class Admin extends BaseController {
+class Admin extends BackendController {
 
 	public function index($status = 'published')
 	{

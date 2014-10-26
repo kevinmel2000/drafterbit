@@ -1,9 +1,9 @@
 <?php namespace Drafterbit\Extensions\User\Controllers\Admin;
 
 use Drafterbit\Framework\Validation\Exceptions\ValidationFailsException;
-use Drafterbit\Extensions\System\BaseController;
+use Drafterbit\Extensions\System\BackendController;
 
-class Group extends BaseController {
+class Group extends BackendController {
 
 	public function index()
 	{

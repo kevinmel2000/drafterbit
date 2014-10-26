@@ -1,16 +1,12 @@
 <?php namespace Drafterbit\Extensions\System\Controllers\Setting;
 
-use Drafterbit\Extensions\System\BaseController;
-use Drafterbit\Extensions\User\Models\Auth;
-use Drafterbit\Extensions\System\Models\Setting as SettingModel;
+use Drafterbit\Extensions\System\BackendController;
 
-class Themes extends BaseController {
-
-	protected $setting;
+class Themes extends BackendController {
 
 	public function index()
 	{
-		$this->setting = $this->model('System');
+		$this->setting = $this->model('@system\System');
 
 		$cache = $this->get('cache');
 		$post = $this->get('input')->post();
@@ -30,7 +26,7 @@ class Themes extends BaseController {
 		}
 
 		// @todo
-		$settings = $cache->fetch('system');
+		$settings = $this->setting->all();
 
 		set('currentTheme', $settings['theme']);
 

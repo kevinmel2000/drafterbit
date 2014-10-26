@@ -1,8 +1,8 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
-use Drafterbit\Extensions\System\BaseController as BaseController;
+use Drafterbit\Extensions\System\BackendController;
 
-class Comment extends BaseController {
+class Comment extends BackendController {
 
 	public function index()
 	{

@@ -1,12 +1,10 @@
 <?php namespace Drafterbit\Extensions\System;
 
-use Drafterbit\Extensions\System\Controller;
+use Drafterbit\Framework\Controller;
 use Drafterbit\Extensions\User\Models\Auth;
 use Drafterbit\Extensions\System\Models\Menu;
 
-class BaseController extends Controller {
-
-	protected $baseTemplate;
+class BackendController extends Controller {
 
 	public function __construct( )
 	{
@@ -203,7 +201,7 @@ class BaseController extends Controller {
 		$userName = $session->get('user.name');
 		$userGravatar = $url;
 
-		$system = $this->get('cache')->fetch('system');
+		$system = $this->model('@system\System')->all();
 		
 		$this->get('template')
 			->addGlobal('menus', $this->createMenu($this->menu()))

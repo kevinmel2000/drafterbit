@@ -1,9 +1,8 @@
 <?php namespace Drafterbit\Extensions\System\Controllers;
 
-use Drafterbit\Extensions\System\BaseController;
-use Drafterbit\Extensions\User\Models\Auth;
+use Drafterbit\Extensions\System\BackendController;
 
-class Setting extends BaseController {
+class Setting extends BackendController {
 
 	public function general()
 	{

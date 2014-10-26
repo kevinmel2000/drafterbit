@@ -24,7 +24,6 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 			'defaults' => array()
 			]
 		]);
-
 	}
 
 	public function getComments($id)
@@ -45,5 +44,12 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 			->orWhere("p.content like :q");
 
 		return array('blog', $query);
+	}
+
+	function getShortcuts()
+	{
+		return [
+			['href' => admin_url('blog/create'), 'icon' => 'fa fa-edit','label' => 'New Post']
+		];
 	}
 }

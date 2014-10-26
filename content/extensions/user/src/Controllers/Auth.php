@@ -2,15 +2,11 @@
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Drafterbit\Extensions\System\Auth\Exceptions\UserNotAuthorizedException;
-use Drafterbit\Extensions\System\Controller as BaseController;
-use Drafterbit\Extensions\User\Models\User;
-use Drafterbit\Extensions\User\Models\UsersGroup;
-use Drafterbit\Extensions\User\Models\Auth as authModel;
+use Drafterbit\Framework\Controller;
 
-class Auth extends BaseController {
+class Auth extends Controller {
 
 	protected $placeBeforeLogin = '/';
-
 
 	public function login()
 	{
