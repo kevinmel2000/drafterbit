@@ -5,6 +5,8 @@ use Drafterbit\System\Provider\ExtensionServiceProvider;
 use Drafterbit\System\Provider\WidgetServiceProvider;
 use Monolog\Logger;
 use Drafterbit\System\Log\DoctrineDBALHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 class Kernel extends Application {
 
@@ -128,6 +130,17 @@ class Kernel extends Application {
 
         $system = $this->loadsystem();
 
+        //theme
+        $theme = $system['theme'];
+
+        $this['path.themes'] = $this['path.content'].'themes/';
+        
+        $this['themes']->current($theme);
+        
+        $this['themes']->registerAll();
+
+        $this['path.theme'] = $this['path.themes'].$this['themes']->current().'/';
+
         $extensions = array();
         if($system !== false) {
             $extensions = explode(',', $system['extensions']);
@@ -154,8 +167,13 @@ class Kernel extends Application {
         }
 
         if( ! $this['debug']) {
-            $this['exception']->error(function( NotFoundHttpException $e) {
-                return file_get_contents( $this->getResourcesPath('views/404.html'));
+            $this['exception']->error(function( NotFoundHttpException $e){
+                
+                if(is_file($this['path.theme'].'404.html')) {
+                    return $this['twig']->render('404.html');
+                }
+
+                return file_get_contents($this->getResourcesPath('views/404.html'));
             });
         }
 
