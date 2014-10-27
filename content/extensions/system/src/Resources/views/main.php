@@ -10,7 +10,7 @@
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css('
           :bootstrap_css,
-          :toastr_css,
+          :notify_css,
           @system/css/overrides-bootstrap.css,
           @system/css/overrides-toastr.css,
           @system/css/overrides-datatables.css,
@@ -73,28 +73,14 @@
             <?php echo $this->render('@system/partials/footer'); ?>
 
         <!-- script -->
-        <?php $this->js(':jquery, :bootstrap_js, :toastr_js, @system/js/layout.js, @system/js/app.js'); ?>
+        <?php $this->js(':jquery, :jquery_ui_js, :bootstrap_js, :notify_js, @system/js/layout.js, @system/js/app.js'); ?>
         <?php echo $this->block('js'); ?>
         
         <?php if(isset($messages)): ?>
         <script>
-                toastr.options = {
-                  "closeButton": true,
-                  "debug": false,
-                  "positionClass": "toast-top-center",
-                  "onclick": null,
-                  "showDuration": "500",
-                  "hideDuration": "100",
-                  "timeOut": "5000",
-                  "extendedTimeOut": "10000000",
-                  "showEasing": "linear",
-                  "hideEasing": "linear",
-                  "showMethod": "fadeIn",
-                  "hideMethod": "fadeOut"
-                }
                 <?php foreach( $messages as $message ): ?>
                     msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
-                    toastr.<?php echo $message['type'] ?>(msg, "<?php echo $this->escape($message['title'], 'js'); ?>");
+                    $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
                 <?php endforeach; ?>
         </script>
         <?php endif;?>

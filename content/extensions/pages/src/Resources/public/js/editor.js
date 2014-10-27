@@ -10,7 +10,7 @@
 		},
 
 		success:function(){
-			toastr['success']('Page Saved 1');
+                  $.notify('Page Saved', 'success');
 		}
 	});
 

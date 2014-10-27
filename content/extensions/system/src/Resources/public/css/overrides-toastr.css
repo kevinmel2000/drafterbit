@@ -14,6 +14,7 @@
   -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);
   filter: alpha(opacity=80);
 }
+
 #toast-container > :hover {
   -moz-box-shadow: 5px 5px 5px #dddddd;
   -webkit-box-shadow: 5px 5px 5px #dddddd;

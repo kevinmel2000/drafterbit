@@ -17,13 +17,16 @@ return [
 		'bootstrap_validator_css' 	=> '%path.vendor.asset%/bootstrap-validator/css/bootstrapValidator.min.css',
 		'bootstrap_validator_js' 	=> '%path.vendor.asset%/bootstrap-validator/js/bootstrapValidator.min.js',
 		
-		'toastr_css' 				=> '%path.vendor.asset%/toastr/toastr.css',
-		'toastr_js' 				=> '%path.vendor.asset%/toastr/toastr.min.js',
 		'fontawesome'				=> '%path.vendor.asset%/fontawesome/css/font-awesome.css',
 		'jquery' 					=> '%path.vendor.asset%/jquery/dist/jquery.min.js',
 		'jquery_form' 				=> '%path.vendor.asset%/jquery-form/jquery.form.js',
+		
 		'bootstrap_datatables_css' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.css',
 		'bootstrap_datatables_js' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.js',
+		
+		'notify_css' 				=> '%path.system.asset%/notify/notify.css',
+		'notify_js' 				=> '%path.system.asset%/notify/notify.js',
+		
 		'datatables_js' 			=> '%path.vendor.asset%/datatables/media/js/jquery.dataTables.js',
 		'jquery_check_all' 			=> '%path.vendor.asset%/jquery-check-all/jquery-check-all.js',
 		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
