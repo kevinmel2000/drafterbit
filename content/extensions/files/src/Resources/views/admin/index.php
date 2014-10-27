@@ -1,5 +1,9 @@
 <?php $this->extend('@system/main'); ?>
 
+<?php $this->css('@files/css/openfinder.css'); ?>
+
 <div class="container">
-    <iframe style="border:none;" width="100%" height="500px" src="<?php echo admin_url('files/browser') ?>"></iframe>
+	<div id="finder-container"></div>
 </div>
+
+<?php $this->js(':bootstrap_contextmenu, :jquery_form, @files/js/openfinder.js, @files/js/index.js'); ?>

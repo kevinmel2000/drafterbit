@@ -17,8 +17,10 @@
  * ---------------------------------------------------------------------------
  *
  * This is folder where all uploaded files will be stored. Feel free to
- * change it but note that the value must be writable and reletive to
+ * change it but note that the value must be writable and relative to
  * installation folder.
+ *
+ * WARNING ! if you change this, you also need to update your embeded image.
  */
 'path.upload' =>  'content/files',
 

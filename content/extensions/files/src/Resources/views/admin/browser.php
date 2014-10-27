@@ -8,6 +8,11 @@
 	<?php $this->css(':fontawesome', ':fontawesome'); ?>
 	<?php echo  $this->block('css'); ?>
 
+<style>
+	.upload-btn {
+		margin-left: 20px !important;
+	}
+</style>
 </head>
 <script>
 drafTerbit = {

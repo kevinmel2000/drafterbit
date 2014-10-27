@@ -1,6 +1,5 @@
 <?php namespace Drafterbit\Extensions\System;
 
-
 use Drafterbit\Framework\Application;
 
 class SystemExtension extends \Drafterbit\Framework\Extension {
@@ -10,6 +9,11 @@ class SystemExtension extends \Drafterbit\Framework\Extension {
 		foreach (['form', 'support', 'twig'] as $helper) {
 			$this['helper']->register( $helper, $this->getResourcesPath("helpers/$helper.php"));
 			$this['helper']->load($helper);
-		}	
+		}
+	}
+
+	function getReservedBaseUrl()
+	{
+		return ['search'];
 	}
 }

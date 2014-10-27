@@ -3,7 +3,7 @@
 use Drafterbit\Extensions\System\BackendController;
 use Carbon\Carbon;
 
-class Admin extends BackendController {
+class Backend extends BackendController {
 
 	public function index($status = 'untrashed')
 	{

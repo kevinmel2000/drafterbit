@@ -19,6 +19,7 @@
 		$logs->addColumn('level', 'integer');
 		$logs->addColumn('message', 'text');
 		$logs->addColumn('time', 'integer');
+		$logs->addColumn('user_id', 'integer');
 		$logs->setPrimaryKey(['id']);
 		$app['db']->getSchemaManager()->createTable($logs);
 

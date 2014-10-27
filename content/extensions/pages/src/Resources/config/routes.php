@@ -4,29 +4,13 @@
 		'subRoutes' => [
 			'pages' => [
 				'subRoutes' => [
-					'index' => ['controller' => '@pages\Admin::index'],
-					'create' => ['controller' => '@pages\Admin::create'],
-					'edit/{id}' => ['controller' => '@pages\Admin::edit'],
-					'data/{status}.json' => ['controller' => '@pages\Admin::filter'],
-					'save' => ['controller' => '@pages\Admin::save', 'csrf' => true]
+					'index' => ['controller' => '@pages\Backend::index'],
+					'create' => ['controller' => '@pages\Backend::create'],
+					'edit/{id}' => ['controller' => '@pages\Backend::edit'],
+					'data/{status}.json' => ['controller' => '@pages\Backend::filter'],
+					'save' => ['controller' => '@pages\Backend::save', 'csrf' => true]
 				]
 			]
 		]
-	],
-	
-	'/{slug}' => [
-		'controller' => '@pages\Pages::view',
-		'requirements' => [
-
-			// @todo
-			// @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
-			/*
-				reserved url:
-				    - %admin%
-				    - blog
-				    - search
-			*/
-			'slug' => "^(?!(?:"."%admin%"."|blog|search|)(?:/|$)).*$"
-		]
-	],
+	]
 ];

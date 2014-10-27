@@ -52,4 +52,9 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 			['href' => admin_url('blog/create'), 'icon' => 'fa fa-edit','label' => 'New Post']
 		];
 	}
+
+	function getReservedBaseUrl()
+	{
+		return ['blog'];
+	}
 }

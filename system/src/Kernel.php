@@ -188,26 +188,34 @@ class Kernel extends Application {
             return $record;
         });
 
+        // base url
         $this['dispatcher']->addListener('boot', function(){
 
-            // Fronpage
-            $this->frontpage = array_merge($this->frontpage, $this->frontpage());
-            
+            // frontpage
+            $frontpage = $this->getFrontpage();
             $system = $this->getExtension('system')->model('@system\System')->all();
-
             $homepage = $system['homepage'];
-            
-            $route = $this->frontpage[$homepage];
+            $route = $frontpage[$homepage];
 
             $this['router']->addRouteDefinition('/', [
                 'controller' => $route['controller'],
                 'defaults' => $route['defaults']
                 ]
             );
-        });
+
+            // pages
+            $reservedBaseUrl = implode('|', $this->getReservedBaseUrl());
+            $this['router']->addRouteDefinition('/{slug}', [
+                'controller' => '@pages\Pages::view',
+                'requirements' => [
+                    // @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
+                    'slug' => "^(?!(?:%admin%|".$reservedBaseUrl."|)(?:/|$)).*$"
+                ]
+            ]);
+        }, -512);
     }
 
-    public function frontpage()
+    public function getFrontpage()
     {
         $qb = $this['db']->createQueryBuilder();
 
@@ -216,7 +224,6 @@ class Kernel extends Application {
             ->execute()->fetchAll(\PDO::FETCH_CLASS);
 
         $options = array();
-
         foreach ($pages as $page) {
             $options[$page->slug] = [
                 'label' => $page->title,
@@ -225,7 +232,7 @@ class Kernel extends Application {
             ];
         }
 
-        return $options;
+        return array_merge($this->frontpage, $options);
     }
 
     public function addFrontPageOption($array)
@@ -257,5 +264,17 @@ class Kernel extends Application {
         }
 
         return $shortcuts;
+    }
+
+    public function getReservedBaseUrl()
+    {
+        $urls = array();
+        foreach($this->getExtensions() as $extension){
+            if(method_exists($extension, 'getReservedBaseUrl')) {
+                $urls =  array_merge($urls, $extension->getReservedBaseUrl());
+            }
+        }
+
+        return $urls;
     }
 }
