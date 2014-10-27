@@ -1,8 +1,8 @@
 <?php namespace Drafterbit\System\Log;
 
 use Monolog\Logger;
-use Monolog\Handler\AbstractProcessingHandler;
 use Doctrine\DBAL\Connection;
+use Monolog\Handler\AbstractProcessingHandler;
 
 class DoctrineDBALHandler extends AbstractProcessingHandler
 {

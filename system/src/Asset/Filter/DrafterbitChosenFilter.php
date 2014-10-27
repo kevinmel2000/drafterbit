@@ -11,9 +11,7 @@ class DrafterbitChosenFilter implements FilterInterface
         $this->path = $path;
     }
 
-    public function filterLoad(AssetInterface $asset)
-    {
-    }
+    public function filterLoad(AssetInterface $asset){}
 
 
     public function filterDump(AssetInterface $asset)

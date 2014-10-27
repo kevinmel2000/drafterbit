@@ -8,8 +8,8 @@ class ExtensionManager {
 	protected $app;
 	protected $loaded;
 	protected $loader;
-	protected $installed = array();
 	protected $enabled;
+	protected $installed = array();
 	protected $extensionsPath;
 	protected $defaultNS = 'Drafterbit\\Extensions\\';
 
@@ -24,8 +24,8 @@ class ExtensionManager {
 	public function __construct(Kernel $app, ClassLoader $loader, $extensionsPath = array())
 	{
 		$this->app = $app;
-		$this->extensionsPath = $extensionsPath;
 		$this->loader = $loader;
+		$this->extensionsPath = $extensionsPath;
 	}
 
 	/**
@@ -235,7 +235,7 @@ class ExtensionManager {
 	}
 
 	/**
-	 * Create finder to finds extensions
+	 * Create finder we can ues to find extensions
 	 *
 	 * @return Symfony\Component\Finder\Finder;
 	 */

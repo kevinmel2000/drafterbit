@@ -17,7 +17,7 @@ class Pages extends FrontendController {
 		// @todo: blank layout
 		set('layout', 'layout/'.$page->layout);
 		
-		return $this->get('twig')->render('page/view.html', $this->data);
+		return $this->render('page/view.html', $this->data);
 	}
 
 	public function view($slug = null)
@@ -26,6 +26,6 @@ class Pages extends FrontendController {
 		set('page', $page);
 		set('layout', 'layout/'.$page->layout);
 		
-		return $this->get('twig')->render('page/view.html', $this->data);
+		return $this->render('page/view.html', $this->data);
 	}
 }

@@ -1,7 +1,6 @@
 <?php namespace Drafterbit\Extensions\System;
 
 use Drafterbit\Framework\Controller;
-use Drafterbit\Extensions\User\Models\Auth;
 use Drafterbit\Extensions\System\Models\Menu;
 
 class BackendController extends Controller {
@@ -56,32 +55,6 @@ class BackendController extends Controller {
 		ksort($sorted2);
 
 		return $sorted2;
-	}
-
-	public function buildTemplate()
-	{
-		$content = parent::view();
-
-		//$partials['nav'] = $this->get('template')->render('partials/nav@system', array());
-
-		//gravatar
-		$session = $this->get('session');
-
-		$hash = md5(strtolower($session->get('user.email')));
-		$url = "http://www.gravatar.com/avatar/$hash?d=mm&s=17";
-		$userName = $session->get('user.name');
-		$userGravatar = $url;
-		
-		$partials['nav'] = $this->nav($this->menu(), $userName, $userGravatar);
-
-
-		$footer = 
-		$partials['footer'] = $this->footer();
-
-		$this->set('content', $content);
-		$this->set('partials', $partials);
-
-		return $this->get('template')->render('@system/base', $this->data);
 	}
 
 	/**
@@ -209,6 +182,6 @@ class BackendController extends Controller {
 			->addGlobal('userGravatar', $userGravatar)
 			->addGlobal('siteName', $system['site.name']);
 
-        return $this->get('template')->render( $template, $data);
+        return $this->get('template')->render($template, $data);
     }
 }

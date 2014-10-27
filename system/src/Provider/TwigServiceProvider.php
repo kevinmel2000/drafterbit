@@ -40,7 +40,7 @@ class TwigServiceProvider implements ServiceProviderInterface {
 
             $twig->addFunction($function);
 
-            if ( $app['config']['app.debug']) {
+            if ($app['config']['app.debug']) {
                 $twig->addExtension(new \Twig_Extension_Debug());
             }
             

@@ -1,10 +1,10 @@
 <?php namespace Drafterbit\System;
 
-use Drafterbit\Framework\Application;
-use Drafterbit\System\Provider\ExtensionServiceProvider;
-use Drafterbit\System\Provider\WidgetServiceProvider;
 use Monolog\Logger;
+use Drafterbit\Framework\Application;
 use Drafterbit\System\Log\DoctrineDBALHandler;
+use Drafterbit\System\Provider\WidgetServiceProvider;
+use Drafterbit\System\Provider\ExtensionServiceProvider;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 

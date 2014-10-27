@@ -1,7 +1,6 @@
 <?php namespace Drafterbit\System\Provider;
 
 use Pimple\Container;
-use Drafterbit\Framework\Config\Config;
 use Pimple\ServiceProviderInterface;
 use Drafterbit\System\Widget\WidgetManager;
 use Drafterbit\System\Widget\WidgetUIBuilder;
@@ -15,7 +14,7 @@ class WidgetServiceProvider implements ServiceProviderInterface {
 		};
 
 		$app['widget.ui'] = function () {
-			return new  WidgetUIBuilder;
+			return new WidgetUIBuilder;
 		};
 	}
 }

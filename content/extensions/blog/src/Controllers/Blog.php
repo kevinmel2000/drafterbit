@@ -19,7 +19,7 @@ class Blog extends FrontendController {
 			$post->excerpt .= '&hellip; <a href="'.$post->url.'" />Read more </a></p>';
 		}
 
-		return $this->get('twig')->render('blog/index.html', $this->data);
+		return $this->render('blog/index.html', $this->data);
 	}
 
 	public function view($yyyy = null, $mm = null, $slug = null)
@@ -33,12 +33,6 @@ class Blog extends FrontendController {
 		$post->tags = $this->model('@blog\Tag')->getByPost($post->id);
 
 		set('post', $post);
-		return $this->get('twig')->render('blog/view.html', $this->data);
-	}
-
-	public function tag($tag)
-	{
-		return 'UNDER CONSTRUCTION';
+		return $this->render('blog/view.html', $this->data);
 	}
 }
-	

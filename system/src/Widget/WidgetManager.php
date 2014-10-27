@@ -129,7 +129,7 @@ class WidgetManager {
 	}
 
 	/**
-	 * Create finder to finds modules
+	 * Create finder we can use to find modules
 	 *
 	 * @return Symfony\System\Finder\Finder;
 	 */
@@ -155,7 +155,7 @@ class WidgetManager {
 	}
 
 	/**
-	 * Get all registered widgets.
+	 * Get all registered widgets
 	 *
 	 * @return array
 	 */

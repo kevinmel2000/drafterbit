@@ -1,7 +1,6 @@
 <?php namespace Drafterbit\System\Provider;
 
 use Pimple\Container;
-use Drafterbit\Framework\Config\Config;
 use Pimple\ServiceProviderInterface;
 use Drafterbit\System\ExtensionManager;
 
