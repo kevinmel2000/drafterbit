@@ -21,7 +21,7 @@ class PagesExtension extends \Drafterbit\Framework\Extension {
 	function getShortcuts()
 	{
 		return [
-			['href' => admin_url('pages/create'), 'icon' => 'fa fa-laptop','label' => 'New Page']
+			['href' => admin_url('pages/edit/new'), 'icon' => 'fa fa-laptop','label' => 'New Page']
 		];
 	}
 }

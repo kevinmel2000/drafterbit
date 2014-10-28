@@ -20,7 +20,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 
 		$this->getApplication()->addFrontPageOption(['blog' => [
 			'label' => 'Blog',
-			'controller' => '@blog\Blog::index',
+			'controller' => '@blog\Frontend::index',
 			'defaults' => array()
 			]
 		]);

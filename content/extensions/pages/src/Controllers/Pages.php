@@ -70,7 +70,7 @@ class Pages extends BackendController {
 
 		$ob = new \StdClass;
 		$ob->data = $pagesArr;
-  		$ob->recordsTotal= count($pagesArr);
+		$ob->recordsTotal= count($pagesArr);
 		$ob->recordsFiltered = count($pagesArr);
 
 		return json_encode($ob);
@@ -81,7 +81,31 @@ class Pages extends BackendController {
 	 */
 	public function save()
 	{
-		var_dump($this->get('input')->post());
+		try {
+
+			$postData = $this->get('input')->post();
+
+			$this->validate('page', $postData);
+
+			$id = $postData['id'];
+
+			if($id) {
+				$data = $this->createUpdateData($postData);
+				$this->model('@pages\Pages')->update($data, $id);			
+			} else {
+
+				$data = $this->createInsertData($postData);
+				$id = $this->model('@pages\Pages')->insert($data);
+			}
+
+			$this->get('cache')->delete('pages');
+
+			return $this->jsonResponse(['msg' => __('Post succesfully saved'), 'status' => 'success', 'id' => $id]);
+
+		} catch (\Exception $e) {
+			
+			return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
+		}
 	}
 
 	private function _tableHeader()
@@ -97,77 +121,43 @@ class Pages extends BackendController {
 		];
 	}
 
-	public function create()
-	{
-		$this->model('@user\Auth')->restrict('page.add');		
-		if ($postData = $this->get('input')->post()) {			
-			try {
-				$this->validate('page', $postData);
-
-				$data = $this->createInsertData($postData);
-				$id = $this->model('@pages\Pages')->insert($data);
-
-				$this->get('cache')->delete('pages');
-
-				message('Post succesfully saved.', 'success');
-
-			} catch (\Exception $e) {
-				message($e->getMessage(), 'error');
-			}
-		}
-
-		//set default
-		set(array(
-			'pageId' => null,
-			'pageTitle' => null,
-			'slug' => null,
-			'content' => null,
-			'layout' => null,
-			'layoutOptions' => $this->getLayoutOptions(),
-			'id' => 'page-create',
-			'status' => 1,
-			'action' => admin_url('pages/save'),
-			'title' => __('Create New Page'))
-		);
-
-		return $this->render('@pages/admin/editor', $this->getData());
-	}
-
 	public function edit($id)
 	{
 		$this->model('@user\Auth')->restrict('page.edit');
-		
-		if ($postData = $this->get('input')->post() ) {
 
-			try {
-				$this->validate('page', $postData);
-				$data = $this->createUpdateData($postData);
-				$this->model('@pages\Pages')->update($data, $id);
-				$this->get('cache')->delete('pages');
-				message('Post succesfully updated.', 'success');
+		if($id == 'new') {
 
-			} catch (\Exception $e) {
-				message($e->getMessage(), 'error');
-			}
+			$data = array(
+				'title' 	=> __('Create New Page'),
+
+				'pageId' 	=> null,
+				'pageTitle' => null,
+				'slug' 		=> null,
+				'content' 	=> null,
+				'layout' 	=> null,
+				'status' 	=> 1,
+			);
+
+		} else {
+
+			$page = $this->model('@pages\Pages')->getSingleBy('id', $id);
+			$data = array(
+				'title' 	=> __('Edit Page'),
+
+				'pageId' 	=> $id,
+				'pageTitle' => $page->title,
+				'slug' 		=> $page->slug,
+				'content' 	=> $page->content,
+				'layout'	=> $page->layout,
+				'status' 	=> $page->status,				
+			);
 		}
 
-		$page = $this->model('@pages\Pages')->getSingleBy('id', $id);
+		$data['id'] = 'page-edit';
+		$data['action'] = admin_url('pages/save');
+		$data['layoutOptions'] = $this->getLayoutOptions();
 
-		set(array(
-			'pageId' => $id,
-			'pageTitle' => $page->title,
-			'slug' => $page->slug,
-			'content' => $page->content,
-			'layout' => $page->layout,
-			'layoutOptions' => $this->getLayoutOptions(),
-			'status' => $page->status,
-			'id' => 'page-edit',
-			'status' => 1,
-			'action' => admin_url('pages/save'),
-			'title' => __('Edit Page')
-		));
-
-		return $this->render('@pages/admin/editor', $this->getData());
+		return $this->render('@pages/admin/editor', $data);
 	}
 
 	/**
@@ -201,7 +191,7 @@ class Pages extends BackendController {
 		$data['content'] = $post['content'];
 		$data['layout'] = $post['layout'];
 		$data['status'] = $post['status'];
-		$data['user_id'] = $this->get('session')->get('uid');
+		$data['user_id'] = $this->get('session')->get('user.id');
 		$data['updated_at'] = Carbon::now();
 		
 		if (! $isUpdate) {

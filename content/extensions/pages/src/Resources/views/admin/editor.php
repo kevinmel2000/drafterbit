@@ -7,7 +7,7 @@
 	<i class="fa fa-check spinner"></i> Save
 </button>
 <a class="btn btn-sm btn-default" href="<?php echo admin_url('pages/index') ?>">
-	<i class="fa fa-times" style="color: #A94442;"></i> Cancel
+	<i class="fa fa-times" style="color: #A94442;"></i> <span class="dt-editor-close-text">Cancel</span>
 </a>
 <?php $this->end(); ?>
 
@@ -15,6 +15,7 @@
 	<div class="col-md-9">
 		<div class="form-group">
 		    <input required name="title" type="text" class="form-control input-lg" id="post-title" placeholder="Title" value="<?php echo value('title', $pageTitle); ?>">
+		    <input type="hidden" name="id" value="<?php echo $pageId; ?>" />
 		 </div>
 		 <div class="form-group">
 			<?php echo wysiwyg('content', value('content', $content)); ?>
