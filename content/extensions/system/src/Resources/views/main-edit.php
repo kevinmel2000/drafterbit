@@ -1,6 +1,6 @@
 <?php $this->extend('@system/main'); ?>
 
-<form method="POST" id="<?php echo $id; ?>-form" action="<?php echo isset($action) ? $action : '';?>">
+<form method="POST" id="<?php echo $id; ?>-form" action="<?php echo isset($action) ? $action : '' ?>">
     <div class="container-fluid sticky-toolbar-wrapper" id="sticky-toolbar">
         <div class="container">
             <div class="row row-sticky-toolbar" style="margin:10px 0;">

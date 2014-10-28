@@ -5,6 +5,10 @@
 		'blog' => ['controller' => '@blog\Blog::index'],
 		'blog/create' => ['controller' => '@blog\Blog::create'],
 		'blog/edit/{id}' => ['controller' => '@blog\Blog::edit'],
+		'blog/data/{status}.json' => ['controller' => '@blog\Blog::filter'],
+		'blog/save' => ['controller' => '@blog\Blog::save', 'csrf' => true],
+		'blog/trash' => ['controller' => '@blog\Blog::trash', 'csrf' => true],
+		
 		'blog/comments' => ['controller' => '@blog\Comment::index'],
 
 	]

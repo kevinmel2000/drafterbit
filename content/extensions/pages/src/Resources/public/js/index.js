@@ -28,7 +28,6 @@
 
     // Checks
     $('#pages-checkall').checkAll({showIndeterminate:true});
-    //pages index form
 
     filterByStatus = function(status){
 

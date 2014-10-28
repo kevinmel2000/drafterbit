@@ -5,46 +5,49 @@ use Carbon\Carbon;
 
 class Pages extends BackendController {
 
-	public function index($status = 'untrashed')
+	public function index()
 	{
 		$this->model('@user\Auth')->restrict('page.view');
+			
+		$status = 'untrashed';
 
-		if( $post = $this->get('input')->post()) {
-
-			$pageIds = $post['pages'];
-
-			switch($post['action']) {
-				case "trash":
-					$this->model('@pages\Pages')->trash($pageIds);
-					message('Pages moved to trash !', 'success');
-					break;
-				case 'delete':
-					$this->model('@pages\Pages')->delete($pageIds);
-					message('Pages Deleted !', 'success');
-				case 'restore':
-					$this->model('@pages\Pages')->restore($pageIds);
-					message('Pages Restored !', 'success');
-				break;
-				default:
-					break;
-			}
-		}
-		
 		$pages = $this->model('@pages\Pages')->all(['status' => $status]);
 		
-		set('status', $status);
-		set('pages', $pages);
-		set('id', 'pages');
-		set('title', __('Pages'));
-		set('pagesTable', $this->datatables('pages', $this->_tableHeader(), $pages));
+		$data['status'] = $status;
+		$data['pages'] = $pages;
+		$data['id'] = 'pages';
+		$data['title'] =  __('Pages');
+		$data['action'] = admin_url('pages/trash');
+		$data['pagesTable'] = $this->datatables('pages', $this->_tableHeader(), $pages);
 
-		return $this->render('@pages/admin/index', $this->getData());
+		return $this->render('@pages/admin/index', $data);
+	}
+
+	public function trash()
+	{
+		$post = $this->get('input')->post();
+
+		$pageIds = $post['pages'];
+
+		switch($post['action']) {
+			case "trash":
+				$this->model('@pages\Pages')->trash($pageIds);
+				message('Pages moved to trash !', 'success');
+				break;
+			case 'delete':
+				$this->model('@pages\Pages')->delete($pageIds);
+				message('Pages Deleted !', 'success');
+			case 'restore':
+				$this->model('@pages\Pages')->restore($pageIds);
+				message('Pages Restored !', 'success');
+			break;
+			default:
+				break;
+		}
 	}
 
 	public function filter($status)
 	{
-		$search = $this->get('input')->get('search');
-
 		$pages = $this->model('@pages\Pages')->all(['status' => $status]);
 		
 		$editUrl = admin_url('pages/edit');
@@ -92,10 +95,15 @@ class Pages extends BackendController {
 			if($id) {
 				$data = $this->createUpdateData($postData);
 				$this->model('@pages\Pages')->update($data, $id);			
+				
+				log_activity('updated page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'</a>"');
+
 			} else {
 
 				$data = $this->createInsertData($postData);
 				$id = $this->model('@pages\Pages')->insert($data);
+
+				log_activity('created page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'"</a>');
 			}
 
 			$this->get('cache')->delete('pages');
@@ -106,19 +114,6 @@ class Pages extends BackendController {
 			
 			return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
 		}
-	}
-
-	private function _tableHeader()
-	{
-		$editUrl = admin_url('pages/edit');
-		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; };
-		$formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
-
-		return [
-			['field' => 'title', 'label' => 'Title', 'width' => '70%', 'format' => $formatTitle ],
-			['field' => 'created_at', 'label' => 'Created', 'width' => '20%'],
-			['field' => 'status', 'label' => 'Status', 'width' => '10%', 'format' => $formatStatus ]
-		];
 	}
 
 	public function edit($id)
@@ -159,6 +154,19 @@ class Pages extends BackendController {
 
 		return $this->render('@pages/admin/editor', $data);
 	}
+	private function _tableHeader()
+	{
+		$editUrl = admin_url('pages/edit');
+		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; };
+		$formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
+
+		return [
+			['field' => 'title', 'label' => 'Title', 'width' => '70%', 'format' => $formatTitle ],
+			['field' => 'created_at', 'label' => 'Created', 'width' => '20%'],
+			['field' => 'status', 'label' => 'Status', 'width' => '10%', 'format' => $formatStatus ]
+		];
+	}
+
 
 	/**
 	 * get available layout from current themes

@@ -6,29 +6,63 @@ use Carbon\Carbon;
 
 class Blog extends BackendController {
 
-	public function index($status = 'published')
+	public function index()
 	{
-		// authorize restriction
 		$this->model('@user\Auth')->restrict('blog.view');
+		
+		$status = 'untrashed';
 
-		// handle request
-		if($post = $this->get('input')->post()) {
+		/*if($post = $this->get('input')->post()) {
 
 			if(isset($post['post']) and count($post['post']) > 0) {
 				$this->_handleIndexRequest($post['post'], $post['action']);
 			} else {
 				message('Please make selection first', 'error');
 			}
-		}
+		}*/
 
 		$posts = $this->model('@blog\Post')->all(['status' => $status]);
 
-		set('status', $status);
-		set('title', __('Blog'));
-		set('id', 'posts');
-		set('blogTable', $this->datatables('posts', $this->_table(), $posts));
+		$data['status'] = $status;
+		$data['title'] = __('Blog');
+		$data['id'] = 'posts';
+		$data['blogTable'] = $this->datatables('posts', $this->_table(), $posts);
 
-		return $this->render('@blog/admin/index', $this->getData());
+		return $this->render('@blog/admin/index', $data);
+	}
+
+	public function filter($status)
+	{
+		$posts = $this->model('@blog\Post')->all(['status' => $status]);
+		
+		$editUrl = admin_url('blog/edit');
+
+		$pagesArr  = array();
+
+		foreach ($posts as $post) {
+			$data = array();
+			$data[] = '<input type="checkbox" name="posts[]" value="'.$post->id.'">';
+			$data[] = $status !== 'trashed' ? "<a class='post-edit-link' href='$editUrl/{$post->id}'> {$post->title} <i class='fa fa-edit edit-icon'></i></a>" : $post->title;
+			$data[] ='<a href="'.admin_url('blog/edit/'.$post->id).'">'.$post->authorName.'</a>';
+
+			if($status == 'trashed') {
+				$s = ucfirst($status);
+			} else {
+				$s = $post->status == 1 ? 'Published' : 'Unpublished';
+			}
+
+			$data[] = $s;
+			$data[] = $post->created_at;
+
+			$pagesArr[] = $data;
+		}
+
+		$ob = new \StdClass;
+		$ob->data = $pagesArr;
+		$ob->recordsTotal= count($pagesArr);
+		$ob->recordsFiltered = count($pagesArr);
+
+		return json_encode($ob);
 	}
 
 	private function _handleIndexRequest($postIds, $action)
@@ -102,7 +136,7 @@ class Blog extends BackendController {
 				'label' => 'Status',
 				'width' => '20%',
 				'format' => function($value, $item) use ($userUrl) {
-					return ucfirst($value); }],
+					return $value == 1 ? 'Published' : 'Unpublished'; }],
 			[
 				'field' => 'created_at',
 				'label' => 'Created',
