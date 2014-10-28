@@ -1,6 +1,8 @@
 <?php return [
 
 	'%admin%' => [
+		'methods' => 'get|post',
+		'before' => '@user\Models\Auth::authenticate',
 		'subRoutes' => [
 			'dashboard' => ['controller' => '@system\System::dashboard'],
 			'login' => ['controller' => '@user\Auth::login'],
@@ -19,8 +21,6 @@
 				],
 			],
 		],
-		'methods' => 'get|post',
-		'before' => '@user\Models\Auth::authenticate',
 	],
 
 	'%admin%/setting/themes/widget/save' => [

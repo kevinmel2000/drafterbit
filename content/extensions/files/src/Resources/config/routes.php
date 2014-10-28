@@ -1,9 +1,9 @@
 <?php return [
 	'%admin%' =>[
 		'subRoutes' => [
-			'files/index' => ['controller' => '@files\Admin::index'],
-			'files/browser' => ['controller' => '@files\Admin::browser'],
-			'files/data' => ['controller' => '@files\Admin::data']
+			'files/index' => ['controller' => '@files\Files::index'],
+			'files/browser' => ['controller' => '@files\Files::browser'],
+			'files/data' => ['controller' => '@files\Files::data']
 		]
 	]
 ];

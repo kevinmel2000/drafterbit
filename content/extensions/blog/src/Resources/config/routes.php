@@ -2,9 +2,9 @@
 
 '%admin%' => [
 	'subRoutes' => [
-		'blog' => ['controller' => '@blog\Admin::index'],
-		'blog/create' => ['controller' => '@blog\Admin::create'],
-		'blog/edit/{id}' => ['controller' => '@blog\Admin::edit'],
+		'blog' => ['controller' => '@blog\Blog::index'],
+		'blog/create' => ['controller' => '@blog\Blog::create'],
+		'blog/edit/{id}' => ['controller' => '@blog\Blog::edit'],
 		'blog/comments' => ['controller' => '@blog\Comment::index'],
 
 	]
@@ -12,11 +12,11 @@
 
 
 'blog' => [
-	'controller' => '@blog\Blog::index'
+	'controller' => '@blog\Frontend::index'
 ],
 	
 'blog/{yyyy}/{mm}/{slug}' => [
-	'controller' => '@blog\Blog::view',
+	'controller' => '@blog\Frontend::view',
 	'methods' => 'get',
 	'requirements' => [
 		'yyyy' => '\d{4}',

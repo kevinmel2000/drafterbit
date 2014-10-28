@@ -4,11 +4,11 @@
 		'subRoutes' => [
 			'pages' => [
 				'subRoutes' => [
-					'index' => ['controller' => '@pages\Backend::index'],
-					'create' => ['controller' => '@pages\Backend::create'],
-					'edit/{id}' => ['controller' => '@pages\Backend::edit'],
-					'data/{status}.json' => ['controller' => '@pages\Backend::filter'],
-					'save' => ['controller' => '@pages\Backend::save', 'csrf' => true]
+					'index' => ['controller' => '@pages\Pages::index'],
+					'create' => ['controller' => '@pages\Pages::create'],
+					'edit/{id}' => ['controller' => '@pages\Pages::edit'],
+					'data/{status}.json' => ['controller' => '@pages\Pages::filter'],
+					'save' => ['controller' => '@pages\Pages::save', 'csrf' => true]
 				]
 			]
 		]

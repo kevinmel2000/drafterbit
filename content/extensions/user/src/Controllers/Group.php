@@ -1,4 +1,4 @@
-<?php namespace Drafterbit\Extensions\User\Controllers\Admin;
+<?php namespace Drafterbit\Extensions\User\Controllers;
 
 use Drafterbit\Framework\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BackendController;

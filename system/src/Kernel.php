@@ -206,7 +206,7 @@ class Kernel extends Application {
             // pages
             $reservedBaseUrl = implode('|', $this->getReservedBaseUrl());
             $this['router']->addRouteDefinition('/{slug}', [
-                'controller' => '@pages\Pages::view',
+                'controller' => '@pages\Frontend::view',
                 'requirements' => [
                     // @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
                     'slug' => "^(?!(?:%admin%|".$reservedBaseUrl."|)(?:/|$)).*$"

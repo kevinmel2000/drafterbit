@@ -4,7 +4,7 @@
 
 <?php $this->start('action'); ?>
 <button class="btn btn-sm btn-success" type="submit" name="action" value="save">
-	<i class="fa fa-check"></i> Save
+	<i class="fa fa-check spinner"></i> Save
 </button>
 <a class="btn btn-sm btn-default" href="<?php echo admin_url('pages/index') ?>">
 	<i class="fa fa-times" style="color: #A94442;"></i> Cancel

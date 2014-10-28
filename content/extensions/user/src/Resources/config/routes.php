@@ -3,13 +3,13 @@
 		'subRoutes' => [
 			'user' => [
 				'subRoutes' => [
-					'index' => ['controller' => '@user\Admin::index'],
-					'create' => ['controller' => '@user\Admin::create'],
-					'edit/{id}' => ['controller' => '@user\Admin::edit'],
+					'index' => ['controller' => '@user\User::index'],
+					'create' => ['controller' => '@user\User::create'],
+					'edit/{id}' => ['controller' => '@user\User::edit'],
 		
-					'group' => ['controller' => '@user\Admin\Group::index'],
-					'group/create' => ['controller' => '@user\Admin\Group::create'],
-					'group/edit/{id}' => ['controller' => '@user\Admin\Group::edit']
+					'group' => ['controller' => '@user\Group::index'],
+					'group/create' => ['controller' => '@user\Group::create'],
+					'group/edit/{id}' => ['controller' => '@user\Group::edit']
 				]
 			],
 		],
