@@ -49,7 +49,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 	function getShortcuts()
 	{
 		return [
-			['href' => admin_url('blog/create'), 'icon' => 'fa fa-edit','label' => 'New Post']
+			['href' => admin_url('blog/edit/new'), 'icon' => 'fa fa-edit','label' => 'New Post']
 		];
 	}
 

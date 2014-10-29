@@ -12,7 +12,7 @@
 <?php $this->end(); ?>
 
 <?php $this->start('action'); ?>
-<a href="<?php echo admin_url('blog/create') ?>" class="btn btn-success btn-sm">
+<a href="<?php echo admin_url('blog/edit/new') ?>" class="btn btn-success btn-sm">
     <i class="fa fa-plus" style=""></i> New Post
 </a>
 

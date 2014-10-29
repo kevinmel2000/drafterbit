@@ -1,5 +1,6 @@
 <?php namespace Drafterbit\Extensions\Pages\Controllers;
 
+use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BackendController;
 use Carbon\Carbon;
 
@@ -76,44 +77,7 @@ class Pages extends BackendController {
 		$ob->recordsTotal= count($pagesArr);
 		$ob->recordsFiltered = count($pagesArr);
 
-		return json_encode($ob);
-	}
-
-	/**
-	 * Save submitted post data
-	 */
-	public function save()
-	{
-		try {
-
-			$postData = $this->get('input')->post();
-
-			$this->validate('page', $postData);
-
-			$id = $postData['id'];
-
-			if($id) {
-				$data = $this->createUpdateData($postData);
-				$this->model('@pages\Pages')->update($data, $id);			
-				
-				log_activity('updated page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'</a>"');
-
-			} else {
-
-				$data = $this->createInsertData($postData);
-				$id = $this->model('@pages\Pages')->insert($data);
-
-				log_activity('created page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'"</a>');
-			}
-
-			$this->get('cache')->delete('pages');
-
-			return $this->jsonResponse(['msg' => __('Post succesfully saved'), 'status' => 'success', 'id' => $id]);
-
-		} catch (\Exception $e) {
-			
-			return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
-		}
+		return $this->jsonResponse($ob);
 	}
 
 	public function edit($id)
@@ -154,6 +118,44 @@ class Pages extends BackendController {
 
 		return $this->render('@pages/admin/editor', $data);
 	}
+
+	/**
+	 * Save submitted post data
+	 */
+	public function save()
+	{
+		try {
+
+			$postData = $this->get('input')->post();
+
+			$this->validate('page', $postData);
+
+			$id = $postData['id'];
+
+			if($id) {
+				$data = $this->createUpdateData($postData);
+				$this->model('@pages\Pages')->update($data, $id);			
+				
+				log_activity('updated page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'</a>"');
+
+			} else {
+
+				$data = $this->createInsertData($postData);
+				$id = $this->model('@pages\Pages')->insert($data);
+
+				log_activity('created page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'"</a>');
+			}
+
+			$this->get('cache')->delete('pages');
+
+			return $this->jsonResponse(['msg' => __('Page succesfully saved'), 'status' => 'success', 'id' => $id]);
+
+		} catch (ValidationFailsException $e) {
+			
+			return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
+		}
+	}
+
 	private function _tableHeader()
 	{
 		$editUrl = admin_url('pages/edit');
@@ -166,7 +168,6 @@ class Pages extends BackendController {
 			['field' => 'status', 'label' => 'Status', 'width' => '10%', 'format' => $formatStatus ]
 		];
 	}
-
 
 	/**
 	 * get available layout from current themes

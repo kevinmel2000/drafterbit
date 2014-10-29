@@ -62,7 +62,7 @@ class Blog extends BackendController {
 		$ob->recordsTotal= count($pagesArr);
 		$ob->recordsFiltered = count($pagesArr);
 
-		return json_encode($ob);
+		return $this->jsonResponse($ob);
 	}
 
 	private function _handleIndexRequest($postIds, $action)
@@ -145,90 +145,10 @@ class Blog extends BackendController {
 		);
 	}
 
-	public function create()
-	{
-		// restrict
-		$this->model('@user\Auth')->restrict('blog.add');
-
-		// handle request
-		if ($post = $this->get('input')->post()) {
-			$this->_handleCreateRequest($post);
-		}
-
-		//get data
-		$tagOptionsArray = $this->model('@blog\Tag')->all();
-		$tagOptions = '[';
-		foreach ($tagOptionsArray as $tO) {
-			$tagOptions .= "'{$tO->label}',";
-		}
-		$tagOptions = rtrim($tagOptions, ',').']';
-
-		set(array(
-			'postId' => null,
-			'postTitle' => null,
-			'slug' => null,
-			'content' => null,
-			'tagOptions' => $tagOptions,
-			'tags' => array(),
-			'title' => __('New Post'),
-			'id' => 'post-create'
-		));
-
-		return $this->render('@blog/admin/edit', $this->getData());
-	}
-
-	private function _handleCreateRequest($postData)
-	{
-		try {
-				$this->validate('blog', $postData);
-				
-				$data = $this->createInsertData($postData);
-				$id = $this->model('@blog\Post')->insert($data);
-
-				if(isset($postData['tags']))
-				$this->insertTags( $postData['tags'], $id);
-
-				//clear cache
-				$this->get('cache')->delete('posts');
-
-				$postUrl = base_url("admin/blog/edit/$id");
-				$title = $postData['title'];
-				$userUrl = base_url("admin/user/edit/{$data['user_id']}");
-				$userName = $this->get('session')->get('user.name');
-				//log_db("Create Post", "<a href='{$userUrl}'>{$userName}</a>","<a href='$postUrl'>{$title}</a>");
-				
-				$msg['text'] = 'Post successfully saved';
-				$msg['type'] = 'success';
-				$this->get('session')
-					->getFlashBag()->set('message', $msg);
-				return redirect(base_url("admin/blog/edit/$id"));
-
-			} catch (ValidationFailsException $e) {
-
-				message($e->getMessage(), 'error');
-			}
-	}
-
 	public function edit($id)
 	{
 		$this->model('@user\Auth')->restrict('blog.edit');
-		
-		if ($postData = $this->get('input')->post()) {
 
-			try {
-				$this->validate('blog', $postData);
-				$data = $this->createUpdateData($postData);
-				$this->model('@blog\Post')->update($data, $id);
-
-				$this->insertTags( $postData['tags'], $id);
-				message('Post succesfully updated.', 'success');
-
-			} catch (\Exception $e) {
-				message($e->getMessage(), 'error');
-			}
-		}
-
-		//options
 		$tagOptionsArray = $this->model('@blog\Tag')->all();
 		$tagOptions = '[';
 		foreach ($tagOptionsArray as $tO) {
@@ -236,28 +156,74 @@ class Blog extends BackendController {
 		}
 		$tagOptions = rtrim($tagOptions, ',').']';
 
-		$post = $this->model('@blog\Post')->getBy('id', $id);
+		if('new' == $id) {
 
-		//used
-		$post->tags = $this->model('@blog\Post')->getTags($id);
-		
-		$tags = array();
-		foreach ($post->tags as $tag) {
-			$tags [] = $tag->label;
+			$data = array(
+				'postId' => null,
+				'postTitle' => null,
+				'slug' => null,
+				'content' => null,
+				'tagOptions' => $tagOptions,
+				'tags' => array(),
+				'status' => 1,
+				'title' => __('New Post'),
+			);
+		} else {
+
+			$post = $this->model('@blog\Post')->getBy('id', $id);
+			$post->tags = $this->model('@blog\Post')->getTags($id);
+			
+			$tags = array();
+			foreach ($post->tags as $tag) {
+				$tags [] = $tag->label;
+			}
+
+			$data = array(
+				'postId' => $id,
+				'postTitle' => $post->title,
+				'slug' => $post->slug,
+				'content' => $post->content,
+				'tags' => $tags,
+				'tagOptions' => $tagOptions,
+				'status' => $post->status,
+				'title' => __('Edit Post'),
+			);
 		}
 
-		set(array(
-			'postId' => $id,
-			'postTitle' => $post->title,
-			'slug' => $post->slug,
-			'content' => $post->content,
-			'tags' => $tags,
-			'tagOptions' => $tagOptions,
-			'title' => __('Edit Post'),
-			'id' => 'post-create'
-		));
+		$data['id'] = 'post-edit';
+		$data['action'] = admin_url('blog/save');
 		
-		return $this->render('@blog/admin/edit', $this->getData());
+		return $this->render('@blog/admin/edit', $data);
+	}
+
+	public function save()
+	{
+		try {
+				$postData = $this->get('input')->post();
+
+				$this->validate('blog', $postData);
+
+				$id = $postData['id'];
+
+				if($id) {
+					$data = $this->createUpdateData($postData);
+					$this->model('@blog\Post')->update($data, $id);
+				
+				} else {
+					$data = $this->createInsertData($postData);				
+					$id = $this->model('@blog\Post')->insert($data);
+				}
+
+				if(isset($postData['tags'])) {
+					$this->insertTags( $postData['tags'], $id);
+				}
+
+				// @todo log here
+				return $this->jsonResponse(['msg' => __('Post succesfully saved'), 'status' => 'success', 'id' => $id]);
+
+			} catch (ValidationFailsException $e) {
+				return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
+			}	
 	}
 
 	public function delete(){
@@ -279,7 +245,7 @@ class Blog extends BackendController {
 		$data['content'] = $post['content'];
 		$data['user_id'] = $this->get('session')->get('user.id');
 		$data['updated_at'] = Carbon::now();
-		$data['status'] = ($post['action'] == 'publish') ? 'published' : 'unpublished';
+		$data['status'] = $post['status'];
 		
 		if (! $isUpdate) {
 			$data['created_at'] = Carbon::now();
