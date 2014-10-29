@@ -17,7 +17,7 @@ if ( ! function_exists('comment'))
 
           $content = _render($comments, $id);
 
-          $js = app('asset')->add('js', '@blog/js/comments/front-snippet.js')->dump('js');
+          $js = app('asset')->add('js', '@blog/js/comment/front-snippet.js')->dump('js');
           $js = '<script>'.$js.'</script>';
 
 

@@ -1,5 +1,7 @@
 <?php $this->extend('@system/main-index'); ?>
 
+<?php $this->css('@blog/css/comment/index.css'); ?>
+
 <?php $this->start('filter'); ?>
 <div style="display:inline-block; float:right;margin-left:5px;">
     <select name="filter" class="form-control input-sm blog-status-filter">
@@ -21,4 +23,4 @@
 
 <?php echo $commentsTable; ?>
 
-<?php $this->js('@blog/js/comments/index.js'); ?>
+<?php $this->js('@blog/js/comment/index.js'); ?>

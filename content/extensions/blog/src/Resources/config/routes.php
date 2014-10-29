@@ -10,7 +10,7 @@
 		'blog/trash' => ['controller' => '@blog\Blog::trash', 'csrf' => true],
 		
 		'blog/comments' => ['controller' => '@blog\Comment::index'],
-
+		'comments/status' => ['controller' => '@blog\Comment::status', 'csrf' => true],
 	]
 ],
 

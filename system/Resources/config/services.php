@@ -12,5 +12,6 @@
     'Drafterbit\\System\\Provider\\ImageServiceProvider' => ['image'],
     'Drafterbit\\System\\Provider\\TwigServiceProvider' => ['twig'],
     'Drafterbit\\System\\Provider\\ThemeServiceProvider' => ['themes'],
+	'Drafterbit\\Framework\\Provider\\SwiftMailerServiceProvider' => ['mailer', 'mail'],
 
 ];

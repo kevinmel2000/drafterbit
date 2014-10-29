@@ -9,6 +9,7 @@ class Comment extends Model {
 		$query = $this ->withQueryBuilder()
 		->select('c.*, p.title')
 		->from('#_comments','c')
+		->where('c.status != 2') //spam
 		->leftJoin('c','#_posts','p', 'c.post_id = p.id');
 
 		return $query->fetchAllObjects();
@@ -62,4 +63,14 @@ class Comment extends Model {
 		return $this->get('db')->lastInsertid();
 	}
 
+	public function changeStatus($id, $status)
+	{
+		$data['status'] = $status;
+		$this->get('db')->update('#_comments', $data, array('id' => $id));
+	}
+
+	public function toSpam($id)
+	{
+		$this->changeStatus($id, 2);
+	}
 }

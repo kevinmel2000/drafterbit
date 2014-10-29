@@ -26,36 +26,29 @@ class Comment extends BackendController {
 				'label' => 'Author',
 				'width' => '15%',
 				'format' => function($value, $item){
-					return $value.'<br/>'.$item->email;
+					return "{$value} <div><a href=\"mailto:{$item->email}\">{$item->email}</a></div>";
 				}],
 			[
 				'field' => 'content',
 				'label' => 'Comment',
-				'width' => '50%',
+				'width' => '65%',
 				'format' => function($value, $item)
 				{
-					return $value;
+					$content = "$value";
+					$content .= "<div class=\"comment-action\">";
+
+					$display = $item->status == 1 ? 'inline' : 'none';
+					$display2 = $item->status == 0 ? 'inline' : 'none';
+
+					$content .=" <a data-status=\"0\" data-id=\"{$item->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
+					$content .=" <a data-status=\"1\" data-id=\"{$item->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
+					$content .=" <a data-status=\"\" data-id=\"{$item->id}\" class=\"reply\" href=\"#\">Reply</a>";
+					$content .=" <a data-status=\"2\" data-id=\"{$item->id}\" class=\"spam status\" href=\"#\">Spam</a>";
+					$content .=" <a data-status=\"\" data-id=\"{$item->id}\" class=\"trash\" href=\"#\">Trash</a>";
+					$content .="</div>";
+
+					return $content;
 				}],
-			[
-				'field' => 'status',
-				'label' => 'Status',
-				'width' => '15%',
-				'format' => function($value, $item){
-					switch ($value) {
-						case 0:
-							return 'Pending';
-							break;
-						case 1:
-							return 'Approved';
-							break;
-						case 2:
-							return 'Spam';
-							break;
-						default:
-							break;
-					}
-				}
-			],
 			[
 				'field' => 'post_id',
 				'label' => 'In Respose to',
@@ -84,5 +77,13 @@ class Comment extends BackendController {
 		$referer = $this->get('input')->headers('referer');
 
 		return redirect($referer.'#comment-'.$id);
+	}
+
+	public function status()
+	{
+		$id = $this->get('input')->post('id');
+		$status = $this->get('input')->post('status');
+
+		$this->model('Comment')->changeStatus($id, $status);
 	}
 }
