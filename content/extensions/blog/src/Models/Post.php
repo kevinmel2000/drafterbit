@@ -42,11 +42,34 @@ class Post extends \Drafterbit\Framework\Model {
 		return
 		$this->get('db')->update('#_posts', $data, array('id' => $id));
 	}
-
-	public function delete($id)
+	/**
+	 * Delete post and related entities permanently
+	 *
+	 * @param array $ids
+	 * @return void
+	 */
+	public function delete($ids)
 	{
-		$this->get('db')->delete("#_posts_tags", ['post_id'=> $id]);
-		$this->get('db')->delete("#_posts", ['id'=> $id]);
+		$ids = (array) $ids;
+		$ids = array_map(function($v){return "'$v'";}, $ids);
+		$idString = implode(',', $ids);
+
+		$this->withQueryBuilder()
+		->delete('#_posts')
+		->where('id IN ('.$idString.')')
+			->execute();
+
+		$this->withQueryBuilder()
+		->delete('#_posts_tags')
+		->where('post_id IN ('.$idString.')')
+			->execute();
+
+		$this->withQueryBuilder()
+		->delete('#_comments')
+		->where('post_id IN ('.$idString.')')
+			->execute();
+
+		$this->clearCache();
 	}
 
 	public function getBy($field, $value)
@@ -96,5 +119,61 @@ class Post extends \Drafterbit\Framework\Model {
 		->where("$field = :value")
 		->setParameter(':value', $value)
 		->execute()->fetchObject();
+	}
+
+	/**
+	 * Restore trashed pages
+	 *
+	 * @return void
+	 */
+	public function restore($ids)
+	{
+		$ids = array_map(function($v){return "'$v'";}, $ids);
+
+		$idString = implode(',', $ids);
+		$deleted_at = new \Carbon\Carbon;
+
+		$this->withQueryBuilder()
+			->update('#_posts', 'p')
+			->set('deleted_at',"'0000-00-00 00:00:00'")
+			->where('p.id IN ('.$idString.')')
+			->execute();
+
+		$this->clearCache();
+	}
+
+	/**
+	 * Trash pages by given ids
+	 *
+	 * @param array $ids
+	 * @return void
+	 */
+	public function trash($ids)
+	{
+		$ids = array_map(function($v){return "'$v'";}, $ids);
+		$idString = implode(',', $ids);
+		$deleted_at = new \Carbon\Carbon;
+
+		$this->withQueryBuilder()
+			->update('#_posts', 'p')
+			->set('deleted_at',"'$deleted_at'")
+			->where('p.id IN ('.$idString.')')
+			->execute();
+
+		$this->clearCache();
+	}
+
+	/**
+	 * Clear stored data cache
+	 *
+	 * @return void
+	 */
+	private function clearCache()
+	{
+		$cache = $this->get('cache');
+
+		foreach (['published', 'unpulished', 'trashed'] as $part) {
+			$cache->delete('posts.'.$part);
+		}
 	}
 }

@@ -47,7 +47,7 @@
 	    
 	    $('#posts-index-form').ajaxForm(function(){
 	        var urlHash2 = window.location.hash.replace('#','');
-	        drafTerbit.pages.dt.api().ajax.url(drafTerbit.adminUrl+"/blog/data/"+urlHash2+".json").load();
+	        drafTerbit.blog.dt.api().ajax.url(drafTerbit.adminUrl+"/blog/data/"+urlHash2+".json").load();
 	    });
 
 	    //status-filter

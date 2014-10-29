@@ -26,9 +26,30 @@ class Blog extends BackendController {
 		$data['status'] = $status;
 		$data['title'] = __('Blog');
 		$data['id'] = 'posts';
+		$data['action'] = admin_url('blog/trash');
 		$data['blogTable'] = $this->datatables('posts', $this->_table(), $posts);
 
 		return $this->render('@blog/admin/index', $data);
+	}
+
+	public function trash()
+	{
+		$post = $this->get('input')->post();
+
+		$postIds = $post['posts'];
+
+		switch($post['action']) {
+			case "trash":
+				$this->model('@blog\Post')->trash($postIds);
+				break;
+			case 'delete':
+				$this->model('@blog\Post')->delete($postIds);
+			case 'restore':
+				$this->model('@blog\Post')->restore($postIds);
+			break;
+			default:
+				break;
+		}
 	}
 
 	public function filter($status)
@@ -63,48 +84,6 @@ class Blog extends BackendController {
 		$ob->recordsFiltered = count($pagesArr);
 
 		return $this->jsonResponse($ob);
-	}
-
-	private function _handleIndexRequest($postIds, $action)
-	{
-		switch($action) {
-				case "delete":
-
-					// $ids = '';
-					 foreach ($postIds as $id) {
-					// 	$ids .= ", $id";
-					 	$this->model('@blog\Post')->delete($id);
-					 }
-					// $ids = ltrim($ids, ',');
-
-					// $userId = $this->get('session')->get('uid');
-					// $userName = $this->get('session')->get('user.name');
-					// $userUrl = base_url("user/edit/$userId");
-					// log_db("Delete Post", "<a href='{$userUrl}'>{$userName}</a>","with id(s) : {$ids}");
-					$this->refreshCache();
-					message('posts deleted !', 'success');
-					break;
-				case 'trash':
-					$data['status'] = 'trashed';
-					foreach ($postIds as $id) {
-						$this->model('@blog\Post')->update($data, $id);
-					}
-
-					$this->refreshCache();
-					message('posts trashed !', 'success');
-					break;
-				case 'restore':
-					$data['status'] = 'published';
-					foreach ($postIds as $id) {
-						$this->model('@blog\Post')->update($data, $id);
-					}
-
-					$this->refreshCache();
-					message('posts restored !', 'success');
-					break;
-				default:
-					break;
-			}
 	}
 
 	private function refreshCache()

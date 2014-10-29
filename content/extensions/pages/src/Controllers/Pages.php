@@ -33,14 +33,11 @@ class Pages extends BackendController {
 		switch($post['action']) {
 			case "trash":
 				$this->model('@pages\Pages')->trash($pageIds);
-				message('Pages moved to trash !', 'success');
 				break;
 			case 'delete':
 				$this->model('@pages\Pages')->delete($pageIds);
-				message('Pages Deleted !', 'success');
 			case 'restore':
 				$this->model('@pages\Pages')->restore($pageIds);
-				message('Pages Restored !', 'success');
 			break;
 			default:
 				break;

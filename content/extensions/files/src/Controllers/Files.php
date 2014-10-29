@@ -51,7 +51,7 @@ class Files extends BackendController {
 	
 	public function browser()
 	{	
-		return $this->render($this->getTemplate(), $this->getData());
+		return $this->render('@files/admin/browser');
 	}
 
 	public function data()
