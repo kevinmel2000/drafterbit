@@ -7,8 +7,9 @@ class Comment extends Model {
 	public function queryAll($status = null)
 	{
 		$query = $this ->withQueryBuilder()
-		->select('c.*')
-		->from('#_comments','c');
+		->select('c.*, p.title')
+		->from('#_comments','c')
+		->leftJoin('c','#_posts','p', 'c.post_id = p.id');
 
 		return $query->fetchAllObjects();
 	}
@@ -19,6 +20,7 @@ class Comment extends Model {
 		->select('c.*')
 		->from('#_comments','c')
 		->where('c.post_id = :post_id')
+		->where('c.status = 1')
 		->setParameter('post_id', $id);
 
 		$comments =  $query->fetchAllObjects();

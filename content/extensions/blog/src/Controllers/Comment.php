@@ -22,22 +22,47 @@ class Comment extends BackendController {
 	{
 		return array(
 			[
-				'field' => 'user_id',
+				'field' => 'name',
 				'label' => 'Author',
-				'width' => '40%'],
+				'width' => '15%',
+				'format' => function($value, $item){
+					return $value.'<br/>'.$item->email;
+				}],
 			[
 				'field' => 'content',
-				'label' => 'Content',
-				'width' => '20%'],
+				'label' => 'Comment',
+				'width' => '50%',
+				'format' => function($value, $item)
+				{
+					return $value;
+				}],
 			[
 				'field' => 'status',
 				'label' => 'Status',
-				'width' => '20%',
+				'width' => '15%',
+				'format' => function($value, $item){
+					switch ($value) {
+						case 0:
+							return 'Pending';
+							break;
+						case 1:
+							return 'Approved';
+							break;
+						case 2:
+							return 'Spam';
+							break;
+						default:
+							break;
+					}
+				}
 			],
 			[
 				'field' => 'post_id',
 				'label' => 'In Respose to',
-				'width' => '20%'
+				'width' => '20%',
+				'format' => function($value, $item){
+					return '<a href="'.admin_url('blog/edit/'.$value).'">'.$item->title.'</a><br/>'.$item->created_at;
+				}
 			]
 		);
 	}
@@ -52,6 +77,7 @@ class Comment extends BackendController {
 		$data['content'] = $comments['content'];
 		$data['parent_id'] = $comments['parent_id'];
 		$data['post_id'] = $comments['post_id'];
+		$data['created_at'] = \Carbon\Carbon::now();
 
 		$id = $this->model('@blog\Comment')->insert($data);
 
