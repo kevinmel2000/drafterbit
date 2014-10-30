@@ -8,14 +8,76 @@ class Comment extends BackendController {
 	{
 		$model = $this->model('Comment');
 
-		$comments = $model->all();
+		$comments = $model->all(['status' => 'active']);
 
-		set('id', 'comments');
-		set('title', __('Comments'));
-		set('status', 1);
-		set('commentsTable', $this->datatables('comments', $this->_table(), $comments));
+		$data['id'] = 'comments';
+		$data['title'] = __('Comments');
+		$data['status'] = 1;
+		$data['commentsTable'] = $this->datatables('comments', $this->_table(), $comments);
+		$data['action'] = admin_url('comments/trash');
 
-		return $this->render('@blog/admin/comments/index', $this->getData());
+		return $this->render('@blog/admin/comments/index', $data);
+	}
+
+	public function trash()
+	{
+		$post = $this->get('input')->post();
+
+		$commentIds = $post['comments'];
+
+		switch($post['action']) {
+			case "trash":
+				foreach($commentIds as $id) {
+					$this->model('@blog\Comment')->trash($id);
+				}
+				break;
+			case 'delete':
+				$this->model('@blog\Comment')->delete($commentIds);
+			case 'restore':
+				$this->model('@blog\Comment')->restore($commentIds);
+			break;
+			default:
+				break;
+		}
+	}
+
+	public function filter($status)
+	{
+		$comments = $this->model('@blog\Comment')->all(['status' => $status]);
+		
+		$arr  = array();
+
+		foreach ($comments as $comment) {
+			$data = array();
+			$data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
+			$data[] = "{$comment->name} <div><a href=\"mailto:{$comment->email}\">{$comment->email}</a></div>";
+
+				$content = "{$comment->content}";
+				$content .= "<div class=\"comment-action\">";
+
+				$display = $comment->status == 1 ? 'inline' : 'none';
+				$display2 = $comment->status == 0 ? 'inline' : 'none';
+
+				$content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
+				$content .=" <a data-status=\"1\" data-id=\"{$comment->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
+				$content .=" <a data-id=\"{$comment->id}\" data-post-id=\"{$comment->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
+				$content .=" <a data-status=\"2\" data-id=\"{$comment->id}\" class=\"spam status\" href=\"#\">Spam</a>";
+				$content .=" <a data-id=\"{$comment->id}\" class=\"trash\" href=\"#\">Trash</a>";
+				$content .="</div>";
+			
+			$data[] = $content;
+
+			$data[] = '<a href="'.admin_url('blog/edit/'.$comment->post_id).'">'.$comment->title.'</a><br/>'.$comment->created_at;
+			
+			$arr[] = $data;
+		}
+
+		$ob = new \StdClass;
+		$ob->data = $arr;
+		$ob->recordsTotal= count($arr);
+		$ob->recordsFiltered = count($arr);
+
+		return $this->jsonResponse($ob);
 	}
 
 	private function _table()

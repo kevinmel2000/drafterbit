@@ -10,6 +10,9 @@
 		'blog/trash' => ['controller' => '@blog\Blog::trash', 'csrf' => true],
 		
 		'blog/comments' => ['controller' => '@blog\Comment::index'],
+		
+		'comments/data/{status}.json' => ['controller' => '@blog\Comment::filter'],
+		'comments/trash' => ['controller' => '@blog\Comment::trash', 'csrf' => true],
 		'comments/status' => ['controller' => '@blog\Comment::status', 'csrf' => true],
 		'comments/quick-reply' => ['controller' => '@blog\Comment::quickReply', 'csrf' => true],
 		'comments/quick-trash' => ['controller' => '@blog\Comment::quickTrash', 'csrf' => true],

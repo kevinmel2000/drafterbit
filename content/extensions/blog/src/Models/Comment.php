@@ -4,15 +4,35 @@ use Drafterbit\Framework\Model;
 
 class Comment extends Model {
 
-	public function queryAll($status = null)
+	public function queryAll($filters)
 	{
+		$status = $filters['status'];
+
 		$query = $this ->withQueryBuilder()
 		->select('c.*, p.title')
 		->from('#_comments','c')
-		->where('c.status != 2') //spam
-		->andWhere("c.deleted_at = '0000-00-00 00:00:00'") //trashed
 		->leftJoin('c','#_posts','p', 'c.post_id = p.id')
 		->orderBy('c.created_at', 'desc');
+
+		if($status == 'spam') {
+			$query->where('c.status = 2');
+		
+		} else if ($status == 'trashed') {
+			$query->where('c.deleted_at != :deleted_at');
+			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+
+		} else {
+
+			$query->where("c.deleted_at = '0000-00-00 00:00:00'");
+
+			if($status == 'approved'){
+				$query->andWhere('c.status = 1');
+			} else if($status == 'pending') {
+				$query->andWhere('c.status = 0');
+			} else {
+				$query->andWhere('c.status != 2');
+			}
+		}
 
 		return $query->fetchAllObjects();
 	}
@@ -77,5 +97,37 @@ class Comment extends Model {
 	public function trash($id)
 	{
 		$this->update($id, ['deleted_at' => \Carbon\Carbon::now()]);
+	}
+
+	/**
+	 * Restore trashed pages
+	 *
+	 * @return void
+	 */
+	public function restore($ids)
+	{
+		$ids = array_map(function($v){return "'$v'";}, $ids);
+
+		$idString = implode(',', $ids);
+		$deleted_at = new \Carbon\Carbon;
+
+		$this->withQueryBuilder()
+			->update('#_comments', 'c')
+			->set('c.deleted_at',"'0000-00-00 00:00:00'")
+			->where('c.id IN ('.$idString.')')
+			->execute();
+	}
+
+	public function delete($ids)
+	{
+		$ids = (array) $ids;
+		$ids = array_map(function($v){return "'$v'";}, $ids);
+		$idString = implode(',', $ids);
+
+		$this->withQueryBuilder()
+		->delete('#_comments')
+		->where('id IN ('.$idString.')')
+		->orWhere('parent_id IN ('.$idString.')')
+			->execute();
 	}
 }

@@ -4,11 +4,11 @@
 
 <?php $this->start('filter'); ?>
 <div style="display:inline-block; float:right;margin-left:5px;">
-    <select name="filter" class="form-control input-sm blog-status-filter">
-            <option value="untrashed" <?php echo selected('status-filter', 'untrashed', $status == 'untrashed' ); ?> >- Status -</option>
-            <option value="unpublished" <?php echo selected('status-filter', 'unpublished', $status == 'unpublished'); ?> >Aproved</option>
-            <option value="published" <?php echo selected('status-filter', 'published', $status == 'published'); ?> >Pending</option>
-            <option value="published" <?php echo selected('status-filter', 'published', $status == 'published'); ?> >Spam</option>
+    <select name="filter" class="form-control input-sm comments-status-filter">
+            <option value="active" <?php echo selected('status-filter', 'active', $status == 'active' ); ?> >- Status -</option>
+            <option value="approved" <?php echo selected('status-filter', 'approved', $status == 'approved'); ?> >Approved</option>
+            <option value="pending" <?php echo selected('status-filter', 'pending', $status == 'pending'); ?> >Pending</option>
+            <option value="spam" <?php echo selected('status-filter', 'spam', $status == 'spam'); ?> >Spam</option>
             <option value="trashed" <?php echo selected('status-filter', 'trashed', $status == 'trashed'); ?> >Trashed</option>
     </select>
 </div>

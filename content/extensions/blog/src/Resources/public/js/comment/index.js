@@ -1,7 +1,17 @@
 (function($, drafTerbit) {
 
+    drafTerbit.comments = {};
+
+    if(window.location.hash == '') {
+        window.location.hash = 'active';
+    }
+    
+    var urlHash = window.location.hash.replace('#','');
+
+    $('.comments-status-filter option[value="'+urlHash+'"]').prop('selected', true);
+
     // datatables
-    var dt =  $("#comments-data-table").dataTable({
+    drafTerbit.comments.dt =  $("#comments-data-table").dataTable({
             "oLanguage": {
               //"sLengthMenu": "Showing _MENU_ records per page",
               ///"sSearch": "Search this table: _INPUT_",
@@ -11,20 +21,20 @@
           ]
     });
 
-    drafTerbit.replaceDTSearch(dt);
+    drafTerbit.replaceDTSearch(drafTerbit.comments.dt);
 
     $('#comments-checkall').checkAll({showIndeterminate:true});
 
     // style all pending
     var stylePendingRow = function(){
-        $('.approve:visible').parents('tr').addClass('warning');
-        $('.unapprove:visible').parents('tr').removeClass('warning');
+        $(document).find('.approve:visible').parents('tr').addClass('warning');
+        $(document).find('.unapprove:visible').parents('tr').removeClass('warning');
     }
 
     stylePendingRow();
 
     // listen
-    $('.comment-action').on('click', '.status', function(e){
+    $(document).on('click', '.comment-action .status', function(e){
         e.preventDefault();
 
         var status = $(this).data('status');
@@ -52,7 +62,7 @@
     });
 
     // listen
-    $('.comment-action').on('click', '.trash', function(e){
+    $(document).on('click', '.comment-action .trash', function(e){
         e.preventDefault();
         $.post(drafTerbit.adminUrl+'/comments/quick-trash',
             {
@@ -67,7 +77,7 @@
     });
 
     // listen
-    $('.comment-action').on('click', '.reply', function(e){
+    $(document).on('click', '.comment-action .reply', function(e){
         e.preventDefault();
         var id = $(this).data('id');
         var postId = $(this).data('post-id');
@@ -112,6 +122,44 @@
             );
         }
 
+    });
+
+    filterByStatus = function(status){
+
+        var status = status || 'active';
+
+        drafTerbit.comments.dt.api().ajax.url(drafTerbit.adminUrl+"/comments/data/"+status+".json").load(function(){
+
+            window.location.hash = status;
+            stylePendingRow();
+        });
+        
+        //refresh pages index form
+    }
+
+    // change trash, add restore button
+    changeUncreateAction = function(s){
+        if(s === 'trashed') {
+            $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Delete').val('delete');
+            $('.uncreate-action').before('<button type="submit" name="action" value="restore" class="btn btn-sm btn-default comments-restore"><i class="fa fa-refresh"></i> Restore </button>');
+        } else {
+            $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Trash').val('trash');
+            $('.comments-restore').remove();
+        }
+    }
+
+    changeUncreateAction(urlHash);
+
+    //status-filter
+    $('.comments-status-filter').on('change', function(){
+        var s = $(this).val();
+        filterByStatus(s);
+        changeUncreateAction(s);
+    });
+
+    $('#comments-index-form').ajaxForm(function(){
+        var urlHash2 = window.location.hash.replace('#','');
+        drafTerbit.comments.dt.api().ajax.url(drafTerbit.adminUrl+"/comments/data/"+urlHash2+".json").load();
     });
 
 })(jQuery, drafTerbit);
