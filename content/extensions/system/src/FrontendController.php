@@ -11,6 +11,11 @@ class FrontendController extends Controller {
 	 */
 	function render($template, $data = array())
 	{
+		$system = $this->model('@system\System')->all();
+
+		$this->get('twig')->addGlobal('siteName', $system['site.name']);
+		$this->get('twig')->addGlobal('siteDesc', $system['site.description']);
+
 		return $this->get('twig')->render($template, $data);
 	}
 }

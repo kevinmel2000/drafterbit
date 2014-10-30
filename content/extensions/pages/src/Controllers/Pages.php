@@ -55,7 +55,7 @@ class Pages extends BackendController {
 		foreach ($pages as $page) {
 			$data = array();
 			$data[] = '<input type="checkbox" name="pages[]" value="'.$page->id.'">';
-			$data[] = $status !== 'trashed' ? "<a class='page-edit-link' href='$editUrl/{$page->id}'> {$page->title} <i class='fa fa-edit edit-icon'></i></a>" : $page->title;
+			$data[] = $status !== 'trashed' ? "<a class='page-edit-link' href='$editUrl/{$page->id}'> {$page->title}</a>" : $page->title;
 			$data[] = $page->created_at;
 
 			if($status == 'trashed') {
@@ -156,7 +156,7 @@ class Pages extends BackendController {
 	private function _tableHeader()
 	{
 		$editUrl = admin_url('pages/edit');
-		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; };
+		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value</i></a>"; };
 		$formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
 
 		return [

@@ -63,7 +63,7 @@ class Blog extends BackendController {
 		foreach ($posts as $post) {
 			$data = array();
 			$data[] = '<input type="checkbox" name="posts[]" value="'.$post->id.'">';
-			$data[] = $status !== 'trashed' ? "<a class='post-edit-link' href='$editUrl/{$post->id}'> {$post->title} <i class='fa fa-edit edit-icon'></i></a>" : $post->title;
+			$data[] = $status !== 'trashed' ? "<a class='post-edit-link' href='$editUrl/{$post->id}'>{$post->title}</a>" : $post->title;
 			$data[] ='<a href="'.admin_url('blog/edit/'.$post->id).'">'.$post->authorName.'</a>';
 
 			if($status == 'trashed') {
@@ -103,7 +103,7 @@ class Blog extends BackendController {
 				'label' => 'Title',
 				'width' => '40%',
 				'format' => function($value, $item) use ($editUrl) {
-					return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }],
+					return "<a href='$editUrl/{$item->id}'>$value</a>"; }],
 			[
 				'field' => 'authorName',
 				'label' => 'Author',

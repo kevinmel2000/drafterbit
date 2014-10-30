@@ -130,6 +130,9 @@ class Kernel extends Application {
 
         $system = $this->loadsystem();
 
+        //language
+        $this['translator']->setLocale($system['language']);
+
         //theme
         $theme = $system['theme'];
 

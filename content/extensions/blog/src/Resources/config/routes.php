@@ -11,6 +11,8 @@
 		
 		'blog/comments' => ['controller' => '@blog\Comment::index'],
 		'comments/status' => ['controller' => '@blog\Comment::status', 'csrf' => true],
+		'comments/quick-reply' => ['controller' => '@blog\Comment::quickReply', 'csrf' => true],
+		'comments/quick-trash' => ['controller' => '@blog\Comment::quickTrash', 'csrf' => true],
 	]
 ],
 

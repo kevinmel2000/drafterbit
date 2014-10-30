@@ -29,6 +29,6 @@
 	],
 
 	'search' => [
-			'controller' => '@system\System::search'
+			'controller' => '@system\Frontend::search'
 	]
 ];

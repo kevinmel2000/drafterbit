@@ -20,7 +20,7 @@ if ( ! function_exists('comment'))
           $js = app('asset')->add('js', '@blog/js/comment/front-snippet.js')->dump('js');
           $js = '<script>'.$js.'</script>';
 
-
+          // @todo, clean this
           $form = '<div>
           <form method="post" action="'.base_url('blog/comment/submit').'">
                <div>

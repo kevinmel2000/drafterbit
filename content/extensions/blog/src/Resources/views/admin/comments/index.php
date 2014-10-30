@@ -15,7 +15,6 @@
 <?php $this->end(); ?>
 
 <?php $this->start('action'); ?>
-
 <button class="btn btn-default btn-sm uncreate-action" type="submit" name="action" value="trash">
     <i class="fa fa-trash-o"></i> Trash
 </button>

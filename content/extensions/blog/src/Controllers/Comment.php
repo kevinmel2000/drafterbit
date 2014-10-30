@@ -42,9 +42,9 @@ class Comment extends BackendController {
 
 					$content .=" <a data-status=\"0\" data-id=\"{$item->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
 					$content .=" <a data-status=\"1\" data-id=\"{$item->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
-					$content .=" <a data-status=\"\" data-id=\"{$item->id}\" class=\"reply\" href=\"#\">Reply</a>";
+					$content .=" <a data-id=\"{$item->id}\" data-post-id=\"{$item->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
 					$content .=" <a data-status=\"2\" data-id=\"{$item->id}\" class=\"spam status\" href=\"#\">Spam</a>";
-					$content .=" <a data-status=\"\" data-id=\"{$item->id}\" class=\"trash\" href=\"#\">Trash</a>";
+					$content .=" <a data-id=\"{$item->id}\" class=\"trash\" href=\"#\">Trash</a>";
 					$content .="</div>";
 
 					return $content;
@@ -85,5 +85,29 @@ class Comment extends BackendController {
 		$status = $this->get('input')->post('status');
 
 		$this->model('Comment')->changeStatus($id, $status);
+	}
+
+	public function quickReply()
+	{
+		$data['post_id'] = $this->get('input')->post('postId');
+		$data['content'] = $this->get('input')->post('comment');
+		$data['parent_id'] = $this->get('input')->post('parentId');
+
+		$session = $this->get('session');
+		$data['user_id'] = $session->get('user.id');
+		$data['name'] = $session->get('user.name');
+		$data['email'] = $session->get('user.email');
+		$data['created_at'] = \Carbon\Carbon::now();
+
+		$id = $this->model('@blog\Comment')->insert($data);
+
+		return $this->jsonResponse(['msg' => 'Comment saved', 'status' => 'success']);
+	}
+
+	public function quickTrash()
+	{
+		$id = $this->get('input')->post('id');
+		$this->model('@blog\Comment')->trash($id);
+		return $this->jsonResponse(['msg' => 'Comment moved to trash', 'status' => 'warning']);
 	}
 }

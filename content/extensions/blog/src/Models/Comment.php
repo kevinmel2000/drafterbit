@@ -10,7 +10,9 @@ class Comment extends Model {
 		->select('c.*, p.title')
 		->from('#_comments','c')
 		->where('c.status != 2') //spam
-		->leftJoin('c','#_posts','p', 'c.post_id = p.id');
+		->andWhere("c.deleted_at = '0000-00-00 00:00:00'") //trashed
+		->leftJoin('c','#_posts','p', 'c.post_id = p.id')
+		->orderBy('c.created_at', 'desc');
 
 		return $query->fetchAllObjects();
 	}
@@ -21,7 +23,7 @@ class Comment extends Model {
 		->select('c.*')
 		->from('#_comments','c')
 		->where('c.post_id = :post_id')
-		->where('c.status = 1')
+		->andWhere('c.status = 1')
 		->setParameter('post_id', $id);
 
 		$comments =  $query->fetchAllObjects();
@@ -63,14 +65,17 @@ class Comment extends Model {
 		return $this->get('db')->lastInsertid();
 	}
 
-	public function changeStatus($id, $status)
-	{
-		$data['status'] = $status;
+	public function update($id, $data) {
 		$this->get('db')->update('#_comments', $data, array('id' => $id));
 	}
 
-	public function toSpam($id)
+	public function changeStatus($id, $status)
 	{
-		$this->changeStatus($id, 2);
+		$this->update($id, ['status' => $status]);
+	}
+
+	public function trash($id)
+	{
+		$this->update($id, ['deleted_at' => \Carbon\Carbon::now()]);
 	}
 }

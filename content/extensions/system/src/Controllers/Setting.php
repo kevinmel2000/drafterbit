@@ -21,7 +21,7 @@ class Setting extends BackendController {
 			message('Setting updated !', 'success');
 		}
 		
-		$config = $this->get('cache')->fetch('system');
+		$config = $this->model('@system\System')->all();
 		
 		set([
 			'siteName' => $config['site.name'],
