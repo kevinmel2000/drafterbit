@@ -52,19 +52,28 @@ class Comment extends BackendController {
 			$data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
 			$data[] = "{$comment->name} <div><a href=\"mailto:{$comment->email}\">{$comment->email}</a></div>";
 
-				$content = "{$comment->content}";
+			$content = "{$comment->content}";
+
+			if($comment->deleted_at == '0000-00-00 00:00:00') {
 				$content .= "<div class=\"comment-action\">";
+				if($comment->status != 2) {
 
-				$display = $comment->status == 1 ? 'inline' : 'none';
-				$display2 = $comment->status == 0 ? 'inline' : 'none';
 
-				$content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
-				$content .=" <a data-status=\"1\" data-id=\"{$comment->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
-				$content .=" <a data-id=\"{$comment->id}\" data-post-id=\"{$comment->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
-				$content .=" <a data-status=\"2\" data-id=\"{$comment->id}\" class=\"spam status\" href=\"#\">Spam</a>";
-				$content .=" <a data-id=\"{$comment->id}\" class=\"trash\" href=\"#\">Trash</a>";
+					$display = $comment->status == 1 ? 'inline' : 'none';
+					$display2 = $comment->status == 0 ? 'inline' : 'none';
+
+					$content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
+					$content .=" <a data-status=\"1\" data-id=\"{$comment->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
+					$content .=" <a data-id=\"{$comment->id}\" data-post-id=\"{$comment->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
+					$content .=" <a data-status=\"2\" data-id=\"{$comment->id}\" class=\"spam status\" href=\"#\">Spam</a>";
+					$content .=" <a data-id=\"{$comment->id}\" class=\"trash\" href=\"#\">Trash</a>";
+				} else {
+					$content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" class=\"unspam status\" href=\"#\">Not Spam</a>";
+				}
+				
 				$content .="</div>";
-			
+			}
+
 			$data[] = $content;
 
 			$data[] = '<a href="'.admin_url('blog/edit/'.$comment->post_id).'">'.$comment->title.'</a><br/>'.$comment->created_at;

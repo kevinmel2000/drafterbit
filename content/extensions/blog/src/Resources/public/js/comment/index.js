@@ -53,6 +53,10 @@
         if (status == 2) {
             $(this).parents('tr').fadeOut('fast');
             $.notify('Comment marked as spam', 'warning');
+        }
+        else if($(this).hasClass('unspam')) {
+            $(this).parents('tr').fadeOut('fast');
+            $.notify('Comment marked as not spam', 'warning');
         } else {        
             $(this).toggle();
             $(this).siblings('.unapprove, .approve').toggle();
@@ -136,6 +140,8 @@
         
         //refresh pages index form
     }
+
+    filterByStatus();
 
     // change trash, add restore button
     changeUncreateAction = function(s){

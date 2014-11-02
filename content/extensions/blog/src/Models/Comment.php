@@ -16,7 +16,8 @@ class Comment extends Model {
 
 		if($status == 'spam') {
 			$query->where('c.status = 2');
-		
+			$query->andWhere('c.deleted_at = :deleted_at');
+			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 		} else if ($status == 'trashed') {
 			$query->where('c.deleted_at != :deleted_at');
 			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
@@ -121,13 +122,16 @@ class Comment extends Model {
 	public function delete($ids)
 	{
 		$ids = (array) $ids;
+		unset($ids['all']);
+
 		$ids = array_map(function($v){return "'$v'";}, $ids);
 		$idString = implode(',', $ids);
 
-		$this->withQueryBuilder()
+		$q = $this->withQueryBuilder()
 		->delete('#_comments')
 		->where('id IN ('.$idString.')')
-		->orWhere('parent_id IN ('.$idString.')')
-			->execute();
+		->orWhere('parent_id IN ('.$idString.')');
+		
+		$q->execute();
 	}
 }

@@ -2,6 +2,7 @@
 	font-size: 94%;
 }
 
+.comment-action > .unspam,
 .comment-action > .unapprove {
 	color: #E8B729;
 }

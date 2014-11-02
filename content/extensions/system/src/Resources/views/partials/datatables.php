@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="sorting" width="15">
-                <input id="<?php echo $id ?>-checkall" type="checkbox" name="<?php echo $name ?>[]" value="all">
+                <input id="<?php echo $id ?>-checkall" type="checkbox">
             </th>
             <?php foreach ($thead as $th): ?>
                 <th width="<?php echo $th->width; ?>" align="<?php echo $th->align; ?>"><?php echo $th->label; ?></th>
