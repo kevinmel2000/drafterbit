@@ -3,6 +3,7 @@
 use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BackendController;
 use Carbon\Carbon;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class User extends BackendController {
 
@@ -58,45 +59,51 @@ class User extends BackendController {
 	public function create()
 	{
 		$this->model('@user\Auth')->restrict('user.add');
-		$postData = $this->get('input')->post();
+		$groups = $this->model('@user\UsersGroup')->all();
+		$data['groupOptions'] =  $groups;
+		$data['id'] = 'user-create';
+		$data['title'] = __('Create New User');
+		$data['action'] = admin_url('user/save');
 
-		if ($postData) {
-			try {
-				$this->validate('user', $postData);
+		return $this->render('@user/admin/create', $data);
+	}
 
-				if($this->model('@user\User')->getByEmail($postData['email'])) {
-					throw new ValidationFailsException('That email was registered.');
-				}
-				
-				$data = $this->createInsertData($postData);
-				$id = $this->model('@user\User')->insert($data);
-				set('justSaved', true);
+	public function save()
+	{
+		try {
 
-				//insert group
-				$this->insertGroups( $postData['groups'], $id );
+			$postData = $this->get('input')->post();
 
-				if( isset($postData['send-password'])) {
-					$this->sendPassword( $postData['email'], $postData['mail-message'], $postData['password']);
-				}
+			$this->validate('user', $postData);
 
-				message('User saved !','success');
-
-			} catch ( ValidationFailsException $e) {
-				message($e->getMessage(), 'error');
-			
-			} catch ( \Swift_SwiftException $e) {
-
-				$message = "User saved, but email was not sent due to error: {$e->getMessage()}. You probably can send it manually.";
-				message($message, 'warning');
+			if($this->model('@user\User')->getByEmail($postData['email'])) {
+				throw new ValidationFailsException('That email was registered.');
 			}
+			
+			$insertData = $this->createInsertData($postData);
+			$id = $this->model('@user\User')->insert($insertData);
+
+			//insert group
+			$this->insertGroups( $postData['groups'], $id );
+
+			if( isset($postData['send-password'])) {
+				$this->sendPassword( $postData['email'], $postData['mail-message'], $postData['password']);
+			}
+
+			$data['message'] = 'User saved !';
+			$data['status'] = 'success';
+
+		} catch ( ValidationFailsException $e) {
+			$data['message'] = $e->getMessage();
+			$data['status'] = 'error';
+		
+		} catch ( \Swift_SwiftException $e) {
+
+			$data['message'] = "User saved, but email was not sent due to error: {$e->getMessage()}";
+			$data['status'] = 'warning';
 		}
 
-		$groups = $this->model('@user\UsersGroup')->all();
-		set('groupOptions', $groups);
-		set('id', 'pages-create');
-		set('title', __('Create New Page'));
-
-		return $this->render('@user/admin/create', $this->getData());		
+		return new JsonResponse($data);
 	}
 
 	public function edit($id = null)
@@ -163,7 +170,7 @@ class User extends BackendController {
 		}
 		
 		$data['bio'] = isset($post['bio']) ? $post['bio'] : null;
-		$data['active'] = isset($post['active']) ? $post['active'] : 1;
+		$data['status'] = isset($post['active']) ? $post['status'] : 1;
 		$data['website'] = isset($post['website']) ? $post['website'] : null;
 		$data['real_name'] = isset($post['real-name']) ? $post['real-name'] : null;
 		$data['updated_at'] = Carbon::Now();

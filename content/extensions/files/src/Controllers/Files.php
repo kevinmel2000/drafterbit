@@ -89,8 +89,8 @@ class Files extends BackendController {
 			}
 
 		} catch (\Exception $e) {
-			$data = array( 'message' => $e->getMessage());
-		}	
+			$data = array( 'message' => $e->getMessage(), 'status' => 'error');
+		}
 		
 		$res->setData($data);
 

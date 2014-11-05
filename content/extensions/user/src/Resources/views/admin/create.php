@@ -11,11 +11,11 @@
 		</div>
 		<div class="form-group">
 		    <label for="password" class="control-label">Password</label>
-		    <input name="password" autocomplete="off" type="password" class="form-control">
+		    <input name="password" autocomplete="off" type="password" class="form-control" autocomplete="off">
 		</div>
 		<div class="form-group">
 		    <label for="password" class="control-label">Repeat Password</label>
-		    <input name="password-confirm" type="password" class="form-control">
+		    <input name="password-confirm" type="password" class="form-control" autocomplete="off">
 		</div>
 	</div>
 	<div class="col-md-4">
@@ -44,4 +44,4 @@
 	</div>
 </div>
 
-<?php $this->js(':chosen_js, @user/js/create.js'); ?>
+<?php $this->js(':chosen_js, :jquery_form, @user/js/create.js'); ?>

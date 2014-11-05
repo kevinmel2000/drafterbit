@@ -1,5 +1,6 @@
 <?php namespace Drafterbit\Extensions\Files;
 
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -84,21 +85,31 @@ class OpenFinder {
 		}
 
 		$this->fileSystem->remove($path);
-		$items['status'] = 'ok';
+		$items['status'] = 'success';
+		$items['message'] = "$relativePath just deleted";
 		
 		return $items;
 	}
 
 	public function mkdir($path, $folderName)
 	{
-		$path = $this->preparePath($path);
+		try {
 
-		$this->fileSystem->mkdir($path.'/'.$folderName);
+			$path = $this->preparePath($path);
 
-		$items['created'] = $folderName;
-		$items['status'] = 'ok';
+			$this->fileSystem->mkdir($path.'/'.$folderName);
 
-		return $items;
+			$data['created'] = $folderName;
+			$data['status'] = 'success';
+			$data['message'] = "Folder '$folderName' just created";
+			
+			return $data;
+		} catch (IOExceptionInterface $e) {
+			$data['message'] = $e->getMessage();
+			$data['status'] = 'error';
+		}
+		
+		return $data;
 	}
 
 	protected function format($file)

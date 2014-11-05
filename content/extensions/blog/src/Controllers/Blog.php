@@ -12,15 +12,6 @@ class Blog extends BackendController {
 		
 		$status = 'untrashed';
 
-		/*if($post = $this->get('input')->post()) {
-
-			if(isset($post['post']) and count($post['post']) > 0) {
-				$this->_handleIndexRequest($post['post'], $post['action']);
-			} else {
-				message('Please make selection first', 'error');
-			}
-		}*/
-
 		$posts = $this->model('@blog\Post')->all(['status' => $status]);
 
 		$data['status'] = $status;
