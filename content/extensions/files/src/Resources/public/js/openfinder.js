@@ -454,11 +454,9 @@
                 '<form method="POST" enctype="multipart/form-data" class="form clearfix" id="upload-form" action="'+uploadUrl+'">',
                 '<input multiple type="file" name="files[]" style="margin-bottom:10px;">',
                 '<div class="uploaded"></div>',
-                '<input type="submit" class="btn btn-primary pull-right" value="Submit">',
+                '<input type="submit" class="btn btn-primary btn-sm pull-right" value="Submit">',
+                '<a href="javascript:;" class="btn btn-default btn-sm pull-right" data-dismiss="modal" style="margin-right:10px;">Cancel</a>',
                 '</form>'].join('');
-            
-            var dialog = this.createEl('DIV').addClass('modal-dialog');
-            var content = this.createEl('DIV').addClass('modal-content');
 
             return this.createModal('upload-dialog', html);
         },
