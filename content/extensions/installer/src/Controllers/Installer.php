@@ -9,6 +9,7 @@ class Installer extends Controller {
 		$start = $this->getExtension()->getStart();
 		// @todo: set start before installing
 		set('start', $start);
+		set('preloader', base_url($this->get('dir.content').'/cache/img/preloader.GIF'));
 
 		return $this->render('install', $this->getData());
 	}
@@ -74,15 +75,15 @@ class Installer extends Controller {
 
  		$config = $this->get('config');
  		$extMgr = $this->get('extension.manager');
- 		$extMgr->addPath($this->get('path.install').$config['path.extension']);
-		$extMgr->refreshInstalled();
 
  		// migrations	
  		foreach ($extMgr->getCoreExtension() as $extension) {
  			
  			// add and return the extension
  			$ext = $extMgr->load($extension);
- 			$this->get('migrator')->create($ext->getResourcesPath('migrations'))->run();
+ 			if(is_dir($ext->getResourcesPath('migrations'))) {
+	 			$this->get('migrator')->create($ext->getResourcesPath('migrations'))->run();
+ 			}
  		}
 
  		$model = $this->model('Installer');

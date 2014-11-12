@@ -69,8 +69,9 @@ class Installer extends Model {
 		$data['format.date'] = 'm dS Y';
 		$data['format.time'] = 'H:m:s';
 		$data['theme'] = 'default';
-		$data['homepage'] = "pages[$page]";
-		$data['extensions'] = "system,admin,pages,blog,user";
+		$data['homepage'] = $page;
+		$data['extensions'] = "pages,blog,user,files";
+		$data['timezone'] = "Asia/Jakarta";
 
 		$q = "INSERT INTO #_system (name, value) ";
 		$q .= "VALUES ";
@@ -93,6 +94,6 @@ class Installer extends Model {
 		$data['status'] = 1;
 
 		$this->get('db')->insert('#_pages', $data);
-		return $this->get('db')->lastInsertId();
+		return $data['slug'];
 	}
 }

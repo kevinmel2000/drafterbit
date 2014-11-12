@@ -171,7 +171,7 @@ class BackendController extends Controller {
 		$session = $this->get('session');
 		$hash = md5(strtolower($session->get('user.email')));
 		$url = "http://www.gravatar.com/avatar/$hash?d=mm&s=17";
-		$userName = $session->get('user.name');
+		$userName = $session->get('user.name') ? $session->get('user.name') : $session->get('user.email');
 		$userGravatar = $url;
 
 		$system = $this->model('@system\System')->all();

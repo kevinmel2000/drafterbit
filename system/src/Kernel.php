@@ -108,16 +108,6 @@ class Kernel extends Application {
         
         $this['path.cache'] =  $this['path.content'].'cache/data';
 
-        // asset
-        $this['config']->addReplaces('%path.vendor.asset%', $this['path'].'vendor/web');
-        $this['config']->addReplaces('%path.system.asset%', $this['path'].'Resources/public/assets');
-
-
-        foreach ($this['config']->get('asset.assets') as $name => $value) {
-            $this['asset']->register($name, $value);
-        }
-
-        $this['asset']->setCachePath($this['path.content'].'cache/asset');
         
         foreach (
             [
@@ -230,7 +220,7 @@ class Kernel extends Application {
         foreach ($pages as $page) {
             $options[$page->slug] = [
                 'label' => $page->title,
-                'controller' => '@pages\Pages::home',
+                'controller' => '@pages\Frontend::home',
                 'defaults' => ['id' => $page->id]
             ];
         }

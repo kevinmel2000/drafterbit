@@ -11,8 +11,10 @@ class Frontend extends FrontendController {
 
 	public function home()
 	{
-		$id = $this->get('homepage.id');
-		$page = $this->model('@pages\Pages')->getSingleBy('id', $id) or show_404();
+		$system = $this->model('@system\System')->all();
+
+		$slug =	$system['homepage'];
+		$page = $this->model('@pages\Pages')->getSingleBy('slug', $slug) or show_404();
 		set('page', $page);
 		// @todo: blank layout
 		set('layout', 'layout/'.$page->layout);

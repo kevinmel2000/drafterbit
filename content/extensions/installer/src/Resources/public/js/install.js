@@ -42,24 +42,26 @@
 				var next = form.data('next');
 				$('.install-section').hide();
 				$(next).fadeIn();
+			
 			} else {
-				div = document.createElement('DIV');
-				$(div).addClass('alert alert-danger');
-				$(div).html(res.message);
-				$(div).css({
-					background: 'transparent',
-					border: '1px solid transparent',
-					padding: '5px',
-					marginBottom: '5px'
-				});
-				form.siblings('.header').append(div);
-
-				//remove 2 second later
-				setTimeout(function(){
-					$('.alert').slideUp();
-					$('.alert').remove();
-				}, 2000);
+				
+				$.notify(res.message, 'danger');
 			}
+		}
+	});
+
+	$('.install-form').ajaxForm({
+		beforeSend: function(){
+			$('.install-trapper').fadeIn();
+		},
+		success: function(res, status, xhr, form){	
+			
+			$('.install-trapper').fadeOut();
+
+			$.notify('Installation success !, redirecting to login page... ', 'success');
+			setTimeout(function(){
+				window.location.replace('/admin/login');
+			}, 3000);
 		}
 	});
 

@@ -23,6 +23,15 @@ $app['path.widgets'] = $app['path.content'] . '/widgets';
 $app['loader'] = $loader;
 $app['path.install'] = $app['path.public'] =  realpath(__DIR__ .'/../').'/';
 
+// asset
+$app['config']->addReplaces('%path.vendor.asset%', $app['path'].'vendor/web');
+$app['config']->addReplaces('%path.system.asset%', $app['path'].'Resources/public/assets');
+$app['asset']->setCachePath($app['path.content'].'cache/asset');
+
+foreach ($app['config']->get('asset.assets') as $name => $value) {
+    $app['asset']->register($name, $value);
+}
+
 try {
 
 	$app->configure();

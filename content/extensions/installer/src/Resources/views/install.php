@@ -3,7 +3,7 @@
 <head>
 	<title>Drafterbit Installation</title>
 
-		<?php $this->css(':bootstrap_css, :bootstrap_validator_css'); ?>
+		<?php $this->css(':bootstrap_css, :bootstrap_validator_css, :notify_css'); ?>
 		<?php echo $this->block('css');?>
 
 	<style>
@@ -26,6 +26,19 @@
 		  font-weight: 200px;
 		}
 
+		.install-trapper {
+			padding-top: 100px;
+			position: fixed;
+			top:0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 9999;
+			background: #fff;
+			text-align: center;
+			display: none;
+		}
+
 	</style>
 </head>
 <body>
@@ -36,7 +49,7 @@
 				<span class="help-block">This pack is not installed yet.</span>
 				<br/>
 				<br/>
-				<a href="#" data-next="#database-connect" class="btn btn-default begin-button"/> Install </a>
+				<a href="#" data-next="<?php echo $start == 2 ? '#admin-account' : '#database-connect' ?>" class="btn btn-default begin-button"/> Install </a>
 			</div>
 		</div>
 		
@@ -51,7 +64,6 @@
 						<label class="control-label">Driver</label>
 						<select name="database[driver]" class="form-control">
 							<option value="pdo_mysql">MySQL</option>
-							<option value="mysqli">MySQLi</option>
 						</select>
 					</div>
 					<div class="form-group">
@@ -66,11 +78,11 @@
 				<div class="col-md-3">
 					<div class="form-group">
 						<label class="control-label">User</label>
-						<input type="text" name="database[user]" class="form-control"/>
+						<input type="text" name="database[user]" class="form-control" autocomplete="off"/>
 					</div>
 					<div class="form-group">
 						<label class="control-label">Password</label>
-							<input type="password" name="database[password]" class="form-control"/>
+							<input type="password" name="database[password]" class="form-control" autocomplete="off"/>
 					</div>
 					<div class="form-group">
 						<label class="control-label">Table Prefix</label>
@@ -111,7 +123,7 @@
 				<span class="help-block">You always can change this later.</span>
 			</div>
 			<div class="col-md-4 col-md-offset-4">
-			<form class="install-form static-form" method="post" action="<?php echo base_url('installer/install') ?>">
+			<form class="install-form" method="post" action="<?php echo base_url('installer/install') ?>">
 				<div class="form-group">
 					<label class="control-label">Name</label>
 						<input required type="text" name="site[name]" class="form-control"/>
@@ -128,8 +140,11 @@
 		</div>
 
 	</div>
+	<di class="install-trapper">
+		<h3><img alt="loading" src="<?php echo $preloader; ?>" /></h3>
+	</div>
 
-	<?php $this->js(':jquery, :bootstrap_js, :bootstrap_validator_js, :jquery_form, @installer/js/install.js'); ?>;
+	<?php $this->js(':jquery, :bootstrap_js, :bootstrap_validator_js, :jquery_form, :notify_js, @installer/js/install.js'); ?>
 	<?php echo $this->block('js') ?>
 
 </body>
