@@ -4,7 +4,6 @@
 			'user' => [
 				'subRoutes' => [
 					'index' => ['controller' => '@user\User::index'],
-					'create' => ['controller' => '@user\User::create'],
 					'edit/{id}' => ['controller' => '@user\User::edit'],
 					'save' => ['controller' => '@user\User::save', 'csrf' => true],
 		

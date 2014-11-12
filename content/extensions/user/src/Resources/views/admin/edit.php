@@ -1,34 +1,27 @@
-<?php $this->extend('@system/main-edit') ?>
+<?php $this->extend('@system/main') ?>
 
 <?php $this->css(':chosen_css', ':chosen_css'); ?>
 <?php $this->css(':chosen_bootstrap_css'); ?>
 
-<?php $this->start('action'); ?>
-<button class="btn btn-success btn-sm" type="submit" name="action" value="update">
-    <i class="fa fa-check"></i> Update
-</button>
-<a href="<?php echo admin_url('user/index'); ?>" class="btn btn-default btn-sm">
-    <i class="fa fa-times" style=""></i> Cancel
-</a>
-<?php $this->end(); ?>
+<form method="POST" id="<?php echo $id; ?>-form" action="<?php echo isset($action) ? $action : '' ?>">
+<input type="hidden" name="id" value="<?php echo $userId; ?>" />
 
-
+<div class="container">
 <div class="row">
-	<div class="col-md-6 content-full">
+	<div class="col-md-4">
 		<div class="form-group">
-    		<label for="real-name" class="control-label">Real Name</label>
-     			<input name="real-name" type="text" class="form-control" placeholder="Real Name" value="<?php echo value('real-name', $realName); ?>">
+		    <label for="email" class="control-label"><?php echo  __('Email'); ?></label>
+		    <input name="email" type="email" class="form-control" placeholder="Email" value="<?php echo value('email', $email); ?>">
 		</div>
 		<div class="form-group">
-		    <label for="website" class="control-label">Website</label>
-		      <input name="website" type="text" class="form-control" placeholder="http://" value="<?php echo value('website', $website); ?>">
+		    <label for="password" class="control-label"><?php echo __('Password'); ?></label>
+		    <input name="password" autocomplete="off" type="password" class="form-control" autocomplete="off">
 		</div>
 		<div class="form-group">
-		    <label for="website" class="control-label">Bio</label>
-		     <textarea name="bio" class="form-control"><?php echo value('bio', $bio); ?></textarea>
-		     <span class="help-block">A little biographical information to fill out your profile. This may be shown publicly.</span>
+		    <label for="password" class="control-label"><?php echo __('Password Again'); ?></label>
+		    <input name="password-confirm" type="password" class="form-control" autocomplete="off">
 		</div>
-		<div class="form-group">
+		 <div class="form-group">
 		    <label for="groups" class="control-label">Group</label>
 	      	<select name="groups[]" multiple id="user-group" class="form-control" data-placeholder="Select Group">
 	      		<?php foreach ($groupOptions as $option):?>
@@ -36,30 +29,58 @@
 		      	<?php endforeach?>
 	      	</select>
 		</div>
+		<div class="form-group">
+		    <label for="status" class="control-label"><?php echo __('Status'); ?></label>
+		    <div class="radio">
+			    <label>
+				  <input <?php echo checked('status', 1, $status == 1); ?> type="radio" name="status" value="1"> <?php echo __('Active') ?>
+				</label>
+				<label>
+				  <input <?php echo checked('status', 0, $status == 0); ?> type="radio" name="status" value="0"> <?php echo __('Banned') ?>
+				</label>
+			</div>
+		</div>
 	</div>
-	<div class="col-md-6 content-full">
+	<div class="col-md-4">
 		<div class="form-group">
-		    <label for="email" class="control-label">Email</label>
-		    <input name="email" type="email" class="form-control" placeholder="Email" value="<?php echo value('email', $email); ?>">
+		    <label for="real-name" class="control-label"><?php echo  __('Real Name'); ?></label>
+		    <input name="real-name" type="text" class="form-control" placeholder="Real Name" value="<?php echo value('real-name', $realName); ?>">
+		</div>
+		 <div class="form-group">
+		    <label for="url" class="control-label"><?php echo  __('Url'); ?></label>
+		    <input name="url" type="text" class="form-control" placeholder="http://" value="<?php echo value('url', $url); ?>">
 		</div>
 		<div class="form-group">
-		    <label for="password" class="control-label">Password</label>
-		    <input name="password" type="password" class="form-control" autocomplete="off">
-		    <span class="help-block">If you would like to change the password type a new one. Otherwise leave this blank.</span>
+		    <label for="website" class="control-label">Bio</label>
+		     <textarea name="bio" class="form-control"><?php echo value('bio', $bio); ?></textarea>
+		     <span class="help-block">A little biographical information may be shown publicly.</span>
 		</div>
 		<div class="form-group">
-		    <label for="password" class="control-label">Password Again</label>
-		    <input name="password-confirm" type="password" class="form-control">
-		    <span class="help-block">Type your new password again</span>
-		</div>
+			<input type="submit" class="btn btn-primary pull-right" name="action" value="Submit"/>
+		 </div>
+	</div>
+
+
+		<!-- PENDING FEATURE -->
+		<!--
+	<div class="col-md-4">
+			
 		<div class="form-group">
 		      <div class="checkbox">
 		        <label>
-		          <input <?php echo checked('active', '0', ($active == 0)) ?> name="active" value="0" type="checkbox"> Nonactive
+		          <input name="send-password" value="1" type="checkbox" <?php echo checked('send-password'); ?>> Send password by email
 		        </label>
 		      </div>
 		</div>
+		<div class="form-group">
+		      <textarea name="mail-message" class="form-control" placeholder="mail message"><?php echo value('mail-massage'); ?></textarea>
+		      <span class="help-block">Use '%s'(percent and 's') in your message to include the password. e.g: Your password is %s</span>
+		 </div>
 	</div>
+		-->
 </div>
 
-<?php $this->js(':chosen_js, @user/js/create.js'); ?>
+    <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>"/>
+</form>
+
+<?php $this->js(':chosen_js, :jquery_form, @user/js/edit.js'); ?>

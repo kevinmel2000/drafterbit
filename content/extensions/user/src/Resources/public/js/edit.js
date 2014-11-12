@@ -1,13 +1,25 @@
 (function($){
 	$('#user-group').chosen();
 
-	var form = $('#user-create-form');
+	var form = $('#user-edit-form'),
+		id = $('input[name="id"]');
+
 	//form
-	$('#user-create-form').ajaxForm(function(data){
-		if(data.status == 'error') {
-			data.status = 'danger';
+	form.ajaxForm({
+		success: function(data){
+			
+			dirty = false;
+			
+			if(data.status == 'error') {
+				data.status = 'danger';
+			}
+
+			if (data.id) {
+                id.val(data.id);
+            }
+
+			$.notify(data.message, data.status);
 		}
-		$.notify(data.message, data.status);
 	});
 
 	// check form before leaving page

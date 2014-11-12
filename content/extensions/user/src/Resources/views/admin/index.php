@@ -11,7 +11,7 @@
 <?php $this->end(); ?>
 
 <?php $this->start('action'); ?>
-<a href="<?php echo admin_url('user/create'); ?>" class="btn btn-success btn-sm">
+<a href="<?php echo admin_url('user/edit/new'); ?>" class="btn btn-success btn-sm">
     <i class="fa fa-plus" style=""></i> New User
 </a>
 <button class="btn btn-default btn-sm uncreate-action" type="submit" name="action" value="trash">

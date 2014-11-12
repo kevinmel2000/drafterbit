@@ -50,22 +50,9 @@ class User extends BackendController {
 					return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }],
 			['field' => 'email', 'label' => 'Email'],
 			['field' => 'status', 'label' => 'Status', 'format' => function($value, $item) {
-					return $value == 1 ? __('active') : __('blocked'); }],
-			['field' => 'groups', 'label' => 'Group']
+					return $value == 1 ? __('active') : __('banned'); }],
+			//['field' => 'groups', 'label' => 'Group']
 		);
-	}
-
-
-	public function create()
-	{
-		$this->model('@user\Auth')->restrict('user.add');
-		$groups = $this->model('@user\UsersGroup')->all();
-		$data['groupOptions'] =  $groups;
-		$data['id'] = 'user-create';
-		$data['title'] = __('Create New User');
-		$data['action'] = admin_url('user/save');
-
-		return $this->render('@user/admin/create', $data);
 	}
 
 	public function save()
@@ -75,21 +62,23 @@ class User extends BackendController {
 			$postData = $this->get('input')->post();
 
 			$this->validate('user', $postData);
-
-			if($this->model('@user\User')->getByEmail($postData['email'])) {
-				throw new ValidationFailsException('That email was registered.');
-			}
 			
-			$insertData = $this->createInsertData($postData);
-			$id = $this->model('@user\User')->insert($insertData);
+			$id = $postData['id'];
+
+			if($id) {
+				$updateData = $this->createUpdateData($postData);
+				$this->model('@user\User')->update($updateData, ['id' => $id]);
+			
+			} else {
+
+				$insertData = $this->createInsertData($postData);
+				$id = $this->model('@user\User')->insert($insertData);
+			}
 
 			//insert group
 			$this->insertGroups( $postData['groups'], $id );
 
-			if( isset($postData['send-password'])) {
-				$this->sendPassword( $postData['email'], $postData['mail-message'], $postData['password']);
-			}
-
+			$data['id'] = $id;
 			$data['message'] = 'User saved !';
 			$data['status'] = 'success';
 
@@ -97,10 +86,6 @@ class User extends BackendController {
 			$data['message'] = $e->getMessage();
 			$data['status'] = 'error';
 		
-		} catch ( \Swift_SwiftException $e) {
-
-			$data['message'] = "User saved, but email was not sent due to error: {$e->getMessage()}";
-			$data['status'] = 'warning';
 		}
 
 		return new JsonResponse($data);
@@ -110,45 +95,42 @@ class User extends BackendController {
 	{
 		$this->model('@user\Auth')->restrict('user.edit');
 
-		$groups = $this->model('@user\UsersGroup')->all();
+		if($id == 'new') {
 
-		$postData = $this->get('input')->post();
+			$data = array(
+				'realName' => null,
+				'email' => null,
+				'url' => null,
+				'bio' => null,
+				'groupIds' => array(),
+				'status' => null,
+				'userId' => null,
+				'title' => __('New User')
+			);
+		} else {
 
-		if ($postData) {
-			try {
-				$this->validate('user', $postData);
-				
-				$data = $this->createUpdateData($postData);
-				$this->model('@user\User')->update($data, array('id' => $id));
+			$user = $this->model('@user\User')->getSingleBy('id', $id);
+			$user->groupIds = $this->model('@user\User')->getGroupIds($user->id);
 
-				//insert group
-				$this->insertGroups( $postData['groups'], $id );
-
-				message('User Updated !','success');
-
-			} catch ( ValidationFailsException $e) {
-				message($e->getMessage(), 'error');
-			}
+			$data = array(
+				'realName' => $user->real_name,
+				'email' => $user->email,
+				'url' => $user->url,
+				'bio' => $user->bio,
+				'groupIds' => $user->groupIds,
+				'status' => $user->status,
+				'userId' => $user->id,
+				'title' => __('New User')
+			);
 		}
 
-		$user = $this->model('@user\User')->getSingleBy('id', $id);
-		$user->groupIds = $this->model('@user\User')->getGroupIds($user->id);
+		$groups = $this->model('@user\UsersGroup')->all();
+
+		$data['groupOptions'] = $groups;
+		$data['id'] = 'user-edit';
+		$data['action'] = admin_url('user/save');
 		
-		set([
-			'groupOptions' => $groups,
-			'realName' => $user->real_name,
-			'email' => $user->email,
-			'website' => $user->website,
-			'bio' => $user->bio,
-			'groupIds' => $user->groupIds,
-			'active' => $user->status,
-			'userId' => $user->id,
-			'id' => 'pages-edit',
-			'title' => __('Edit Pages')
-		]);
-	
-		
-		return $this->render('@user/admin/edit', $this->getData());
+		return $this->render('@user/admin/edit', $data);
 	}
 
 	protected function insertGroups($groups, $id)
@@ -170,8 +152,8 @@ class User extends BackendController {
 		}
 		
 		$data['bio'] = isset($post['bio']) ? $post['bio'] : null;
-		$data['status'] = isset($post['active']) ? $post['status'] : 1;
-		$data['website'] = isset($post['website']) ? $post['website'] : null;
+		$data['status'] = $post['status'];
+		$data['url'] = isset($post['url']) ? $post['url'] : null;
 		$data['real_name'] = isset($post['real-name']) ? $post['real-name'] : null;
 		$data['updated_at'] = Carbon::Now();
 
@@ -185,24 +167,5 @@ class User extends BackendController {
 	protected function createUpdateData($post)
 	{
 		return $this->createInsertData($post, true);
-	}
-
-	protected function sendPassword($email, $messageBody, $password)
-	{
-		if( is_null($messageBody) or trim($messageBody) == '') {
-			$messageBody = sprintf("this is your password: %s", $password);
-		} else {
-			$messageBody = sprintf($messageBody, $password);
-		}
-
-		$fromEmail = $this->get('config')->get('mail.from');
-
-		$message = $this->get('mail')
-			->setSubject('Registrar Confirmation')
-			->setFrom($fromEmail)
-			->setTo($email)
-			->setBody($messageBody);
-	
-		return $this->get('mailer')->send($message);
 	}
 }

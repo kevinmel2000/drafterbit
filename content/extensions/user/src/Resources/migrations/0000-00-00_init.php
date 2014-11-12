@@ -9,7 +9,7 @@
 		$users->addColumn('email', 'string', ['length' => 150]);
 		$users->addColumn('password', 'string', ['length' => 60]);
 		$users->addColumn('real_name', 'string', ['length' => 45]);
-		$users->addColumn('website', 'string', ['length' => 45]);
+		$users->addColumn('url', 'string', ['length' => 45]);
 		$users->addColumn('bio', 'string', ['length' => 501]);
 		$users->addColumn('log_token', 'string', ['length' => 45]);
 		$users->addColumn('pw_reset_code', 'string', ['length' => 45]);
