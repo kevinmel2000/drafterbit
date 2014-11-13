@@ -17,7 +17,8 @@
 			e.preventDefault( );
 			url = $(e.currentTarget).attr('href');
 			console.log(e.currentTarget);
-			window.opener.CKEDITOR.tools.callFunction(funcNum, '/content/files/'+url);
+			// @todo create content path
+			window.opener.CKEDITOR.tools.callFunction(funcNum, drafTerbit.baseUrl+'/content/files/'+url);
 			window.close();
 		}
 	}

@@ -15,7 +15,7 @@
 		@font-face {
 		  font-family: 'Lobster Two';
 		  /* temporary */
-		  src: url('/system/Resources/public/assets/Lobster_Two/LobsterTwo-Regular.ttf') format('truetype');
+		  src: url("<?php echo base_url('system/Resources/public/assets/Lobster_Two/LobsterTwo-Regular.ttf')?>") format('truetype');
 		}
 
 		.title {
@@ -40,6 +40,11 @@
 		}
 
 	</style>
+	<script>
+		drafTerbit = {
+			baseUrl: '<?php echo base_url(); ?>',
+		}
+	</script>
 </head>
 <body>
 	<div class="container" style="margin-top:100px">		

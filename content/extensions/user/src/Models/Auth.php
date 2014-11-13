@@ -84,7 +84,7 @@ class Auth extends \Drafterbit\Framework\Model {
 				}
 			}
 
-			$next = urlencode($this->get('request')->getPathInfo());
+			$next = urlencode(base_url($this->get('request')->getPathInfo()));
 			return redirect(admin_url("login?next=$next"))->send();
 		}
 	}

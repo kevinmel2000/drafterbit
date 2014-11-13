@@ -1,4 +1,4 @@
-(function($, document){
+(function($, document, drafTerbit){
 
 	$(document).on('click', '.begin-button', function(e){
 		e.preventDefault();
@@ -60,7 +60,7 @@
 
 			$.notify('Installation success !, redirecting to login page... ', 'success');
 			setTimeout(function(){
-				window.location.replace('/admin/login');
+				window.location.replace(drafTerbit.baseUrl+'admin/login');
 			}, 3000);
 		}
 	});
@@ -81,4 +81,4 @@
 		return test;
 	}
 
-})(jQuery, document);
+})(jQuery, document, drafTerbit);
