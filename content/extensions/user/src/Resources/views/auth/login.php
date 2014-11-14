@@ -19,6 +19,14 @@
     <?php $this->css(':bootstrap_css, @user/css/sign-in.css'); ?>
     <?php echo $this->block('css');?>
 
+    <style>
+      /* Font */
+      @font-face {
+        font-family: 'Lobster Two';
+        /* temporary */
+        src: url("<?php echo base_url('system/Resources/public/assets/Lobster_Two/LobsterTwo-Regular.ttf') ?>") format('truetype');
+      }
+    </style>
   </head>
 
   <body>
