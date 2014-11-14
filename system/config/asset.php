@@ -29,15 +29,14 @@ return [
 		'jquery_check_all' 			=> '%path.system.asset%/jquery-check-all/jquery-check-all.js',
 
 		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
+		'jquery_ui_css' 			=> '%path.system.asset%/jquery-ui/css/bootstrap-lite/jquery-ui-1.10.4.custom.min.css',
 		
 		'datatables_js' 			=> '%path.vendor.asset%/datatables/media/js/jquery.dataTables.js',
 		'chosen_css' 				=> '%path.vendor.asset%/chosen/chosen.css',
 		'chosen_js' 				=> '%path.vendor.asset%/chosen/chosen.jquery.js',
 		'magicsuggest_css' 			=> '%path.vendor.asset%/magicsuggest/magicsuggest.css',
 		'magicsuggest_js' 			=> '%path.vendor.asset%/magicsuggest/magicsuggest.js',
-		'jquery_ui_css' 			=> '%path.vendor.asset%/jquery-ui/css/bootstrap-lite/jquery-ui-1.10.4.custom.min.css',
-		'jquery_ui_js' 				=> '%path.vendor.asset%/jquery-ui/js/jquery-ui-1.10.4.custom.min.js',
-		'sticky_js' 				=> '%path.vendor.asset%/sticky/jquery.sticky.js'
+		'jquery_ui_js' 				=> '%path.vendor.asset%/jquery-ui/jquery-ui.min.js',
 ]
 
 ];

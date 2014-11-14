@@ -23,10 +23,11 @@
     "bootstrapvalidator": "latest",
     "datatables": "latest",
     "jquery-form": "latest",
+    "jquery-ui": "latest",
     "bootstrap-contextmenu": "latest",
     "fontawesome": "latest",
     "magicsuggest": "latest",
-    "chosen": "latest",
+    "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
     "ckeditor": "latest"
   }
 }

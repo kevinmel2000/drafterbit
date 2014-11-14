@@ -237,7 +237,7 @@ class Kernel extends Application {
     {
         $options = array();
 
-        foreach ($this->frontpage as $id => $param) {
+        foreach ($this->getFrontpage() as $id => $param) {
             $options[$id] = $param['label'];
         }
 

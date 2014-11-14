@@ -22,9 +22,7 @@
     <div class="container">
         <div class="row row-content">
            <div class="col-md-12 content-full">
-                <div class="table-responsive">
-                    <?php echo $this->block('content'); ?>
-                </div>
+                <?php echo $this->block('content'); ?>
             </div>
         </div>
      </div>
