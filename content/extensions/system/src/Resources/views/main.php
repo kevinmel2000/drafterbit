@@ -72,7 +72,7 @@
             <?php echo $this->render('@system/partials/footer'); ?>
 
         <!-- script -->
-        <?php $this->js(':jquery, :jquery_ui_js, :bootstrap_js, :notify_js, @system/js/layout.js, @system/js/app.js'); ?>
+        <?php $this->js(':jquery, :bootstrap_js, :notify_js, @system/js/layout.js, @system/js/app.js'); ?>
         <?php echo $this->block('js'); ?>
         
         <?php if(isset($messages)): ?>

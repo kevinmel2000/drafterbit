@@ -25,8 +25,31 @@ class Installer extends Controller {
 			
 			$this->get('db')->connect();
 			$this->get('session')->set('install_db', $config);
+
+			$db = $this->get('session')->get('install_db');
+			$stub = $this->getExtension()->getResourcesPath('stub/config.php.stub');
+
+			$string = file_get_contents($stub);
+
+			$config = array(
+				'%db.driver%' => $db['driver'],
+	 			'%db.host%' => $db['host'],
+	 			'%db.user%' => $db['user'],
+	 			'%db.pass%' => $db['password'],
+	 			'%db.name%' => $db['dbname'],
+	 			'%db.prefix%' => $db['prefix']
+	 		);
+
+	 		$content = strtr($string, $config);
+	 		$dest = $this->get('path.install').'/config.php';
+	 		
+	 		if(is_writable($dest)) {
+		 		file_put_contents($dest, $content);
+	 		} else {
+	 			$message = 'Can\'t create config file, you need to create it manually first then refresh this page';
+	 		}
 		
-		} catch(\PDOException $e) {
+		} catch(\Exception $e) {
 			if( in_array($e->getCode(), ['1045', '1044'])) {
 				$message = "Database Access Denied";
 			} else if('1049' == $e->getCode()) {
@@ -51,27 +74,9 @@ class Installer extends Controller {
 	public function install()
 	{
 		$site = $this->get('input')->post('site');
-		$db = $this->get('session')->get('install_db');
 		$admin = $this->get('session')->get('install_admin');
-
-		$stub = $this->getExtension()->getResourcesPath('stub/config.php.stub');
-
-		$string = file_get_contents($stub);
-
-		$config = array(
-			'%db.driver%' => $db['driver'],
- 			'%db.host%' => $db['host'],
- 			'%db.user%' => $db['user'],
- 			'%db.pass%' => $db['password'],
- 			'%db.name%' => $db['dbname'],
- 			'%db.prefix%' => $db['prefix']
- 		);
-
- 		$content = strtr($string, $config);
- 		$dest = $this->get('path.install').'/config.php';
- 		if(file_put_contents($dest, $content)) {
- 			$this->get('config')->load($dest);
- 		}
+ 		
+ 		$this->get('config')->load($this->get('path.install').'/config.php');
 
  		$config = $this->get('config');
  		$extMgr = $this->get('extension.manager');

@@ -1,0 +1,32 @@
+{
+  "name": "drafterbit",
+  "version": "0.1.0",
+  "homepage": "http://drafterbit.org",
+  "keywords": [
+    "cms",
+    "blog"
+  ],
+  "authors": [
+    "egigundari@gmail.com"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "bootstrapvalidator": "latest",
+    "datatables": "latest",
+    "jquery-form": "latest",
+    "bootstrap-contextmenu": "latest",
+    "fontawesome": "latest",
+    "magicsuggest": "latest",
+    "chosen": "latest",
+    "ckeditor": "latest"
+  }
+}

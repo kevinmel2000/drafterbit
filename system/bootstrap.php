@@ -15,6 +15,10 @@ $app = new App(ENVIRONMENT);
 
 $app['path.content'] = rtrim($content,'/').'/'; unset($content);
 
+if(!is_writable($app['path.content'])) {
+	exit('Folder '.$app['path.content'].' is required to be writable');
+}
+
 $app['dir.content'] = basename($app['path.content']);
 
 $app['path.extensions'] = $app['path.content'] . '/extensions';

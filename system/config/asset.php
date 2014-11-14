@@ -11,11 +11,11 @@ return [
  */
 'assets' => [
 
-		'bootstrap_css' 			=> '%path.vendor.asset%/bootstrap/css/bootstrap.css',
-		'bootstrap_js' 				=> '%path.vendor.asset%/bootstrap/js/bootstrap.js',
+		'bootstrap_css' 			=> '%path.vendor.asset%/bootstrap/dist/css/bootstrap.css',
+		'bootstrap_js' 				=> '%path.vendor.asset%/bootstrap/dist/js/bootstrap.js',
 		'bootstrap_contextmenu' 	=> '%path.vendor.asset%/bootstrap-contextmenu/bootstrap-contextmenu.js',
-		'bootstrap_validator_css' 	=> '%path.vendor.asset%/bootstrap-validator/css/bootstrapValidator.min.css',
-		'bootstrap_validator_js' 	=> '%path.vendor.asset%/bootstrap-validator/js/bootstrapValidator.min.js',
+		'bootstrap_validator_css' 	=> '%path.vendor.asset%/bootstrapvalidator/dist/css/bootstrapValidator.min.css',
+		'bootstrap_validator_js' 	=> '%path.vendor.asset%/bootstrapvalidator/dist/js/bootstrapValidator.min.js',
 		
 		'fontawesome'				=> '%path.vendor.asset%/fontawesome/css/font-awesome.css',
 		'jquery' 					=> '%path.vendor.asset%/jquery/dist/jquery.min.js',
@@ -26,10 +26,11 @@ return [
 		
 		'notify_css' 				=> '%path.system.asset%/notify/notify.css',
 		'notify_js' 				=> '%path.system.asset%/notify/notify.js',
+		'jquery_check_all' 			=> '%path.system.asset%/jquery-check-all/jquery-check-all.js',
+
+		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
 		
 		'datatables_js' 			=> '%path.vendor.asset%/datatables/media/js/jquery.dataTables.js',
-		'jquery_check_all' 			=> '%path.vendor.asset%/jquery-check-all/jquery-check-all.js',
-		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
 		'chosen_css' 				=> '%path.vendor.asset%/chosen/chosen.css',
 		'chosen_js' 				=> '%path.vendor.asset%/chosen/chosen.jquery.js',
 		'magicsuggest_css' 			=> '%path.vendor.asset%/magicsuggest/magicsuggest.css',
