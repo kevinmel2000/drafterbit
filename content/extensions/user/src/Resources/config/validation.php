@@ -13,7 +13,7 @@
 ],
 
 'user' => [
-	'real-name' => array('label' => 'Real Name', 	'rules' => array('optional')),
+	'real-name' => array('label' => 'Real Name', 	'rules' => array('not-empty')),
 	'website' 	=> array('label' => 'Website', 		'rules' => array('optional')),
 	'bio' 		=> array('label' => 'Bio', 			'rules' => array('optional', 'max-length=500')),
 	'groups' 	=> array('label' => 'Group', 		'rules' => array('not-empty')),
@@ -26,6 +26,5 @@
 	'name' => array('label' => 'Group Name', 'rules' => array('not-empty')),
 	'description' => array('label' => 'description', 'rules' => array('optional', 'max-length=500'))
 ]
-
 
 ];

@@ -2,10 +2,19 @@
 
 class User extends \Drafterbit\Framework\Model {
 
-	public function queryAll()
+	public function queryAll($filters)
 	{
-		return $this->get('db')
-			->fetchAllObjects("SELECT * FROM #_users");
+		$query = $this->withQueryBuilder()->select('*') ->from('#_users','u');
+
+		$status = $filters['status'];
+
+		if($status == 'banned') {
+			$query->where('u.status = 0');
+		} else if($status == 'active') {
+			$query->where('u.status = 1');
+		}
+
+		return $query ->fetchAllObjects();
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
@@ -57,10 +66,13 @@ class User extends \Drafterbit\Framework\Model {
 		return $this->get('db')->lastInsertId();
 	}
 
-	public function delete($id)
+	public function delete($ids = array())
 	{
-		$this->get('db')->delete('#_users_groups', ['user_id'=> $id]);
-		$this->get('db')->delete('#_users', ['id' => $id]);
+		// @todo optimize this
+		foreach ($ids as $id) {
+			$this->get('db')->delete('#_users_groups', ['user_id'=> $id]);
+			$this->get('db')->delete('#_users', ['id' => $id]);
+		}
 	}
 
 	public function clearGroups($id)

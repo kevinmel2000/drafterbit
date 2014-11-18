@@ -13,7 +13,7 @@ class Pages extends \Drafterbit\Framework\Model {
 			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');			
 		} else {
 
-			$query->Where('p.deleted_at = :deleted_at');
+			$query->where('p.deleted_at = :deleted_at');
 			$query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 
 			if($status !== 'untrashed'){

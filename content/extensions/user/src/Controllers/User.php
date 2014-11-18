@@ -27,18 +27,34 @@ class User extends BackendController {
 			}
 		}
 
-		$users = $this->model('@user\User')->all();
+		$users = $this->model('@user\User')->all(['status' => 'all']);
 
 		foreach ($users as $user) {
 			$user->groups = $this->model('@user\UsersGroup')->getByUser($user->id);
 		}
 
-		set('users', $users);
-		set('id', 'users');
-		set('title', __('Users'));
-		set('usersTable', $this->datatables('users', $this->_table(), $users));
+		$data['users'] = $users;
+		$data['id'] ='users';
+		$data['title'] = __('Users');
+		$data['usersTable'] = $this->datatables('users', $this->_table(), $users);
+		$data['action'] = admin_url('user/index-action');
 
-		return $this->render('@user/admin/index', $this->getData());
+		return $this->render('@user/admin/index', $data);
+	}
+
+	public function indexAction()
+	{
+		$post = $this->get('input')->post();
+
+		$userIds = $post['users'];
+
+		switch($post['action']) {
+			case 'delete':
+				$this->model('@user\User')->delete($userIds);
+			break;
+			default:
+			break;
+		}
 	}
 
 	private function _table()
@@ -47,12 +63,38 @@ class User extends BackendController {
 
 		return array(
 			['field' => 'real_name', 'label' => 'Name', 'format' => function($value, $item) use ($editUrl) {
-					return "<a href='$editUrl/{$item->id}'>$value <i class='fa fa-edit'></i></a>"; }],
+					return "<a href='$editUrl/{$item->id}'>$value</a>"; }],
 			['field' => 'email', 'label' => 'Email'],
 			['field' => 'status', 'label' => 'Status', 'format' => function($value, $item) {
 					return $value == 1 ? __('active') : __('banned'); }],
 			//['field' => 'groups', 'label' => 'Group']
 		);
+	}
+
+	public function filter($status)
+	{
+		$users = $this->model('@user\User')->all(['status' => $status]);
+		
+		$editUrl = admin_url('user/edit');
+
+		$usersArr  = array();
+
+		foreach ($users as $user) {
+			$data = array();
+			$data[] = '<input type="checkbox" name="users[]" value="'.$user->id.'">';
+			$data[] = "<a class='user-edit-link' href='$editUrl/{$user->id}'> {$user->real_name}</a>";
+			$data[] = $user->email;
+			$data[] = $user->status == 1 ? 'active' : 'banned';
+
+			$usersArr[] = $data;
+		}
+
+		$ob = new \StdClass;
+		$ob->data = $usersArr;
+		$ob->recordsTotal= count($usersArr);
+		$ob->recordsFiltered = count($usersArr);
+
+		return $this->jsonResponse($ob);
 	}
 
 	public function save()
