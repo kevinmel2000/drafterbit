@@ -33,10 +33,19 @@
         window.location.hash = status;
     }
 
-    $('#users-index-form').ajaxForm(function(){
-        var urlHash2 = window.location.hash.replace('#','');
-        drafTerbit.users.dt.api().ajax.url(drafTerbit.adminUrl+"/user/data/"+urlHash2+".json").load();
-    });
+    $('#users-index-form').ajaxForm({
+        beforeSend: function(){
+          if(confirm('Are you sure you want to delete those users, this con not be undone ?')) {
+            return true;
+          } else {
+            return false;
+          }
+        },
+        success: function(){
+          var urlHash2 = window.location.hash.replace('#','');
+          drafTerbit.users.dt.api().ajax.url(drafTerbit.adminUrl+"/user/data/"+urlHash2+".json").load();
+        }
+      });
 
     //status-filter
     $('.users-status-filter').on('change', function(){

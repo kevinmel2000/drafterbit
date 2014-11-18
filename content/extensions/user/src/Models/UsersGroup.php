@@ -68,7 +68,7 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 	public function update($data, array $where)
 	{
 		return $this->get('db')
-			->update('groups', $data, $where);
+			->update('#_groups', $data, $where);
 	}
 
 	public function delete($id)
@@ -84,7 +84,7 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 	public function insert($data)
 	{
 		$this->get('db')
-			->insert('groups', $data);
+			->insert('#_groups', $data);
 		return
 		$this->get('db')->lastInsertId();
 	}
