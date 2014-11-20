@@ -1,6 +1,5 @@
 README.md
 =========
----
 What is Drafterbit ?
 --------------------
 Drafterbit is web software you can use to create a website. Currently still in early phase. You can join chat if you are interested.
