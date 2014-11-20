@@ -20,6 +20,7 @@ if(!is_writable($app['path.content'])) {
 }
 
 $app['dir.content'] = basename($app['path.content']);
+$app['dir.system'] = basename($app['path']);
 
 $app['path.extensions'] = $app['path.content'] . '/extensions';
 $app['path.widgets'] = $app['path.content'] . '/widgets';

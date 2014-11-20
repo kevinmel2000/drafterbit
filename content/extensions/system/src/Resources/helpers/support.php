@@ -98,9 +98,18 @@ if ( ! function_exists('asset_url')) {
 	 */
 	function asset_url($path)
 	{
-		$cachePath = str_replace(app('path.public'), '', app('path.content')).'cache';
+		if('@' === $path[0]) {
+			$_temp = explode('/', $path);
 
-		return base_url($cachePath.'/asset/'.$path);
+			if(ltrim(array_shift($_temp), '@') == 'vendor') {
+
+				$base = 'system/vendor/web/';
+				$path = implode('/', $_temp);
+				$path = $base.$path;
+			}
+		}
+
+		return base_url($path);
 	}
 }
 

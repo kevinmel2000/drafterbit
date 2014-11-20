@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Extensions\System\Controllers;
 
 use Drafterbit\Extensions\System\BackendController;
+use Symfony\Component\HttpFoundation\Response;
 
 class System extends BackendController {
 
@@ -147,5 +148,12 @@ class System extends BackendController {
 		set('cacheTable', $cacheTable);
 
 		return $this->render('@system/cache', $this->getData());
+	}
+
+	public function drafterbitJs()
+	{
+		return new Response($this->render('@system/drafterbitjs'), Response::HTTP_OK, array(
+			'content-type' => 'application/javascript'
+		));
 	}
 }

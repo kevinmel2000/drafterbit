@@ -20,7 +20,7 @@
         
         <?php echo $this->block('css'); ?>
 
-        <script>
+        <!--<script>
         (function(){
           drafTerbit = {
             baseUrl: "<?php echo base_url() ?>",
@@ -49,7 +49,7 @@
             }
           }
         })();
-        </script>
+        </script>-->
     </head>
 
     <body>
@@ -72,6 +72,8 @@
             <?php echo $this->render('@system/partials/footer'); ?>
 
         <!-- script -->
+        <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
+        <script src="<?php echo admin_url('system/drafterbit.js'); ?>" /></script>
         <?php $this->js(':jquery, :bootstrap_js, :notify_js, @system/js/layout.js, @system/js/app.js'); ?>
         <?php echo $this->block('js'); ?>
         

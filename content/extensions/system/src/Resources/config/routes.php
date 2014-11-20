@@ -17,7 +17,8 @@
 			'system' => [
 				'subRoutes' => [
 					'log' => ['controller' => '@system\System::log'],
-					'cache' => ['controller' => '@system\System::cache']
+					'cache' => ['controller' => '@system\System::cache'],
+					'drafterbit.js' => ['controller' => '@system\System::drafterbitJs'],
 				],
 			],
 		],
