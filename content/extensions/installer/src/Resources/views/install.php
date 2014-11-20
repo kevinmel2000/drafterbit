@@ -145,6 +145,24 @@
 		</div>
 
 	</div>
+	<div class="modal fade config-textarea">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+			  	<div class="modal-header">
+			    	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+			    	<h4 class="modal-title">Can't Create Config file</h4>
+			  	</div>
+			  	<div class="modal-body">
+			  		<p>You need to create config file manually. Create file named 'config.php' in installation directory with following content then refresh this page.</p>
+			    	<textarea readonly rows="10" class="form-control"></textarea>
+			  	</div>
+			  	<div class="modal-footer">
+			    	<a href="<?php echo base_url(); ?>" class="btn btn-default">Done, Please Refresh</a>
+			  	</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
 	<di class="install-trapper">
 		<h3><img alt="loading" src="<?php echo $preloader; ?>" /></h3>
 	</div>

@@ -43,6 +43,11 @@
 				$('.install-section').hide();
 				$(next).fadeIn();
 			
+			} else if(res.config) {
+
+				$('.config-textarea textarea').text(res.config);
+				$('.config-textarea').modal('show');
+
 			} else {
 				
 				$.notify(res.message, 'danger');

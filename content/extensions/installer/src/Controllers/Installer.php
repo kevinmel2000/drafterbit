@@ -46,7 +46,8 @@ class Installer extends Controller {
 	 		if(is_writable($dest)) {
 		 		file_put_contents($dest, $content);
 	 		} else {
-	 			$message = 'Can\'t create config file, you need to create it manually first then refresh this page';
+	 			$config = $content;
+				return json_encode(['config' => $config]);
 	 		}
 		
 		} catch(\Exception $e) {
