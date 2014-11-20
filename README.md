@@ -18,22 +18,26 @@ Drafterbit is like any other CMS, you can install it by [download](http://drafte
 
 1. Make sure that you have [composer](https://getcomposer.org/) and [bower](https://getcomposer.org/) installed in your computer.
 2. Open Terminal then go to web doc root. e.g:
-```shell
-cd /var/www/
-```
+    ```shell
+    cd /var/www/
+    ```
+    
 3. Clone this repo
-```shell
-git clone https://github.com/drafterbit/drafterbit.git
-```
+    ```shell
+    git clone https://github.com/drafterbit/drafterbit.git
+    ```
+    
 4. Go to cloned directory then install php dependencies:
-```shell
-cd drafterbit
-composer install --no-div --prefer-dist
-```
+    ```shell
+    cd drafterbit
+    composer install --no-div --prefer-dist
+    ```
+    
 5. Wait, then install web dependencies
-```shell
-bower install
-```
+    ```shell
+    bower install
+    ```
+    
 6. From here, you can visit browser, e.g: `http://localhost/drafterbit` then follow installation instruction as usual.
 
 Please let me know if you get any problem.
