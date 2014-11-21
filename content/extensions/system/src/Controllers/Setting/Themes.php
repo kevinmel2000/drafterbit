@@ -155,6 +155,8 @@ class Themes extends BackendController {
 		$position  = $this->get('input')->post('position');
 		$theme  = $this->get('input')->post('theme');
 
-		return $this->model('widget')->save($id, $title, $data, $name, $position, $theme);
+		$this->model('widget')->save($id, $title, $data, $name, $position, $theme);
+
+		return $this->jsonResponse(['message' => 'Widget saved', 'status' => 'success']);
 	}
 }

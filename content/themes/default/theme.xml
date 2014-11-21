@@ -11,8 +11,8 @@
 	<licenseUrl> - </licenseUrl>
 
 	<widget>
-		<position>position-1</position>
-		<position>position-2</position>
+		<position>Right Sidebar</position>
+		<position>Bottom</position>
 	</widget>
 
 </theme>

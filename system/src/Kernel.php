@@ -74,10 +74,11 @@ class Kernel extends Application {
     public function loadsystem()
     {
         $this['extension.manager']->load('system');
-        $schema = $this['db']->getSchemaManager();
 
         try {
-
+            
+            $schema = $this['db']->getSchemaManager();
+            
             if(!$schema->tablesExist('#_system')) {
                 throw new InstallationException("No System Table", 2);
             }
@@ -86,12 +87,12 @@ class Kernel extends Application {
 
         } catch (\PDOException $e) {
 
-            //if access denied or unknown database, we'll just start all over
-            if( in_array($e->getCode(), ['1045', '1044','1046', '1049'])) {
-                throw new InstallationException('Database connection failed', 1);
+            if(in_array($e->getCode(), ['1045', '1044','1046', '1049'])) {
+                die('bad config :(');
             }
 
             throw $e;
+
         }
     }
 
@@ -106,7 +107,6 @@ class Kernel extends Application {
         $this['router']->addReplaces('%admin%', $config['path.admin']);
         
         $this['path.cache'] =  $this['path.content'].'cache/data';
-
         
         foreach (
             [
@@ -114,7 +114,7 @@ class Kernel extends Application {
             'chosen_css' => 'Drafterbit\\System\\Asset\Filter\\DrafterbitChosenFilter'
             ]
             as $name => $class) {
-                $this['asset']->getFilterManager()->set($name, new $class(basename($this['path']).'/vendor/web'));
+                $this['asset']->getFilterManager()->set($name, new $class($this['dir.system'].'/vendor/web'));
         }
 
         $system = $this->loadsystem();

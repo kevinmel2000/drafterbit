@@ -76,12 +76,15 @@ class Installer extends Model {
 		$q = "INSERT INTO #_system (name, value) ";
 		$q .= "VALUES ";
 
+		$param = [];
 		foreach ($data as $key => $value) {
-			$q .= "('$key', '$value'),";
+			$q .= "(?, ?),";
+			$param[] = $key;
+			$param[] = $value;
 		}
 
 		$q = rtrim($q, ',').';';
-		return $this->get('db')->executeUpdate($q);
+		return $this->get('db')->executeUpdate($q,$param);
 	}
 
 	public function createDummyPage($user)

@@ -51,7 +51,10 @@
 	$(document).on('submit', '.widget-edit-form', function(e){
 		e.preventDefault();
 		$(this).ajaxSubmit({
-			url: drafTerbit.adminUrl+'/setting/themes/widget/save'
+			url: drafTerbit.adminUrl+'/setting/themes/widget/save',
+			success: function(res){
+				$.notify(res.message, res.status);
+			}
 		});
 	});
 

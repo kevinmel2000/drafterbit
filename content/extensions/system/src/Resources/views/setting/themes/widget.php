@@ -14,21 +14,31 @@
 		<div class="col-md-10">
 			<?php foreach ($positions as $position): ?>
 				<div class="col-md-6">
-					<h4><?php echo $position ?>
-						<a href="#" class="pull-right" data-position="<?php echo $position ?>" data-toggle="modal" data-target=".widgets">
-							<small><i class="fa fa-plus"></i>Add Widget</small>
-						</a>
-					</h4>
-
 					<div class="panel panel-default">
+						<div class="panel panel-heading">
+							<h4 class="panel-title"><?php echo $position ?></h4>
+						</div>
 						<div class="panel-body position-<?php echo $position ?>">
-							<?php if($widgets[$position]): ?>
-							<ul>
+							<ul style="list-style:none;padding-left:0;">
 								<?php foreach($widgets[$position] as $widget): ?>
-								<li><a href="#" class="registered-widget" data-id="<?php echo $widget->id; ?>" class="widget-item"><?php echo $widget->name; ?></a></li>
+								<li>
+									<div class="panel panel-default">
+									<div class="panel-body">
+										<a href="#" class="registered-widget" data-id="<?php echo $widget->id; ?>" class="widget-item"><?php echo $widget->name; ?></a>
+									</div>
+									</div>
+								</li>
 								<?php endforeach;?>
+								<li>
+									<div class="panel panel-default">
+									<div class="panel-body">
+										<a href="#" class="" data-position="<?php echo $position ?>" data-toggle="modal" data-target=".widgets">
+											<i class="fa fa-plus"></i> Add Widget
+										</a>
+									</div>
+									</div>
+								</li>
 							</ul>
-							<?php endif; ?>
 						</div>
 					</div>
 				</div>

@@ -51,7 +51,7 @@
 		<div class="row install-section">
 			<div style="text-align:center">
 				<h2 class="title">Drafterbit</h2>
-				<span class="help-block">This pack is not installed yet.</span>
+				<span class="help-block">Web software you can use to create a wabsite.</span>
 				<br/>
 				<br/>
 				<a href="#" data-next="<?php echo $start == 2 ? '#admin-account' : '#database-connect' ?>" class="btn btn-default begin-button"/> Install </a>

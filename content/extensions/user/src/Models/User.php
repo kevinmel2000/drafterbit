@@ -70,8 +70,8 @@ class User extends \Drafterbit\Framework\Model {
 	{
 		// @todo optimize this
 		foreach ($ids as $id) {
-			$this->get('db')->delete('#_users_roles', ['user_id'=> $id]);
 			$this->get('db')->delete('#_users', ['id' => $id]);
+			$this->get('db')->delete('#_users_roles', ['user_id'=> $id]);
 		}
 	}
 

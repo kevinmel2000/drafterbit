@@ -7,23 +7,26 @@ class Installer extends Controller {
 	public function index()
 	{	
 		$start = $this->getExtension()->getStart();
+		
 		// @todo: set start before installing
-		set('start', $start);
-		set('preloader', base_url($this->get('dir.content').'/cache/img/preloader.GIF'));
+		$data['start'] = $start;
+		$data['preloader'] = base_url($this->get('dir.content').'/cache/img/preloader.GIF');
 
-		return $this->render('install', $this->getData());
+		return $this->render('install', $data);
 	}
 
 	public function check()
 	{
 		$message = 'ok';
-		$config = $this->get('input')->post('database');
 
-		$this->get('config')->set('database', $config);
 
 		try {
-			
+
+			$config = $this->get('input')->post('database');
+			$this->get('config')->set('database', $config);
+
 			$this->get('db')->connect();
+			
 			$this->get('session')->set('install_db', $config);
 
 			$db = $this->get('session')->get('install_db');
@@ -49,6 +52,7 @@ class Installer extends Controller {
 	 			$config = $content;
 				return json_encode(['config' => $config]);
 	 		}
+	 		
 		
 		} catch(\Exception $e) {
 			if( in_array($e->getCode(), ['1045', '1044'])) {
