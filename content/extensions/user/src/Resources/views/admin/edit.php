@@ -22,10 +22,10 @@
 		    <input name="password-confirm" type="password" class="form-control" autocomplete="off">
 		</div>
 		 <div class="form-group">
-		    <label for="groups" class="control-label">Group</label>
-	      	<select name="groups[]" multiple id="user-group" class="form-control" data-placeholder="Select Group">
-	      		<?php foreach ($groupOptions as $option):?>
-	      		<option <?php echo selected('groups', $option->id, in_array($option->id, $groupIds)); ?> value="<?php echo $option->id ?>"><?php echo $option->label; ?></option>
+		    <label for="groups" class="control-label">Role</label>
+	      	<select name="roles[]" multiple id="user-roles" class="form-control" data-placeholder="Select Role">
+	      		<?php foreach ($roleOptions as $option):?>
+	      		<option <?php echo selected('roles', $option->id, in_array($option->id, $roleIds)); ?> value="<?php echo $option->id ?>"><?php echo $option->label; ?></option>
 		      	<?php endforeach?>
 	      	</select>
 		</div>

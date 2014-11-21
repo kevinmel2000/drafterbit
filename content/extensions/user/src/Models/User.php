@@ -75,35 +75,35 @@ class User extends \Drafterbit\Framework\Model {
 		}
 	}
 
-	public function clearGroups($id)
+	public function clearRoles($id)
 	{
 		return $this->get('db')
 			->delete('#_users_roles', array('user_id' => $id));
 	}
 
-	public function insertGroup($groupId, $userId) {
+	public function insertRole($roleId, $userId) {
 		
-		$data['group_id'] = $groupId;
+		$data['role_id'] = $roleId;
 		$data['user_id'] = $userId;
 
 		return $this->get('db')
 			->insert('#_users_roles', $data);
 	}
 
-	public function getGroupIds($id)
+	public function getRoleIds($id)
 	{
 		$queryBuilder = $this->withQueryBuilder()
-		->select('g.id')
-		->from('#_roles', 'g')
-		->join('g', '#_users_roles', 'ug', 'ug.group_id = g.id')
-		->where('ug.user_id = :user_id')
+		->select('r.id')
+		->from('#_roles', 'r')
+		->join('r', '#_users_roles', 'ur', 'ur.role_id = r.id')
+		->where('ur.user_id = :user_id')
 		->setParameter(':user_id', $id);
 
-		$groups = $queryBuilder->fetchAllObjects();
+		$roles = $queryBuilder->fetchAllObjects();
 
 		$ids = array();
-		foreach ($groups as $group) {
-			$ids[] = $group->id;
+		foreach ($roles as $role) {
+			$ids[] = $role->id;
 		}
 
 		return $ids;
@@ -120,10 +120,10 @@ class User extends \Drafterbit\Framework\Model {
 		$queryBuilder = $this->withQueryBuilder()
 		->select('pms.slug')
 		->from('#_permissions', 'pms')
-		->join('pms', '#_roles_permissions', 'gp', 'gp.permission_id = pms.id')
-		->join('gp', '#_roles', 'g', 'gp.group_id = g.id')
-		->join('gp', '#_users_roles', 'ug','gp.group_id = ug.group_id')
-		->where('ug.user_id = :user_id')
+		->join('pms', '#_roles_permissions', 'rp', 'rp.permission_id = pms.id')
+		->join('rp', '#_roles', 'r', 'rp.role_id = r.id')
+		->join('rp', '#_users_roles', 'ur','rp.role_id = ur.role_id')
+		->where('ur.user_id = :user_id')
 		->setParameter(':user_id', $userId);
 
 		$permissions = $queryBuilder->fetchAllObjects();

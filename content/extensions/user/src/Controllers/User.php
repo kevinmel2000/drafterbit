@@ -29,8 +29,8 @@ class User extends BackendController {
 
 		$users = $this->model('@user\User')->all(['status' => 'all']);
 
-		foreach ($users as $user) {
-			$user->groups = $this->model('@user\Role')->getByUser($user->id);
+		foreach ($users as &$user) {
+			$user->roles = $this->model('@user\Role')->getByUser($user->id);
 		}
 
 		$data['users'] = $users;
@@ -67,7 +67,6 @@ class User extends BackendController {
 			['field' => 'email', 'label' => 'Email'],
 			['field' => 'status', 'label' => 'Status', 'format' => function($value, $item) {
 					return $value == 1 ? __('active') : __('banned'); }],
-			//['field' => 'groups', 'label' => 'Group']
 		);
 	}
 
@@ -117,8 +116,8 @@ class User extends BackendController {
 				$id = $this->model('@user\User')->insert($insertData);
 			}
 
-			//insert group
-			$this->insertGroups( $postData['groups'], $id );
+			//insert roles
+			$this->insertRoles( $postData['roles'], $id );
 
 			$data['id'] = $id;
 			$data['message'] = 'User saved !';
@@ -144,7 +143,7 @@ class User extends BackendController {
 				'email' => null,
 				'url' => null,
 				'bio' => null,
-				'groupIds' => array(),
+				'roleIds' => array(),
 				'status' => null,
 				'userId' => null,
 				'title' => __('New User')
@@ -152,35 +151,35 @@ class User extends BackendController {
 		} else {
 
 			$user = $this->model('@user\User')->getSingleBy('id', $id);
-			$user->groupIds = $this->model('@user\User')->getGroupIds($user->id);
+			$user->roleIds = $this->model('@user\User')->getRoleIds($user->id);
 
 			$data = array(
 				'realName' => $user->real_name,
 				'email' => $user->email,
 				'url' => $user->url,
 				'bio' => $user->bio,
-				'groupIds' => $user->groupIds,
+				'roleIds' => $user->roleIds,
 				'status' => $user->status,
 				'userId' => $user->id,
 				'title' => __('New User')
 			);
 		}
 
-		$groups = $this->model('@user\Role')->all();
+		$roles = $this->model('@user\Role')->all();
 
-		$data['groupOptions'] = $groups;
+		$data['roleOptions'] = $roles;
 		$data['id'] = 'user-edit';
 		$data['action'] = admin_url('user/save');
 		
 		return $this->render('@user/admin/edit', $data);
 	}
 
-	protected function insertGroups($groups, $id)
+	protected function insertRoles($roles, $id)
 	{
-		$this->model('@user\User')->clearGroups($id);
+		$this->model('@user\User')->clearRoles($id);
 
-		foreach($groups as $group) {
-			$this->model('@user\User')->insertGroup($group, $id);
+		foreach($roles as $role) {
+			$this->model('@user\User')->insertRole($role, $id);
 		}
 	}
 

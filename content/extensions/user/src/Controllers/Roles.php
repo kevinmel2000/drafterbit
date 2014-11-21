@@ -100,12 +100,6 @@ class Roles extends BackendController {
 		return $this->jsonResponse($ob);
 	}
 
-	public function delete($id)
-	{
-		$this->model('@user\Auth')->restrict('usergroup.delete');
-		$this->model('@user\Role')->delete($id);
-	}
-
 	public function edit($id = null)
 	{
 		// @todo pending

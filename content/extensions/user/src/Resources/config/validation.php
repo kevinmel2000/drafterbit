@@ -9,7 +9,7 @@
 	'real-name' => array('label' => 'Real Name', 	'rules' => array('not-empty')),
 	'website' 	=> array('label' => 'Website', 		'rules' => array('optional')),
 	'bio' 		=> array('label' => 'Bio', 			'rules' => array('optional', 'max-length=500')),
-	'groups' 	=> array('label' => 'Group', 		'rules' => array('not-empty')),
+	'roles' 	=> array('label' => 'Role', 		'rules' => array('not-empty')),
 	'email' 	=> array('label' => 'Email', 		'rules' => array('not-empty', 'email')),
 	'password' 	=> array('label' => 'Password', 	'rules' => array('optional')),
 	'password-confirm' 	=> array('label' => 'Password Confirmation', 'rules' => array('optional', 'match=password')),

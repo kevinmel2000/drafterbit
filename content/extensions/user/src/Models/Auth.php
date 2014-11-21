@@ -6,10 +6,10 @@ use Drafterbit\Extensions\User\Models\Role;
 
 class Auth extends \Drafterbit\Framework\Model {
 
-	public function __construct( User $user, Role $group)
+	public function __construct( User $user, Role $role)
 	{
 		$this->user = $user;
-		$this->group = $group;
+		$this->role = $role;
 	}
 
 	public function doLogin($email, $password, $remember = false)
@@ -134,7 +134,7 @@ class Auth extends \Drafterbit\Framework\Model {
 	 */
 	private function getPermissions()
 	{
-		return $this->group->cachedQuery('permissions', 'getPermissions');
+		return $this->role->cachedQuery('permissions', 'getPermissions');
 	}
 
 	public function isLoggedIn()

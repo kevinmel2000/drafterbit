@@ -33,13 +33,13 @@ class Role extends \Drafterbit\Framework\Model {
 			->setParameter(":$key", $value);
 		}
 
-		$groups = $q->fetchAllObjects();
+		$roles = $q->fetchAllObjects();
 
 		if($singleRequested) {
-			return reset($groups);
+			return reset($roles);
 		}
 
-		return $groups;
+		return $roles;
 	}
 
 	public function getSingleBy($key, $value = array())
@@ -57,9 +57,9 @@ class Role extends \Drafterbit\Framework\Model {
 	{
 		$this->withQueryBuilder()
 		->select('*')
-		->from('#_roles', 'g')
-		->innerJoin('g', '#_users_roles', 'ug', 'g.id = ug.group_id')
-		->where("ug.user_id = :user_id")
+		->from('#_roles', 'r')
+		->innerJoin('r', '#_users_roles', 'ur', 'r.id = ur.role_id')
+		->where("ur.user_id = :user_id")
 		->setParameter(':user_id', $id)
 		->fetchAllObjects();
 	}
@@ -83,7 +83,7 @@ class Role extends \Drafterbit\Framework\Model {
 
 		$this->withQueryBuilder()
 		->delete('#_roles_permissions')
-		->where('group_id IN ('.$idString.')')
+		->where('role_id IN ('.$idString.')')
 			->execute();
 		
 		$this->withQueryBuilder()
@@ -97,8 +97,8 @@ class Role extends \Drafterbit\Framework\Model {
 		return
 		$this->withQueryBuilder()
 			->select('*')
-			->from('#_users_roles', 'ug')
-			->where("ug.group_id = $id")
+			->from('#_users_roles', 'ur')
+			->where("ur.role_id = $id")
 			->fetchAllObjects();
 	}
 
@@ -130,7 +130,7 @@ class Role extends \Drafterbit\Framework\Model {
 	{
 		$data = array();
 		$data['permission_id'] = $permission;
-		$data['group_id'] = $id;
+		$data['role_id'] = $id;
 
 		return
 		$this->get('db')->insert('#_roles_permissions', $data);
@@ -139,7 +139,7 @@ class Role extends \Drafterbit\Framework\Model {
 	public function clearPermissions($id)
 	{
 		return $this->get('db')
-              ->delete('#_roles_permissions', array('group_id' => $id));
+              ->delete('#_roles_permissions', array('role_id' => $id));
 	}
 
 	public function getPermissionIds($id)
@@ -147,9 +147,9 @@ class Role extends \Drafterbit\Framework\Model {
 		$pmss =  $this->withQueryBuilder()
 		->select('pms.id')
 		->from('#_permissions', 'pms')
-		->join('pms', '#_roles_permissions', 'gp', 'pms.id = gp.permission_id')
-		->where('gp.group_id = :group_id')
-		->setParameter(':group_id', $id)
+		->join('pms', '#_roles_permissions', 'rp', 'pms.id = rp.permission_id')
+		->where('rp.role_id = :role_id')
+		->setParameter(':role_id', $id)
 		->fetchAllObjects();
 
 		$ids = array();

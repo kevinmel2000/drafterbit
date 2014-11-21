@@ -1,5 +1,5 @@
 (function($){
-	$('#user-group').chosen();
+	$('#user-roles').chosen();
 
 	var form = $('#user-edit-form'),
 		id = $('input[name="id"]');

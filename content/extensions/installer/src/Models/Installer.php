@@ -6,22 +6,22 @@ class Installer extends Model {
 	
 	public function createAdmin($email, $password)
 	{
-		$this->get('db')->insert('#_roles', ['label'=> 'Superadmin']);
-		$groupId = $this->get('db')->lastInsertId();
+		$this->get('db')->insert('#_roles', ['label'=> 'Administrator', 'description' => 'God of the site']);
+		$roleId = $this->get('db')->lastInsertId();
 
 		$user['email'] = $email;
 		$user['password'] = password_hash($password, PASSWORD_BCRYPT);
+		$user['real_name'] = 'Administrator';
 
 		$this->get('db')->insert('#_users', $user);
 		$userId = $this->get('db')->lastInsertId();
-
 		
 		$this->get('db')->insert('#_users_roles', [
 			'user_id' => $userId,
-			'group_id' => $groupId
+			'role_id' => $roleId
 		]);
 
-		return array('userId' => $userId, 'roleId' => $groupId);
+		return array('userId' => $userId, 'roleId' => $roleId);
 	}
 
 	public function addPermission($extension, $permissions)
@@ -45,7 +45,7 @@ class Installer extends Model {
 			->from('#_permissions','pms')
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
 
-		$q = 'INSERT INTO #_roles_permissions (group_id, permission_id) ';
+		$q = 'INSERT INTO #_roles_permissions (role_id, permission_id) ';
 		$q .= "VALUES ";
 
 		foreach ($permissions as $permission) {

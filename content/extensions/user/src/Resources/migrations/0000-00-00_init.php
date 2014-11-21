@@ -22,22 +22,22 @@
 		$app['db']->getSchemaManager()->createTable($users);
 
 		//group
-		$groups = $schema->createTable('#_roles');
-		$groups->addColumn('id', 'integer', ['autoincrement' => true]);
-		$groups->addColumn('label', 'string', ['length' => 45]);
-		$groups->addColumn('description', 'string', ['length' => 255]);
-		$groups->setPrimaryKey(['id']);
-		$app['db']->getSchemaManager()->createTable($groups);
+		$roles = $schema->createTable('#_roles');
+		$roles->addColumn('id', 'integer', ['autoincrement' => true]);
+		$roles->addColumn('label', 'string', ['length' => 45]);
+		$roles->addColumn('description', 'string', ['length' => 255]);
+		$roles->setPrimaryKey(['id']);
+		$app['db']->getSchemaManager()->createTable($roles);
 
-		// users_groups
-		$users_groups = $schema->createTable('#_users_roles');
-		$users_groups->addColumn('id', 'integer',['autoincrement' => true]);
-		$users_groups->addColumn('user_id', 'integer');
-		$users_groups->addColumn('role_id', 'integer');
-		$users_groups->setPrimaryKey(['id']);
-		$users_groups->addForeignKeyConstraint('#_users', ['user_id'], ['id']);
-		$users_groups->addForeignKeyConstraint('#_roles', ['group_id'], ['id']);
-		$app['db']->getSchemaManager()->createTable($users_groups);
+		// users_roles
+		$users_roles = $schema->createTable('#_users_roles');
+		$users_roles->addColumn('id', 'integer',['autoincrement' => true]);
+		$users_roles->addColumn('user_id', 'integer');
+		$users_roles->addColumn('role_id', 'integer');
+		$users_roles->setPrimaryKey(['id']);
+		$users_roles->addForeignKeyConstraint('#_users', ['user_id'], ['id']);
+		$users_roles->addForeignKeyConstraint('#_roles', ['role_id'], ['id']);
+		$app['db']->getSchemaManager()->createTable($users_roles);
 
 		//permissions
 		$permissions = $schema->createTable('#_permissions');
@@ -49,14 +49,14 @@
 		$app['db']->getSchemaManager()->createTable($permissions);
 
 		//group _pemissions
-		$groups_permissions = $schema->createTable('#_roles_permissions');
-		$groups_permissions->addColumn('id', 'integer', ['autoincrement' => true]);
-		$groups_permissions->addColumn('role_id', 'integer');
-		$groups_permissions->addColumn('permission_id', 'integer');
-		$groups_permissions->setPrimaryKey(['id']);
-		$groups_permissions->addForeignKeyConstraint('#_roles', ['group_id'], ['id']);
-		$groups_permissions->addForeignKeyConstraint('#_permissions', ['permission_id'], ['id']);
-		$app['db']->getSchemaManager()->createTable($groups_permissions);
+		$roles_permissions = $schema->createTable('#_roles_permissions');
+		$roles_permissions->addColumn('id', 'integer', ['autoincrement' => true]);
+		$roles_permissions->addColumn('role_id', 'integer');
+		$roles_permissions->addColumn('permission_id', 'integer');
+		$roles_permissions->setPrimaryKey(['id']);
+		$roles_permissions->addForeignKeyConstraint('#_roles', ['role_id'], ['id']);
+		$roles_permissions->addForeignKeyConstraint('#_permissions', ['permission_id'], ['id']);
+		$app['db']->getSchemaManager()->createTable($roles_permissions);
 	},
 
 	'down' => function()

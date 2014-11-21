@@ -103,7 +103,7 @@ class Installer extends Controller {
  			}
  		}
 
- 		$model->addAdminPermission($adminIds['groupId']);
+ 		$model->addAdminPermission($adminIds['roleId']);
 
  		//add system default
  		$model->systemInit($site['name'], $site['desc'], $admin['email'], $adminIds['userId']);
