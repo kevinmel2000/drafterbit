@@ -7,7 +7,6 @@ use Drafterbit\System\Provider\WidgetServiceProvider;
 use Drafterbit\System\Provider\ExtensionServiceProvider;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-
 class Kernel extends Application {
 
     /**

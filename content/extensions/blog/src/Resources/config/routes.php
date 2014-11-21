@@ -2,20 +2,28 @@
 
 '%admin%' => [
 	'subRoutes' => [
-		'blog' => ['controller' => '@blog\Blog::index'],
-		'blog/create' => ['controller' => '@blog\Blog::create'],
-		'blog/edit/{id}' => ['controller' => '@blog\Blog::edit'],
-		'blog/data/{status}.json' => ['controller' => '@blog\Blog::filter'],
-		'blog/save' => ['controller' => '@blog\Blog::save', 'csrf' => true],
-		'blog/trash' => ['controller' => '@blog\Blog::trash', 'csrf' => true],
-		
-		'blog/comments' => ['controller' => '@blog\Comment::index'],
-		
-		'comments/data/{status}.json' => ['controller' => '@blog\Comment::filter'],
-		'comments/trash' => ['controller' => '@blog\Comment::trash', 'csrf' => true],
-		'comments/status' => ['controller' => '@blog\Comment::status', 'csrf' => true],
-		'comments/quick-reply' => ['controller' => '@blog\Comment::quickReply', 'csrf' => true],
-		'comments/quick-trash' => ['controller' => '@blog\Comment::quickTrash', 'csrf' => true],
+		'blog' => [
+			'subRoutes' => [
+				'index' => ['controller' => '@blog\Blog::index'],
+				'create' => ['controller' => '@blog\Blog::create'],
+				'edit/{id}' => ['controller' => '@blog\Blog::edit'],
+				'data/{status}.json' => ['controller' => '@blog\Blog::filter'],
+				'save' => ['controller' => '@blog\Blog::save', 'csrf' => true],
+				'trash' => ['controller' => '@blog\Blog::trash', 'csrf' => true],
+				
+				'comments' => ['controller' => '@blog\Comment::index'],
+			]
+		],
+
+		'comments' => [
+			'subRoutes' => [
+				'data/{status}.json' => ['controller' => '@blog\Comment::filter'],
+				'trash' => ['controller' => '@blog\Comment::trash', 'csrf' => true],
+				'status' => ['controller' => '@blog\Comment::status', 'csrf' => true],
+				'quick-reply' => ['controller' => '@blog\Comment::quickReply', 'csrf' => true],
+				'quick-trash' => ['controller' => '@blog\Comment::quickTrash', 'csrf' => true],
+			]
+		]
 	]
 ],
 

@@ -2,7 +2,7 @@
 	'name' => 'user',
 	'menus' => [
 		['parent'=>'users', 'id'=>'user', 'label' => 'User', 'href' => 'user/index'],
-		['parent'=>'users', 'id'=>'group', 'label' => 'Group', 'href' => 'user/group']
+		['parent'=>'users', 'id'=>'roles', 'label' => 'Roles', 'href' => 'user/roles']
 	],
 	'permissions' => [
 		'user.view' => 'view user',
