@@ -30,7 +30,7 @@ class User extends BackendController {
 		$users = $this->model('@user\User')->all(['status' => 'all']);
 
 		foreach ($users as $user) {
-			$user->groups = $this->model('@user\UsersGroup')->getByUser($user->id);
+			$user->groups = $this->model('@user\Role')->getByUser($user->id);
 		}
 
 		$data['users'] = $users;
@@ -166,7 +166,7 @@ class User extends BackendController {
 			);
 		}
 
-		$groups = $this->model('@user\UsersGroup')->all();
+		$groups = $this->model('@user\Role')->all();
 
 		$data['groupOptions'] = $groups;
 		$data['id'] = 'user-edit';

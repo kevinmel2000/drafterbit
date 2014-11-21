@@ -55,6 +55,10 @@
 
         // status
         if (this.options.status) {
+            if(this.options.status == 'error') {
+                this.options.status = 'danger';
+            }
+
             this.element.addClass('alert-'+this.options.status);
             this.currentstatus = this.options.status;
         }

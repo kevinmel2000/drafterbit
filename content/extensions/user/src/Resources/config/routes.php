@@ -9,9 +9,10 @@
 					'save' => ['controller' => '@user\User::save', 'csrf' => true],
 					'data/{status}.json' => ['controller' => '@user\User::filter'],
 		
-					'group' => ['controller' => '@user\Group::index'],
-					'group/create' => ['controller' => '@user\Group::create'],
-					'group/edit/{id}' => ['controller' => '@user\Group::edit']
+					'roles' => ['controller' => '@user\Roles::index'],
+					'roles/index-action' => ['controller' => '@user\Roles::indexAction', 'csrf' => true],
+					'roles/edit/{id}' => ['controller' => '@user\Roles::edit'],
+					'roles/save' => ['controller' => '@user\Roles::save', 'csrf' => true]
 				]
 			],
 		],

@@ -22,7 +22,7 @@
 		$app['db']->getSchemaManager()->createTable($users);
 
 		//group
-		$groups = $schema->createTable('#_groups');
+		$groups = $schema->createTable('#_roles');
 		$groups->addColumn('id', 'integer', ['autoincrement' => true]);
 		$groups->addColumn('label', 'string', ['length' => 45]);
 		$groups->addColumn('description', 'string', ['length' => 255]);
@@ -30,13 +30,13 @@
 		$app['db']->getSchemaManager()->createTable($groups);
 
 		// users_groups
-		$users_groups = $schema->createTable('#_users_groups');
+		$users_groups = $schema->createTable('#_users_roles');
 		$users_groups->addColumn('id', 'integer',['autoincrement' => true]);
 		$users_groups->addColumn('user_id', 'integer');
-		$users_groups->addColumn('group_id', 'integer');
+		$users_groups->addColumn('role_id', 'integer');
 		$users_groups->setPrimaryKey(['id']);
 		$users_groups->addForeignKeyConstraint('#_users', ['user_id'], ['id']);
-		$users_groups->addForeignKeyConstraint('#_groups', ['group_id'], ['id']);
+		$users_groups->addForeignKeyConstraint('#_roles', ['group_id'], ['id']);
 		$app['db']->getSchemaManager()->createTable($users_groups);
 
 		//permissions
@@ -49,12 +49,12 @@
 		$app['db']->getSchemaManager()->createTable($permissions);
 
 		//group _pemissions
-		$groups_permissions = $schema->createTable('#_groups_permissions');
+		$groups_permissions = $schema->createTable('#_roles_permissions');
 		$groups_permissions->addColumn('id', 'integer', ['autoincrement' => true]);
-		$groups_permissions->addColumn('group_id', 'integer');
+		$groups_permissions->addColumn('role_id', 'integer');
 		$groups_permissions->addColumn('permission_id', 'integer');
 		$groups_permissions->setPrimaryKey(['id']);
-		$groups_permissions->addForeignKeyConstraint('#_groups', ['group_id'], ['id']);
+		$groups_permissions->addForeignKeyConstraint('#_roles', ['group_id'], ['id']);
 		$groups_permissions->addForeignKeyConstraint('#_permissions', ['permission_id'], ['id']);
 		$app['db']->getSchemaManager()->createTable($groups_permissions);
 	},

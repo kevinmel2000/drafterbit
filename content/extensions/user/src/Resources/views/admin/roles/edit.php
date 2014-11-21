@@ -21,7 +21,7 @@
 	<div class="col-md-6 content-full">
 		<div class="form-group">
     		<label for="name" class="control-label">Group Name</label>
-     		<input name="name" type="text" class="form-control" placeholder="Group Name" value="<?php echo value('name', $groupName); ?>">
+     		<input name="name" type="text" class="form-control" placeholder="Group Name" value="<?php echo value('name', $roleName); ?>">
 		</div>
 		<div class="form-group">
     		<label for="description" class="control-label">Description</label>
@@ -38,3 +38,7 @@
 	<?php endforeach;?>
 	</div>
 </div>
+
+<input type="hidden" name="id" value="<?php echo $roleId; ?>">
+
+<?php $this->js('@user/js/roles/edit.js'); ?>

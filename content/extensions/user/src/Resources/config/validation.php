@@ -1,15 +1,8 @@
 <?php return [
 
 'login' => [
-	'email' => [
-		'label' => 'Email',
-		'rules' => ['not-empty', 'email']
-	],
-
-	'password' => [
-		'label' => 'Password',
-		'rules' => ['not-empty']
-	]
+	'email' => ['label' => 'Email', 'rules' => ['not-empty', 'email'] ],
+	'password' => ['label' => 'Password', 'rules' => ['not-empty'] ]
 ],
 
 'user' => [
@@ -22,8 +15,8 @@
 	'password-confirm' 	=> array('label' => 'Password Confirmation', 'rules' => array('optional', 'match=password')),
 ],
 
-'group' => [
-	'name' => array('label' => 'Group Name', 'rules' => array('not-empty')),
+'roles' => [
+	'name' => array('label' => 'Role Name', 'rules' => array('not-empty')),
 	'description' => array('label' => 'description', 'rules' => array('optional', 'max-length=500'))
 ]
 

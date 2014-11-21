@@ -21,7 +21,7 @@ class Installer extends Model {
 			'group_id' => $groupId
 		]);
 
-		return array('userId' => $userId, 'groupId' => $groupId);
+		return array('userId' => $userId, 'roleId' => $groupId);
 	}
 
 	public function addPermission($extension, $permissions)

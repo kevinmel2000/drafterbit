@@ -1,5 +1,5 @@
  (function($, drafTerbit) {
-      var dt =   $("#groups-data-table").dataTable({
+      var dt =   $("#roles-data-table").dataTable({
              "oLanguage": {
               "sLengthMenu": "Showing _MENU_ records per page",
               "sSearch": "Search: _INPUT_",
@@ -11,5 +11,6 @@
 
         drafTerbit.replaceDTSearch(dt);
 
-        $('#groups-checkall').checkAll({showIndeterminate:true});
+        $('#roles-checkall').checkAll({showIndeterminate:true});
+        
 })(jQuery, drafTerbit);

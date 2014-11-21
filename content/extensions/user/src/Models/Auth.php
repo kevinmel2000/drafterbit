@@ -2,11 +2,11 @@
 
 use Drafterbit\Extensions\User\Auth\Exceptions\UserNotAuthorizedException;
 use Drafterbit\Extensions\User\Models\User;
-use Drafterbit\Extensions\User\Models\UsersGroup;
+use Drafterbit\Extensions\User\Models\Role;
 
 class Auth extends \Drafterbit\Framework\Model {
 
-	public function __construct( User $user, UsersGroup $group)
+	public function __construct( User $user, Role $group)
 	{
 		$this->user = $user;
 		$this->group = $group;

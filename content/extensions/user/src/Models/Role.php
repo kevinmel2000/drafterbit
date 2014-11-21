@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\Extensions\User\Models;
 
-class UsersGroup extends \Drafterbit\Framework\Model {
+class Role extends \Drafterbit\Framework\Model {
 
 	protected $permission;
 
@@ -17,24 +17,23 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 
 	public function getBy($key, $value = null, $singleRequested=false)
 	{
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$stmt = $queryBuilder->select('*')->from('#_groups', 'u');
+		$q = $this->withQueryBuilder()->select('*')->from('#_groups', 'u');
 
 		if (is_array($key)) {
 		
 			foreach ($key as $k => $v) {
 	            $holder = ":$k";
-	            $queryBuilder->where("$k = $holder")
+	            $q->where("$k = $holder")
 	               ->setParameter($holder, $v);
         	}
 		
 		} else {
 			
-			$queryBuilder->where("$key = :$key")
+			$q->where("$key = :$key")
 			->setParameter(":$key", $value);
 		}
 
-		$groups = $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
+		$groups = $q->fetchAllObjects();
 
 		if($singleRequested) {
 			return reset($groups);
@@ -85,8 +84,24 @@ class UsersGroup extends \Drafterbit\Framework\Model {
 	{
 		$this->get('db')
 			->insert('#_groups', $data);
-		return
-		$this->get('db')->lastInsertId();
+		return $this->get('db')->lastInsertId();
+	}
+
+	public function isExists($id)
+	{
+		$roles = $this->getBy('id', $id);
+		return count($roles) > 0;
+	}
+
+	public function save($id, $data)
+	{
+		if($this->isExists($id)) {
+			$this->update($data, ['id' => $id]);
+		} else {
+			$id = $this->insert($data);
+		}
+
+		return $id;
 	}
 
 	public function insertPermission($permission, $id)
