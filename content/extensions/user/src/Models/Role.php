@@ -12,12 +12,12 @@ class Role extends \Drafterbit\Framework\Model {
 	public function queryAll()
 	{
 		return $this->get('db')
-			->fetchAllObjects('SELECT * from #_groups');
+			->fetchAllObjects('SELECT * from #_roles');
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
 	{
-		$q = $this->withQueryBuilder()->select('*')->from('#_groups', 'u');
+		$q = $this->withQueryBuilder()->select('*')->from('#_roles', 'u');
 
 		if (is_array($key)) {
 		
@@ -47,13 +47,18 @@ class Role extends \Drafterbit\Framework\Model {
 		return $this->getBy($key, $value, true);
 	}
 
+	public function getRoleName($id)
+	{
+		$role = $this->getSingleBy('id', $id);
+		return $role->label;
+	}
 
 	public function getByUser($id)
 	{
 		$this->withQueryBuilder()
 		->select('*')
-		->from('#_groups', 'g')
-		->innerJoin('g', '#_users_groups', 'ug', 'g.id = ug.group_id')
+		->from('#_roles', 'g')
+		->innerJoin('g', '#_users_roles', 'ug', 'g.id = ug.group_id')
 		->where("ug.user_id = :user_id")
 		->setParameter(':user_id', $id)
 		->fetchAllObjects();
@@ -67,23 +72,40 @@ class Role extends \Drafterbit\Framework\Model {
 	public function update($data, array $where)
 	{
 		return $this->get('db')
-			->update('#_groups', $data, $where);
+			->update('#_roles', $data, $where);
 	}
 
-	public function delete($id)
+	public function delete($ids = array())
 	{
-		$this->get('db')
-			->delete('#_groups_permissions', ['group_id' => $id]);
-		$this->get('db')
-			->delete('#_users_groups', ['group_id'=> $id]);
-		$this->get('db')
-			->delete('#_groups', ['id' => $id]);
+		$ids = (array) $ids;
+		$ids = array_map(function($v){return "'$v'";}, $ids);
+		$idString = implode(',', $ids);
+
+		$this->withQueryBuilder()
+		->delete('#_roles_permissions')
+		->where('group_id IN ('.$idString.')')
+			->execute();
+		
+		$this->withQueryBuilder()
+		->delete('#_roles')
+		->where('id IN ('.$idString.')')
+			->execute();
+	}
+
+	public function getRoledUsers($id)
+	{
+		return
+		$this->withQueryBuilder()
+			->select('*')
+			->from('#_users_roles', 'ug')
+			->where("ug.group_id = $id")
+			->fetchAllObjects();
 	}
 
 	public function insert($data)
 	{
 		$this->get('db')
-			->insert('#_groups', $data);
+			->insert('#_roles', $data);
 		return $this->get('db')->lastInsertId();
 	}
 
@@ -111,13 +133,13 @@ class Role extends \Drafterbit\Framework\Model {
 		$data['group_id'] = $id;
 
 		return
-		$this->get('db')->insert('#_groups_permissions', $data);
+		$this->get('db')->insert('#_roles_permissions', $data);
 	}
 
 	public function clearPermissions($id)
 	{
 		return $this->get('db')
-              ->delete('#_groups_permissions', array('group_id' => $id));
+              ->delete('#_roles_permissions', array('group_id' => $id));
 	}
 
 	public function getPermissionIds($id)
@@ -125,7 +147,7 @@ class Role extends \Drafterbit\Framework\Model {
 		$pmss =  $this->withQueryBuilder()
 		->select('pms.id')
 		->from('#_permissions', 'pms')
-		->join('pms', '#_groups_permissions', 'gp', 'pms.id = gp.permission_id')
+		->join('pms', '#_roles_permissions', 'gp', 'pms.id = gp.permission_id')
 		->where('gp.group_id = :group_id')
 		->setParameter(':group_id', $id)
 		->fetchAllObjects();

@@ -10,6 +10,7 @@
 					'data/{status}.json' => ['controller' => '@user\User::filter'],
 		
 					'roles' => ['controller' => '@user\Roles::index'],
+					'roles/data/all.json' => ['controller' => '@user\Roles::filter'],
 					'roles/index-action' => ['controller' => '@user\Roles::indexAction', 'csrf' => true],
 					'roles/edit/{id}' => ['controller' => '@user\Roles::edit'],
 					'roles/save' => ['controller' => '@user\Roles::save', 'csrf' => true]

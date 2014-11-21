@@ -4,7 +4,7 @@
 <button class="btn btn-success btn-sm" type="submit" name="action" value="update">
     <i class="fa fa-check"></i> Save
 </button>
-<a href="<?php echo admin_url('user/group'); ?>" class="btn btn-default btn-sm">
+<a href="<?php echo admin_url('user/roles'); ?>" class="btn btn-default btn-sm">
     <i class="fa fa-times" style=""></i> Cancel
 </a>
 <?php $this->end(); ?>

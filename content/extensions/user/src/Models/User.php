@@ -70,7 +70,7 @@ class User extends \Drafterbit\Framework\Model {
 	{
 		// @todo optimize this
 		foreach ($ids as $id) {
-			$this->get('db')->delete('#_users_groups', ['user_id'=> $id]);
+			$this->get('db')->delete('#_users_roles', ['user_id'=> $id]);
 			$this->get('db')->delete('#_users', ['id' => $id]);
 		}
 	}
@@ -78,7 +78,7 @@ class User extends \Drafterbit\Framework\Model {
 	public function clearGroups($id)
 	{
 		return $this->get('db')
-			->delete('#_users_groups', array('user_id' => $id));
+			->delete('#_users_roles', array('user_id' => $id));
 	}
 
 	public function insertGroup($groupId, $userId) {
@@ -87,15 +87,15 @@ class User extends \Drafterbit\Framework\Model {
 		$data['user_id'] = $userId;
 
 		return $this->get('db')
-			->insert('#_users_groups', $data);
+			->insert('#_users_roles', $data);
 	}
 
 	public function getGroupIds($id)
 	{
 		$queryBuilder = $this->withQueryBuilder()
 		->select('g.id')
-		->from('#_groups', 'g')
-		->join('g', '#_users_groups', 'ug', 'ug.group_id = g.id')
+		->from('#_roles', 'g')
+		->join('g', '#_users_roles', 'ug', 'ug.group_id = g.id')
 		->where('ug.user_id = :user_id')
 		->setParameter(':user_id', $id);
 
@@ -120,9 +120,9 @@ class User extends \Drafterbit\Framework\Model {
 		$queryBuilder = $this->withQueryBuilder()
 		->select('pms.slug')
 		->from('#_permissions', 'pms')
-		->join('pms', '#_groups_permissions', 'gp', 'gp.permission_id = pms.id')
-		->join('gp', '#_groups', 'g', 'gp.group_id = g.id')
-		->join('gp', '#_users_groups', 'ug','gp.group_id = ug.group_id')
+		->join('pms', '#_roles_permissions', 'gp', 'gp.permission_id = pms.id')
+		->join('gp', '#_roles', 'g', 'gp.group_id = g.id')
+		->join('gp', '#_users_roles', 'ug','gp.group_id = ug.group_id')
 		->where('ug.user_id = :user_id')
 		->setParameter(':user_id', $userId);
 

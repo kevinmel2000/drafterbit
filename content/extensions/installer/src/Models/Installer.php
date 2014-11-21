@@ -6,7 +6,7 @@ class Installer extends Model {
 	
 	public function createAdmin($email, $password)
 	{
-		$this->get('db')->insert('#_groups', ['label'=> 'Superadmin']);
+		$this->get('db')->insert('#_roles', ['label'=> 'Superadmin']);
 		$groupId = $this->get('db')->lastInsertId();
 
 		$user['email'] = $email;
@@ -16,7 +16,7 @@ class Installer extends Model {
 		$userId = $this->get('db')->lastInsertId();
 
 		
-		$this->get('db')->insert('#_users_groups', [
+		$this->get('db')->insert('#_users_roles', [
 			'user_id' => $userId,
 			'group_id' => $groupId
 		]);
@@ -45,7 +45,7 @@ class Installer extends Model {
 			->from('#_permissions','pms')
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
 
-		$q = 'INSERT INTO #_groups_permissions (group_id, permission_id) ';
+		$q = 'INSERT INTO #_roles_permissions (group_id, permission_id) ';
 		$q .= "VALUES ";
 
 		foreach ($permissions as $permission) {
