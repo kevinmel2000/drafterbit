@@ -6,9 +6,6 @@ class Setting extends BackendController {
 
 	public function general()
 	{
-		// @todo
-		//$this->model('@user\Auth')->restrict('setting.change');
-
 		$post = $this->get('input')->post();
 
 		if ($post) {
@@ -17,8 +14,7 @@ class Setting extends BackendController {
 
 			$data = $this->setupData($post);
 			$this->model('@system\System')->updateSetting($data);
-
-			message('Setting updated !', 'success');
+			$this->get('template')->addGlobal('messages', [['text' => "Setting updated", "type" => 'success']]);
 		}
 		
 		$config = $this->model('@system\System')->all();

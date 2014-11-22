@@ -12,9 +12,9 @@
 		[ 'id' => 'comments', 'label' => 'Comments', 'href' => 'blog/comments', 'order' => 2]
 	],
 	'permissions' => [
-		'blog.view' => 'view blog',
-		'blog.add' => 'add blog',
-		'blog.edit' => 'edit blog',
-		'blog.delete' => 'delete blog'
+		'blog.view' => 'view post',
+		'blog.edit' => 'edit post',
+		'blog.save' => 'save a post',
+		'blog.delete' => 'delete post'
 	]
 ];

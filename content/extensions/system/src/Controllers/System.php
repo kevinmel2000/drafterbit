@@ -26,7 +26,6 @@ class System extends BackendController {
 		$data['logs'] = $logs;
 
 		$data['shortcuts'] = $this->get('app')->getShortcuts();
-
 		// site info
 		$data['os'] = $this->getOs();
 		$data['usersCount'] = count($this->get('cache')->fetch('users'));
@@ -67,7 +66,7 @@ class System extends BackendController {
 	        if (preg_match($regex, $this->get('input')->server('HTTP_USER_AGENT'))) {
 	            $os_platform = $value;
 	        }
-	    }   
+	    }
 
 	    return $os_platform;
 	}
@@ -83,15 +82,18 @@ class System extends BackendController {
 					foreach ($logIds as $id) {
 						$this->model('@system\Log')->delete($id);
 					}
-					message('Logs deleted !', 'success');
+					$msg = 'Logs deleted !';
+					set('messages', [['text' => $msg, "type" => 'success']]);
 				}
 				break;
 			case "clear":
 				$this->model('@system\Log')->clear();
-				message('Logs cleared !', 'success');
+				$msg = 'Logs cleared !';
+				set('messages', [['text' => $msg, "type" => 'success']]);
 			default:
 				break;
 		}
+
 
 		$logs = $this->model('@system\Log')->all();
 

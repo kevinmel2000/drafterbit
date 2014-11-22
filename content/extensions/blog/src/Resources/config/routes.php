@@ -4,9 +4,8 @@
 	'subRoutes' => [
 		'blog' => [
 			'subRoutes' => [
-				'index' => ['controller' => '@blog\Blog::index'],
-				'create' => ['controller' => '@blog\Blog::create'],
-				'edit/{id}' => ['controller' => '@blog\Blog::edit'],
+				'index' => ['controller' => '@blog\Blog::index', 'access' => 'blog.view'],
+				'edit/{id}' => ['controller' => '@blog\Blog::edit', 'access' => 'blog.edit'],
 				'data/{status}.json' => ['controller' => '@blog\Blog::filter'],
 				'save' => ['controller' => '@blog\Blog::save', 'csrf' => true],
 				'trash' => ['controller' => '@blog\Blog::trash', 'csrf' => true],

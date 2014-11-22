@@ -1,5 +1,6 @@
 <?php namespace Drafterbit\System\Middlewares;
 
+use Drafterbit\Extensions\User\Auth\Exceptions\UserNotAuthorizedException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Drafterbit\Component\Routing\Router as RouteManager;
@@ -63,9 +64,21 @@ class Security implements HttpKernelInterface {
 	public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
 	{
         if($access = $this->app->getCurrentRoute()->getOption('access')) {
+        	try {
 
-        	$auth = $this->app->getExtension('user')->model('Auth');
-        	$auth->restrict($access);
+        		$auth = $this->app->getExtension('user')->model('Auth');
+        		$auth->restrict($access);
+
+        	} catch(UserNotAuthorizedException $e) {
+
+        		$referer = $this->app['input']->headers('referer') ? 
+        			$this->app['input']->headers('referer') : admin_url('dashboard');
+        		
+        		$message = $e->getMessage();
+        		$this->session->getFlashBag()->add('messages', array('text' => $message, 'type' => 'error'));
+
+        		return redirect($referer);
+        	}
         }
         
         if($this->app->getCurrentRoute()->getOption('csrf')) {
