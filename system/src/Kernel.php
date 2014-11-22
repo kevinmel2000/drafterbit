@@ -226,6 +226,8 @@ class Kernel extends Application {
                 ]
             ]);
         }, -512);
+
+        $this->addMiddleware('Drafterbit\\System\\Middlewares\\Security', array($this, $this['session'], $this['router']));
     }
 
     public function getFrontpage()
