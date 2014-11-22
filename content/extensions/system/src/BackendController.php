@@ -12,11 +12,9 @@ class BackendController extends Controller {
 		//flash message
 		$message = $session->getFlashBag()->get('message');
 
-		app('dispatcher')->addListener('controller.before.call', function() use ($message) {
-				
-			if(isset($message['text'], $message['type']))
-			app('current.controller')->message($message['text'], $message['type']);
-		});
+		if($message) {
+			$this->get('template')->addGlobal('message', $message);
+		}
 	}
 
 	private function menu()
@@ -56,27 +54,6 @@ class BackendController extends Controller {
 
 		return $sorted2;
 	}
-
-	/**
-     * Add Message.
-     *
-     * @param string $text
-     * @param string $type
-     * @param string $title
-     */
-    public function message($text, $type = 'info', $title = null)
-    {
-        $message = array();
-        $message['text'] = $text;
-        $message['type'] = $type;
-        $message['title'] = $title;
-
-        if(!isset($this->data['messages'])) {
-            $this->data['messages'] = array();
-        }
-
-        return array_push($this->data['messages'], $message);
-    }
     
 	private function createMenu($menuArray)
 	{

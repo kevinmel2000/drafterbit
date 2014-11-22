@@ -7,9 +7,7 @@ use Carbon\Carbon;
 class Pages extends BackendController {
 
 	public function index()
-	{
-		$this->model('@user\Auth')->restrict('page.view');
-			
+	{			
 		$status = 'untrashed';
 
 		$pages = $this->model('@pages\Pages')->all(['status' => $status]);
@@ -79,8 +77,6 @@ class Pages extends BackendController {
 
 	public function edit($id)
 	{
-		$this->model('@user\Auth')->restrict('page.edit');
-
 		if($id == 'new') {
 
 			$data = array(

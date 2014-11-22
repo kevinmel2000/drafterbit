@@ -7,9 +7,7 @@ use Carbon\Carbon;
 class Blog extends BackendController {
 
 	public function index()
-	{
-		$this->model('@user\Auth')->restrict('blog.view');
-		
+	{		
 		$status = 'untrashed';
 
 		$posts = $this->model('@blog\Post')->all(['status' => $status]);
@@ -117,8 +115,6 @@ class Blog extends BackendController {
 
 	public function edit($id)
 	{
-		$this->model('@user\Auth')->restrict('blog.edit');
-
 		$tagOptionsArray = $this->model('@blog\Tag')->all();
 		$tagOptions = '[';
 		foreach ($tagOptionsArray as $tO) {
@@ -194,11 +190,6 @@ class Blog extends BackendController {
 			} catch (ValidationFailsException $e) {
 				return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
 			}	
-	}
-
-	public function delete(){
-		$this->model('@user\Auth')->restrict('blog.delete');
-		//..
 	}
 
 	/**

@@ -8,7 +8,7 @@
 			'login' => ['controller' => '@user\Auth::login'],
 			'logout' => ['controller' => '@user\Auth::logout'],
 			
-			'setting/general' => ['controller' => '@system\Setting::general'],
+			'setting/general' => ['controller' => '@system\Setting::general', 'access' => 'system.change'],
 			'setting/themes' => ['controller' => '@system\Setting::themes'],
 			'setting/themes/widget' => ['controller' => '@system\Widget::index'],
 			'setting/themes/widget/add/{name}' => ['controller' => '@system\Widget::add'],

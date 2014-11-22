@@ -95,33 +95,24 @@ class Auth extends \Drafterbit\Framework\Model {
 	 * @return void
 	 */
 	public function restrict($accessKey)
-	{
-		// @todo authenticete first
-		
+	{		
 		$encrypter = $this->get('encrypter');
 		$session = $this->get('session');
 
-		$permissions = $this->get('app')->getPermissions();
+		$perm = $this->get('app')->getPermissions();
+
+		$permissions = array();
+		foreach ($perm as $key => $value) {
+			$permissions = array_merge($permissions, $value);
+		}
+
 		$userPermissions = unserialize($encrypter->decrypt($session->get('user.permissions')));
 
-		try {
-			if( !in_array($accessKey, $userPermissions)) {
-				$label = $permissions[$accessKey];
-				throw new UserNotAuthorizedException("Sorry, you are not authorized to $label.");
-			}
-		} catch( UserNotAuthorizedException $e ) {
-			$referer = $this->get('input')->headers('referer');
-
-			if(!$referer) {
-				$referer = base_url();
-			}
-			
-			$msg['text'] = $e->getMessage();
-			$msg['type'] = 'error';
-
-			$session->getFlashBag()->set('message', $msg);
-			return redirect($referer)->send();
+		if( !in_array($accessKey, $userPermissions)) {
+			$label = $permissions[$accessKey];
+			throw new UserNotAuthorizedException("Sorry, you are not authorized to $label.");
 		}
+		
 
 		return true;
 	}

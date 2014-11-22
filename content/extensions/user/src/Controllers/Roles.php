@@ -7,8 +7,6 @@ class Roles extends BackendController {
 
 	public function index()
 	{
-		// /$this->model('@user\Auth')->restrict('roles.view');
-
 		$roles = $this->model('@user\Role')->all();
 		
 		$data['roles'] = $roles;
@@ -102,9 +100,6 @@ class Roles extends BackendController {
 
 	public function edit($id = null)
 	{
-		// @todo pending
-		//$this->model('@user\Auth')->restrict('roless.edit');
-	
 		$data['id'] = 'roles-edit';
 		$data['permissions'] = $this->get('app')->getPermissions();
 
@@ -115,7 +110,7 @@ class Roles extends BackendController {
 						
 			$data['roleName'] = $role->label;
 			$data['description'] = $role->description;
-			$data['permissionIds'] = json_decode($role->permissions, true);
+			$data['permissionIds'] = $role->permissions ? json_decode($role->permissions, true) : array();
 			$data['title'] = __('Edit Role');
 		} else {
 			$data['roleName'] = null;

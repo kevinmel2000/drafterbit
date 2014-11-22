@@ -62,6 +62,12 @@ class Security implements HttpKernelInterface {
 	 */
 	public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
 	{
+        if($access = $this->app->getCurrentRoute()->getOption('access')) {
+
+        	$auth = $this->app->getExtension('user')->model('Auth');
+        	$auth->restrict($access);
+        }
+        
         if($this->app->getCurrentRoute()->getOption('csrf')) {
 
             $csrfToken = $this->session->get('_token');

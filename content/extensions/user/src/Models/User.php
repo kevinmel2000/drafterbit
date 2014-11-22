@@ -127,8 +127,11 @@ class User extends \Drafterbit\Framework\Model {
 		$roles = $queryBuilder->fetchAllObjects();
 
 		$permissions = array();
+
 		foreach($roles as $role) {
-			$permissions = array_merge($permissions, json_decode($role->permissions, true));
+			if($role->permissions) {
+				$permissions = array_merge($permissions, json_decode($role->permissions, true));
+			}
 		}
 
 		return $permissions;

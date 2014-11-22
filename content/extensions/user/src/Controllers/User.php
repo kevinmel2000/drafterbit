@@ -9,7 +9,6 @@ class User extends BackendController {
 
 	public function index()
 	{
-		$this->model('@user\Auth')->restrict('user.view');
 		$userIds = $this->get('input')->post('users');
 
 		if($userIds) {
@@ -134,8 +133,6 @@ class User extends BackendController {
 
 	public function edit($id = null)
 	{
-		$this->model('@user\Auth')->restrict('user.edit');
-
 		if($id == 'new') {
 
 			$data = array(
