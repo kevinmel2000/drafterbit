@@ -1,49 +1,13 @@
-<?php namespace Drafterbit\Extensions\System\Controllers\Setting;
+<?php namespace Drafterbit\Extensions\System\Controllers;
 
 use Drafterbit\Extensions\System\BackendController;
 
-class Themes extends BackendController {
-
-	public function index()
-	{
-		$this->setting = $this->model('@system\System');
-
-		$cache = $this->get('cache');
-		$post = $this->get('input')->post();
-
-		if($post) {
-			$this->setting->updateTheme($post['theme']);
-
-			$cache->delete('settings');
-			
-			message('Theme updated', 'success');
-
-			//$msg['text'] = 'Theme updated successfully';
-			//$msg['type'] = 'success';
-			//$this->get('session')
-			//	->getFlashBag()->set('message', $msg);
-			//return redirect(base_url("admin/setting/themes"));
-		}
-
-		// @todo
-		$settings = $this->setting->all();
-
-		set('currentTheme', $settings['theme']);
-
-		$themesDir = $this->get('path.themes');
-		$themes = $this->get('themes')->all();
-
-		set('themes', $themes);
-		set('id', 'themes');
-		set('title', __('Themes'));
-
-		return $this->render('@system/setting/appearance', $this->getData());
-	}
+class Widget extends BackendController {
 
 	/**
 	 * Widget setting
 	 */
-	public function widget()
+	public function index()
 	{
 		$currentTheme = $this->get('themes')->get();
 
@@ -81,26 +45,7 @@ class Themes extends BackendController {
 		return $this->render('@system/setting/themes/widget', $this->getData());
 	}
 
-	private function _toolbarIndex()
-	{
-		return array(
-			'clean-all-widget' => array(
-				'type' => 'submit',
-				'label' => 'Remove All',
-				'name'=> 'action',
-				'value' => 'clean',
-				'faClass' =>  false
-			),
-			'new-post' => array(
-				'type' => 'a.success',
-				'href' => '#',
-				'label' => 'Add Widget',
-				'faClass' => 'fa-plus'
-			),
-		);
-	}
-
-	public function widgetAdd($name)
+	public function add($name)
 	{
 		if(!$this->isAjax()) show_404();
 		
@@ -119,7 +64,7 @@ class Themes extends BackendController {
 		return $this->get('template')->render('@system/setting/themes/widget-edit', $this->getData());
 	}
 
-	public function widgetEdit($id)
+	public function edit($id)
 	{
 		if(!$this->isAjax()) show_404();
 		
@@ -140,13 +85,13 @@ class Themes extends BackendController {
 		return $this->get('template')->render('@system/setting/themes/widget-edit', $this->getData());
 	}
 
-	public function WidgetRemove()
+	public function delete()
 	{
 		$id = $this->get('input')->post('id');
 		return $this->model('widget')->remove($id);
 	}
 
-	public function widgetSave()
+	public function save()
 	{
 		$id  = $this->get('input')->post('id');
 		$title  = $this->get('input')->post('title');

@@ -137,6 +137,11 @@ class ExtensionManager {
 			$this->app->addMenu($config['menus']);
 		}
 
+		// register permissions
+		if(isset($config['permissions'])) {
+			$this->app->addPermission($extension, $config['permissions']);
+		}
+
 		$instance = new $class;
 
 		if(is_dir($instance->getResourcesPath('widgets'))) {

@@ -2,13 +2,6 @@
 
 class Role extends \Drafterbit\Framework\Model {
 
-	protected $permission;
-
-	public function __construct( Permission $permission )
-	{
-		$this->permission = $permission;
-	}
-
 	public function queryAll()
 	{
 		return $this->get('db')
@@ -64,11 +57,6 @@ class Role extends \Drafterbit\Framework\Model {
 		->fetchAllObjects();
 	}
 
-	public function getPermission()
-	{
-		return $this->permission;
-	}
-
 	public function update($data, array $where)
 	{
 		return $this->get('db')
@@ -80,11 +68,6 @@ class Role extends \Drafterbit\Framework\Model {
 		$ids = (array) $ids;
 		$ids = array_map(function($v){return "'$v'";}, $ids);
 		$idString = implode(',', $ids);
-
-		$this->withQueryBuilder()
-		->delete('#_roles_permissions')
-		->where('role_id IN ('.$idString.')')
-			->execute();
 		
 		$this->withQueryBuilder()
 		->delete('#_roles')
@@ -124,60 +107,5 @@ class Role extends \Drafterbit\Framework\Model {
 		}
 
 		return $id;
-	}
-
-	public function insertPermission($permission, $id)
-	{
-		$data = array();
-		$data['permission_id'] = $permission;
-		$data['role_id'] = $id;
-
-		return
-		$this->get('db')->insert('#_roles_permissions', $data);
-	}
-
-	public function clearPermissions($id)
-	{
-		return $this->get('db')
-              ->delete('#_roles_permissions', array('role_id' => $id));
-	}
-
-	public function getPermissionIds($id)
-	{
-		$pmss =  $this->withQueryBuilder()
-		->select('pms.id')
-		->from('#_permissions', 'pms')
-		->join('pms', '#_roles_permissions', 'rp', 'pms.id = rp.permission_id')
-		->where('rp.role_id = :role_id')
-		->setParameter(':role_id', $id)
-		->fetchAllObjects();
-
-		$ids = array();
-		foreach( $pmss as $pms ) {
-			$ids[] = $pms->id;
-		}
-
-		return $ids;
-	}
-
-	/**
-	 * Simply get all permissions
-	 *
-	 * @return array
-	 */
-	public function getPermissions()
-	{
-		$pmss =  $this->withQueryBuilder()
-		->select('pms.slug, pms.label')
-		->from('#_permissions', 'pms')
-		->fetchAllObjects();
-
-		$returned = array();
-
-		foreach ($pmss as $pms) {
-			$returned[$pms->slug] = $pms->label;
-		}
-		
-		return $returned;
 	}
 }

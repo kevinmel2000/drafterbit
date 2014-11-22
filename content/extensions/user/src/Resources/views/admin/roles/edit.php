@@ -9,16 +9,8 @@
 </a>
 <?php $this->end(); ?>
 
-<style>
-	.permission {
-		display:inline-block;
-		width:auto !important;
-		margin-left:20px;
-	}
-</style>
-
 <div class="row row-content">
-	<div class="col-md-6 content-full">
+	<div class="col-md-8 col-md-offset-2 content-full">
 		<div class="form-group">
     		<label for="name" class="control-label">Role Name</label>
      		<input name="name" type="text" class="form-control" placeholder="Role Name" value="<?php echo value('name', $roleName); ?>">
@@ -29,13 +21,28 @@
 		</div>
 	</div>
 
-	<div class="col-md-6 content-full">
+	<div class="col-md-8 col-md-offset-2 content-full">
 	<h3 style="">Permissions</h3>
-	<?php foreach($permissions as $permission): ?>
-		<div class="checkbox permission">
-			<input <?php echo checked('permissions', $permission->id, in_array($permission->id, $permissionIds)); ?> type="checkbox" name="permissions[]" value="<?php echo $permission->id ?>" ><?php echo ucfirst($permission->label) ?>.
+	<div class="row">
+	<?php foreach($permissions as $ext => $pms): ?>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title"><?php echo ucfirst($ext); ?></h4>
+				</div>
+				<div class="panel-body" style="height:200px;overflow:auto">
+				<ul>
+				<?php foreach ($pms as $id => $label): ?>
+					<li class="checkbox permission">
+						<input <?php echo checked('permissions', $id, in_array($id, $permissionIds)); ?> type="checkbox" name="permissions[]" value="<?php echo $id ?>" ><?php echo ucfirst($label) ?>
+					</li>
+				<?php endforeach; ?>
+				</ul>
+				</div>
+			</div>
 		</div>
 	<?php endforeach;?>
+	</div>
 	</div>
 </div>
 

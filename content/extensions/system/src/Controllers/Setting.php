@@ -71,4 +71,34 @@ class Setting extends BackendController {
 
 		return $data;
 	}
+
+	public function themes()
+	{
+		$this->setting = $this->model('@system\System');
+
+		$cache = $this->get('cache');
+		$post = $this->get('input')->post();
+
+		if($post) {
+			$this->setting->updateTheme($post['theme']);
+
+			$cache->delete('settings');
+			
+			message('Theme updated', 'success');
+		}
+
+		// @todo
+		$settings = $this->setting->all();
+
+		set('currentTheme', $settings['theme']);
+
+		$themesDir = $this->get('path.themes');
+		$themes = $this->get('themes')->all();
+
+		set('themes', $themes);
+		set('id', 'themes');
+		set('title', __('Themes'));
+
+		return $this->render('@system/setting/appearance', $this->getData());
+	}
 }

@@ -9,10 +9,10 @@
 			'logout' => ['controller' => '@user\Auth::logout'],
 			
 			'setting/general' => ['controller' => '@system\Setting::general'],
-			'setting/themes' => ['controller' => '@system\Setting\Themes::index'],
-			'setting/themes/widget' => ['controller' => '@system\Setting\Themes::widget'],
-			'setting/themes/widget/add/{name}' => ['controller' => '@system\Setting\Themes::widgetAdd'],
-			'setting/themes/widget/edit/{name}' => ['controller' => '@system\Setting\Themes::widgetEdit'],
+			'setting/themes' => ['controller' => '@system\Setting::themes'],
+			'setting/themes/widget' => ['controller' => '@system\Widget::index'],
+			'setting/themes/widget/add/{name}' => ['controller' => '@system\Widget::add'],
+			'setting/themes/widget/edit/{name}' => ['controller' => '@system\Widget::edit'],
 
 			'system' => [
 				'subRoutes' => [
@@ -25,11 +25,11 @@
 	],
 
 	'%admin%/setting/themes/widget/save' => [
-		'controller' => '@system\Setting\Themes::widgetSave',
+		'controller' => '@system\Widget::save',
 		'methods' => 'post'
 	],
 
 	'search' => [
-			'controller' => '@system\Frontend::search'
+		'controller' => '@system\Frontend::search'
 	]
 ];

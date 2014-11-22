@@ -15,6 +15,13 @@ class Kernel extends Application {
      * @var array
      */
     protected $menu = array();
+
+    /**
+     * Permissions.
+     *
+     * @var array
+     */
+    protected $permissions = array();
     
     /**
      * Application Fronpage options.
@@ -44,6 +51,20 @@ class Kernel extends Application {
     public function getMenu()
     {
         return $this->menu;
+    }
+
+    public function addPermission($extension, $permissions)
+    {
+        if(!isset($this->permissions[$extension])) {
+            $this->permissions[$extension] = $permissions;
+        } else {
+            $this->permissions[$extension] = array_merge($this->permissions[$extension], $permissions);
+        }
+    }
+
+    public function getPermissions()
+    {
+        return $this->permissions;
     }
 
     /**

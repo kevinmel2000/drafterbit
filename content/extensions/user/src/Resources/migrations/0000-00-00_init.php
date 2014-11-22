@@ -25,7 +25,8 @@
 		$roles = $schema->createTable('#_roles');
 		$roles->addColumn('id', 'integer', ['autoincrement' => true]);
 		$roles->addColumn('label', 'string', ['length' => 45]);
-		$roles->addColumn('description', 'string', ['length' => 255]);
+		$roles->addColumn('description', 'string', ['length' => 500]);
+		$roles->addColumn('permissions', 'text');
 		$roles->setPrimaryKey(['id']);
 		$app['db']->getSchemaManager()->createTable($roles);
 
@@ -38,25 +39,6 @@
 		$users_roles->addForeignKeyConstraint('#_users', ['user_id'], ['id']);
 		$users_roles->addForeignKeyConstraint('#_roles', ['role_id'], ['id']);
 		$app['db']->getSchemaManager()->createTable($users_roles);
-
-		//permissions
-		$permissions = $schema->createTable('#_permissions');
-		$permissions->addColumn('id', 'integer', ['autoincrement' => true]);
-		$permissions->addColumn('slug', 'string', ['length' => 45]);
-		$permissions->addColumn('label', 'string', ['length' => 255]);
-		$permissions->addColumn('extension', 'string', ['length' => 45]);
-		$permissions->setPrimaryKey(['id']);
-		$app['db']->getSchemaManager()->createTable($permissions);
-
-		//group _pemissions
-		$roles_permissions = $schema->createTable('#_roles_permissions');
-		$roles_permissions->addColumn('id', 'integer', ['autoincrement' => true]);
-		$roles_permissions->addColumn('role_id', 'integer');
-		$roles_permissions->addColumn('permission_id', 'integer');
-		$roles_permissions->setPrimaryKey(['id']);
-		$roles_permissions->addForeignKeyConstraint('#_roles', ['role_id'], ['id']);
-		$roles_permissions->addForeignKeyConstraint('#_permissions', ['permission_id'], ['id']);
-		$app['db']->getSchemaManager()->createTable($roles_permissions);
 	},
 
 	'down' => function()

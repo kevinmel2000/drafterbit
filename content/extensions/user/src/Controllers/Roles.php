@@ -106,17 +106,16 @@ class Roles extends BackendController {
 		//$this->model('@user\Auth')->restrict('roless.edit');
 	
 		$data['id'] = 'roles-edit';
-		$data['permissions'] = $this->model('@user\Role')->getPermission()->all();
+		$data['permissions'] = $this->get('app')->getPermissions();
+
 		$data['action'] = admin_url('user/roles/save');;
 		$data['roleId'] = $id;
 
 		if($role = $this->model('@user\Role')->getsingleBy('id', $id)) {
-			
-			$role->permissionIds = $this->model('@user\Role')->getPermissionIds($id);
-			
+						
 			$data['roleName'] = $role->label;
 			$data['description'] = $role->description;
-			$data['permissionIds'] = $role->permissionIds;
+			$data['permissionIds'] = json_decode($role->permissions, true);
 			$data['title'] = __('Edit Role');
 		} else {
 			$data['roleName'] = null;
@@ -131,20 +130,18 @@ class Roles extends BackendController {
 	public function save()
 	{
 		$response = array();
+
 			
 		try {
 			
 			$posts = $this->get('input')->post();
+
 			$this->validate('roles', $posts);
 
 			//insert froup
 			$data = $this->createRoleInsertData($posts);
 			
 			$id = $this->model('@user\Role')->save($posts['id'], $data);
-
-			if(isset($posts['permissions'])) {
-				$this->insertPermissions($posts['permissions'], $id);
-			}
 
 			$response = array(
 				'message' => __('Role saved !'),
@@ -167,15 +164,11 @@ class Roles extends BackendController {
 		$data = array();
 		$data['label'] = $post['name'];
 		$data['description'] = $post['description'];
-		return $data;
-	}
 
-	protected function insertPermissions($permissions, $id)
-	{
-		$this->model('@user\Role')->clearPermissions($id);
-
-		foreach ($permissions as $permission) {
-			$this->model('@user\Role')->insertPermission($permission, $id);
+		if(isset($post['permissions'])) {
+			$data['permissions'] = json_encode($post['permissions']);
 		}
+
+		return $data;
 	}
 }

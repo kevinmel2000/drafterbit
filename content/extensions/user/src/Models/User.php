@@ -118,21 +118,19 @@ class User extends \Drafterbit\Framework\Model {
 	public function getPermissions($userId)
 	{
 		$queryBuilder = $this->withQueryBuilder()
-		->select('pms.slug')
-		->from('#_permissions', 'pms')
-		->join('pms', '#_roles_permissions', 'rp', 'rp.permission_id = pms.id')
-		->join('rp', '#_roles', 'r', 'rp.role_id = r.id')
-		->join('rp', '#_users_roles', 'ur','rp.role_id = ur.role_id')
+		->select('r.permissions')
+		->from('#_users_roles', 'ur')
+		->join('ur', '#_roles', 'r', 'ur.role_id = r.id')
 		->where('ur.user_id = :user_id')
 		->setParameter(':user_id', $userId);
 
-		$permissions = $queryBuilder->fetchAllObjects();
+		$roles = $queryBuilder->fetchAllObjects();
 
-		$returned = array();
-		foreach($permissions as $pms) {
-			$returned[] = $pms->slug;
+		$permissions = array();
+		foreach($roles as $role) {
+			$permissions = array_merge($permissions, json_decode($role->permissions, true));
 		}
 
-		return $returned;
+		return $permissions;
 	}
 }

@@ -15,7 +15,7 @@
 			<?php foreach ($positions as $position): ?>
 				<div class="col-md-6">
 					<div class="panel panel-default">
-						<div class="panel panel-heading">
+						<div class="panel-heading">
 							<h4 class="panel-title"><?php echo $position ?></h4>
 						</div>
 						<div class="panel-body position-<?php echo $position ?>">

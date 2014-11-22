@@ -17,7 +17,8 @@
 
 'roles' => [
 	'name' => array('label' => 'Role Name', 'rules' => array('not-empty')),
-	'description' => array('label' => 'description', 'rules' => array('optional', 'max-length=500'))
+	'description' => array('label' => 'Description', 'rules' => array('optional', 'max-length=500')),
+	'permission' => array('label' => 'Permission', 'rules' => array('optional'))
 ]
 
 ];

@@ -100,15 +100,7 @@ class Installer extends Controller {
  		
  		//add first user(admin)
  		$adminIds = $model->createAdmin($admin['email'], $admin['password']);
-
- 		foreach ($extMgr->getInstalled() as $name => $extconfig) {
- 			if(isset($extconfig['permissions'])) {
- 				$model->addPermission($name, $extconfig['permissions']);
- 			}
- 		}
-
- 		$model->addAdminPermission($adminIds['roleId']);
-
+ 		
  		//add system default
  		$model->systemInit($site['name'], $site['desc'], $admin['email'], $adminIds['userId']);
 	}

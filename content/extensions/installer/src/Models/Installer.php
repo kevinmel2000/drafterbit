@@ -6,7 +6,12 @@ class Installer extends Model {
 	
 	public function createAdmin($email, $password)
 	{
-		$this->get('db')->insert('#_roles', ['label'=> 'Administrator', 'description' => 'God of the site']);
+		$this->get('db')->insert('#_roles', [
+			'label'=> 'Administrator',
+			'description' => 'God of the site'
+			'permissions' => $this->get('app')->getPermissions()
+		]);
+
 		$roleId = $this->get('db')->lastInsertId();
 
 		$user['email'] = $email;
@@ -22,38 +27,6 @@ class Installer extends Model {
 		]);
 
 		return array('userId' => $userId, 'roleId' => $roleId);
-	}
-
-	public function addPermission($extension, $permissions)
-	{
-		$q = "INSERT INTO #_permissions (slug,label, extension) ";
-		$q .= "VALUES ";
-		foreach ($permissions as $key => $value) {
-			$q .= "('$key', '$value', '$extension'),";
-		}
-
-		$q = rtrim($q, ',').';';
-
-		return $this->get('db')->executeUpdate($q);
-	}
-
-	public function addAdminpermission($groupId)
-	{
-		$permissions = $this->get('db')
-			->createQueryBuilder()
-			->select('id')
-			->from('#_permissions','pms')
-			->execute()->fetchAll(\PDO::FETCH_CLASS);
-
-		$q = 'INSERT INTO #_roles_permissions (role_id, permission_id) ';
-		$q .= "VALUES ";
-
-		foreach ($permissions as $permission) {
-			$q .= "('$groupId', '{$permission->id}'),";
-		}
-
-		$q = rtrim($q, ',').';';
-		return $this->get('db')->executeUpdate($q);
 	}
 
 	public function systemInit($name, $desc, $email, $userId)

@@ -45,8 +45,7 @@ class Auth extends \Drafterbit\Framework\Model {
 	public function registerSession($user)
 	{
 		$encrypter = $this->get('encrypter');
-
-		//$permissions = $encrypter->encrypt(serialize($this->getPermissions()));
+		
 		$userPermissions = $encrypter->encrypt(serialize($this->user->getPermissions($user->id)));
 		
 		$session = $this->get('session');
@@ -102,7 +101,7 @@ class Auth extends \Drafterbit\Framework\Model {
 		$encrypter = $this->get('encrypter');
 		$session = $this->get('session');
 
-		$permissions = $this->getPermissions();
+		$permissions = $this->get('app')->getPermissions();
 		$userPermissions = unserialize($encrypter->decrypt($session->get('user.permissions')));
 
 		try {
@@ -125,16 +124,6 @@ class Auth extends \Drafterbit\Framework\Model {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Get all permissions.
-	 *
-	 * @return array
-	 */
-	private function getPermissions()
-	{
-		return $this->role->cachedQuery('permissions', 'getPermissions');
 	}
 
 	public function isLoggedIn()
