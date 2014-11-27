@@ -6,10 +6,16 @@ class Installer extends Model {
 	
 	public function createAdmin($email, $password)
 	{
+		$permissions = array();
+
+		foreach (array_values($this->get('app')->getPermissions()) as $extPermissions) {
+			$permissions = array_merge($permissions, array_keys($extPermissions));
+		}
+
 		$this->get('db')->insert('#_roles', [
 			'label'=> 'Administrator',
-			'description' => 'God of the site'
-			'permissions' => $this->get('app')->getPermissions()
+			'description' => 'God of the site',
+			'permissions' => json_encode($permissions)
 		]);
 
 		$roleId = $this->get('db')->lastInsertId();

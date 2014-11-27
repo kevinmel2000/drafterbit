@@ -103,5 +103,7 @@ class Installer extends Controller {
  		
  		//add system default
  		$model->systemInit($site['name'], $site['desc'], $admin['email'], $adminIds['userId']);
+
+ 		return $this->jsonResponse(['message' => 'ok']);
 	}
 }

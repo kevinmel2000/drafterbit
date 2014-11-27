@@ -54,7 +54,7 @@
 				        <label class="remember pull-left">
 				          <!--<input type="checkbox" name="remember-me" value="1"> Remember Me -->
 				        </label>
-			        	<button class="btn btn-primary form-control" type="submit"><?= __('LOGIN'); ?></button>
+			        	<button class="btn btn-sm btn-primary pull-right" type="submit"><?= __('LOGIN'); ?></button>
 			        </div>
 			      </form>
   			</div>

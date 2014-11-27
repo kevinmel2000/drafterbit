@@ -63,10 +63,12 @@
 			
 			$('.install-trapper').fadeOut();
 
-			$.notify('Installation success !, redirecting to login page... ', 'success');
-			setTimeout(function(){
-				window.location.replace(drafTerbit.baseUrl+'admin/login');
-			}, 3000);
+			if(res.message == 'ok') {
+				$.notify('Installation success !, redirecting to login page... ', 'success');
+				setTimeout(function(){
+					window.location.replace(drafTerbit.baseUrl+'admin/login');
+				}, 3000);
+			}
 		}
 	});
 
