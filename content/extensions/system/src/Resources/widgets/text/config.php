@@ -1,6 +1,10 @@
 <?php return [
 	'name' => 'text',
-	'param' => [
-		['name' => 'content', 'type' => 'textarea', 'default' => null]
+	'input' => [
+		'content' =>[
+			'label' => 'Content',
+			'type' => 'textarea',
+			'default' => null
+			]
 	]
 ];

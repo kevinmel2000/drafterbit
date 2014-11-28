@@ -9,50 +9,57 @@ class WidgetUIBuilder {
 	 */
 	public function build(Widget $widget)
 	{
-		$title = isset($widget->data['title']) ? $widget->data['title'] : null;
-		$id = isset($widget->data['id']) ? $widget->data['id'] : null;
-		$name = isset($widget->data['name']) ? $widget->data['name'] : null;
-		$position = isset($widget->data['position']) ? $widget->data['position'] : null;
-		$theme = isset($widget->data['theme']) ? $widget->data['theme'] : null;
+		$title 		= isset($widget->data['title']) ? $widget->data['title'] : null;
+		$id 		= isset($widget->data['id']) ? $widget->data['id'] : null;
+		$name 		= isset($widget->data['name']) ? $widget->data['name'] : null;
+		$position 	= isset($widget->data['position']) ? $widget->data['position'] : null;
+		$theme 		= isset($widget->data['theme']) ? $widget->data['theme'] : null;
 		
-		$ui  = form_open(null, array('class' => 'widget-edit-form'));
-		$ui .= $this->text('title', $title);
-		$ui .= $this->hidden('id', $id);
-		$ui .= $this->hidden('name', $name);
-		$ui .= $this->hidden('position', $position);
-		$ui .= $this->hidden('theme', $theme);
+		$html  = form_open(null, array('class' => 'widget-edit-form'));
 
-		$param = $widget->config('param') ? $widget->config('param') : array();
+		$html .= '<div class="form-group">'.$this->text('Title', 'title', $title).'</div>';
+		$html .= $this->hidden('id', $id);
+		$html .= $this->hidden('name', $name);
+		$html .= $this->hidden('position', $position);
+		$html .= $this->hidden('theme', $theme);
+
+		$param = $widget->config('input') ? $widget->config('input') : array();
 		
-		foreach ($param as $input) {
+		foreach ($param as $name => $config) {
 			
-			$name = $input['name'];
-			$type = $input['type'];
+			$html .= '<div class="form-group">';
+
+			$name = $name;
+			$type = $config['type'];
 
 			if (isset($widget->data[$name])) {
 				$default = $widget->data[$name];
+
 			} else {
-				$default = isset($input['default']) ? $input['default'] : null;
+
+				$default = isset($config['default']) ? $config['default'] : null;
 			}
 
-			$options = isset($input['options']) ? $input['options'] : array();
+			$options = isset($config['options']) ? $config['options'] : array();
 
 			if(!method_exists($this, $type)) {
-				throw new \RuntimeException("Type $type is not supported by Widge UI Builder");
+				throw new \RuntimeException("Type $type is not supported by Widget UI Builder");
 			}
 
-			$ui .= empty($options) ?
-				$this->$type("data[$name]", $default) :
-				$this->$type("data[$name]", $default, $options);
+			$html .= empty($options) ?
+				$this->$type($config['label'], "data[$name]", $default) :
+				$this->$type($config['label'], "data[$name]", $default, $options);
+
+			$html .= '</div">';
 		}
 		
-		$ui .= '<div class="clearfix" style="margin-top:10px;">';
+		$html .= '<div class="clearfix" style="margin-top:10px;">';
 		//$ui .= '<a href="#" data-id="'.$id.'" class="widget-remover">Remove</a>';
-		$ui .= input_submit('save', 'Save', 'class="btn btn-primary";');
-		$ui .= '<a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>';
-		$ui .= '</div>';
-		$ui .= form_close();
-		return $ui;
+		$html .= input_submit('save', 'Save', 'class="btn btn-primary";');
+		$html .= '<a href="#" class="btn btn-default" data-dismiss="modal" style="margin-left:10px;">Cancel</a>';
+		$html .= '</div>';
+		$html .= form_close();
+		return $html;
 	}
 
 	/**
@@ -61,38 +68,23 @@ class WidgetUIBuilder {
 	 * @param string $name
 	 * @param string $default
 	 */
-	protected function text($name, $default)
+	protected function text($label, $name, $default)
 	{
-		return label(ucfirst($name), $name).input_text($name, $default, 'class="form-control"');
+		return label(ucfirst($label), $name).input_text($name, $default, 'class="form-control"');
 	}
 
-	protected function textarea($name, $default)
+	protected function textarea($label, $name, $default)
 	{
-		return label(ucfirst($name), $name).input_textarea($name, $default, 'class="form-control"');
+		return label(ucfirst($label), $name).input_textarea($name, $default, 'class="form-control"');
 	}
 
-	protected function select($name, $options, $default)
+	protected function select($label, $name, $options, $default)
 	{
-		return label(ucfirst($name), $name).input_select($name, $options, $default, 'class="form-control"');
-	}
-
-	protected function checkbox($name, $default)
-	{
-		return input_checkbox($name, $default).label(ucfirst($name), $name, 'class="form-control"');
-	}
-
-	protected function radio($name, $default)
-	{
-		return input_radio($name, $default).label(ucfirst($name), $name, 'class="form-control"');
+		return label(ucfirst($label), $name).input_select($name, $options, $default, 'class="form-control"');
 	}
 
 	protected function hidden($name, $default)
 	{
 		return input_hidden($name, $default);
-	}
-
-	private function wrap($ui)
-	{
-		return '<div class="form-group">'.$ui.'</div>';
 	}
 }

@@ -5,15 +5,15 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-		<link rel="stylesheet" href="{{ theme_url }}/css/normalize.css">
-		<link rel="stylesheet" href="{{ theme_url }}/css/simple-grid.css">
-		<link rel="stylesheet" href="{{ theme_url }}/css/style.css">
+		<link rel="stylesheet" href="{{ theme_url('css/normalize.css') }}">
+		<link rel="stylesheet" href="{{ theme_url('css/simple-grid.css') }}">
+		<link rel="stylesheet" href="{{ theme_url('css/style.css') }}">
 		{% block head %}{% endblock %}
 	</head>
 	<body>
 		<!-- Nav Bar -->
 		<div class="grid grid-pad">
-			<a href="{{ base_url }}"><h1>{{ siteName }}</h1></a>
+			<a href="{{ base_url() }}"><h1>{{ siteName }}</h1></a>
 			<p>{{ siteDesc }}</p>
 		</div>
 		<!-- Main Page Content and Sidebar -->
@@ -26,7 +26,7 @@
 
 		    <!-- Sidebar -->
 		    <aside  class="col-4-12">
-		    	{{ widget('Right Sidebar') }}
+		    	{{ widget('Sidebar') }}
 		    </aside>
 		    <!-- End Sidebar -->
 	    </div>

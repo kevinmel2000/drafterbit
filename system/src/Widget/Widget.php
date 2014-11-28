@@ -2,8 +2,9 @@
 
 use Drafterbit\Framework\RootTrait;
 use Drafterbit\Framework\ExtensionTrait;
+use Drafterbit\Framework\Controller;
 
-abstract class Widget implements WidgetInterface {
+abstract class Widget extends Controller implements WidgetInterface {
 	use RootTrait, ExtensionTrait;
 
 	/**

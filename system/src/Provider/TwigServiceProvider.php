@@ -24,9 +24,7 @@ class TwigServiceProvider implements ServiceProviderInterface {
             $twig->addGlobal('app', $app);
 
             $globalVar = [
-                'base_url' => base_url(),
-                'theme_url' => theme_url(),
-                'csrf_token' => csrf_token()
+                'csrfToken' => csrf_token()
             ];
 
             foreach ($globalVar as $key => $val) {
@@ -38,6 +36,16 @@ class TwigServiceProvider implements ServiceProviderInterface {
                 return widget($p);
             });
 
+            $baseUrl = new \Twig_SimpleFunction('base_url', function($p = null){
+                return base_url($p);
+            });
+
+            $themeUrl = new \Twig_SimpleFunction('theme_url', function($p = null){
+                return theme_url($p);
+            });
+
+            $twig->addFunction($baseUrl);
+            $twig->addFunction($themeUrl);
             $twig->addFunction($function);
 
             if ($app['config']['app.debug']) {

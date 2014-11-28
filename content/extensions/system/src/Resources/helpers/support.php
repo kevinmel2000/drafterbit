@@ -69,7 +69,7 @@ if ( ! function_exists('theme_url')) {
 
 		$themePath = str_replace(app('path.public'), '', app('path.themes'));
 
-		return base_url("{$themePath}{$theme}".trim($path));
+		return base_url("{$themePath}{$theme}".'/'.trim($path,'/'));
 	}
 }
 

@@ -22,8 +22,6 @@ class Setting extends BackendController {
 		set([
 			'siteName' => $config['site.name'],
 			'tagLine' => $config['site.description'],
-			'offline' => $config['offline'],
-			'offlineMessage' => $config['offline.message'],
 			'adminEmail' => $config['email'],
 			'language' => $config['language'],
 			'timezone' => $config['timezone'],

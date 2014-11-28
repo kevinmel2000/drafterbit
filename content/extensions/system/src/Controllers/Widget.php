@@ -79,7 +79,6 @@ class Widget extends BackendController {
 		$widget->data['theme'] = $installed->theme;
 		$widget->data['position'] = $installed->position;
 
-		$widget->ui = $this->get('widget.ui')->build($widget, $id);
 		set('widget', $widget);
 
 		return $this->get('template')->render('@system/setting/themes/widget-edit', $this->getData());

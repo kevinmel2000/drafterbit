@@ -41,8 +41,6 @@ class Installer extends Model {
 
 		$data['site.name'] = $name;
 		$data['site.description'] = $desc;
-		$data['offline'] = 0;
-		$data['offline.message'] = "Site is under construction";
 		$data['email'] = $email;
 		$data['language'] = 'english';
 		$data['format.date'] = 'm dS Y';

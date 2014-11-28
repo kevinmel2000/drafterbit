@@ -25,23 +25,13 @@
 	   			<?php endforeach; ?>
 		      </select>
 		 </div>
-		 <div class="form-group">
-		      <div class="checkbox">
-		        <label>
-		          <input name="offline" type="checkbox" value="1" <?php echo checked('offline', 1, $offline) ?>> Offline
-		        </label>
-		      </div>
-		</div>
-		<div class="form-group">
-		      <textarea name="offline-message" class="form-control" placeholder="Offline message"><?php echo value('offline-message', $offlineMessage) ?></textarea>
-		 </div>
-	</div>
-	<div class="col-md-6 content-full">
 		<div class="form-group">
 		    <label for="email" class="control-label">Email</label>
 		      <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo value('email', $adminEmail); ?>">
 		      <span class="help-block">This address is used for admin purposes, like new user notification.</span>
 		 </div>
+	</div>
+	<div class="col-md-6 content-full">
 		<div class="form-group">
 		    <label for="language" class="control-label">Language</label>
 		      <input name="language" type="text" class="form-control" placeholder="Language" value="<?php echo value('language', $language) ?>">
