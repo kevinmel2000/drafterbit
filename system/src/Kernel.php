@@ -117,13 +117,13 @@ class Kernel extends Application {
         }
     }
 
-    public function configure()
+    public function configure($configFile)
     {
-        if(!file_exists($file = $this['path.install'].'config.php')) {
+        if(!file_exists($configFile)) {
             throw new InstallationException('No Config File', 1);
         }
 
-        $config = $this['config']->load($file);
+        $config = $this['config']->load($configFile);
 
         $this['router']->addReplaces('%admin%', $config['path.admin']);
         

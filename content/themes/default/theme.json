@@ -1,0 +1,15 @@
+{
+	"id":"default",
+	"name": "Default",
+	"version": "0.1.0",
+	"url": "",
+	"author": "",
+	"authorUrl": "",
+	"description": "",
+	"license": "",
+	"licenseUrl": "",
+
+	"widgets": [
+		"Sidebar", "Bottom"
+	]
+}

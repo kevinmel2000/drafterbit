@@ -39,7 +39,7 @@ foreach ($app['config']->get('asset.assets') as $name => $value) {
 
 try {
 
-	$app->configure();
+	$app->configure($app['path.install'].'config.php');
 
 } catch(InstallationException $e) {
 

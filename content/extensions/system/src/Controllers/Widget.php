@@ -11,7 +11,7 @@ class Widget extends BackendController {
 	{
 		$currentTheme = $this->get('themes')->get();
 
-		$positions = $currentTheme['widget']['position'];
+		$positions = $currentTheme['widgets'];
 
 		if(!isset($currentTheme->widget->position)) {
 			//return 'Current theme does not support widget';
