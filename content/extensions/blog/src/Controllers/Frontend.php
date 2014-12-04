@@ -13,7 +13,7 @@ class Frontend extends FrontendController {
 
 			$date = date('Y/m', strtotime($post->created_at));
 
-			$post->url = base_url('blog/'.$date.'/'.$post->slug);
+			$post->url = base_url('blog/'.$date.'/'.$post->slug).'.html';
 
 			$post->excerpt = current(explode('<!--more-->', $post->content));
 			$post->excerpt .= '&hellip; <a href="'.$post->url.'" />Read more </a></p>';
@@ -22,7 +22,7 @@ class Frontend extends FrontendController {
 		return $this->render('blog/index.html', $this->data);
 	}
 
-	public function view($yyyy = null, $mm = null, $slug = null)
+	public function view($yyyy = null, $mm = null, $slug = null, $_format = 'html')
 	{
 		$post = $this->model('@blog\Post')->getSingleBy('slug', $slug);
 		
@@ -31,6 +31,10 @@ class Frontend extends FrontendController {
 		}
 
 		$post->tags = $this->model('@blog\Tag')->getByPost($post->id);
+
+		if($_format == 'json') {
+			return $this->jsonResponse($post);
+		}
 
 		set('post', $post);
 		return $this->render('blog/view.html', $this->data);

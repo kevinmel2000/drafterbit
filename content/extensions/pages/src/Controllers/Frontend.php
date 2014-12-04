@@ -22,12 +22,16 @@ class Frontend extends FrontendController {
 		return $this->render('page/view.html', $this->data);
 	}
 
-	public function view($slug = null)
+	public function view($slug = null, $_format = 'html')
 	{
 		$page = $this->model('@pages\Pages')->getSingleBy('slug', $slug) or show_404();
+		
+		if($_format == 'json') {
+			return $this->jsonResponse($page);
+		}
+
 		set('page', $page);
 		set('layout', 'layout/'.$page->layout);
-		
 		return $this->render('page/view.html', $this->data);
 	}
 }

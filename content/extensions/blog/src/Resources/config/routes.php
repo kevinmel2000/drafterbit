@@ -31,12 +31,13 @@
 	'controller' => '@blog\Frontend::index'
 ],
 	
-'blog/{yyyy}/{mm}/{slug}' => [
+'blog/{yyyy}/{mm}/{slug}.{_format}' => [
 	'controller' => '@blog\Frontend::view',
 	'methods' => 'get',
 	'requirements' => [
 		'yyyy' => '\d{4}',
-		'mm' => '\d{2}'
+		'mm' => '\d{2}',
+		'_format' => 'html|json'
 		]
 	],
 

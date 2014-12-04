@@ -7,9 +7,10 @@ class Frontend extends FrontendController {
 	/**
 	 * /search Controller
 	 */
-	public function search()
+	public function search($_format = 'html')
 	{
 		$q = $this->get('input')->get('q');
+		$f = $this->get('input')->get('f');
 
 		$model = $this->model('@system\Search');
 
@@ -29,6 +30,10 @@ class Frontend extends FrontendController {
 
 			$data['results'] = $result['results'];
 			$result['content'] = $this->get('twig')->render($result['name'].'/search.html', $data);
+		}
+
+		if($f == 'json') {
+			return $this->jsonResponse($results);
 		}
 
 		$data['results'] = $results;
