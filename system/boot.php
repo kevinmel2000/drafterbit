@@ -3,8 +3,7 @@
 // just for now
 date_default_timezone_set('UTC');
 
-$loader = require __DIR__.'/vendor/autoload.php';
-$loader->addPsr4('Drafterbit\\System\\', __DIR__.'/src');
+$loader = require __DIR__ . '/loader.php';
 
 use Drafterbit\System\Kernel;
 use Drafterbit\System\InstallationException;

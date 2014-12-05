@@ -21,11 +21,13 @@ return [
 		'jquery' 					=> '%path.vendor.asset%/jquery/dist/jquery.min.js',
 		'jquery_form' 				=> '%path.vendor.asset%/jquery-form/jquery.form.js',
 		
+		'notify_css' 				=> '%path.vendor.asset%/egig-notify/notify.css',
+		'notify_js' 				=> '%path.vendor.asset%/egig-notify/notify.js',
+
 		'bootstrap_datatables_css' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.css',
 		'bootstrap_datatables_js' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.js',
 		
-		'notify_css' 				=> '%path.system.asset%/notify/notify.css',
-		'notify_js' 				=> '%path.system.asset%/notify/notify.js',
+
 		'jquery_check_all' 			=> '%path.system.asset%/jquery-check-all/jquery-check-all.js',
 
 		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
