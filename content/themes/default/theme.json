@@ -11,5 +11,8 @@
 
 	"widgets": [
 		"Sidebar", "Bottom"
+	],
+	"menus": [
+		"main"
 	]
 }

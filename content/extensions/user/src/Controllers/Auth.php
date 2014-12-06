@@ -19,7 +19,7 @@ class Auth extends Controller {
 				$remember = true;
 			}
 
-			$redirectAfterLogin = admin_url('dashboard');
+			$redirectAfterLogin = admin_url('system/dashboard');
 			if($this->get('input')->get('next')) {
 				$redirectAfterLogin = urldecode($this->get('input')->get('next'));
 			}

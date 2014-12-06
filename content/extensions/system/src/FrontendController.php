@@ -11,6 +11,9 @@ class FrontendController extends Controller {
 	 */
 	function render($template, $data = array())
 	{
+		pathinfo($template, PATHINFO_EXTENSION)
+			or $template .= '.html';
+
 		$system = $this->model('@system\System')->all();
 
 		$this->get('twig')->addGlobal('siteName', $system['site.name']);

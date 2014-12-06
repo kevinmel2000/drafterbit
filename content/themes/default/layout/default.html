@@ -16,6 +16,14 @@
 			<a href="{{ base_url() }}"><h1>{{ siteName }}</h1></a>
 			<p>{{ siteDesc }}</p>
 		</div>
+
+		<div class="nav">
+			<ul>
+			{% for menu in menus('main') %}
+				<li><a href="{{menu.link}}">{{menu.label}}</a></li>
+			{% endfor %}
+			</ul>
+		</div>
 		<!-- Main Page Content and Sidebar -->
 	  	<div class="grid grid-pad">
 	    	<!-- Main Content -->

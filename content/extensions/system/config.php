@@ -11,6 +11,7 @@
 		['id'=>'setting', 'label' => 'Setting'],
 		['id'=>'system', 'label' => 'System'],
 
+		['parent'=>'system', 'id'=> 'dashboard', 'label' => 'Dashboard', 'href' => 'system/dashboard'],
 		['parent'=>'system', 'id'=> 'log', 'label' => 'Log', 'href' => 'system/log'],
 		['parent'=>'system', 'id'=> 'cache', 'label' => 'Cache', 'href' => 'system/cache'],
 

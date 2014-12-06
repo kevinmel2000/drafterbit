@@ -4,7 +4,6 @@
 		'methods' => 'get|post',
 		'before' => '@user\Models\Auth::authenticate',
 		'subRoutes' => [
-			'dashboard' => ['controller' => '@system\System::dashboard'],
 			'login' => ['controller' => '@user\Auth::login'],
 			'logout' => ['controller' => '@user\Auth::logout'],
 			
@@ -13,9 +12,11 @@
 			'setting/themes/widget' => ['controller' => '@system\Widget::index'],
 			'setting/themes/widget/add/{name}' => ['controller' => '@system\Widget::add'],
 			'setting/themes/widget/edit/{name}' => ['controller' => '@system\Widget::edit'],
+			'setting/themes/menus' => ['controller' => '@system\Menus::index'],
 
 			'system' => [
 				'subRoutes' => [
+					'dashboard' => ['controller' => '@system\System::dashboard'],
 					'log' => ['controller' => '@system\System::log'],
 					'cache' => ['controller' => '@system\System::cache'],
 					'drafterbit.js' => ['controller' => '@system\System::drafterbitJs'],

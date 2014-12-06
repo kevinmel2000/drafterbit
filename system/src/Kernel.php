@@ -92,6 +92,35 @@ class Kernel extends Application {
         return $output;
     }
 
+    /**
+     * Return front end menus on given position
+     *
+     * @param string $position
+     * @return string
+     */
+    public function menus($position)
+    {
+        $qb = $this['db']->createQueryBuilder();
+        
+        $data = $qb->select('*')
+            ->from('#_menus','m')
+            ->where('position=:position')
+            ->andWhere('theme=:theme')
+            ->setParameter('position', $position)
+            ->setParameter('theme', $this['themes']->current())
+            ->fetchAllObjects();
+
+        usort($data, function($a, $b) {
+            if($a->order == $b->order) {
+                return $a->id - $b->id;
+            }
+
+            return $a->order < $b->order ? -1 : 1;
+        });
+
+        return $data;
+    }
+
     public function loadsystem()
     {
         $this['extension.manager']->load('system');

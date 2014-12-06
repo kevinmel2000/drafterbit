@@ -19,7 +19,7 @@ class Frontend extends FrontendController {
 		// @todo: blank layout
 		set('layout', 'layout/'.$page->layout);
 		
-		return $this->render('page/view.html', $this->data);
+		return $this->render('page/view', $this->data);
 	}
 
 	public function view($slug = null, $_format = 'html')
@@ -32,6 +32,6 @@ class Frontend extends FrontendController {
 
 		set('page', $page);
 		set('layout', 'layout/'.$page->layout);
-		return $this->render('page/view.html', $this->data);
+		return $this->render('page/view', $this->data);
 	}
 }

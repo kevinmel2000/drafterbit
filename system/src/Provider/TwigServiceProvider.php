@@ -32,8 +32,12 @@ class TwigServiceProvider implements ServiceProviderInterface {
             }
 
             //add widget function
-            $function = new \Twig_SimpleFunction('widget', function($p){
+            $widget = new \Twig_SimpleFunction('widget', function($p){
                 return widget($p);
+            });
+
+            $menus = new \Twig_SimpleFunction('menus', function($p){
+                return menus($p);
             });
 
             $baseUrl = new \Twig_SimpleFunction('base_url', function($p = null){
@@ -46,7 +50,8 @@ class TwigServiceProvider implements ServiceProviderInterface {
 
             $twig->addFunction($baseUrl);
             $twig->addFunction($themeUrl);
-            $twig->addFunction($function);
+            $twig->addFunction($widget);
+            $twig->addFunction($menus);
 
             if ($app['config']['app.debug']) {
                 $twig->addExtension(new \Twig_Extension_Debug());

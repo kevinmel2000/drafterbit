@@ -19,7 +19,7 @@ class Frontend extends FrontendController {
 			$post->excerpt .= '&hellip; <a href="'.$post->url.'" />Read more </a></p>';
 		}
 
-		return $this->render('blog/index.html', $this->data);
+		return $this->render('blog/index', $this->data);
 	}
 
 	public function view($yyyy = null, $mm = null, $slug = null, $_format = 'html')
@@ -37,6 +37,6 @@ class Frontend extends FrontendController {
 		}
 
 		set('post', $post);
-		return $this->render('blog/view.html', $this->data);
+		return $this->render('blog/view', $this->data);
 	}
 }

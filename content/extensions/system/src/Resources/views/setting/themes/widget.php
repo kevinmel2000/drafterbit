@@ -1,51 +1,38 @@
-<?php $this->extend('@system/main'); ?>
+<?php $this->extend('@system/base-theme'); ?>
 
 <?php $this->css(':jquery_ui_css'); ?>
 
-<div class="container">
-	<div class="row row-content">
-
-		<div class="col-md-2">
-			<ul class="nav nav-pils nav-stacked">
-				<li><a href="<?php echo admin_url('setting/themes')?>">Theme</a></li>
-				<li><a href="<?php echo admin_url('setting/themes/widget')?>">Widget</a></li>
-			</ul>
-		</div>
-		<div class="col-md-10">
-			<?php foreach ($positions as $position): ?>
-				<div class="col-md-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title"><?php echo $position ?></h4>
-						</div>
-						<div class="panel-body position-<?php echo $position ?>">
-							<ul style="list-style:none;padding-left:0;">
-								<?php foreach($widgets[$position] as $widget): ?>
-								<li>
-									<div class="panel panel-default">
-									<div class="panel-body">
-										<a href="#" class="registered-widget" data-id="<?php echo $widget->id; ?>" class="widget-item"><?php echo $widget->name; ?></a>
-									</div>
-									</div>
-								</li>
-								<?php endforeach;?>
-								<li>
-									<div class="panel panel-default">
-									<div class="panel-body">
-										<a href="#" class="" data-position="<?php echo $position ?>" data-toggle="modal" data-target=".widgets">
-											<i class="fa fa-plus"></i> Add Widget
-										</a>
-									</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
+	<?php foreach ($positions as $position): ?>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h4 class="panel-title"><?php echo $position ?></h4>
 				</div>
-			<?php endforeach; ?>
+				<div class="panel-body position-<?php echo $position ?>">
+					<ul style="list-style:none;padding-left:0;">
+						<?php foreach($widgets[$position] as $widget): ?>
+						<li>
+							<div class="panel panel-default">
+							<div class="panel-body">
+								<a href="#" class="registered-widget" data-id="<?php echo $widget->id; ?>" class="widget-item"><?php echo $widget->name; ?></a>
+							</div>
+							</div>
+						</li>
+						<?php endforeach;?>
+						<li>
+							<div class="panel panel-default">
+							<div class="panel-body">
+								<a href="#" class="" data-position="<?php echo $position ?>" data-toggle="modal" data-target=".widgets">
+									<i class="fa fa-plus"></i> Add Widget
+								</a>
+							</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
-	</div>
-</div>
+	<?php endforeach; ?>
 
 <div class="modal fade widgets">
   <div class="modal-dialog">

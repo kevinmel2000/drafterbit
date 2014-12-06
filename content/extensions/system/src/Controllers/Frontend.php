@@ -37,6 +37,6 @@ class Frontend extends FrontendController {
 		}
 
 		$data['results'] = $results;
-		return $this->render('search/index.html', $data);
+		return $this->render('search/index', $data);
 	}
 }

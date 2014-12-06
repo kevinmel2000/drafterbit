@@ -9,6 +9,8 @@ class BackendController extends Controller {
 	{
 		$session = $this->get('session');
 
+		$this->get('template')->addGlobal('title', 'Untitled');
+
 		//flash messages
 		$messages = $session->getFlashBag()->get('messages');
 		$this->get('template')->addGlobal('messages', $messages);

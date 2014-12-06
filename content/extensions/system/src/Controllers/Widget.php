@@ -35,14 +35,14 @@ class Widget extends BackendController {
 			}
 		}
 
-		set('widg', $widg);
-		set('positions', $positions);
-		set('widgets', $widgets);
-		set('title', __('Widget'));
+		$data['widg'] = $widg;
+		$data['positions'] = $positions;
+		$data['widgets'] = $widgets;
+		$data['title'] = __('Widget');
 
-		set('theme', $this->get('themes')->current());
+		$data['theme'] = $this->get('themes')->current();
 		
-		return $this->render('@system/setting/themes/widget', $this->getData());
+		return $this->render('@system/setting/themes/widget', $data);
 	}
 
 	public function add($name)
