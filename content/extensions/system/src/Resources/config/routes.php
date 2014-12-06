@@ -4,6 +4,7 @@
 		'methods' => 'get|post',
 		'before' => '@user\Models\Auth::authenticate',
 		'subRoutes' => [
+			'/' => ['controller' => '@system\System::dashboard'],
 			'login' => ['controller' => '@user\Auth::login'],
 			'logout' => ['controller' => '@user\Auth::logout'],
 			
