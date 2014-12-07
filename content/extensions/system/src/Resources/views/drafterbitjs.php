@@ -23,6 +23,28 @@
         dt.api().search($(this).val()).draw();
         
       });
+    },
+
+    initAjaxForm: function(){
+      $('form.ajax-form').ajaxForm({
+        dataType: 'json',
+        success: function(response){
+          
+          if(response.error) {
+            if(response.error.type == 'validation') {
+              var messages =response.error.messages
+
+              for(k in messages) {
+                var ctn = $(':input[name="'+k+'"]').closest('.form-group');
+                ctn.addClass('has-error');
+                ctn.append('<span class="help-block">'+messages[k]+'</span>');
+              }
+            }
+          }
+
+        }
+      });
     }
+  
   }
 })(jQuery);

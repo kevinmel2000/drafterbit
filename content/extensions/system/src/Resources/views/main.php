@@ -43,16 +43,19 @@
         <!-- script -->
         <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
         <script src="<?php echo admin_url('system/drafterbit.js'); ?>" /></script>
-        <?php $this->js(':jquery, :bootstrap_js, :notify_js, @system/js/layout.js, @system/js/app.js'); ?>
+        <?php $this->js(':bootstrap_js, :notify_js, :jquery_form, @system/js/layout.js'); ?>          
         <?php echo $this->block('js'); ?>
-        
-        <?php if(isset($messages)): ?>
+
         <script>
+        drafTerbit.initAjaxForm();
+
+
+        <?php if(isset($messages)): ?>
                 <?php foreach( $messages as $message ): ?>
                     msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
                 <?php endforeach; ?>
-        </script>
         <?php endif;?>
+        </script>
 </body>
 </html>

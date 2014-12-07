@@ -43,9 +43,10 @@
 		$comments->addColumn('content', 'text');
 		$comments->addColumn('post_id', 'integer');
 		$comments->addColumn('user_id', 'integer');
+		$comments->addColumn('parent_id', 'integer');
 		$comments->addColumn('name', 'string', ['length' => 45, 'notnull' => true]);
 		$comments->addColumn('email', 'string', ['length' => 150, 'notnull' => true]);
-		$comments->addColumn('website', 'string', ['length' => 150]);
+		$comments->addColumn('url', 'string', ['length' => 150]);
 		$comments->addColumn('created_at', 'datetime');
 		$comments->addColumn('updated_at', 'datetime');
 		$comments->addColumn('deleted_at', 'datetime');
