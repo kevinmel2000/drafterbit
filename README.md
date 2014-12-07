@@ -15,7 +15,7 @@ Install
 -------
 Drafterbit is like any other CMS, you can install it by [download](http://drafterbit.org/dl.php?f=drafterbit-latest.zip) and extract to document root, open browser then just follow the instruction. But, if you are a developer you may want to install it manually thru the following steps:
 
-1. Make sure that you have [composer](https://getcomposer.org/) and [bower](https://getcomposer.org/) installed in your computer.
+1. Make sure that you have [composer](https://getcomposer.org/) and [bower](https://bower.io/) installed in your computer.
 2. Open Terminal then go to web doc root. e.g:
     ```shell
     cd /var/www/
