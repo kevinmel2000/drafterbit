@@ -1,7 +1,12 @@
 (function($, drafTerbit) {
 
-    $(window).on('beforeunload', function(){
-        $.post(drafTerbit.adminUrl+'/setting/themes/custom-preview?csrf='+drafTerbit.csrfToken,{endSession:1});
+    $(window).on('beforeunload', function(e){
+        $.ajax({
+            type: 'post',
+            async: false,
+            url:drafTerbit.adminUrl+'/setting/themes/custom-preview?csrf='+drafTerbit.csrfToken,
+            data:{endSession:1}
+        });
     });
 
     $('.customizer-ajax-form').ajaxForm({

@@ -50,7 +50,7 @@ class WidgetUIBuilder {
 				$this->$type($config['label'], "data[$name]", $default) :
 				$this->$type($config['label'], "data[$name]", $default, $options);
 
-			$html .= '</div">';
+			$html .= '</div>';
 		}
 		
 		$html .= '<div class="clearfix" style="margin-top:10px;">';

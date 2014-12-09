@@ -34,7 +34,7 @@
             <div class="col-container">
                 <div class="col">
                     <div class="section">
-                        <a href="javascript:window.close();" class="btn btn-default btn-xs">Close</a>
+                        <a href="javascript:close();" class="btn btn-default btn-xs">Close</a>
                         <button type="submit" name="save" class="btn btn-primary btn-xs pull-right">Save</button>
                         <button type="submit" name="update-preview" class="btn btn-primary btn-xs pull-right" style="margin-right:5px;">Update Preview</button>
                     </div>
@@ -227,5 +227,5 @@
                 <?php endforeach; ?>
         <?php endif;?>
         </script>
-</body>
+    </body>
 </html>
