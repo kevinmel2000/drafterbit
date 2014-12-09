@@ -23,16 +23,20 @@
     </head>
 
     <body>
+        <div id="iframe-container">
+            <iframe name="preview" width="100%" height="100%" src="<?php echo base_url(); ?>">
+            </iframe>
+        </div>
         <div id="customizer">
+            <form action="<?php echo admin_url('setting/themes/custom-preview?csrf='.csrf_token()); ?>" method="post" id="customizer-form" class="customizer-ajax-form">
+            <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>"/>
+            <input type="hidden" name="url" value="<?php echo base_url(); ?>"/>
             <div class="col-container">
                 <div class="col">
                     <div class="section">
-                        <form target="preview" action="<?php echo admin_url('setting/themes/custom-preview?csrf='.csrf_token()); ?>" method="post">
-                        <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>">
                         <a href="javascript:window.close();" class="btn btn-default btn-xs">Close</a>
                         <button type="submit" name="save" class="btn btn-primary btn-xs pull-right">Save</button>
                         <button type="submit" name="update-preview" class="btn btn-primary btn-xs pull-right" style="margin-right:5px;">Update Preview</button>
-                        </form>
                     </div>
 
                     <div class="section customizer-input" id="general-section">
@@ -48,11 +52,11 @@
                               <div class="panel-body">
                                 <div class="form-group">
                                   <label>Title</label>
-                                  <input class="form-control input-sm" type="text" name="title"/>
+                                  <input class="form-control input-sm" type="text" name="general[title]" value="<?php echo $siteName; ?>"/>
                                 </div>
                                 <div class="form-group">
                                   <label>Tagline</label>
-                                  <input class="form-control input-sm" type="text" name="title"/>
+                                  <textarea class="form-control input-sm" type="text" name="general[tagline]"><?php echo $tagLine; ?></textarea>
                                 </div>
                               </div>
                             </div>
@@ -68,7 +72,10 @@
                             <div id="collapseTwo" class="panel-collapse collapse">
                               <div class="panel-body">
                                 <div class="form-group">
-                                  <select class="form-control" name="frontpage">
+                                  <select class="form-control" name="homepage">
+                                    <?php foreach($pageOptions as $value => $label): ?>
+                                      <option <?php echo selected('homepage', $value, $homepage == $value ); ?> value="<?php echo $value ?>"><?php echo $label ?></option>
+                                    <?php endforeach; ?>
                                   </select>
                                 </div>
                               </div>
@@ -98,43 +105,6 @@
                     <div class="section">
                         <a href="#" class="btn btn-default btn-xs widget-section-back">Back</a>
                     </div>
-                    <div class="section" id="widget-section">
-                        <h2>Widgets</h2>
-                        <?php foreach ($widgetPositions as $pos): ?>
-                             <div class="panel panel-default">
-                                <div class="panel-heading">
-                                  <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#widget-section" href="#<?php echo $pos ?>-widget-position">
-                                      <?php echo $pos ?>
-                                    </a>
-                                  </h4>
-                                </div>
-                                <div id="<?php echo $pos ?>-widget-position" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                    <?php foreach ($widgets[$pos] as $widget): ?>
-                                         <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                              <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="<?php echo $pos ?>-widget-position" href="#widget-<?php echo $widget->id ?>">
-                                                  <?php echo $widget->name; ?>
-                                                </a>
-                                              </h4>
-                                            </div>
-                                            <div id="widget-<?php echo $widget->id ?>" class="panel-collapse collapse">
-                                              <div class="panel-body">
-                                                  <?php echo $widget->ui; ?>
-                                              </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach ?>
-                                    <div class="well well-sm" style="margin-top:5px;">
-                                        <a data-toggle="modal" class="open-widget-dialog" href="#available-widget-dialog">add widget</a>
-                                    </div>
-                                  </div>
-                                </div>
-                            </div>
-                        <?php endforeach ?>
-                    </div>
                     <div class="section" id="menus-section">
                         <h2>Navigation</h2>
                         <?php foreach ($menuPositions as $pos): ?>
@@ -147,12 +117,12 @@
                                   </h4>
                                 </div>
                                 <div id="<?php echo $pos ?>-menu-position" class="panel-collapse collapse">
-                                  <div class="panel-body">
+                                  <div class="panel-body <?php echo $pos ?>-menu-container">
                                     <?php foreach ($menus[$pos] as $menu): ?>
                                          <div class="panel panel-default">
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent="#<?php echo $pos ?>-menu-position" href="#menu-<?php echo $menu->id ?>">
+                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-menu-container" href="#menu-<?php echo $menu->id ?>">
                                                   <?php echo $menu->label; ?>
                                                 </a>
                                               </h4>
@@ -171,13 +141,49 @@
                             </div>
                         <?php endforeach ?>
                     </div>
+                    <div class="section" id="widget-section">
+                        <h2>Widgets</h2>
+                        <?php foreach ($widgetPositions as $pos): ?>
+                             <div class="panel panel-default">
+                                <div class="panel-heading">
+                                  <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#widget-section" href="#<?php echo $pos ?>-widget-position">
+                                      <?php echo $pos ?>
+                                    </a>
+                                  </h4>
+                                </div>
+                                <div id="<?php echo $pos ?>-widget-position" class="panel-collapse collapse">
+                                  <div class="panel-body <?php echo $pos ?>-widget-container">
+                                    <?php foreach ($widgets[$pos] as $widget): ?>
+                                         <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                              <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-widget-container" href="#widget-<?php echo $widget->id ?>">
+                                                  <?php echo $widget->name; ?>
+                                                </a>
+                                              </h4>
+                                            </div>
+                                            <div id="widget-<?php echo $widget->id ?>" class="panel-collapse collapse">
+                                              <div class="panel-body">
+                                                  <?php echo $widget->ui; ?>
+                                              </div>
+                                            </div>
+                                        </div>
+                                    <?php endforeach ?>
+                                    <div>
+                                    </div>
+                                    <div class="well well-sm" style="margin-top:5px;">
+                                        <a data-toggle="modal" class="open-widget-dialog" href="#available-widget-dialog">add widget</a>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        <?php endforeach ?>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div id="iframe-container">
-            <iframe name="preview" width="100%" height="100%" src="<?php echo admin_url('setting/themes/custom-preview?csrf='.csrf_token()); ?>">
-            </iframe>
-        </div>
+            </form>
+        </div> <!--/customizer-->
 
         <div class="modal fade" id="available-widget-dialog">
           <div class="modal-dialog">

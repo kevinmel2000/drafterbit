@@ -118,6 +118,10 @@ class Kernel extends Application {
             return $a->order < $b->order ? -1 : 1;
         });
 
+        foreach ($data as &$item) {
+            $item->link = strtr($item->link, array("%base_url%" => base_url()));
+        }
+
         return $data;
     }
 

@@ -36,6 +36,8 @@ class Theme extends BackendController {
 
 	public function customize()
 	{
+		$this->get('session')->set('customize_mode', 1);
+
 		$currentTheme = $this->get('themes')->get();
 
 		$positions = $currentTheme['widgets'];
@@ -73,6 +75,15 @@ class Theme extends BackendController {
 
 		$availableWidget = $this->get('widget')->all();
 
+		$config = $this->model('@system\System')->all();
+		
+		$data = [
+			'siteName' => $config['site.name'],
+			'tagLine' => $config['site.description'],
+			'homepage' => $config['homepage'],
+			'pageOptions' => $this->get('app')->getFrontPageOption(),
+		];
+
 		$data['availableWidget'] = $availableWidget;
 		$data['menuPositions'] = $menuPositions;
 		$data['widgetPositions'] = $positions;
@@ -84,13 +95,24 @@ class Theme extends BackendController {
 
 	public function customPreview()
 	{
-		$frontpage = $this->get('app')->getFrontpage();
-        $system = $this->model('@system\System')->all();
-        $homepage = $system['homepage'];
-        $route = $frontpage[$homepage];
+		if($this->get('input')->post('endSession')) {
+			$this->get('session')->remove('customize_mode');
+			$this->get('session')->remove('customize_datas');
 
-        $controller = $this->get('app')->createController($route['controller']);
+			return;
+		}
 
-        return call_user_func_array($controller, $route['defaults']);
+		$general = $this->get('input')->post('general');
+		$url = $this->get('input')->post('url');
+
+		$c_data = array(
+			'siteName' => $general['title'],
+			'siteDesc' => $general['tagline'],
+		);
+		$this->get('session')->set('customize_data', $c_data);
+
+		return $this->jsonResponse(array(
+			'url' => $url,
+		));
 	}
 }

@@ -14,10 +14,32 @@ class FrontendController extends Controller {
 		pathinfo($template, PATHINFO_EXTENSION)
 			or $template .= '.html';
 
-		$system = $this->model('@system\System')->all();
 
-		$this->get('twig')->addGlobal('siteName', $system['site.name']);
-		$this->get('twig')->addGlobal('siteDesc', $system['site.description']);
+		// we need to check if site is not being customized
+		// if yes we need to use temporary custom data 
+		if($this->get('session')->get('customize_mode')) {
+
+			echo 'Customize Mode is On';
+			echo $this->get('input')->get('customizing');
+			
+			$customData = $this->get('session')->get('customize_data');
+			$globals = array(
+				'siteName' => isset($customData['siteName']) ? $customData['siteName'] : null,
+				'siteDesc' => isset($customData['siteDesc']) ? $customData['siteDesc'] : null
+				);
+
+		} else {
+			$system = $this->model('@system\System')->all();
+			$globals = array(
+				'siteName' =>  $system['site.name'],
+				'siteDesc' => $system['site.description']
+			);
+		}
+
+		foreach ($globals as $key => $value) {
+
+			$this->get('twig')->addGlobal($key, $value);
+		}
 
 		return $this->get('twig')->render($template, $data);
 	}
