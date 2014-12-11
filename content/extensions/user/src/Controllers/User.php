@@ -123,9 +123,10 @@ class User extends BackendController {
 			$data['status'] = 'success';
 
 		} catch ( ValidationFailsException $e) {
-			$data['message'] = $e->getMessage();
-			$data['status'] = 'error';
-		
+			$data['error'] = [
+				'type' => 'validation',
+				'messages' => $e->getMessages(),
+			];
 		}
 
 		return new JsonResponse($data);

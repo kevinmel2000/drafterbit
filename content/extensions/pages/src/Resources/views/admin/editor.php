@@ -14,7 +14,7 @@
 <div class="row">
 	<div class="col-md-9">
 		<div class="form-group">
-		    <input required name="title" type="text" class="form-control input-lg" id="post-title" placeholder="Title" value="<?php echo value('title', $pageTitle); ?>">
+		    <input name="title" type="text" class="form-control input-lg" id="post-title" placeholder="Title" value="<?php echo value('title', $pageTitle); ?>">
 		    <input type="hidden" name="id" value="<?php echo $pageId; ?>" />
 		 </div>
 		 <div class="form-group">

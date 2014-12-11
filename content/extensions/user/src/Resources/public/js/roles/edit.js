@@ -3,17 +3,37 @@
 	var form = $('#roles-edit-form'),
 		id = $('input[name="id"]');
 
+	// remove error message
+	$(':input').on('focus', function(){
+		$(this).siblings('.error-msg').remove();
+		$(this).closest('.form-group').removeClass('has-error');
+	});
 	//form
 	form.ajaxForm({
 		success: function(data){
 			
 			dirty = false;
 
-			if (data.id) {
-                id.val(data.id);
-            }
+			if(data.error) {
+				if(data.error.type == 'validation') {
+					for(name in data.error.messages) {
+						var inputCtn = $(':input[name="'+name+'"]').closest('.form-group');
+						inputCtn.addClass('has-error');
 
-			$.notify(data.message, data.status);
+						if(!inputCtn.children('.error-msg').length) {
+							inputCtn.append('<span class="help-block error-msg">'+data.error.messages[name]+'</span>');
+						}
+					}
+				}
+			} else {
+
+	            if (data.id) {
+	                id.val(data.id);
+            		
+            		$.notify(data.message, data.status);
+	            }
+			}
+
 		}
 	});
 

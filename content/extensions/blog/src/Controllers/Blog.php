@@ -165,31 +165,37 @@ class Blog extends BackendController {
 	public function save()
 	{
 		try {
-				$postData = $this->get('input')->post();
+			$postData = $this->get('input')->post();
 
-				$this->validate('blog', $postData);
+			$this->validate('blog', $postData);
 
-				$id = $postData['id'];
+			$id = $postData['id'];
 
-				if($id) {
-					$data = $this->createUpdateData($postData);
-					$this->model('@blog\Post')->update($data, $id);
-				
-				} else {
-					$data = $this->createInsertData($postData);				
-					$id = $this->model('@blog\Post')->insert($data);
-				}
+			if($id) {
+				$data = $this->createUpdateData($postData);
+				$this->model('@blog\Post')->update($data, $id);
+			
+			} else {
+				$data = $this->createInsertData($postData);				
+				$id = $this->model('@blog\Post')->insert($data);
+			}
 
-				if(isset($postData['tags'])) {
-					$this->insertTags( $postData['tags'], $id);
-				}
+			if(isset($postData['tags'])) {
+				$this->insertTags( $postData['tags'], $id);
+			}
 
-				// @todo log here
-				return $this->jsonResponse(['msg' => __('Post succesfully saved'), 'status' => 'success', 'id' => $id]);
+			// @todo log here
+			return $this->jsonResponse(['message' => __('Post succesfully saved'), 'status' => 'success', 'id' => $id]);
 
-			} catch (ValidationFailsException $e) {
-				return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
-			}	
+		} catch (ValidationFailsException $e) {
+
+			return $this->jsonResponse(['error' => [
+					'type' => 'validation',
+					'message' => $e->getMessage(),
+					'messages' => $e->getMessages()
+				]
+			]);
+		}
 	}
 
 	/**

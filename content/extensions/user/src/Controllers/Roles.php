@@ -145,9 +145,9 @@ class Roles extends BackendController {
 			);
 
 		} catch (ValidationFailsException $e) {
-			$response = array(
-				'message' => $e->getMessage(),
-				'status' => 'error'
+			$response['error'] = array(
+				'type' => 'validation',
+				'messages' => $e->getMessages()
 			);
 		}
 

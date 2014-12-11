@@ -141,11 +141,16 @@ class Pages extends BackendController {
 
 			$this->get('cache')->delete('pages');
 
-			return $this->jsonResponse(['msg' => __('Page succesfully saved'), 'status' => 'success', 'id' => $id]);
+			return $this->jsonResponse(['message' => __('Page succesfully saved'), 'status' => 'success', 'id' => $id]);
 
 		} catch (ValidationFailsException $e) {
 			
-			return $this->jsonResponse(['msg' => $e->getMessage(), 'status' => 'error']);
+			return $this->jsonResponse(['error' => [
+					'type' => 'validation',
+					'message' => $e->getMessage(),
+					'messages' => $e->getMessages()
+				]
+			]);
 		}
 	}
 
