@@ -12,19 +12,17 @@ class App extends Kernel {}
 
 $app = new App(ENVIRONMENT);
 
+$app['loader'] = $loader;
+
 $app['path.content'] = rtrim($content,'/').'/'; unset($content);
 
-if(!is_writable($app['path.content'])) {
+is_writable($app['path.content']) or
 	exit('Folder '.$app['path.content'].' is required to be writable');
-}
 
 $app['dir.content'] = basename($app['path.content']);
 $app['dir.system'] = basename($app['path']);
 
 $app['path.extensions'] = $app['path.content'] . '/extensions';
-$app['path.widgets'] = $app['path.content'] . '/widgets';
-
-$app['loader'] = $loader;
 $app['path.install'] = $app['path.public'] =  realpath(__DIR__ .'/../').'/';
 
 // asset
