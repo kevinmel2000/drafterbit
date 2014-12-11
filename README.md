@@ -2,12 +2,13 @@ README.md
 =========
 What is Drafterbit ?
 --------------------
-Drafterbit is web app you can use to create a website. Currently still in early phase.
+Drafterbit is self-hosted web app you can use to create a website. Currently still in early phase.
 
 Requirement
 -----------
 - Web server, Apache httpd 2.2 or newer with mod_rewrite enabled. (you probably can use Nginx but not tested yet).
 - PHP 5.4 or newer
+- MySQL Server 5.1+
 
 Install
 -------
