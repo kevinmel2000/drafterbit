@@ -2,9 +2,7 @@ README.md
 =========
 What is Drafterbit ?
 --------------------
-Drafterbit is web software you can use to create a website. Currently still in early phase. You can join chat if you are interested.
-
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/drafterbit/drafterbit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Drafterbit is web app you can use to create a website. Currently still in early phase.
 
 Requirement
 -----------
@@ -13,7 +11,7 @@ Requirement
 
 Install
 -------
-Drafterbit is like any other CMS, you can install it by [download](http://drafterbit.org/dl.php?f=drafterbit-latest.zip) and extract to document root, open browser then just follow the instruction. But, if you are a developer you may want to install it manually thru the following steps:
+Drafterbit installation package will be available for download soon. For now you can just do the following step to get it running:
 
 1. Make sure that you have [composer](https://getcomposer.org/) and [bower](https://bower.io/) installed in your computer.
 2. Open Terminal then go to web doc root. e.g:
@@ -43,7 +41,7 @@ Please let me know if you get any problem.
 
 Learn
 -------------
-There is still no documentation at all yet, but for now you can just ask me anything anywhere anytime thru the gitter link above.
+There is still no documentation at all yet, but for now you can just ask me anything anywhere anytime thru gitter : [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/drafterbit/drafterbit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
 
 Contribute
 ----------
