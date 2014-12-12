@@ -52,7 +52,6 @@ class Theme extends BackendController {
 			$widgets[$position] = $model->widget($position);
 		}
 
-
 		foreach ($widgets as $name => $arrayOfWidget) {
 
 			foreach ($arrayOfWidget as $widget) {
@@ -97,7 +96,7 @@ class Theme extends BackendController {
 	{
 		if($this->get('input')->post('endSession')) {
 			$this->get('session')->remove('customize_mode');
-			$this->get('session')->remove('customize_datas');
+			$this->get('session')->remove('customize_data');
 
 			return;
 		}

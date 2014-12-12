@@ -17,19 +17,18 @@ class FrontendController extends Controller {
 
 		// we need to check if site is not being customized
 		// if yes we need to use temporary custom data 
+		$system = $this->model('@system\System')->all();
 		if($this->get('session')->get('customize_mode')) {
 
 			echo 'Customize Mode is On';
-			echo $this->get('input')->get('customizing');
-			
+						
 			$customData = $this->get('session')->get('customize_data');
 			$globals = array(
-				'siteName' => isset($customData['siteName']) ? $customData['siteName'] : null,
-				'siteDesc' => isset($customData['siteDesc']) ? $customData['siteDesc'] : null
+				'siteName' => isset($customData['siteName']) ? $customData['siteName'] : $system['site.name'],
+				'siteDesc' => isset($customData['siteDesc']) ? $customData['siteDesc'] : $system['site.description']
 				);
 
 		} else {
-			$system = $this->model('@system\System')->all();
 			$globals = array(
 				'siteName' =>  $system['site.name'],
 				'siteDesc' => $system['site.description']

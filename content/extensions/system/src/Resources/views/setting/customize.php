@@ -64,26 +64,6 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                               <h4 class="panel-title">
-                                <a data-toggle="collapse" data-parent=".customizer-input" href="#collapseTwo">
-                                  Frontpage
-                                </a>
-                              </h4>
-                            </div>
-                            <div id="collapseTwo" class="panel-collapse collapse">
-                              <div class="panel-body">
-                                <div class="form-group">
-                                  <select class="form-control" name="homepage">
-                                    <?php foreach($pageOptions as $value => $label): ?>
-                                      <option <?php echo selected('homepage', $value, $homepage == $value ); ?> value="<?php echo $value ?>"><?php echo $label ?></option>
-                                    <?php endforeach; ?>
-                                  </select>
-                                </div>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                              <h4 class="panel-title">
                                 <a class="menus-section" href="#">
                                   Navigation <i class="fa fa-angle-right pull-right"></i>
                                 </a>

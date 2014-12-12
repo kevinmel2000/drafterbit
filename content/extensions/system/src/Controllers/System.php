@@ -130,8 +130,6 @@ class System extends BackendController {
 			foreach($post['cache'] as $key ) {
 				$this->get('cache')->delete($key);
 			}
-
-			message('Cache deleted !', 'success');
 		}
 
 		$model = $this->model('cache');
