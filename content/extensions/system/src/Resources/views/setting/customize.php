@@ -28,17 +28,17 @@
             </iframe>
         </div>
         <div id="customizer">
-            <form action="<?php echo admin_url('setting/themes/custom-preview?csrf='.csrf_token()); ?>" method="post" id="customizer-form" class="customizer-ajax-form">
             <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>"/>
             <input type="hidden" name="url" value="<?php echo base_url(); ?>"/>
             <div class="col-container">
                 <div class="col">
                     <div class="section">
                         <a href="javascript:close();" class="btn btn-default btn-xs">Close</a>
-                        <button type="submit" name="save" class="btn btn-primary btn-xs pull-right">Save</button>
-                        <button type="submit" name="update-preview" class="btn btn-primary btn-xs pull-right" style="margin-right:5px;">Update Preview</button>
+                        <button type="submit" name="action" value="save" class="btn btn-primary btn-xs pull-right">Save</button>
+                        <button type="submit" name="action" value="update-preview" class="btn btn-primary btn-xs pull-right" style="margin-right:5px;">Update Preview</button>
                     </div>
 
+                    <form action="<?php echo admin_url('setting/themes/custom-preview?csrf='.csrf_token()); ?>" method="post" id="customizer-form" class="customizer-ajax-form">
                     <div class="section customizer-input" id="general-section">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -80,6 +80,7 @@
                             </div>
                         </div>
                     </div>
+                    </form>
                 </div>
                 <div class="col">
                     <div class="section">
@@ -109,6 +110,30 @@
                                             </div>
                                             <div id="menu-<?php echo $menu->id ?>" class="panel-collapse collapse">
                                               <div class="panel-body">
+                                                
+                                                <div class="form-group">
+                                                  <label>Type</label>
+                                                  <select class="form-control input-sm">
+                                                    <option value="1">Custom Link</option>
+                                                    <option value="2">Page</option>
+                                                  </select>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>Link</label>
+                                                  <input class="form-control input-sm" type="text" name="link" value="<?php echo $menu->link; ?>"/>
+                                                </div>
+                                                <div class="form-group">
+                                                  <label>Page</label>
+                                                  <select class="form-control input-sm">
+                                                    <?php foreach ($pageOptions as $v => $label): ?>
+                                                      <option value="<?php echo $v ?>"><?php echo $label ?></option>
+                                                    <?php endforeach;?>
+                                                  </select>
+                                                </div>
+                                                <div class="form-group">
+                                                  <button class="btn btn-xs btn-primary">Save</button>
+                                                  <a href="#" class="btn btn-xs">Cancel</a>
+                                                </div>
                                               </div>
                                             </div>
                                         </div>
@@ -162,7 +187,6 @@
                     </div>
                 </div>
             </div>
-            </form>
         </div> <!--/customizer-->
 
         <div class="modal fade" id="available-widget-dialog">

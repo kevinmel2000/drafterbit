@@ -47,7 +47,14 @@ class Installer extends Model {
 		$data['format.time'] = 'H:m:s';
 		$data['theme'] = 'default';
 		$data['homepage'] = $page;
-		$data['extensions'] = "pages,blog,user,files";
+
+		$extensions = array(
+			"pages" => '0.1.0',
+			"blog" => '0.1.0',
+			"user" => '0.1.0',
+			"files" => '0.1.0');
+		
+		$data['extensions'] = json_encode($extensions);
 		$data['timezone'] = "Asia/Jakarta";
 
 		$q = "INSERT INTO #_system (name, value) ";

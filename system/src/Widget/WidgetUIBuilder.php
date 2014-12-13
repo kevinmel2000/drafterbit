@@ -55,8 +55,8 @@ class WidgetUIBuilder {
 		
 		$html .= '<div class="clearfix" style="margin-top:10px;">';
 		//$ui .= '<a href="#" data-id="'.$id.'" class="widget-remover">Remove</a>';
-		$html .= input_submit('save', 'Save', 'class="btn btn-primary";');
-		$html .= '<a href="#" class="btn btn-default" data-dismiss="modal" style="margin-left:10px;">Cancel</a>';
+		$html .= input_submit('save', 'Save', 'class="btn btn-primary btn-xs";');
+		$html .= '<a href="#" class="btn btn-xs" data-dismiss="modal" style="margin-left:10px;">Cancel</a>';
 		$html .= '</div>';
 		$html .= form_close();
 		return $html;
@@ -70,17 +70,17 @@ class WidgetUIBuilder {
 	 */
 	protected function text($label, $name, $default)
 	{
-		return label(ucfirst($label), $name).input_text($name, $default, 'class="form-control"');
+		return label(ucfirst($label), $name).input_text($name, $default, 'class="form-control input-sm"');
 	}
 
 	protected function textarea($label, $name, $default)
 	{
-		return label(ucfirst($label), $name).input_textarea($name, $default, 'class="form-control"');
+		return label(ucfirst($label), $name).input_textarea($name, $default, 'class="form-control input-sm"');
 	}
 
 	protected function select($label, $name, $options, $default)
 	{
-		return label(ucfirst($label), $name).input_select($name, $options, $default, 'class="form-control"');
+		return label(ucfirst($label), $name).input_select($name, $options, $default, 'class="form-control input-sm"');
 	}
 
 	protected function hidden($name, $default)

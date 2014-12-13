@@ -189,10 +189,10 @@ class Kernel extends Application {
 
         $extensions = array();
         if($system !== false) {
-            $extensions = explode(',', $system['extensions']);
+            $extensions = json_decode($system['extensions'], true);
         }
 
-        foreach ($extensions as $extension) {
+        foreach ($extensions as $extension => $version) {
             $this['extension.manager']->load($extension);
         }
 

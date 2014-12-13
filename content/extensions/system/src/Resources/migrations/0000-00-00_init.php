@@ -23,7 +23,20 @@
 		$logs->setPrimaryKey(['id']);
 		$app['db']->getSchemaManager()->createTable($logs);
 
-		//widget
+		// menus
+		$menus = $schema->createTable('#_menus');
+		$menus->addColumn('id', 'integer',['autoincrement' => true]);
+		$menus->addColumn('label', 'string',['length' => 150]);
+		$menus->addColumn('link', 'string',['length' => 255]);
+		$menus->addColumn('order', 'integer');
+		$menus->addColumn('type', 'integer');
+		$menus->addColumn('position', 'string',['length' => 45]);
+		$menus->addColumn('theme', 'string',['length' => 45]);
+		$menus->addColumn('data', 'text');
+		$menus->setPrimaryKey(['id']);
+		$app['db']->getSchemaManager()->createTable($menus);
+
+		// widget
 		$widgets = $schema->createTable('#_widgets');
 		$widgets->addColumn('id', 'integer',['autoincrement' => true]);
 		$widgets->addColumn('name', 'string',['length' => 45]);

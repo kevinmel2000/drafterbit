@@ -94,21 +94,30 @@ class Theme extends BackendController {
 
 	public function customPreview()
 	{
+		// end session if preview window id closed
 		if($this->get('input')->post('endSession')) {
 			$this->get('session')->remove('customize_mode');
 			$this->get('session')->remove('customize_data');
 
 			return;
 		}
-
+		
 		$general = $this->get('input')->post('general');
-		$url = $this->get('input')->post('url');
-
 		$c_data = array(
 			'siteName' => $general['title'],
 			'siteDesc' => $general['tagline'],
 		);
 		$this->get('session')->set('customize_data', $c_data);
+
+		if($this->get('input')->post('action') == 'save') {
+			$this->model('@system\System')->updateSetting([
+				'site.name' => $general['title'],
+				'site.description' => $general['tagline'],
+			]);
+		}
+
+		$url = $this->get('input')->post('url');
+
 
 		return $this->jsonResponse(array(
 			'url' => $url,
