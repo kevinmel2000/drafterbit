@@ -34,7 +34,7 @@
     $('iframe').contents().find('a').on('click', function(e){
         if(e.currentTarget.href.indexOf(drafTerbit.baseUrl) == -1) {
             e.preventDefault();
-            console.log('Can\'t load external url when customizing');
+            console.log('Can\'t load external url while customizing');
         }
     });
 
@@ -54,8 +54,20 @@
 
     $('.widget-section-back').click(function(e){
         e.preventDefault();
-
         $('.col-container').animate({marginLeft:"0px"}, 300);
+    });
+
+    // menu type selectbox 
+    $('.menu-type').on('change', function(){
+        var id = $(this).val();
+        var parent = $(this).parent('.form-group');
+        if(id == 1) {
+            parent.siblings('.menu-type-page').hide();
+            parent.siblings('.menu-type-link').show();
+        } else if(id == 2) {
+            parent.siblings('.menu-type-link').hide();
+            parent.siblings('.menu-type-page').show();
+        }
     });
 
 })(jQuery,drafTerbit);

@@ -113,16 +113,16 @@
                                                 
                                                 <div class="form-group">
                                                   <label>Type</label>
-                                                  <select class="form-control input-sm">
+                                                  <select class="form-control input-sm menu-type">
                                                     <option value="1">Custom Link</option>
                                                     <option value="2">Page</option>
                                                   </select>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group menu-type-link">
                                                   <label>Link</label>
                                                   <input class="form-control input-sm" type="text" name="link" value="<?php echo $menu->link; ?>"/>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group menu-type-page">
                                                   <label>Page</label>
                                                   <select class="form-control input-sm">
                                                     <?php foreach ($pageOptions as $v => $label): ?>

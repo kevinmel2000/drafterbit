@@ -4,7 +4,7 @@
 	'subRoutes' => [
 		'blog' => [
 			'subRoutes' => [
-				'index' => ['controller' => '@blog\Blog::index', 'access' => 'blog.view'],
+				'/' => ['controller' => '@blog\Blog::index', 'access' => 'blog.view'],
 				'edit/{id}' => ['controller' => '@blog\Blog::edit', 'access' => 'blog.edit'],
 				'data/{status}.json' => ['controller' => '@blog\Blog::filter'],
 				'save' => ['controller' => '@blog\Blog::save', 'csrf' => true],

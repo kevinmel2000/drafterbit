@@ -3,7 +3,7 @@
 		'subRoutes' => [
 			'user' => [
 				'subRoutes' => [
-					'index' => ['controller' => '@user\User::index'],
+					'/' => ['controller' => '@user\User::index'],
 					'edit/{id}' => ['controller' => '@user\User::edit'],
 					'index-action' => ['controller' => '@user\User::indexAction', 'csrf' => true],
 					'save' => ['controller' => '@user\User::save', 'csrf' => true],

@@ -8,7 +8,7 @@
 		]
 	],
 	'menus' => [
-		[ 'id' => 'blog', 'label' => 'Blog', 'href' => 'blog/index', 'parent' => 'content'],
+		[ 'id' => 'blog', 'label' => 'Blog', 'href' => 'blog', 'parent' => 'content'],
 		[ 'id' => 'comments', 'label' => 'Comments', 'href' => 'blog/comments', 'order' => 2]
 	],
 	'permissions' => [

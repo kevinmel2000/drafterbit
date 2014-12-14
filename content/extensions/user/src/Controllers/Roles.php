@@ -7,6 +7,7 @@ class Roles extends BackendController {
 
 	public function index()
 	{
+		// @todo disable editing for administrator
 		$roles = $this->model('@user\Role')->all();
 		
 		$data['roles'] = $roles;

@@ -1,7 +1,7 @@
 <?php return [
 	'name' => 'user',
 	'menus' => [
-		['parent'=>'users', 'id'=>'user', 'label' => 'User', 'href' => 'user/index'],
+		['parent'=>'users', 'id'=>'user', 'label' => 'User', 'href' => 'user'],
 		['parent'=>'users', 'id'=>'roles', 'label' => 'Roles', 'href' => 'user/roles']
 	],
 	'permissions' => [
