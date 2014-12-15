@@ -6,44 +6,49 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<link rel="stylesheet" href="{{ theme_url('css/normalize.css') }}">
-		<link rel="stylesheet" href="{{ theme_url('css/simple-grid.css') }}">
+		<link rel="stylesheet" href="{{ theme_url('css/skeleton.css') }}">
 		<link rel="stylesheet" href="{{ theme_url('css/style.css') }}">
 		{% block head %}{% endblock %}
 	</head>
 	<body>
-		<!-- Nav Bar -->
-		<div class="grid grid-pad">
-			<a href="{{ base_url() }}"><h1>{{ siteName }}</h1></a>
-			<p>{{ siteDesc }}</p>
+		<div class="container">
+			<div class="row">			
+				<div class="twelve columns">
+					<a href="{{ base_url() }}"><h1>{{ siteName }}</h1></a>
+					<p>{{ siteDesc }}</p>
+				</div>
+				<div class="nav twelve columns">
+					<ul>
+					{% for menu in menus('main') %}
+						<li><a href="{{menu.link}}">{{menu.label}}</a></li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+			<div class="row">
+				<!-- Main Page Content and Sidebar -->
+			    	<!-- Main Content -->
+			    	<div class="eight columns" role="content">
+						{% block content %}{% endblock %}
+			   		</div>
+			   		<!-- End Main Content -->
+
+				    <!-- Sidebar -->
+				    <aside  class="four columns">
+				    	{{ widget('Sidebar') }}
+				    </aside>
+				    <!-- End Sidebar -->
+			</div>
 		</div>
 
-		<div class="nav">
-			<ul>
-			{% for menu in menus('main') %}
-				<li><a href="{{menu.link}}">{{menu.label}}</a></li>
-			{% endfor %}
-			</ul>
-		</div>
-		<!-- Main Page Content and Sidebar -->
-	  	<div class="grid grid-pad">
-	    	<!-- Main Content -->
-	    	<div class="col-8-12" role="content">
-				{% block content %}{% endblock %}
-	   		</div>
-	   		<!-- End Main Content -->
-
-		    <!-- Sidebar -->
-		    <aside  class="col-4-12">
-		    	{{ widget('Sidebar') }}
-		    </aside>
-		    <!-- End Sidebar -->
-	    </div>
   		<!-- Footer -->
-	    <footer class="grid grid-pad">
-	        <div>
-	    	{{ widget('Footer') }}
-	          <p>© {{ siteName }}</p>
-	        </div>
-	    </footer>
+		<div class="container row">
+		    <footer class="twelve columns">
+		        <div>
+		    	{{ widget('Footer') }}
+		          <p>© {{ siteName }}</p>
+		        </div>
+		    </footer>
+		</div>
 	</body>
 </html>
