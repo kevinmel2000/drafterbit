@@ -15,7 +15,7 @@ class FilesExtension extends \Drafterbit\Framework\Extension {
 	function getShortcuts()
 	{
 		return [
-			['href' => admin_url('files/index'), 'icon' => 'fa fa-upload','label' => 'Upload']
+			['href' => admin_url('files'), 'icon' => 'fa fa-upload','label' => 'Upload']
 		];
 	}
 }
