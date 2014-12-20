@@ -27,6 +27,7 @@
 		$menus = $schema->createTable('#_menus');
 		$menus->addColumn('id', 'integer',['autoincrement' => true]);
 		$menus->addColumn('label', 'string',['length' => 150]);
+		$menus->addColumn('page', 'string',['length' => 150]);
 		$menus->addColumn('link', 'string',['length' => 255]);
 		$menus->addColumn('order', 'integer');
 		$menus->addColumn('type', 'integer');

@@ -28,17 +28,17 @@
             </iframe>
         </div>
         <div id="customizer">
-            <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>"/>
-            <input type="hidden" name="url" value="<?php echo base_url(); ?>"/>
             <div class="col-container">
                 <div class="col">
+                    <form action="<?php echo admin_url('setting/themes/custom-preview?csrf='.csrf_token()); ?>" method="post" id="customizer-form" class="customizer-ajax-form">
+                    <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>"/>
+                    <input type="hidden" name="url" value="<?php echo base_url(); ?>"/>
                     <div class="section">
                         <a href="javascript:close();" class="btn btn-default btn-xs">Close</a>
                         <button type="submit" name="action" value="save" class="btn btn-primary btn-xs pull-right">Save</button>
                         <button type="submit" name="action" value="update-preview" class="btn btn-primary btn-xs pull-right" style="margin-right:5px;">Update Preview</button>
                     </div>
 
-                    <form action="<?php echo admin_url('setting/themes/custom-preview?csrf='.csrf_token()); ?>" method="post" id="customizer-form" class="customizer-ajax-form">
                     <div class="section customizer-input" id="general-section">
                         <div class="panel panel-default">
                             <div class="panel-heading">
@@ -109,37 +109,42 @@
                                               </h4>
                                             </div>
                                             <div id="menu-<?php echo $menu->id ?>" class="panel-collapse collapse">
+                                              <form action="<?php echo admin_url('setting/themes/save-menu'); ?>" class="menu-form" method="POST">
                                               <div class="panel-body">
                                                 
                                                 <div class="form-group">
                                                   <label>Type</label>
-                                                  <select class="form-control input-sm menu-type">
-                                                    <option value="1">Custom Link</option>
-                                                    <option value="2">Page</option>
+                                                  <select name="menu-type" class="form-control input-sm menu-type">
+                                                    <option value="1" <?php echo selected('menu-type', 1, $menu->type == 1); ?>>Custom Link</option>
+                                                    <option value="2" <?php echo selected('menu-type', 2, $menu->type == 2); ?>>Page</option>
                                                   </select>
                                                 </div>
-                                                <div class="form-group menu-type-link">
+
+                                                <div class="form-group menu-type-link" style="<?php echo hide('menu-type', 1, $menu->type == 1); ?>">
                                                   <label>Link</label>
                                                   <input class="form-control input-sm" type="text" name="link" value="<?php echo $menu->link; ?>"/>
                                                 </div>
-                                                <div class="form-group menu-type-page">
+                                                
+                                                <div class="form-group menu-type-page" style="<?php echo hide('menu-type', 2, $menu->type == 2); ?>">
                                                   <label>Page</label>
-                                                  <select class="form-control input-sm">
+                                                  <select class="form-control input-sm" name="page">
                                                     <?php foreach ($pageOptions as $v => $label): ?>
-                                                      <option value="<?php echo $v ?>"><?php echo $label ?></option>
+                                                      <option <?php echo selected('page', $v, $menu->page == $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
                                                     <?php endforeach;?>
                                                   </select>
                                                 </div>
+                                                <input type="hidden" name="id" value="<?php echo $menu->id ?>">
                                                 <div class="form-group">
                                                   <button class="btn btn-xs btn-primary">Save</button>
-                                                  <a href="#" class="btn btn-xs">Cancel</a>
                                                 </div>
+
                                               </div>
+                                            </form>
                                             </div>
                                         </div>
                                     <?php endforeach ?>
                                     <div class="well well-sm" style="margin-top:5px;">
-                                        <a data-toggle="modal" href="#add-menu-dialog">add menus item</a>
+                                        <a data-toggle="modal" href="#add-menu-dialog">add menu item</a>
                                     </div>
                                   </div>
                                 </div>

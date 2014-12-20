@@ -19,6 +19,13 @@
         }
     });
 
+    $('.menu-form').ajaxForm({
+        dataType: 'json',
+        success: function(res){
+            
+        }
+    });
+
     $('iframe').on('load', function(e){
         var currentPreviewUrl = e.currentTarget.contentWindow.document.URL
         $('#customizer-form input[name="url"]').val(currentPreviewUrl);

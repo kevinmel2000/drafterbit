@@ -624,7 +624,7 @@ if ( ! function_exists('set_option')) {
 	function set_option($name, $type = "selected", $value = null, $default = false)
 	{
 		if ($default) {
-			return $type;
+			return $type.'="'.$type.'"';
 		}
 
 		$post = app('input')->get($name);
@@ -645,6 +645,7 @@ if ( ! function_exists('checked')) {
 	 *
 	 * @param string $name
 	 * @param mixed $value
+	 * @param mixed $default
 	 * @return void
 	 */
 	function checked($name, $value = null, $default = false)
@@ -659,10 +660,30 @@ if ( ! function_exists('selected')) {
 	 *
 	 * @param string $name
 	 * @param mixed $value
+	 * @param mixed $default
 	 * @return void
 	 */
 	function selected($name, $value = null, $default = false)
 	{
 		return set_option($name, 'selected', $value, $default);
+	}
+}
+
+if ( ! function_exists('hide')) {
+	/**
+	 * Hide a form section based in value
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 * @param mixed $default
+	 * @return void
+	 */
+	function hide($name, $value = null, $default = false)
+	{
+		if($default) {
+			return 'display:block';
+		}
+		
+		return 'display:none';
 	}
 }
