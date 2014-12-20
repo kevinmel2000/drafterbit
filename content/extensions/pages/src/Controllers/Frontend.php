@@ -9,13 +9,16 @@ class Frontend extends FrontendController {
 		return $this->get('twig')->render('index.html');
 	}
 
-	public function home()
+	public function home($id = null)
 	{
 		$system = $this->model('@system\System')->all();
+		$_temp = explode(':', $system['homepage']);
+		$id = end($_temp);
 
-		$slug =	$system['homepage'];
-		$page = $this->model('@pages\Pages')->getSingleBy('slug', $slug) or show_404();
+		$page = $this->model('@pages\Pages')->getSingleBy('id', $id) or show_404();
+		
 		set('page', $page);
+
 		// @todo: blank layout
 		set('layout', 'layout/'.$page->layout);
 		
@@ -25,10 +28,6 @@ class Frontend extends FrontendController {
 	public function view($slug = null, $_format = 'html')
 	{
 		$page = $this->model('@pages\Pages')->getSingleBy('slug', $slug) or show_404();
-		
-		if($_format == 'json') {
-			return $this->jsonResponse($page);
-		}
 
 		set('page', $page);
 		set('layout', 'layout/'.$page->layout);

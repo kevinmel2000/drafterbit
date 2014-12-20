@@ -17,4 +17,38 @@ class Menus extends Model {
 
 		return $menus;
 	}
+
+	public function save($id, $data)
+	{
+		if($this->exists($id)) {
+			return $this->update($id, $data);
+		} else {
+			return $this->insert($data);
+		}
+	}
+
+	/**
+	 * Check if a menu is exists
+	 */
+	public function exists($id)
+	{
+		return (bool)
+		$this->withQueryBuilder()
+			->select('*')
+			->from('#_menus', 'm')
+			->where("id = $id")
+			->fetchAllObjects();
+	}
+
+	public function update($id, $data)
+	{
+		$this->get('db')->update('#_menus', $data, array('id' => $id));
+		return $id;
+	}
+
+	public function insert($data)
+	{
+		$this->insert('#_menus', $data);
+		return $this->get('db')->lastInsertId();
+	}
 }

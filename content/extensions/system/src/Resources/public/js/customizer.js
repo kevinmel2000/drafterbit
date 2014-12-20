@@ -22,7 +22,9 @@
     $('.menu-form').ajaxForm({
         dataType: 'json',
         success: function(res){
-            
+            $.notify(res.message, 'success');
+            var frames = document.getElementsByTagName('IFRAME');
+            frames[0].contentWindow.location.reload(true);
         }
     });
 

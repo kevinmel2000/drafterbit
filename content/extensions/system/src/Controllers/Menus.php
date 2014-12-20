@@ -33,6 +33,14 @@ class Menus extends BackendController {
 
 		try {
 			$this->validate('menus', $post);
+
+			$model = $this->model('@system\\Menus');
+			$data = $this->createInsertData($post);
+			$id = $model->save($post['id'], $data);
+			$response = [
+				'message' => 'Menu saved',
+				'id' => $id,
+			];
 		} catch(ValidationFailsException $e) {
 			$response = [
 				'error' => [
@@ -43,5 +51,15 @@ class Menus extends BackendController {
 		}
 
 		return $this->jsonResponse($response);
+	}
+
+	private function createInsertData($post)
+	{
+		$data['label'] = $post['label'];
+		$data['type'] = $post['type'];
+		$data['link'] = $post['link'];
+		$data['page'] = $post['page'];
+
+		return $data;
 	}
 }

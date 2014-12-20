@@ -119,7 +119,12 @@ class Kernel extends Application {
         });
 
         foreach ($data as &$item) {
-            $item->link = strtr($item->link, array("%base_url%" => base_url()));
+            if($item->type == 1) {
+                $item->link = strtr($item->link, array("%base_url%" => base_url()));
+            } else if($item->type == 2) {
+                $pages = $this->getFrontpage();
+                $item->link = $pages[$item->page]['defaults']['slug'];
+            }
         }
 
         return $data;
@@ -251,10 +256,9 @@ class Kernel extends Application {
 
             // pages
             $reservedBaseUrl = implode('|', $this->getReservedBaseUrl());
-            $this['router']->addRouteDefinition('/{slug}.{_format}', [
+            $this['router']->addRouteDefinition('/{slug}', [
                 'controller' => '@pages\Frontend::view',
                 'requirements' => [
-                    '_format' => 'html|json',
                     // @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
                     'slug' => "^(?!(?:%admin%|".$reservedBaseUrl."|)(?:/|$)).*$"
                 ]
@@ -274,10 +278,10 @@ class Kernel extends Application {
 
         $options = array();
         foreach ($pages as $page) {
-            $options[$page->slug] = [
+            $options['pages:'.$page->id] = [
                 'label' => $page->title,
                 'controller' => '@pages\Frontend::home',
-                'defaults' => ['id' => $page->id]
+                'defaults' => ['id' => $page->id, 'slug' => $page->slug]
             ];
         }
 

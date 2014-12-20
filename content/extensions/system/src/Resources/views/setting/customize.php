@@ -109,14 +109,14 @@
                                               </h4>
                                             </div>
                                             <div id="menu-<?php echo $menu->id ?>" class="panel-collapse collapse">
-                                              <form action="<?php echo admin_url('setting/themes/save-menu'); ?>" class="menu-form" method="POST">
+                                              <form action="<?php echo admin_url('setting/themes/menus/save'); ?>" class="menu-form" method="POST">
                                               <div class="panel-body">
                                                 
                                                 <div class="form-group">
                                                   <label>Type</label>
-                                                  <select name="menu-type" class="form-control input-sm menu-type">
-                                                    <option value="1" <?php echo selected('menu-type', 1, $menu->type == 1); ?>>Custom Link</option>
-                                                    <option value="2" <?php echo selected('menu-type', 2, $menu->type == 2); ?>>Page</option>
+                                                  <select name="type" class="form-control input-sm menu-type">
+                                                    <option value="1" <?php echo selected('type', 1, $menu->type == 1); ?>>Custom Link</option>
+                                                    <option value="2" <?php echo selected('type', 2, $menu->type == 2); ?>>Page</option>
                                                   </select>
                                                 </div>
 
@@ -133,6 +133,7 @@
                                                     <?php endforeach;?>
                                                   </select>
                                                 </div>
+                                                <input type="hidden" name="label" value="<?php echo $menu->label ?>">
                                                 <input type="hidden" name="id" value="<?php echo $menu->id ?>">
                                                 <div class="form-group">
                                                   <button class="btn btn-xs btn-primary">Save</button>
