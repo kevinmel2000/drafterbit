@@ -53,12 +53,20 @@ class Menus extends BackendController {
 		return $this->jsonResponse($response);
 	}
 
+	function delete()
+	{
+		$id = $this->get('input')->post('id');
+		return $this->get('db')->delete('#_menus', ['id' => $id]);
+	}
+
 	private function createInsertData($post)
 	{
 		$data['label'] = $post['label'];
 		$data['type'] = $post['type'];
 		$data['link'] = $post['link'];
 		$data['page'] = $post['page'];
+		$data['position'] = $post['position'];
+		$data['theme'] = $post['theme'];
 
 		return $data;
 	}

@@ -48,7 +48,7 @@ class Menus extends Model {
 
 	public function insert($data)
 	{
-		$this->insert('#_menus', $data);
+		$this->get('db')->insert('#_menus', $data);
 		return $this->get('db')->lastInsertId();
 	}
 }

@@ -88,6 +88,7 @@ class Theme extends BackendController {
 		$data['widgetPositions'] = $positions;
 		$data['widgets'] = $widgets;
 		$data['menus'] = $menus;
+		$data['theme'] = $theme;
 
 		return $this->render('@system/setting/customize', $data);
 	}

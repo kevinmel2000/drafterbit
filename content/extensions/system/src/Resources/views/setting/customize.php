@@ -100,7 +100,7 @@
                                 <div id="<?php echo $pos ?>-menu-position" class="panel-collapse collapse">
                                   <div class="panel-body <?php echo $pos ?>-menu-container">
                                     <?php foreach ($menus[$pos] as $menu): ?>
-                                         <div class="panel panel-default">
+                                         <div class="panel panel-default menu-item-container">
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-menu-container" href="#menu-<?php echo $menu->id ?>">
@@ -112,6 +112,11 @@
                                               <form action="<?php echo admin_url('setting/themes/menus/save'); ?>" class="menu-form" method="POST">
                                               <div class="panel-body">
                                                 
+                                                <div class="form-group">
+                                                  <label>Label</label>
+                                                  <input class="form-control input-sm menu-label" type="text" name="label" value="<?php echo $menu->label; ?>"/>
+                                                </div>
+
                                                 <div class="form-group">
                                                   <label>Type</label>
                                                   <select name="type" class="form-control input-sm menu-type">
@@ -133,10 +138,13 @@
                                                     <?php endforeach;?>
                                                   </select>
                                                 </div>
-                                                <input type="hidden" name="label" value="<?php echo $menu->label ?>">
-                                                <input type="hidden" name="id" value="<?php echo $menu->id ?>">
+
+                                                <input type="hidden" name="id" value="<?php echo $menu->id; ?>">
+                                                <input type="hidden" name="position" value="<?php echo $pos; ?>">
+                                                <input type="hidden" name="theme" value="<?php echo $theme; ?>">
                                                 <div class="form-group">
-                                                  <button class="btn btn-xs btn-primary">Save</button>
+                                                  <button class="btn btn-xs btn-primary" type="submit">Save</button>
+                                                  <a class="btn btn-xs delete-menu-item" href="#">Remove</a>
                                                 </div>
 
                                               </div>
@@ -145,7 +153,7 @@
                                         </div>
                                     <?php endforeach ?>
                                     <div class="well well-sm" style="margin-top:5px;">
-                                        <a data-toggle="modal" href="#add-menu-dialog">add menu item</a>
+                                        <a data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#" class="menu-adder">add menu item</a>
                                     </div>
                                   </div>
                                 </div>
@@ -210,25 +218,14 @@
           </div>
         </div>
 
-         <div class="modal fade" id="add-menu-dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    //..
-                </div>
-            </div>
-          </div>
-        </div>
-
         <!-- script -->
         <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
         <script src="<?php echo admin_url('system/drafterbit.js'); ?>" /></script>
-        <?php $this->js(':bootstrap_js, :notify_js, :jquery_form, @system/js/layout.js, @system/js/customizer.js'); ?>
+        <?php $this->js(':bootstrap_js, :notify_js, :jquery_form, @system/js/layout.js, @system/js/customizer.js, :handlebars'); ?>
         <?php echo $this->block('js'); ?>
 
         <script>
         drafTerbit.initAjaxForm();
-
 
         <?php if(isset($messages)): ?>
                 <?php foreach( $messages as $message ): ?>
@@ -236,6 +233,58 @@
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
                 <?php endforeach; ?>
         <?php endif;?>
+        </script>
+
+        <script id="menu-item-template" type="text/x-handlebars-template">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+              <a href="#new-menu-{{id}}" data-parent=".main-menu-container" data-toggle="collapse" aria-expanded="false">
+                unlabeled
+              </a>
+              </h4>
+            </div>
+            <div class="panel-collapse collapse" id="new-menu-{{id}}" aria-expanded="false">
+                <form method="POST" class="menu-form" action="{{formAction}}">
+                <div class="panel-body">
+                  <div class="form-group">
+                    <label>Label</label>
+                    <input type="text" value="" name="label" class="form-control input-sm menu-label">
+                  </div>
+
+                  <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-control input-sm menu-type" name="type">
+                      <option value="1">Custom Link</option>
+                      <option selected="selected" value="2">Page</option>
+                    </select>
+                  </div>
+
+                  <div style="display:none" class="form-group menu-type-link">
+                    <label>Link</label>
+                    <input type="text" value="" name="link" class="form-control input-sm">
+                  </div>
+                  
+                  <div style="display:block" class="form-group menu-type-page">
+                    <label>Page</label>
+                    <select name="page" class="form-control input-sm">
+                        <option value="blog">Blog</option>
+                        <option value="pages:1" selected="selected">Hello World</option>
+                        <option value="pages:2">so what ?</option>
+                    </select>
+                  </div>
+
+                  <input type="hidden" value="0" name="id">
+                  <input type="hidden" value="{{position}}" name="position">
+                  <input type="hidden" value="{{theme}}" name="theme">
+                  <div class="form-group">
+                    <button class="btn btn-xs btn-primary">Save</button>
+                  </div>
+
+                </div>
+              </form>
+              </div>
+          </div>
         </script>
     </body>
 </html>

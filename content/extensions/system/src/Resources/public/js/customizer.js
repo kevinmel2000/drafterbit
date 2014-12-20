@@ -19,13 +19,24 @@
         }
     });
 
-    $('.menu-form').ajaxForm({
-        dataType: 'json',
-        success: function(res){
-            $.notify(res.message, 'success');
-            var frames = document.getElementsByTagName('IFRAME');
-            frames[0].contentWindow.location.reload(true);
-        }
+    $(document).on('submit', '.menu-form',function(e){
+        e.preventDefault();
+        $(this).ajaxSubmit({
+            dataType: 'json',
+            success: function(res, a, b, form){
+                
+                if(!res.error) {
+
+                    $(form).find('input[name="id"]').val(res.id);
+                    
+                    $.notify(res.message, 'success');
+                    
+                    var frames = document.getElementsByTagName('IFRAME');
+                    frames[0].contentWindow.location.reload(true);
+                }
+
+            }
+        });
     });
 
     $('iframe').on('load', function(e){
@@ -67,7 +78,7 @@
     });
 
     // menu type selectbox 
-    $('.menu-type').on('change', function(){
+    $(document).on('change', '.menu-type', function(){
         var id = $(this).val();
         var parent = $(this).parent('.form-group');
         if(id == 1) {
@@ -78,5 +89,47 @@
             parent.siblings('.menu-type-page').show();
         }
     });
+
+    $(document).on('keyup', '.menu-label', function(){
+        var val= $(this).val();
+
+        if(val.trim() == '') {
+            val = 'unlabeled';
+        }
+
+        $(this).closest('.panel-collapse').siblings('.panel-heading').find('a').text(val);;
+    });
+
+    // add menu
+    $(document).on('click', '.menu-adder', function(e){
+        e.preventDefault();
+        var position = $(this).data('position');
+        var theme = $(this).data('theme');
+        var source   = $("#menu-item-template").html();
+        var template = Handlebars.compile(source);
+        var html    = template({
+            position: position,
+            theme: theme,
+            id: Date.now(),
+            formAction: drafTerbit.adminUrl+'/setting/themes/menus/save'
+        });
+
+        $(this).closest('.well').before(html);
+    });
+
+    //delete menu
+    $(document).on('click', '.delete-menu-item', function(e){
+        e.preventDefault();
+        var id = $(this).closest('.menu-form').find('input[name="id"]').val();
+        
+        $.post(drafTerbit.adminUrl+'/setting/themes/menus/delete', {id:id});
+
+        $(this).closest('.menu-item-container').fadeOut('fast');
+        $(this).closest('.menu-item-container').remove();
+
+        var frames = document.getElementsByTagName('IFRAME');
+        frames[0].contentWindow.location.reload(true);
+    });
+
 
 })(jQuery,drafTerbit);

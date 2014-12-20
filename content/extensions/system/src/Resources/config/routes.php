@@ -18,6 +18,7 @@
 			'setting/themes/widget/edit/{name}' => ['controller' => '@system\Widget::edit'],
 			'setting/themes/menus' => ['controller' => '@system\Menus::index'],
 			'setting/themes/menus/save' => ['controller' => '@system\Menus::save'],
+			'setting/themes/menus/delete' => ['controller' => '@system\Menus::delete'],
 
 			'system' => [
 				'subRoutes' => [
