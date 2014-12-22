@@ -23,6 +23,7 @@ class Installer extends Model {
 		$user['email'] = $email;
 		$user['password'] = password_hash($password, PASSWORD_BCRYPT);
 		$user['real_name'] = 'Administrator';
+		$user['status'] = 1;
 
 		$this->get('db')->insert('#_users', $user);
 		$userId = $this->get('db')->lastInsertId();
