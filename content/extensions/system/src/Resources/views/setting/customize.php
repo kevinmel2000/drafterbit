@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo $title ?> | <?php echo $siteName.' Administrator'; ?></title>
         <!-- Core CSS - Include with every page -->
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
 
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css('
@@ -23,7 +22,19 @@
     </head>
 
     <body>
-        <div id="iframe-container">
+        <div id="dt-widget-availables">
+            <div class="header">
+                <h3>Available Widgets</h3>
+            </div>
+            <ul>
+                <?php foreach ($availableWidget as $widget): ?>
+                  <li>
+                      <a data-ui="<?php echo base64_encode($widget->ui); ?>" data-name="<?php echo ucfirst($widget->getName()); ?>" class="dt-widget-item" href="javascript:;"><?php echo ucfirst($widget->getName()); ?></a>
+                  </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <div id="dt-iframe-container">
             <iframe name="preview" width="100%" height="100%" src="<?php echo base_url(); ?>">
             </iframe>
         </div>
@@ -171,10 +182,10 @@
                                     </a>
                                   </h4>
                                 </div>
-                                <div id="<?php echo $pos ?>-widget-position" class="panel-collapse collapse">
-                                  <div class="panel-body <?php echo $pos ?>-widget-container">
+                                <div id="<?php echo $pos ?>-widget-position" class="panel-collapse collapse widget-position">
+                                  <div class="panel-body widget-container <?php echo $pos ?>-widget-container">
                                     <?php foreach ($widgets[$pos] as $widget): ?>
-                                         <div class="panel panel-default">
+                                        <div class="panel panel-default">
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-widget-container" href="#widget-<?php echo $widget->id ?>">
@@ -189,10 +200,8 @@
                                             </div>
                                         </div>
                                     <?php endforeach ?>
-                                    <div>
-                                    </div>
                                     <div class="well well-sm" style="margin-top:5px;">
-                                        <a data-toggle="modal" class="open-widget-dialog" href="#available-widget-dialog">add widget</a>
+                                        <a class="dt-widget-adder" data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#available-widget-dialog">add widget</a>
                                     </div>
                                   </div>
                                 </div>
@@ -202,22 +211,6 @@
                 </div>
             </div>
         </div> <!--/customizer-->
-
-        <div class="modal fade" id="available-widget-dialog">
-          <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                  <ul>
-                      <?php foreach ($availableWidget as $widget): ?>
-                          <li>
-                              <a class="dt-widget-item" href="javascript:;"><?php echo $widget->getName(); ?></a>
-                          </li>
-                      <?php endforeach; ?>
-                  </ul>
-                </div>
-            </div>
-          </div>
-        </div>
 
         <!-- script -->
         <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
@@ -234,6 +227,21 @@
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
                 <?php endforeach; ?>
         <?php endif;?>
+        </script>
+
+        <script id="widget-item-template" type="text/x-handlebars-template">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent=".widget-container" href="#widget-{{widgetId}}">{{widgetName}}</a>
+              </h4>
+            </div>
+            <div id="widget-{{widgetId}}" class="panel-collapse collapse">
+              <div class="panel-body">
+                {{{widgetUi}}}
+              </div>
+            </div>
+        </div>
         </script>
 
         <script id="menu-item-template" type="text/x-handlebars-template">
@@ -270,7 +278,7 @@
                     <label>Page</label>
                     <select name="page" class="form-control input-sm">
                         <?php foreach ($pageOptions as $v => $label): ?>
-                          <option <?php echo selected('page', $v, $menu->page == $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
+                          <option <?php echo selected('page', $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
                         <?php endforeach;?>
                     </select>
                   </div>

@@ -99,8 +99,8 @@ class Widget extends BackendController {
 		$position  = $this->get('input')->post('position');
 		$theme  = $this->get('input')->post('theme');
 
-		$this->model('widget')->save($id, $title, $data, $name, $position, $theme);
+		$id = $this->model('widget')->save($id, $title, $data, $name, $position, $theme);
 
-		return $this->jsonResponse(['message' => 'Widget saved', 'status' => 'success']);
+		return $this->jsonResponse(['message' => 'Widget saved', 'status' => 'success', 'id' =>  $id]);
 	}
 }

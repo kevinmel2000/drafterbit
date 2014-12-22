@@ -13,7 +13,11 @@ class Widget extends Model {
 			->where('position=:position')
 			->setParameter('position', $position)
 			->execute()->fetchAll(\PDO::FETCH_CLASS);
-
+		
+		foreach ($widgets as &$widget) {
+			$widget->data = json_decode($widget->data, true);
+		}
+		
 		return $widgets;
 	}
 
@@ -54,7 +58,8 @@ class Widget extends Model {
 		$data =  json_encode($data);
 
 		if($this->has($id)) {
-			return $this->get('db')->update('#_widgets', array('title' => $title, 'data' => $data), array('id' => $id));
+			$this->get('db')->update('#_widgets', array('title' => $title, 'data' => $data), array('id' => $id));
+			return $id;
 		}
 
 		$data = array(
@@ -65,7 +70,8 @@ class Widget extends Model {
 			'position' => $position,
 			'theme' => $theme
 		);
-		return $this->get('db')->insert('#_widgets', $data);
+		$this->get('db')->insert('#_widgets', $data);
+		return $this->get('db')->lastInsertId();
 	}
 
 	public function has($id)

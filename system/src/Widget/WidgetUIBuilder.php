@@ -11,11 +11,11 @@ class WidgetUIBuilder {
 	{
 		$title 		= isset($widget->data['title']) ? $widget->data['title'] : null;
 		$id 		= isset($widget->data['id']) ? $widget->data['id'] : null;
-		$name 		= isset($widget->data['name']) ? $widget->data['name'] : null;
+		$name 		= isset($widget->data['name']) ? $widget->data['name'] : $widget->getName();
 		$position 	= isset($widget->data['position']) ? $widget->data['position'] : null;
 		$theme 		= isset($widget->data['theme']) ? $widget->data['theme'] : null;
 		
-		$html  = form_open(null, array('class' => 'widget-edit-form'));
+		$html  = form_open(admin_url('setting/themes/widget/save'), array('class' => 'widget-edit-form'));
 
 		$html .= '<div class="form-group">'.$this->text('Title', 'title', $title).'</div>';
 		$html .= $this->hidden('id', $id);
@@ -56,7 +56,6 @@ class WidgetUIBuilder {
 		$html .= '<div class="clearfix" style="margin-top:10px;">';
 		//$ui .= '<a href="#" data-id="'.$id.'" class="widget-remover">Remove</a>';
 		$html .= input_submit('save', 'Save', 'class="btn btn-primary btn-xs";');
-		$html .= '<a href="#" class="btn btn-xs" data-dismiss="modal" style="margin-left:10px;">Cancel</a>';
 		$html .= '</div>';
 		$html .= form_close();
 		return $html;

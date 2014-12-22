@@ -54,10 +54,12 @@ class Theme extends BackendController {
 
 		foreach ($widgets as $name => $arrayOfWidget) {
 
-			foreach ($arrayOfWidget as $widget) {
+			foreach ($arrayOfWidget as &$widget) {
 
-			$widgetObj = $this->get('widget')->get($widget->name);
-
+				$widget->data['id'] = $widget->id;
+				$widget->data['title'] = $widget->title;
+				$widgetObj = $this->get('widget')->get($widget->name);
+				$widgetObj->data = $widget->data;
 				$widget->ui = $this->get('widget.ui')->build($widgetObj);
 			}
 		}
@@ -73,6 +75,11 @@ class Theme extends BackendController {
 		}
 
 		$availableWidget = $this->get('widget')->all();
+
+
+		foreach ($availableWidget as &$widget) {
+			$widget->ui = $this->get('widget.ui')->build($widget);
+		}
 
 		$config = $this->model('@system\System')->all();
 		
@@ -118,7 +125,6 @@ class Theme extends BackendController {
 		}
 
 		$url = $this->get('input')->post('url');
-
 
 		return $this->jsonResponse(array(
 			'url' => $url,

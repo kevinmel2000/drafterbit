@@ -111,10 +111,11 @@
         var theme = $(this).data('theme');
         var source   = $("#menu-item-template").html();
         var template = Handlebars.compile(source);
+        var id = Date.now();
         var html    = template({
             position: position,
             theme: theme,
-            id: Date.now(),
+            id: id,
             formAction: drafTerbit.adminUrl+'/setting/themes/menus/save'
         });
 
@@ -135,5 +136,76 @@
         frames[0].contentWindow.location.reload(true);
     });
 
+    //iframe container width control
+    var x = $(window).width();
+    var y = $('#dt-widget-availables').width();
+    $('#dt-iframe-container').width(x-y-40);
+
+    //available widget adder/toggler
+    $(document).on('click', '.dt-widget-adder', function() {
+        var x = $('html').width();
+        var position = $(this).data('position');
+        if($('body').data('expanded')) {
+            $('body').animate({marginLeft:"0px"}, 300, function(){
+                $('html').width(x-300);
+            });
+            $('body').data('expanded', 0);
+            $('#dt-widget-availables').data('position', null);
+        } else {
+            $('html').width(x+300);
+            $('body').animate({marginLeft:"300px"}, 300);
+            $('body').data('expanded', 1);
+            $('#dt-widget-availables').data('position', position);
+        }
+    });
+
+    // widget addition
+    $(document).on('click', '.dt-widget-item', function(){
+        var pos = $(this).closest('#dt-widget-availables').data('position');
+        var id = Date.now();
+        var name = $(this).data('name');
+        var ui = atob($(this).data('ui'));
+
+        var source   = $("#widget-item-template").html();
+        var template = Handlebars.compile(source);
+        var html    = template({
+            position:pos,
+            widgetId: id,
+            widgetName: name,
+            widgetUi: ui,
+        });
+
+        $('.widget-position.in > .widget-container').prepend(html);
+    });
+
+    // widget edit form
+    $(document).on('submit', '.widget-edit-form',function(e){
+        e.preventDefault();
+        var theme = $(this).closest('.widget-container').find('a.dt-widget-adder').data('theme');
+        var position = $(this).closest('.widget-container').find('a.dt-widget-adder').data('position');
+
+        console.log(theme);
+
+        $(this).ajaxSubmit({
+            dataType: 'json',
+            data: {
+                theme: theme,
+                position: position,
+            },
+            success: function(res, a, b, form){
+                
+                if(!res.error) {
+
+                    $(form).find('input[name="id"]').val(res.id);
+                    
+                    $.notify(res.message, 'success');
+                    
+                    var frames = document.getElementsByTagName('IFRAME');
+                    frames[0].contentWindow.location.reload(true);
+                }
+
+            }
+        });
+    });
 
 })(jQuery,drafTerbit);
