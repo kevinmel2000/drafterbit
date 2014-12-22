@@ -1,5 +1,6 @@
 (function($, drafTerbit) {
 
+    // delete cusomize session on window close
     $(window).on('beforeunload', function(e){
         $.ajax({
             type: 'post',
@@ -9,6 +10,7 @@
         });
     });
 
+    // cutomizer options form
     $('.customizer-ajax-form').ajaxForm({
         dataType: 'json',
         success: function(res){
@@ -19,6 +21,7 @@
         }
     });
 
+    // menu form
     $(document).on('submit', '.menu-form',function(e){
         e.preventDefault();
         $(this).ajaxSubmit({
@@ -58,6 +61,7 @@
         }
     });
 
+    // customizer sidebar controller
     $('.widget-section').click(function(e){
         e.preventDefault();
         $('#widget-section').show();

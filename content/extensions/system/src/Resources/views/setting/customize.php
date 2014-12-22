@@ -207,12 +207,13 @@
           <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">
-                    <?php foreach ($availableWidget as $widget): ?>
-                        <div class="widget-item">
-                            <h4><?php echo $widget->getName(); ?></h4>
-                            <p>Test Description</p>
-                        </div>
-                    <?php endforeach; ?>
+                  <ul>
+                      <?php foreach ($availableWidget as $widget): ?>
+                          <li>
+                              <a class="dt-widget-item" href="javascript:;"><?php echo $widget->getName(); ?></a>
+                          </li>
+                      <?php endforeach; ?>
+                  </ul>
                 </div>
             </div>
           </div>
