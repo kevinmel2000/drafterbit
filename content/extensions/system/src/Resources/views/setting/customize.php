@@ -268,9 +268,9 @@
                   <div style="display:block" class="form-group menu-type-page">
                     <label>Page</label>
                     <select name="page" class="form-control input-sm">
-                        <option value="blog">Blog</option>
-                        <option value="pages:1" selected="selected">Hello World</option>
-                        <option value="pages:2">so what ?</option>
+                        <?php foreach ($pageOptions as $v => $label): ?>
+                          <option <?php echo selected('page', $v, $menu->page == $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
+                        <?php endforeach;?>
                     </select>
                   </div>
 
