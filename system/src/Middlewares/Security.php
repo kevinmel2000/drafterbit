@@ -26,14 +26,14 @@ class Security implements HttpKernelInterface {
 	/**
 	 * The router.
 	 *
-	 * @var \Drafterbit\Component\Kernel\Routing\Router
+	 * @var \Drafterbit\Component\Routing\Router
 	 */
 	protected $router;
 
 	/**
 	 * The session manager.
 	 *
-	 * @var \Drafterbit\Component\Kernel\Sessions\SessionManager
+	 * @var \Drafterbit\Component\Sessions\SessionManager
 	 */
 	protected $session;
 

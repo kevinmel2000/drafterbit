@@ -34,14 +34,14 @@
  */
 
 'database' => [
-    'driver'       => 'pdo_mysql',
-    'user'         => 'root',
-    'password'     => '',
-    'host'         => 'localhost',
-    'port'         => '3306',
-    'dbname'       => '',
-    'charset'      => 'utf8',
-    'collation'    => 'utf8_unicode_ci',
-    'prefix'       => 'dt_',
-    ]
+	'driver'       => 'pdo_mysql',
+	'user'         => 'root',
+	'password'     => '',
+	'host'         => 'localhost',
+	'port'         => '3306',
+	'dbname'       => '',
+	'charset'      => 'utf8',
+	'collation'    => 'utf8_unicode_ci',
+	'prefix'       => 'dt_',
+	]
 ];
