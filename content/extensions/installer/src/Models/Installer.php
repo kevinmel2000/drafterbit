@@ -81,6 +81,7 @@ class Installer extends Model {
 		$data['status'] = 1;
 
 		$this->get('db')->insert('#_pages', $data);
-		return $data['slug'];
+		$id = $this->get('db')->lastInsertId();
+		return "pages:$id";
 	}
 }
