@@ -123,7 +123,7 @@ class Kernel extends Application {
                 $item->link = strtr($item->link, array("%base_url%" => base_url()));
             } else if($item->type == 2) {
                 $pages = $this->getFrontpage();
-                $item->link = $pages[$item->page]['defaults']['slug'];
+                $item->link = base_url($pages[$item->page]['defaults']['slug']);
             }
         }
 
