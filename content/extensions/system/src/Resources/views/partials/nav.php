@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo admin_url(); ?>"><i class="fa fa-home"></i></a>
+                <a class="navbar-brand dt-brand" href="<?php echo admin_url(); ?>">Drafterbit</a>
             </div>
             <!-- /.navbar-header -->
             <div class="dt-off-canvas">
@@ -17,7 +17,7 @@
                     <?php if($menu->hasChildren()): ?>
                         <li class="dropdown">
                             <a class="navbar-link dropdown-toggle" data-toggle="dropdown" href="#">
-                                <?php echo $menu->label; ?> <!--<i class="fa fa-caret-down"></i>-->
+                                <?php echo $menu->label; ?>
                             </a>
                             <ul class="dropdown-menu">
                                 <div class="dropdown-caret">

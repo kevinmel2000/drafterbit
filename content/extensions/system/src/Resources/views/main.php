@@ -5,8 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo $title ?> | <?php echo $siteName.' Administrator'; ?></title>
         <!-- Core CSS - Include with every page -->
-        <link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400' rel='stylesheet' type='text/css'>
-
+        <style>
+          @font-face {
+            font-family: 'Lobster Two';
+            src: url("<?php echo base_url(app('dir.system').'/Resources/public/assets/Lobster_Two/LobsterTwo-Regular.ttf') ?>") format('truetype');
+          }
+          .dt-brand {font-family: "Lobster Two";}
+        </style>
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css('
           :bootstrap_css,
