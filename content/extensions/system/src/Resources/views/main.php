@@ -10,7 +10,7 @@
             font-family: 'Lobster Two';
             src: url("<?php echo base_url(app('dir.system').'/Resources/public/assets/Lobster_Two/LobsterTwo-Regular.ttf') ?>") format('truetype');
           }
-          .dt-brand {font-family: "Lobster Two";}
+          .dt-brand {font-family: "Lobster Two";margin-right: 10px;}
         </style>
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css('
