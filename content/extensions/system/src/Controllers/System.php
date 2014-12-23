@@ -25,7 +25,6 @@ class System extends BackendController {
 
 		$data['logs'] = $logs;
 
-		$data['shortcuts'] = $this->get('app')->getShortcuts();
 		// site info
 		$data['os'] = $this->getOs();
 		$data['usersCount'] = count($this->get('cache')->fetch('users'));
