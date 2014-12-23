@@ -11,7 +11,7 @@ Drafterbit is formerly just hobby project initiated by the author, which is wish
 
 ## Requirement
 - Web server, Apache httpd 2.2 or newer with mod_rewrite enabled. (you probably can use Nginx but not tested yet).
-- PHP 5.4 or newer
+- PHP 5.4+
 - MySQL Server 5.1+
 
 ## Install
@@ -44,7 +44,7 @@ Drafterbit installation package will be available for download soon. For now you
 Please let me know if you get any problem.
 
 ## Learn
-There is still no documentation at all yet, but for now you can just ask me anything anywhere anytime thru gitter : [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/drafterbit/drafterbit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge).
+There is still no documentation at all yet, but for now you can just ask me anything anywhere anytime thru gitter : [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/drafterbit/drafterbit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Contribute
 Drafterbit is an open source and intended to be community-driven project. Any kind of contribution (code, translation, stars, bug reports, feature request) are really appreciated.
