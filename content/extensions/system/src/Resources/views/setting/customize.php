@@ -245,7 +245,7 @@
         </script>
 
         <script id="menu-item-template" type="text/x-handlebars-template">
-          <div class="panel panel-default">
+          <div class="panel panel-default menu-item-container">
             <div class="panel-heading">
               <h4 class="panel-title">
               <a href="#new-menu-{{id}}" data-parent=".main-menu-container" data-toggle="collapse" aria-expanded="false">
@@ -288,6 +288,7 @@
                   <input type="hidden" value="{{theme}}" name="theme">
                   <div class="form-group">
                     <button class="btn btn-xs btn-primary">Save</button>
+                    <a class="btn btn-xs delete-menu-item" href="#">Remove</a>
                   </div>
 
                 </div>
