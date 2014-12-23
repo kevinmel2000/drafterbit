@@ -14,8 +14,7 @@
 			'setting/themes/custom-preview' => ['controller' => '@system\Theme::customPreview', 'csrf'=>true],
 			
 			'setting/themes/widget' => ['controller' => '@system\Widget::index'],
-			'setting/themes/widget/add/{name}' => ['controller' => '@system\Widget::add'],
-			'setting/themes/widget/edit/{name}' => ['controller' => '@system\Widget::edit'],
+			'setting/themes/widget/delete' => ['controller' => '@system\Widget::delete'],
 			'setting/themes/menus' => ['controller' => '@system\Menus::index'],
 			'setting/themes/menus/save' => ['controller' => '@system\Menus::save'],
 			'setting/themes/menus/delete' => ['controller' => '@system\Menus::delete'],

@@ -54,8 +54,8 @@ class WidgetUIBuilder {
 		}
 		
 		$html .= '<div class="clearfix" style="margin-top:10px;">';
-		//$ui .= '<a href="#" data-id="'.$id.'" class="widget-remover">Remove</a>';
 		$html .= input_submit('save', 'Save', 'class="btn btn-primary btn-xs";');
+		$html .= '<a href="javascript:;" data-id="'.$id.'" class="btn btn-xs dt-widget-remover">Remove</a>';
 		$html .= '</div>';
 		$html .= form_close();
 		return $html;

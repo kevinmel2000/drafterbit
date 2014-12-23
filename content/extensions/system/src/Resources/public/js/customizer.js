@@ -208,4 +208,12 @@
         });
     });
 
+    //delete widget
+     $(document).on('click', '.dt-widget-remover',function(e){
+        e.preventDefault();
+        var id = $(this).data('id');
+        $.post(drafTerbit.adminUrl+'/setting/themes/widget/delete', {id:id});
+        $(this).closest('.panel').remove();
+     });
+
 })(jQuery,drafTerbit);
