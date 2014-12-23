@@ -104,7 +104,7 @@ class System extends BackendController {
 			['field' => 'time', 'width' => '20%', 'label' => 'Time', 'format' => function($val, $item) {
 				return date('d-m-Y H:i:s', $val);
 			}],
-			['field' => 'message', 'label' => 'Message', 'format' => function($val, $item){
+			['field' => 'message', 'label' => 'Activity', 'format' => function($val, $item){
 				$name = $item->user_name;
 
 				if($item->user_id == $this->get('session')->get('user.id')) {

@@ -2,16 +2,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-2">
-			<?php if($shortcuts): ?>
-			<ul class="nav nav-pills nav-stacked">
-				<?php foreach($shortcuts as $shortcut): ?>
-			  		<li><a href="<?php echo $shortcut['href'] ?>"><i class="<?php echo $shortcut['icon'] ?>"></i> <?php echo $shortcut['label'] ?></a></li>
-			    <?php endforeach; ?>
-			</ul>
-			<?php endif ?>
-		</div>
-		<div class="col-md-5">
+		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Recent Activities</h3>
@@ -40,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="col-md-5">
+		<div class="col-md-6">
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Site Info</h3>

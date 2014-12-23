@@ -304,21 +304,6 @@ class Kernel extends Application {
         return $options;
     }
 
-    /**
-     * Get dashboard Shortcuts;
-     */
-    public function getShortcuts()
-    {
-        $shortcuts = array();
-        foreach($this->getExtensions() as $extension){
-            if(method_exists($extension, 'getShortcuts')) {
-                $shortcuts =  array_merge($shortcuts, $extension->getShortcuts());
-            }
-        }
-
-        return $shortcuts;
-    }
-
     public function getReservedBaseUrl()
     {
         $urls = array();

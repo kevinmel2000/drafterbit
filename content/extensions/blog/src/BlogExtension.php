@@ -56,13 +56,6 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 		return array('blog', $query);
 	}
 
-	function getShortcuts()
-	{
-		return [
-			['href' => admin_url('blog/edit/new'), 'icon' => 'fa fa-edit','label' => 'New Post']
-		];
-	}
-
 	function getReservedBaseUrl()
 	{
 		return ['blog'];
