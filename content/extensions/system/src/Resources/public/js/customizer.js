@@ -139,7 +139,7 @@
     //iframe container width control
     var x = $(window).width();
     var y = $('#dt-widget-availables').width();
-    $('#dt-iframe-container').width(x-y-40);
+    $('#dt-iframe-container').width(x-y-1);
 
     //available widget adder/toggler
     $(document).on('click', '.dt-widget-adder', function() {
