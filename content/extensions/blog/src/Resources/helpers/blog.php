@@ -1,15 +1,8 @@
 <?php
 
-if ( ! function_exists('comment'))
-{
-    /**
-     * admin url
-     *
-     * @param string $sub
-     * @return string
-     */
-     function comment($id)
-     {
+if ( ! function_exists('comment')) {
+
+     function comment($id) {
           $comments = app()->getExtension('blog')->getComments($id);
 
           $data['comments'] = $comments;
@@ -63,5 +56,12 @@ if ( ! function_exists('comment'))
           }
 
           return $content;
+     }
+}
+
+if ( ! function_exists('blog_url')) {
+
+     function blog_url($path) {
+          return app()->getExtension('blog')->getUrl($path);
      }
 }

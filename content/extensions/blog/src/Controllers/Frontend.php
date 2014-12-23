@@ -13,7 +13,7 @@ class Frontend extends FrontendController {
 
 			$date = date('Y/m', strtotime($post->created_at));
 
-			$post->url = base_url('blog/'.$date.'/'.$post->slug);
+			$post->url = blog_url($date.'/'.$post->slug);
 
 			$post->excerpt = current(explode('<!--more-->', $post->content));
 			$post->excerpt .= '&hellip; <a href="'.$post->url.'" />Read more </a></p>';

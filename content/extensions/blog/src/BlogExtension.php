@@ -24,6 +24,16 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 			'defaults' => array('slug' => 'blog')
 			]
 		]);
+
+		$system = $this->model('@system\System')->all();
+
+		if('blog' === $system['homepage']){
+			$urlPattern = '{yyyy}/{mm}/{slug}';
+		} else {
+			$urlPattern = 'blog/{yyyy}/{mm}/{slug}';
+		}
+	    
+	    $this['router']->addReplaces('%blog_url_pattern%', $urlPattern);
 	}
 
 	public function getComments($id)
@@ -56,5 +66,16 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 	function getReservedBaseUrl()
 	{
 		return ['blog'];
+	}
+
+	public function getUrl($path)
+	{
+		$system = $this->model('@system\System')->all();
+
+		if('blog' !== $system['homepage']) {
+			$path = "blog/".$path;
+		}
+
+		return base_url($path);
 	}
 }
