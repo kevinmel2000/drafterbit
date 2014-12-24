@@ -21,7 +21,7 @@
 							'widget/delete'  => ['controller' => '@system\Widget::delete'],
 
 							'menus'          => ['controller' => '@system\Menus::index'],
-							'menus/save'     => ['controller' => '@system\Menus::save', 'methods' => 'posts'],
+							'menus/save'     => ['controller' => '@system\Menus::save', 'methods' => 'post'],
 							'menus/delete'   => ['controller' => '@system\Menus::delete'],
 						]
 					]
