@@ -4,7 +4,7 @@
 	<title>Drafterbit File Browser</title>
 
 
-	<?php $this->css(':bootstrap_css, @files/css/openfinder.css'); ?>
+	<?php $this->css(':bootstrap_css, :finder_css'); ?>
 	<?php $this->css(':fontawesome', ':fontawesome'); ?>
 	<?php echo  $this->block('css'); ?>
 
@@ -24,7 +24,7 @@ drafTerbit = {
 
 <div id="finder-container"></div>
 
-<?php $this->js(':jquery, :bootstrap_js, :bootstrap_contextmenu, :jquery_form, @files/js/openfinder.js, @files/js/browser.js'); ?>
+<?php $this->js(':jquery, :bootstrap_js, :bootstrap_contextmenu, :jquery_form, :finder_js, @files/js/browser.js'); ?>
 <?php echo $this->block('js'); ?>
 </body>
 </html>

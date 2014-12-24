@@ -28,6 +28,7 @@
     "fontawesome": "latest",
     "magicsuggest": "latest",
     "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
+    "finder": "https://github.com/drafterbit/finder.git",
     "ckeditor": "latest",
     "egig-notify": "latest",
     "handlebars": "latest"

@@ -39,7 +39,9 @@ return [
 		'magicsuggest_css' 			=> '%path.vendor.asset%/magicsuggest/magicsuggest.css',
 		'magicsuggest_js' 			=> '%path.vendor.asset%/magicsuggest/magicsuggest.js',
 		'jquery_ui_js' 				=> '%path.vendor.asset%/jquery-ui/jquery-ui.min.js',
-		'handlebars' 				=> '%path.vendor.asset%/handlebars/handlebars.min.js'
+		'handlebars' 				=> '%path.vendor.asset%/handlebars/handlebars.min.js',
+		'finder_css' 				=> '%path.vendor.asset%/finder/finder.css',
+		'finder_js' 				=> '%path.vendor.asset%/finder/finder.js'
 ]
 
 ];

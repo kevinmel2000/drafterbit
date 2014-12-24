@@ -2,7 +2,7 @@
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Drafterbit\Extensions\Files\OpenFinder;
+use Drafterbit\Finder;
 
 class OpenFinderServiceProvider implements ServiceProviderInterface {
 
@@ -10,7 +10,7 @@ class OpenFinderServiceProvider implements ServiceProviderInterface {
 	{
 		$app['ofinder'] = function($c) {
 			$uploads = $c['config']->get('path.upload');
-			return new OpenFinder($c['path.install'].$uploads, $c['file']);
+			return new Finder($c['path.install'].$uploads, $c['file']);
 		};
 	}
 }
