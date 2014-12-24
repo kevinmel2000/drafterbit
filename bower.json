@@ -27,6 +27,7 @@
     "bootstrap-contextmenu": "latest",
     "fontawesome": "latest",
     "magicsuggest": "latest",
+    "chekall": "https://github.com/markgx/jquery-check-all.git",
     "chosen": "https://github.com/harvesthq/chosen/releases/download/v1.2.0/chosen_v1.2.0.zip",
     "finder": "https://github.com/drafterbit/finder.git",
     "ckeditor": "latest",

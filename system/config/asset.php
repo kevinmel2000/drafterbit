@@ -28,11 +28,11 @@ return [
 		'bootstrap_datatables_js' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.js',
 		
 
-		'jquery_check_all' 			=> '%path.system.asset%/jquery-check-all/jquery-check-all.js',
 
 		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
 		'jquery_ui_css' 			=> '%path.system.asset%/jquery-ui/css/bootstrap-lite/jquery-ui-1.10.4.custom.min.css',
 		
+		'jquery_check_all' 			=> '%path.vendor.asset%/chekall/jquery-check-all.js',
 		'datatables_js' 			=> '%path.vendor.asset%/datatables/media/js/jquery.dataTables.js',
 		'chosen_css' 				=> '%path.vendor.asset%/chosen/chosen.css',
 		'chosen_js' 				=> '%path.vendor.asset%/chosen/chosen.jquery.js',
