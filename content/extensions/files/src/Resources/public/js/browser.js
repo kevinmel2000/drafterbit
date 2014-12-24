@@ -23,7 +23,7 @@
 		}
 	}
 
-	$('#finder-container').openFinder({
+	$('#finder-container').finder({
 		url: drafTerbit.adminUrl+'/files/data',
 		onISelect: ckeditorCallback
 	});
