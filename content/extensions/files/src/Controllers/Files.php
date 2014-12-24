@@ -14,40 +14,11 @@ class Files extends BackendController {
 		return $this->render('@files/admin/index', $data);
 	}
 
-	public function upload()
-	{
-		$config = $this->get('config');
-		$uploadDir = $config['upload_dir'];
-		$uploaded = $this->get('input')->files();
-
-		$relPath = $this->get('input')->post('rel-path');
-
-		if(isset($uploaded['files'])) {
-
-			try {
-				foreach ($uploaded['files'] as $file) {
-					if ($file instanceof UploadedFile ) {
-					
-					//$ext = $file->getClientOriginalExtension();
-					// $name = sha1_file($file->getRealPath());
-					$name = $file->getClientOriginalName();
-
-						$file->move($uploadDir.DIRECTORY_SEPARATOR.$relPath, $name);
-					}
-				}
-				return 'File Uploaded';
-			} catch (FileException $e) {
-				return $e->getMessage();
-			}
-		}
-	}
-
 	private function fixPostMaxSizeIssue()
 	{
 		// @todo
 		// handler post max size affected to upload file
 	}
-
 	
 	public function browser()
 	{	

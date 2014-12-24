@@ -27,8 +27,6 @@ return [
 		'bootstrap_datatables_css' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.css',
 		'bootstrap_datatables_js' 	=> '%path.system.asset%/bootstrap-datatables/bootstrap-datatables.js',
 		
-
-
 		'chosen_bootstrap_css' 		=> '%path.system.asset%/chosen-bootstrap/chosen-bootstrap.css',
 		'jquery_ui_css' 			=> '%path.system.asset%/jquery-ui/css/bootstrap-lite/jquery-ui-1.10.4.custom.min.css',
 		
