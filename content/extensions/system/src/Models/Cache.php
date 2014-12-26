@@ -31,9 +31,4 @@ class Cache extends \Drafterbit\Framework\Model {
 
 		return $size;
 	}
-
-	public function clear()
-	{
-		//
-	}
 }
