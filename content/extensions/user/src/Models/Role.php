@@ -2,10 +2,11 @@
 
 class Role extends \Drafterbit\Framework\Model {
 
-	public function queryAll()
+	public function all()
 	{
-		return $this->get('db')
-			->fetchAllObjects('SELECT * from #_roles');
+		return 
+		$this->get('db')
+			->fetchAll('SELECT * from #_roles');
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
@@ -26,7 +27,7 @@ class Role extends \Drafterbit\Framework\Model {
 			->setParameter(":$key", $value);
 		}
 
-		$roles = $q->fetchAllObjects();
+		$roles = $q->getResult();
 
 		if($singleRequested) {
 			return reset($roles);
@@ -48,13 +49,14 @@ class Role extends \Drafterbit\Framework\Model {
 
 	public function getByUser($id)
 	{
+		return
 		$this->withQueryBuilder()
 		->select('*')
 		->from('#_roles', 'r')
 		->innerJoin('r', '#_users_roles', 'ur', 'r.id = ur.role_id')
 		->where("ur.user_id = :user_id")
 		->setParameter(':user_id', $id)
-		->fetchAllObjects();
+		->getResult();
 	}
 
 	public function update($data, array $where)

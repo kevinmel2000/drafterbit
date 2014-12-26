@@ -114,43 +114,43 @@
                                          <div class="panel panel-default menu-item-container">
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-menu-container" href="#menu-<?php echo $menu->id ?>">
-                                                  <?php echo $menu->label; ?>
+                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-menu-container" href="#menu-<?php echo $menu['id'] ?>">
+                                                  <?php echo $menu['label']; ?>
                                                 </a>
                                               </h4>
                                             </div>
-                                            <div id="menu-<?php echo $menu->id ?>" class="panel-collapse collapse">
+                                            <div id="menu-<?php echo $menu['id'] ?>" class="panel-collapse collapse">
                                               <form action="<?php echo admin_url('setting/themes/menus/save'); ?>" class="menu-form" method="POST">
                                               <div class="panel-body">
                                                 
                                                 <div class="form-group">
                                                   <label>Label</label>
-                                                  <input class="form-control input-sm menu-label" type="text" name="label" value="<?php echo $menu->label; ?>"/>
+                                                  <input class="form-control input-sm menu-label" type="text" name="label" value="<?php echo $menu['label']; ?>"/>
                                                 </div>
 
                                                 <div class="form-group">
                                                   <label>Type</label>
                                                   <select name="type" class="form-control input-sm menu-type">
-                                                    <option value="1" <?php echo selected('type', 1, $menu->type == 1); ?>>Custom Link</option>
-                                                    <option value="2" <?php echo selected('type', 2, $menu->type == 2); ?>>Page</option>
+                                                    <option value="1" <?php echo selected('type', 1, $menu['type'] == 1); ?>>Custom Link</option>
+                                                    <option value="2" <?php echo selected('type', 2, $menu['type'] == 2); ?>>Page</option>
                                                   </select>
                                                 </div>
 
-                                                <div class="form-group menu-type-link" style="<?php echo hide('menu-type', 1, $menu->type == 1); ?>">
+                                                <div class="form-group menu-type-link" style="<?php echo hide('menu-type', 1, $menu['type'] == 1); ?>">
                                                   <label>Link</label>
-                                                  <input class="form-control input-sm" type="text" name="link" value="<?php echo $menu->link; ?>"/>
+                                                  <input class="form-control input-sm" type="text" name="link" value="<?php echo $menu['link']; ?>"/>
                                                 </div>
                                                 
-                                                <div class="form-group menu-type-page" style="<?php echo hide('menu-type', 2, $menu->type == 2); ?>">
+                                                <div class="form-group menu-type-page" style="<?php echo hide('menu-type', 2, $menu['type'] == 2); ?>">
                                                   <label>Page</label>
                                                   <select class="form-control input-sm" name="page">
                                                     <?php foreach ($pageOptions as $v => $label): ?>
-                                                      <option <?php echo selected('page', $v, $menu->page == $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
+                                                      <option <?php echo selected('page', $v, $menu['page'] == $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
                                                     <?php endforeach;?>
                                                   </select>
                                                 </div>
 
-                                                <input type="hidden" name="id" value="<?php echo $menu->id; ?>">
+                                                <input type="hidden" name="id" value="<?php echo $menu['id']; ?>">
                                                 <input type="hidden" name="position" value="<?php echo $pos; ?>">
                                                 <input type="hidden" name="theme" value="<?php echo $theme; ?>">
                                                 <div class="form-group">

@@ -2,19 +2,18 @@
 
 class System extends \Drafterbit\Framework\Model {
 
-	public function queryAll()
+	public function all()
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 
 		$sets = $queryBuilder
 		->select('st.*')
-		->from('#_system','st')
-		
-		->execute()->fetchAll(\PDO::FETCH_CLASS);
+		->from('#_system','st')		
+		->getResult();
 
 		$array = array();
 		foreach ($sets as $set) {
-			$array[$set->name] = $set->value;
+			$array[$set['name']] = $set['value'];
 		}
 
 		return $array;

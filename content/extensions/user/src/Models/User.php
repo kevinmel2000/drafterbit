@@ -2,7 +2,7 @@
 
 class User extends \Drafterbit\Framework\Model {
 
-	public function queryAll($filters)
+	public function all($filters)
 	{
 		$query = $this->withQueryBuilder()->select('*') ->from('#_users','u');
 
@@ -14,7 +14,7 @@ class User extends \Drafterbit\Framework\Model {
 			$query->where('u.status = 1');
 		}
 
-		return $query ->fetchAllObjects();
+		return $query->getResult();
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)
@@ -35,7 +35,7 @@ class User extends \Drafterbit\Framework\Model {
 			->setParameter(":$key", $value);
 		}
 
-		$users = $queryBuilder->fetchAllObjects();
+		$users = $queryBuilder->getResult();
 
 		if($singleRequested) {
 			return reset($users);
@@ -99,10 +99,11 @@ class User extends \Drafterbit\Framework\Model {
 		->where('ur.user_id = :user_id')
 		->setParameter(':user_id', $id);
 
-		$roles = $queryBuilder->fetchAllObjects();
+		$roles = $queryBuilder->getResult();
 
 		$ids = array();
 		foreach ($roles as $role) {
+			$role = (object) $role;
 			$ids[] = $role->id;
 		}
 
@@ -124,13 +125,13 @@ class User extends \Drafterbit\Framework\Model {
 		->where('ur.user_id = :user_id')
 		->setParameter(':user_id', $userId);
 
-		$roles = $queryBuilder->fetchAllObjects();
+		$roles = $queryBuilder->getResult();
 
 		$permissions = array();
 
 		foreach($roles as $role) {
-			if($role->permissions) {
-				$permissions = array_merge($permissions, json_decode($role->permissions, true));
+			if($role['permissions']) {
+				$permissions = array_merge($permissions, json_decode($role['permissions'], true));
 			}
 		}
 

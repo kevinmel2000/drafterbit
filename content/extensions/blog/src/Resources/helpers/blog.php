@@ -53,7 +53,7 @@ if ( ! function_exists('comment')) {
 	{
 		$content = '';
 		foreach ($comments as $comment) {
-			$comment->childs = _render($comment->childs, $post_id, $comment->id);
+			$comment['childs'] = _render($comment['childs'], $post_id, $comment['id']);
 			
 			$data['comment'] = $comment;
 			$data['parent_id'] = $parent_id;

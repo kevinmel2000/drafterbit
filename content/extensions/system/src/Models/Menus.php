@@ -13,7 +13,7 @@ class Menus extends Model {
 			->andWhere('theme=:theme')
 			->setParameter('position', $position)
 			->setParameter('theme', $theme)
-			->fetchAllObjects();
+			->getResult();
 
 		return $menus;
 	}

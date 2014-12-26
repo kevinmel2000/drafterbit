@@ -10,7 +10,7 @@
  * application. If disabled a simple error page is shown.
  */
 
-'debug' => true,
+'debug' => false,
 
 /**
  *--------------------------------------------------------------------------

@@ -29,13 +29,14 @@ class User extends BackendController {
 		$users = $this->model('@user\User')->all(['status' => 'all']);
 
 		foreach ($users as &$user) {
-			$user->roles = $this->model('@user\Role')->getByUser($user->id);
+			$user = $user;
+			$user['roles'] = $this->model('@user\Role')->getByUser($user['id']);
 		}
 
 		$data['users'] = $users;
 		$data['id'] ='users';
 		$data['title'] = __('Users');
-		$data['usersTable'] = $this->datatables('users', $this->_table(), $users);
+		$data['usersTable'] = $this->dataTable('users', $this->_table(), $users);
 		$data['action'] = admin_url('user/index-action');
 
 		return $this->render('@user/admin/index', $data);
@@ -62,7 +63,7 @@ class User extends BackendController {
 
 		return array(
 			['field' => 'real_name', 'label' => 'Name', 'format' => function($value, $item) use ($editUrl) {
-					return "<a href='$editUrl/{$item->id}'>$value</a>"; }],
+					return "<a href='$editUrl/{$item['id']}'>$value</a>"; }],
 			['field' => 'email', 'label' => 'Email'],
 			['field' => 'status', 'label' => 'Status', 'format' => function($value, $item) {
 					return $value == 1 ? __('active') : __('banned'); }],
@@ -148,7 +149,7 @@ class User extends BackendController {
 			);
 		} else {
 
-			$user = $this->model('@user\User')->getSingleBy('id', $id);
+			$user = (object) $this->model('@user\User')->getSingleBy('id', $id);
 			$user->roleIds = $this->model('@user\User')->getRoleIds($user->id);
 
 			$data = array(

@@ -14,14 +14,14 @@ class Roles extends BackendController {
 
 		$editUrl = admin_url('user/roles/edit');
 		$tableHead = array(
-			['field' => 'label', 'label' => 'Role', 'format' => function($value, $item) use ($editUrl)  {return "<a href='$editUrl/{$item->id}'>$value</a>";}],
+			['field' => 'label', 'label' => 'Role', 'format' => function($value, $item) use ($editUrl)  {return "<a href='$editUrl/{$item['id']}'>$value</a>";}],
 			['field' => 'description', 'label' => 'Description']
 		);
 
 		$data['id'] = 'roles';
 		$data['title'] = __('Roles');
 		$data['action'] = admin_url('user/roles/index-action');
-		$data['rolesTable'] = $this->datatables('roles', $tableHead, $roles);
+		$data['rolesTable'] = $this->dataTable('roles', $tableHead, $roles);
 
 		return $this->render('@user/admin/roles/index', $data);
 	}
@@ -109,9 +109,9 @@ class Roles extends BackendController {
 
 		if($role = $this->model('@user\Role')->getsingleBy('id', $id)) {
 						
-			$data['roleName'] = $role->label;
-			$data['description'] = $role->description;
-			$data['permissionIds'] = $role->permissions ? json_decode($role->permissions, true) : array();
+			$data['roleName'] = $role['label'];
+			$data['description'] = $role['description'];
+			$data['permissionIds'] = $role['permissions'] ? json_decode($role['permissions'], true) : array();
 			$data['title'] = __('Edit Role');
 		} else {
 			$data['roleName'] = null;

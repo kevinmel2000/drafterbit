@@ -2,14 +2,14 @@
 
 class Tag extends \Drafterbit\Framework\Model {
 
-	public function queryAll()
+	public function all()
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 		return
 		$queryBuilder
 		->select('*')
 		->from('#_tags','t')
-		->execute()->fetchAll(\PDO::FETCH_CLASS);
+		->execute()->fetchAll();
 	}
 
 	public function getBy($key, $value = null, $singleRequested=false)

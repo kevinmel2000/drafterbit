@@ -2,7 +2,7 @@
 
 class Post extends \Drafterbit\Framework\Model {
 
-	public function queryAll($filters)
+	public function all($filters)
 	{
 		$query = $this->get('db')->createQueryBuilder();
 
@@ -28,7 +28,7 @@ class Post extends \Drafterbit\Framework\Model {
 			}
 		}
 
-		return $query->fetchAllObjects();
+		return $query->getResult();
 	}
 
 	public function insert($data)
@@ -76,10 +76,10 @@ class Post extends \Drafterbit\Framework\Model {
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 		
-		return
+		return (object)
 		$queryBuilder->select('*')->from('#_posts', 'p')
 		->where("$field = '$value'")
-		->execute()->fetchObject();
+		->execute()->fetch();
 	}
 
 	public function clearTag($id)
@@ -107,7 +107,7 @@ class Post extends \Drafterbit\Framework\Model {
 		->from('#_tags', 't')
 		->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
 		->where("pt.post_id = '$id'")
-		->execute()->fetchAll(\PDO::FETCH_CLASS);
+		->execute()->fetchAll();
 	}
 
 	public function getSingleBy($field, $value)
@@ -118,7 +118,7 @@ class Post extends \Drafterbit\Framework\Model {
 		->from('#_posts', 'p')
 		->where("$field = :value")
 		->setParameter(':value', $value)
-		->execute()->fetchObject();
+		->execute()->fetch();
 	}
 
 	/**

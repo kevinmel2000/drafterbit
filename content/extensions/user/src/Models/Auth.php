@@ -22,7 +22,7 @@ class Auth extends \Drafterbit\Framework\Model {
 		}
 
 		// yes, it's password.
-		if( ! $this->verifyPassword( $password, $user->password)) {
+		if( ! $this->verifyPassword( $password, $user['password'])) {
 			throw new \RuntimeException("Password is not valid.");
 		}
 
@@ -46,18 +46,18 @@ class Auth extends \Drafterbit\Framework\Model {
 	{
 		$encrypter = $this->get('encrypter');
 		
-		$userPermissions = $encrypter->encrypt(serialize($this->user->getPermissions($user->id)));
+		$userPermissions = $encrypter->encrypt(serialize($this->user->getPermissions($user['id'])));
 		
 		$session = $this->get('session');
 		$data = array(
-			'user.id' => $user->id,
-			'user.email' => $user->email,
-			'user.name' => $user->real_name,
+			'user.id' => $user['id'],
+			'user.email' => $user['email'],
+			'user.name' => $user['real_name'],
 			'user.permissions' => $userPermissions,
 			'_token' => sha1( (string) microtime(true)),
 		);
 
-		foreach ( $data as $key => $value) {
+		foreach ($data as $key => $value) {
 			$session->set($key, $value);
 		}
 	}

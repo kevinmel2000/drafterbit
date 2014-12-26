@@ -17,7 +17,7 @@ class Pages extends BackendController {
 		$data['id'] = 'pages';
 		$data['title'] =  __('Pages');
 		$data['action'] = admin_url('pages/trash');
-		$data['pagesTable'] = $this->datatables('pages', $this->_tableHeader(), $pages);
+		$data['pagesTable'] = $this->dataTable('pages', $this->_tableHeader(), $pages);
 
 		return $this->render('@pages/admin/index', $data);
 	}
@@ -51,6 +51,9 @@ class Pages extends BackendController {
 		$pagesArr  = array();
 
 		foreach ($pages as $page) {
+
+			$page = (object)$page;
+
 			$data = array();
 			$data[] = '<input type="checkbox" name="pages[]" value="'.$page->id.'">';
 			$data[] = $status !== 'trashed' ? "<a class='page-edit-link' href='$editUrl/{$page->id}'> {$page->title}</a>" : $page->title;
@@ -92,7 +95,7 @@ class Pages extends BackendController {
 
 		} else {
 
-			$page = $this->model('@pages\Pages')->getSingleBy('id', $id);
+			$page = (object) $this->model('@pages\Pages')->getSingleBy('id', $id);
 			$data = array(
 				'title' 	=> __('Edit Page'),
 
@@ -157,7 +160,7 @@ class Pages extends BackendController {
 	private function _tableHeader()
 	{
 		$editUrl = admin_url('pages/edit');
-		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item->id}'>$value</i></a>"; };
+		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item['id']}'>$value</i></a>"; };
 		$formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
 
 		return [

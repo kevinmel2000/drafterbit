@@ -39,6 +39,14 @@
 		]
 	],
 
+'%blog_page_url_pattern%' => [
+	'controller' => '@blog\Frontend::index',
+	'methods' => 'get',
+	'requirements' => [
+		'page' => '[1-9]+',
+		]
+	],
+
 'blog/comment/submit' => ['controller' => '@blog\Comment::submit', 'methods' => 'post'],
 
 ];

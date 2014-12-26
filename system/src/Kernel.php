@@ -108,22 +108,22 @@ class Kernel extends Application {
             ->andWhere('theme=:theme')
             ->setParameter('position', $position)
             ->setParameter('theme', $this['themes']->current())
-            ->fetchAllObjects();
+            ->getResult();
 
         usort($data, function($a, $b) {
-            if($a->order == $b->order) {
-                return $a->id - $b->id;
+            if($a['order'] == $b['order']) {
+                return $a['id'] - $b['id'];
             }
 
-            return $a->order < $b->order ? -1 : 1;
+            return $a['order'] < $b['order'] ? -1 : 1;
         });
 
         foreach ($data as &$item) {
-            if($item->type == 1) {
-                $item->link = strtr($item->link, array("%base_url%" => base_url()));
-            } else if($item->type == 2) {
+            if($item['type'] == 1) {
+                $item['link'] = strtr($item['link'], array("%base_url%" => base_url()));
+            } else if($item['type'] == 2) {
                 $pages = $this->getFrontpage();
-                $item->link = base_url($pages[$item->page]['defaults']['slug']);
+                $item['link'] = base_url($pages[$item['page']]['defaults']['slug']);
             }
         }
 
@@ -162,6 +162,10 @@ class Kernel extends Application {
         }
 
         $config = $this['config']->load($configFile);
+        $appConfig = $this['config']['app'];
+
+        $this['debug'] = $appConfig['debug'];
+        $this['exception']->setDebug($this['debug']);
 
         $this['router']->addReplaces('%admin%', $config['path.admin']);
         
@@ -202,15 +206,10 @@ class Kernel extends Application {
         }
 
         $this['widget']->registerAll();
-
-        $config = $this['config']['app'];
         
         date_default_timezone_set($system['timezone']);
-        
-        $this['debug'] = $config['debug'];
-        $this['exception']->setDebug($this['debug']);
 
-        if ($config['error.log']) {
+        if ($appConfig['error.log']) {
             $this['exception']
                 ->error(function(\Exception $exception, $code) {
                     $this['log']->addError($exception);
@@ -274,14 +273,14 @@ class Kernel extends Application {
 
         $pages = $qb->select('*')
             ->from('#_pages','p')
-            ->execute()->fetchAll(\PDO::FETCH_CLASS);
+            ->execute()->fetchAll();
 
         $options = array();
         foreach ($pages as $page) {
-            $options['pages:'.$page->id] = [
-                'label' => $page->title,
+            $options['pages:'.$page['id']] = [
+                'label' => $page['title'],
                 'controller' => '@pages\Frontend::home',
-                'defaults' => ['id' => $page->id, 'slug' => $page->slug]
+                'defaults' => ['id' => $page['id'], 'slug' => $page['slug']]
             ];
         }
 

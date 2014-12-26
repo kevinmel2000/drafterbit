@@ -22,16 +22,16 @@ class Theme extends BackendController {
 		// @todo
 		$settings = $this->setting->all();
 
-		set('currentTheme', $settings['theme']);
+		$data['currentTheme'] = $settings['theme'];
 
 		$themesDir = $this->get('path.themes');
 		$themes = $this->get('themes')->all();
 
-		set('themes', $themes);
-		set('id', 'themes');
-		set('title', __('Themes'));
+		$data['themes'] = $themes;
+		$data['id'] = 'themes';
+		$data['title'] = __('Themes');
 
-		return $this->render('@system/setting/appearance', $this->getData());
+		return $this->render('@system/setting/appearance', $data);
 	}
 
 	public function customize()

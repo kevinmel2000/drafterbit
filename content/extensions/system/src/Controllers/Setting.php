@@ -19,7 +19,7 @@ class Setting extends BackendController {
 		
 		$config = $this->model('@system\System')->all();
 		
-		set([
+		$data = [
 			'siteName' => $config['site.name'],
 			'tagLine' => $config['site.description'],
 			'adminEmail' => $config['email'],
@@ -31,9 +31,9 @@ class Setting extends BackendController {
 			'pageOptions' => $this->get('app')->getFrontPageOption(),
 			'title' => __('General Setting'),
 			'id' => 'setting'
-		]);
+		];
 
-		return $this->render('@system/setting/general', $this->getData());
+		return $this->render('@system/setting/general', $data);
 	}
 
 	protected function setupData($p)

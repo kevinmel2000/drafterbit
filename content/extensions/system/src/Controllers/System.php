@@ -12,6 +12,8 @@ class System extends BackendController {
 		$logs = $this->model('@system\Log')->recent();
 
 		foreach ($logs as &$log) {
+			$log = (object)$log;
+
 			$name = $log->user_name;
 
 			if($log->user_id == $this->get('session')->get('user.id')) {
@@ -96,28 +98,29 @@ class System extends BackendController {
 
 		$logs = $this->model('@system\Log')->all();
 
-		set('title', __('Logs'));
-		set('id', 'log');
+		$data['title'] = __('Logs');
+		$data['id'] = 'log';
 
 		$tableHead = array(
 			['field' => 'time', 'width' => '20%', 'label' => 'Time', 'format' => function($val, $item) {
 				return date('d-m-Y H:i:s', $val);
 			}],
 			['field' => 'message', 'label' => 'Activity', 'format' => function($val, $item){
-				$name = $item->user_name;
+				$name = $item['user_name'];
 
-				if($item->user_id == $this->get('session')->get('user.id')) {
+				if($item['user_id'] == $this->get('session')->get('user.id')) {
 					$name = __('You');
 				}
 
-				$userUrl = admin_url('user/edit/'.$item->user_id);
+				$userUrl = admin_url('user/edit/'.$item['user_id']);
 
-				return '<a href="'.$userUrl.'">'.$name.'</a> '.$item->message;
+				return '<a href="'.$userUrl.'">'.$name.'</a> '.$item['message'];
 			}]
 		);
-		set('logTable', $this->datatables('log', $tableHead, $logs));
 
-		return $this->render('@system/log', $this->getData());
+		$data['logTable'] = $this->dataTable('log', $tableHead, $logs);
+
+		return $this->render('@system/log', $data);
 	}
 
 	public function cache()
@@ -140,13 +143,13 @@ class System extends BackendController {
 			['field' => 'size', 'label' => 'Filesize']
 		);
 
-		$cacheTable = $this->datatables('cache', $tableHead, $caches);
+		$cacheTable = $this->dataTable('cache', $tableHead, $caches);
 
-		set('id','cache');
-		set('title',__('Cache'));
-		set('cacheTable', $cacheTable);
+		$data['id'] = 'cache';
+		$data['title']  = __('Cache');
+		$data['cacheTable'] = $cacheTable;
 
-		return $this->render('@system/cache', $this->getData());
+		return $this->render('@system/cache', $data);
 	}
 
 	public function drafterbitJs()

@@ -13,7 +13,7 @@ class Comment extends BackendController {
 		$data['id'] = 'comments';
 		$data['title'] = __('Comments');
 		$data['status'] = 1;
-		$data['commentsTable'] = $this->datatables('comments', $this->_table(), $comments);
+		$data['commentsTable'] = $this->dataTable('comments', $this->_table(), $comments);
 		$data['action'] = admin_url('comments/trash');
 
 		return $this->render('@blog/admin/comments/index', $data);
@@ -48,6 +48,7 @@ class Comment extends BackendController {
 		$arr  = array();
 
 		foreach ($comments as $comment) {
+			$comment = (object) $comment;
 			$data = array();
 			$data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
 			$data[] = "{$comment->name} <div><a href=\"mailto:{$comment->email}\">{$comment->email}</a></div>";
@@ -97,7 +98,7 @@ class Comment extends BackendController {
 				'label' => 'Author',
 				'width' => '15%',
 				'format' => function($value, $item){
-					return "{$value} <div><a href=\"mailto:{$item->email}\">{$item->email}</a></div>";
+					return "{$value} <div><a href=\"mailto:{$item['email']}\">{$item['email']}</a></div>";
 				}],
 			[
 				'field' => 'content',
@@ -108,14 +109,14 @@ class Comment extends BackendController {
 					$content = "$value";
 					$content .= "<div class=\"comment-action\">";
 
-					$display = $item->status == 1 ? 'inline' : 'none';
-					$display2 = $item->status == 0 ? 'inline' : 'none';
+					$display = $item['status'] == 1 ? 'inline' : 'none';
+					$display2 = $item['status'] == 0 ? 'inline' : 'none';
 
-					$content .=" <a data-status=\"0\" data-id=\"{$item->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
-					$content .=" <a data-status=\"1\" data-id=\"{$item->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
-					$content .=" <a data-id=\"{$item->id}\" data-post-id=\"{$item->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
-					$content .=" <a data-status=\"2\" data-id=\"{$item->id}\" class=\"spam status\" href=\"#\">Spam</a>";
-					$content .=" <a data-id=\"{$item->id}\" class=\"trash\" href=\"#\">Trash</a>";
+					$content .=" <a data-status=\"0\" data-id=\"{$item['id']}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
+					$content .=" <a data-status=\"1\" data-id=\"{$item['id']}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
+					$content .=" <a data-id=\"{$item['id']}\" data-post-id=\"{$item['post_id']}\" class=\"reply\" href=\"#\">Reply</a>";
+					$content .=" <a data-status=\"2\" data-id=\"{$item['id']}\" class=\"spam status\" href=\"#\">Spam</a>";
+					$content .=" <a data-id=\"{$item['id']}\" class=\"trash\" href=\"#\">Trash</a>";
 					$content .="</div>";
 
 					return $content;
@@ -125,7 +126,7 @@ class Comment extends BackendController {
 				'label' => 'In Respose to',
 				'width' => '20%',
 				'format' => function($value, $item){
-					return '<a href="'.admin_url('blog/edit/'.$value).'">'.$item->title.'</a><br/>'.$item->created_at;
+					return '<a href="'.admin_url('blog/edit/'.$value).'">'.$item['title'].'</a><br/>'.$item['created_at'];
 				}
 			]
 		);

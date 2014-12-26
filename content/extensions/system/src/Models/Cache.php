@@ -10,10 +10,9 @@ class Cache extends \Drafterbit\Framework\Model {
 		$data = array();
 
 		foreach ($finder as $file) {
-			$f = new \StdClass;
-			$f->id = $file->getFileName();
-			$f->name = ucfirst($file->getFileName());
-			$f->size = $this->getCacheFileSize($file->getRealPath()) . ' Byte';
+			$f['id'] = $file->getFileName();
+			$f['name'] = ucfirst($file->getFileName());
+			$f['size'] = $this->getCacheFileSize($file->getRealPath()) . ' Byte';
 
 			$data[] = $f;
 		}

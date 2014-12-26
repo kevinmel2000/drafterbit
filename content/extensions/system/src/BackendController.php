@@ -75,16 +75,22 @@ class BackendController extends Controller {
 		return $menus;
 	}
 
-	public function datatables($id, $headers, $data)
+	/**
+	 * Create datatables
+	 *
+	 * @param string $id
+	 * @param array $heads
+	 * @param array $data
+	 */
+	public function dataTable($id, $heads, $data)
 	{
 		$thead = array();
-		foreach ($headers as $item) {
-			$th = new \StdClass;
-			$th->label = $item['label'];
-			$th->id = $item['field'];
-			$th->align = isset($item['align']) ? $item['align'] : 'left';
-			$th->width = isset($item['width']) ? $item['width'] : 'auto';
-			$th->format = (isset($item['format']) and is_callable($item['format'])) ? $item['format'] : false;
+		foreach ($heads as $item) {
+			$th['id'] 		= $item['field'];
+			$th['label'] 	= $item['label'];
+			$th['align'] 	= isset($item['align']) ? $item['align'] : 'left';
+			$th['width'] 	= isset($item['width']) ? $item['width'] : 'auto';
+			$th['format'] 	= (isset($item['format']) and is_callable($item['format'])) ? $item['format'] : false;
 
 			$thead[] = $th;
 		}
@@ -92,27 +98,25 @@ class BackendController extends Controller {
 		$rows = array();
 
 		foreach ($data as $item) {
-			
-			$row = new \StdClass;
-			$row->id = $item->id;
+
+			$row['id'] = $item['id'];
 
 			foreach ($thead as $th) {
-
-				if($th->format) {
-					$row->values[$th->id] = call_user_func_array($th->format, [$item->{$th->id}, $item]);
+				if($th['format']) {
+					$row['values'][$th['id']] = call_user_func_array($th['format'], [$item[$th['id']], $item]);
 				} else {
-					$row->values[$th->id] = $item->{$th->id};
+					$row['values'][$th['id']] = $item[$th['id']];
 				}
 			}
-
+			
 			$rows[] = $row;
 		}
 
-		$data['id'] = $data['name'] = $id;
-		$data['thead'] = $thead;
-		$data['rows'] = $rows;
+		$data['id']		= $id;
+		$data['rows'] 	= $rows;
+		$data['thead'] 	= $thead;
 
-		return $this->render('@system/partials/datatables', $data);
+		return $this->render('@system/partials/data-table', $data);
 	}
 
 	public function tableHeader($name, $data, $headers)

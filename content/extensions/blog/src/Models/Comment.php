@@ -4,7 +4,7 @@ use Drafterbit\Framework\Model;
 
 class Comment extends Model {
 
-	public function queryAll($filters)
+	public function all($filters)
 	{
 		$status = $filters['status'];
 
@@ -35,7 +35,7 @@ class Comment extends Model {
 			}
 		}
 
-		return $query->fetchAllObjects();
+		return $query->getResult();
 	}
 
 	public function getByPostId($id)
@@ -47,14 +47,14 @@ class Comment extends Model {
 		->andWhere('c.status = 1')
 		->setParameter('post_id', $id);
 
-		$comments =  $query->fetchAllObjects();
+		$comments =  $query->getResult();
 
 		// group parent and childs
 		$childs = array();
 		$parents = array();	
 		foreach ($comments as $comment) {
-			if($comment->parent_id != 0) {
-				$childs[$comment->parent_id][] = $comment;
+			if($comment['parent_id'] != 0) {
+				$childs[$comment['parent_id']][] = $comment;
 			} else {
 				$parents[] = $comment;
 			}
@@ -62,7 +62,7 @@ class Comment extends Model {
 		unset($comments);
 
 		foreach ($parents as &$parent) {
-			$parent->childs = $this->getChilds($parent->id, $childs);
+			$parent['childs'] = $this->getChilds($parent['id'], $childs);
 		}
 		unset($childs);
 

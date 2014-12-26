@@ -2,7 +2,7 @@
 
 class Log extends \Drafterbit\Framework\Model {
 
-	public function queryAll()
+	public function all()
 	{
 		$queryBuilder = $this->get('db')->createQueryBuilder();
 		$stmt = $queryBuilder
@@ -10,7 +10,7 @@ class Log extends \Drafterbit\Framework\Model {
 			->from('#_logs', 'l')
 			->leftJoin('l','#_users','u', 'l.user_id = u.id')
 			->orderBy('time', 'DESC');
-		return $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
+		return $stmt->execute()->fetchAll();
 	}
 
 	public function recent()
@@ -22,7 +22,7 @@ class Log extends \Drafterbit\Framework\Model {
 			->leftJoin('l','#_users','u', 'l.user_id = u.id')
 			->orderBy('time', 'DESC')->setMaxResults(10);
 
-		return $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);	
+		return $stmt->execute()->fetchAll();	
 	}
 
 	public function delete($id)

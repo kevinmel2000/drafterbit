@@ -16,7 +16,7 @@ class Blog extends BackendController {
 		$data['title'] = __('Blog');
 		$data['id'] = 'posts';
 		$data['action'] = admin_url('blog/trash');
-		$data['blogTable'] = $this->datatables('posts', $this->_table(), $posts);
+		$data['blogTable'] = $this->dataTable('posts', $this->_table(), $posts);
 
 		return $this->render('@blog/admin/index', $data);
 	}
@@ -92,13 +92,13 @@ class Blog extends BackendController {
 				'label' => 'Title',
 				'width' => '40%',
 				'format' => function($value, $item) use ($editUrl) {
-					return "<a href='$editUrl/{$item->id}'>$value</a>"; }],
+					return "<a href='$editUrl/{$item['id']}'>$value</a>"; }],
 			[
 				'field' => 'authorName',
 				'label' => 'Author',
 				'width' => '20%',
 				'format' => function($value, $item) use ($userUrl) {
-					return "<a href='$userUrl/{$item->user_id}'>$value</a>"; }],
+					return "<a href='$userUrl/{$item['user_id']}'>$value</a>"; }],
 			[
 				'field' => 'status',
 				'label' => 'Status',
@@ -118,6 +118,7 @@ class Blog extends BackendController {
 		$tagOptionsArray = $this->model('@blog\Tag')->all();
 		$tagOptions = '[';
 		foreach ($tagOptionsArray as $tO) {
+			$tO = (object) $tO;
 			$tagOptions .= "'{$tO->label}',";
 		}
 		$tagOptions = rtrim($tagOptions, ',').']';
@@ -141,6 +142,7 @@ class Blog extends BackendController {
 			
 			$tags = array();
 			foreach ($post->tags as $tag) {
+				$tag = (object) $tag;
 				$tags [] = $tag->label;
 			}
 

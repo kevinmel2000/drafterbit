@@ -25,7 +25,7 @@
 		    <label for="groups" class="control-label">Role</label>
 	      	<select name="roles[]" multiple id="user-roles" class="form-control" data-placeholder="Select Role">
 	      		<?php foreach ($roleOptions as $option):?>
-	      		<option <?php echo selected('roles', $option->id, in_array($option->id, $roleIds)); ?> value="<?php echo $option->id ?>"><?php echo $option->label; ?></option>
+	      		<option <?php echo selected('roles', $option['id'], in_array($option['id'], $roleIds)); ?> value="<?php echo $option['id'] ?>"><?php echo $option['label']; ?></option>
 		      	<?php endforeach?>
 	      	</select>
 		</div>

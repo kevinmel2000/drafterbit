@@ -2,9 +2,9 @@
 
 class Pages extends \Drafterbit\Framework\Model {
 
-	protected function queryAll($filters)
+	public function all($filters)
 	{
-		$query = $this->withQueryBuilder() ->select('*') ->from('#_pages','p');
+		$query = $this->withQueryBuilder()->select('*')->from('#_pages','p');
 
 		$status = $filters['status'];
 
@@ -23,7 +23,7 @@ class Pages extends \Drafterbit\Framework\Model {
 			}
 		}
 
-		return $query->fetchAllObjects();
+		return $query->getResult();
 	}
 
 	public function insert($data)
@@ -57,7 +57,7 @@ class Pages extends \Drafterbit\Framework\Model {
 			->setParameter(":$key", $value);
 		}
 
-		$pages = $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
+		$pages = $stmt->getResult();
 
 		if($singleRequested) {
 			return reset($pages);
@@ -87,8 +87,6 @@ class Pages extends \Drafterbit\Framework\Model {
 		->delete('#_pages')
 		->where('id IN ('.$idString.')')
 			->execute();
-
-		$this->clearCache();
 	}
 
 	/**
@@ -108,8 +106,6 @@ class Pages extends \Drafterbit\Framework\Model {
 			->set('deleted_at',"'$deleted_at'")
 			->where('p.id IN ('.$idString.')')
 			->execute();
-
-		$this->clearCache();
 	}
 
 	/**
@@ -129,21 +125,5 @@ class Pages extends \Drafterbit\Framework\Model {
 			->set('deleted_at',"'0000-00-00 00:00:00'")
 			->where('p.id IN ('.$idString.')')
 			->execute();
-
-		$this->clearCache();
-	}
-
-	/**
-	 * Clear stored data cache
-	 *
-	 * @return void
-	 */
-	private function clearCache()
-	{
-		$cache = $this->get('cache');
-
-		foreach (['published', 'unpulished', 'trashed'] as $part) {
-			$cache->delete('pages.'.$part);
-		}
 	}
 }
