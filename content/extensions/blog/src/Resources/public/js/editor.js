@@ -71,6 +71,11 @@
 						}
 					}
 				}
+				
+				if(data.error.type == 'auth') {
+					$.notify(data.error.message, 'error');
+				}
+
 			} else {
 
 	            if (data.id) {
