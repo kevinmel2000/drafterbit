@@ -51,18 +51,18 @@ class Blog extends BackendController {
 
 		foreach ($posts as $post) {
 			$data = array();
-			$data[] = '<input type="checkbox" name="posts[]" value="'.$post->id.'">';
-			$data[] = $status !== 'trashed' ? "<a class='post-edit-link' href='$editUrl/{$post->id}'>{$post->title}</a>" : $post->title;
-			$data[] ='<a href="'.admin_url('blog/edit/'.$post->id).'">'.$post->authorName.'</a>';
+			$data[] = '<input type="checkbox" name="posts[]" value="'.$post['id'].'">';
+			$data[] = $status !== 'trashed' ? "<a class='post-edit-link' href='$editUrl/{$post['id']}'>{$post['title']}</a>" : $post['title'];
+			$data[] ='<a href="'.admin_url('blog/edit/'.$post['id']).'">'.$post['authorName'].'</a>';
 
 			if($status == 'trashed') {
 				$s = ucfirst($status);
 			} else {
-				$s = $post->status == 1 ? 'Published' : 'Unpublished';
+				$s = $post['status'] == 1 ? 'Published' : 'Unpublished';
 			}
 
 			$data[] = $s;
-			$data[] = $post->created_at;
+			$data[] = $post['created_at'];
 
 			$pagesArr[] = $data;
 		}

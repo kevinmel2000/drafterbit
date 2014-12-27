@@ -12,7 +12,7 @@
 					'general'   => ['controller' => '@system\Setting::general', 'access' => 'system.change'],
 					'themes'    => [
 						'subRoutes' => [
-							'/'              => ['controller' => '@system\Theme::index'],
+							'/'              => ['controller' => '@system\Theme::index', 'appearance.change'],
 							'customize'      => ['controller' => '@system\Theme::customize',     'csrf'=>true],
 							'custom-preview' => ['controller' => '@system\Theme::customPreview', 'csrf'=>true],
 							
@@ -32,8 +32,8 @@
 			'system' => [
 				'subRoutes' => [
 					'dashboard'     => ['controller' => '@system\System::dashboard'],
-					'log'           => ['controller' => '@system\System::log'],
-					'cache'         => ['controller' => '@system\System::cache'],
+					'log'           => ['controller' => '@system\System::log',  'access' => 'log.view'],
+					'cache'         => ['controller' => '@system\System::cache','access' => 'cache.view'],
 					'drafterbit.js' => ['controller' => '@system\System::drafterbitJs'],
 				],
 			],

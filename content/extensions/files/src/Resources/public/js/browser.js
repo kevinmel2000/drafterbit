@@ -25,7 +25,10 @@
 
 	$('#finder-container').finder({
 		url: drafTerbit.adminUrl+'/files/data',
-		onISelect: ckeditorCallback
+		onISelect: ckeditorCallback,
+		data: {
+			csrf: drafTerbit.csrfToken
+		}
 	});
 
 })(jQuery, drafTerbit);

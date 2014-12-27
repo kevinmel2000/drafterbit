@@ -3,6 +3,7 @@
 use Drafterbit\Extensions\User\Auth\Exceptions\UserNotAuthorizedException;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Drafterbit\Component\Routing\Router as RouteManager;
 use Drafterbit\Component\Session\SessionManager;
 use Drafterbit\Framework\Application;
@@ -70,13 +71,21 @@ class Security implements HttpKernelInterface {
         		$auth->restrict($access);
 
         	} catch(UserNotAuthorizedException $e) {
+        		
+        		$message = $e->getMessage();
+
+        		if($this->app['input']->isAjax()) {
+        			return new JsonResponse([
+        				'error' => [
+        					'type' => 'auth',
+        					'message' => $message,
+        				]
+        			]);
+        		}
 
         		$referer = $this->app['input']->headers('referer') ? 
         			$this->app['input']->headers('referer') : admin_url('dashboard');
-        		
-        		$message = $e->getMessage();
         		$this->session->getFlashBag()->add('messages', array('text' => $message, 'type' => 'error'));
-
         		return redirect($referer);
         	}
         }

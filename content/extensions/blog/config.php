@@ -12,9 +12,11 @@
 		[ 'id' => 'comments', 'label' => 'Comments', 'href' => 'blog/comments', 'order' => 2]
 	],
 	'permissions' => [
-		'blog.view' => 'view post',
-		'blog.edit' => 'edit post',
-		'blog.save' => 'save a post',
-		'blog.delete' => 'delete post'
+		'post.view' => 'view post',
+		'post.edit' => 'edit post',
+		'post.save' => 'save a post',
+		'post.delete' => 'delete or trash post',
+		'comment.view' => 'view comment',
+		'comment.delete' => 'delete comment',
 	]
 ];

@@ -45,7 +45,7 @@
             <!-- footer -->
             <?php echo $this->render('@system/partials/footer'); ?>
 
-        <!-- script -->
+        <!-- script // @todo -->
         <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
         <script src="<?php echo admin_url('system/drafterbit.js'); ?>" /></script>
         <?php $this->js(':bootstrap_js, :notify_js, :jquery_form, @system/js/layout.js'); ?>          

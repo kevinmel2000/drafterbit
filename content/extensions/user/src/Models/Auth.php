@@ -110,9 +110,9 @@ class Auth extends \Drafterbit\Framework\Model {
 
 		if( !in_array($accessKey, $userPermissions)) {
 			$label = $permissions[$accessKey];
-			throw new UserNotAuthorizedException("Sorry, you are not authorized to $label.");
+			throw new UserNotAuthorizedException("Sorry, you are not authorized to $label.
+				Try logout and login again or please request access to administrator");
 		}
-		
 
 		return true;
 	}

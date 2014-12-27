@@ -25,6 +25,7 @@
 	'permissions' => [
 		'system.change' => 'change system setting',
 		'appearance.change' => 'change appearance setting',
-		'log.view' => 'view log'
+		'log.view' => 'view log',
+		'cache.view' => 'view cache'
 	]
 ];

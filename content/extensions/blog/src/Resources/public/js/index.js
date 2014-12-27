@@ -45,7 +45,11 @@
 
 	    changeUncreateAction(urlHash);
 	    
-	    $('#posts-index-form').ajaxForm(function(){
+	    $('#posts-index-form').ajaxForm(function(response){
+	    	if(response.error) {
+	    		$.notify(response.error.message, 'error');
+	    	}
+
 	        var urlHash2 = window.location.hash.replace('#','');
 	        drafTerbit.blog.dt.api().ajax.url(drafTerbit.adminUrl+"/blog/data/"+urlHash2+".json").load();
 	    });
