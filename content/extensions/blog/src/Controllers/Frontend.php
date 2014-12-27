@@ -20,8 +20,11 @@ class Frontend extends FrontendController {
 
 			$post['url'] = blog_url($date.'/'.$post['slug']);
 
-			$post['excerpt'] = current(explode('<!--more-->', $post['content']));
-			$post['excerpt'] .= '&hellip; <a href="'.$post['url'].'" />Read more </a></p>';
+			if(strpos($post['content'], '<!--more-->') !== false) {
+				$post['excerpt'] = current(explode('<!--more-->', $post['content'])).'&hellip;';
+			} else {
+				$post['excerpt'] = $post['content'];
+			}
 		}
 
 		$data['posts'] = $posts;
