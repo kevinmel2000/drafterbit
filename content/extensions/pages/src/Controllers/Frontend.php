@@ -17,12 +17,10 @@ class Frontend extends FrontendController {
 
 		$page = $this->model('@pages\Pages')->getSingleBy('id', $id) or show_404();
 		
-		set('page', $page);
+		$data['page'] = $page;
 
-		// @todo: blank layout
-		set('layout', 'layout/'.$page->layout);
-		
-		return $this->render('page/view', $this->data);
+		// @todo: blank layout		
+		return $this->render('page/view', $data);
 	}
 
 	public function view($slug = null, $_format = 'html')
