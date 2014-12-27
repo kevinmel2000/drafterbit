@@ -83,14 +83,16 @@ class System extends BackendController {
 					foreach ($logIds as $id) {
 						$this->model('@system\Log')->delete($id);
 					}
-					$msg = 'Logs deleted !';
-					set('messages', [['text' => $msg, "type" => 'success']]);
+					$msg = 'Logs deleted';
+					$this->get('template')->addGlobal('messages', [['text' => $msg, "type" => 'success']]);
 				}
 				break;
 			case "clear":
 				$this->model('@system\Log')->clear();
-				$msg = 'Logs cleared !';
-				set('messages', [['text' => $msg, "type" => 'success']]);
+				$msg = 'Logs cleared';
+
+				$this->get('template')->addGlobal('messages', [['text' => $msg, "type" => 'success']]);
+
 			default:
 				break;
 		}
