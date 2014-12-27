@@ -31,6 +31,22 @@ class Post extends \Drafterbit\Framework\Model {
 		return $query->getResult();
 	}
 
+	public function take($limit, $offset)
+	{
+		return
+		$this->withQueryBuilder()
+		->select('p.*, u.email as authorEmail, u.real_name as authorName')
+		->from('#_posts','p')
+		->leftJoin('p','#_users','u', 'p.user_id = u.id')
+		->Where('p.deleted_at = :deleted_at')
+		->setParameter(':deleted_at', '0000-00-00 00:00:00')
+		->andWhere('p.status = :status')
+		->setParameter(':status', 1)
+		->setFirstResult($offset)
+		->setMaxResults($limit)
+		->getResult();
+	}
+
 	public function insert($data)
 	{
 		$this->get('db')->insert('#_posts', $data);
@@ -68,8 +84,6 @@ class Post extends \Drafterbit\Framework\Model {
 		->delete('#_comments')
 		->where('post_id IN ('.$idString.')')
 			->execute();
-
-		$this->clearCache();
 	}
 
 	public function getBy($field, $value)
@@ -138,8 +152,6 @@ class Post extends \Drafterbit\Framework\Model {
 			->set('deleted_at',"'0000-00-00 00:00:00'")
 			->where('p.id IN ('.$idString.')')
 			->execute();
-
-		$this->clearCache();
 	}
 
 	/**
@@ -159,21 +171,5 @@ class Post extends \Drafterbit\Framework\Model {
 			->set('deleted_at',"'$deleted_at'")
 			->where('p.id IN ('.$idString.')')
 			->execute();
-
-		$this->clearCache();
-	}
-
-	/**
-	 * Clear stored data cache
-	 *
-	 * @return void
-	 */
-	private function clearCache()
-	{
-		$cache = $this->get('cache');
-
-		foreach (['published', 'unpulished', 'trashed'] as $part) {
-			$cache->delete('posts.'.$part);
-		}
 	}
 }

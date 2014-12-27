@@ -65,7 +65,7 @@
  *
  * Wether you want log the application error or not. If you in development
  * mode, you probably want shut it down by set following value to false.
- * Log will be recorded per day in 'app/logs' directory.
+ * Log will be recorded per day in 'logs' directory.
  */
 
 'error.log' => false

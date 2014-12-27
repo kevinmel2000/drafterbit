@@ -10,7 +10,14 @@
 	{% endfor %}
 	</section>
 	<div class="pagination">
+		
+		{% if (prev_link) %}
 		<div><a href="{{ prev_link }}">Previous Post</a></div>
+		{% endif %}
+
+		{% if (next_link) %}
 		<div><a href="{{ next_link }}">Next Post</a></div>
+		{% endif %}
+		
 	</div>
 {% endblock %}

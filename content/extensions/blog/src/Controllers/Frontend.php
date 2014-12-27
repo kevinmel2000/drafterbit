@@ -6,7 +6,13 @@ class Frontend extends FrontendController {
 
 	public function index($page = 1)
 	{
-		$posts = $this->model('@blog\Post')->all(['status' => 'published']);
+		$perPage = 5;
+		$offset = ($page*$perPage)-$perPage;
+
+		$nextOffset = (($page+1)*$perPage)-$perPage;
+
+		$posts = $this->model('@blog\Post')->take($perPage, $offset) or show_404();
+		$nextPosts = $this->model('@blog\Post')->take($perPage, $nextOffset);
 
 		foreach ($posts as &$post) {
 
@@ -21,11 +27,16 @@ class Frontend extends FrontendController {
 		$data['posts'] = $posts;
 
 		$data['prev_link'] = false;
+		$data['next_link'] = false;
+
 		if($page > 1) {
 			$data['prev_link'] = blog_url('page/'.($page-1));
 		}
 
-		$data['next_link'] = blog_url('page/'.($page+1));
+		if($nextPosts) {
+			$data['next_link'] = blog_url('page/'.($page+1));
+		}
+
 		return $this->render('blog/index', $data);
 	}
 

@@ -10,9 +10,9 @@ class Search extends \Drafterbit\Framework\Model {
 			foreach ($queries as $name => $query) {
 
 				$query->setParameter(':q', "%$q%");
-				$res = $query->fetchAllObjects();
-				
-				if($res) {				
+				$res = $query->getResult();
+
+				if($res) {
 					$data = array();
 					$data['name'] = $name;
 					$data['results'] = $res;
