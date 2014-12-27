@@ -84,9 +84,9 @@ class Roles extends BackendController {
 
 		foreach ($roles as $role) {
 			$data = array();
-			$data[] = '<input type="checkbox" name="roles[]" value="'.$role->id.'">';
-			$data[] = "<a class='role-edit-link' href='$editUrl/{$role->id}'> {$role->label}</a>";
-			$data[] = $role->description;
+			$data[] = '<input type="checkbox" name="roles[]" value="'.$role['id'].'">';
+			$data[] = "<a class='role-edit-link' href='$editUrl/{$role['id']}'> {$role['label']}</a>";
+			$data[] = $role['description'];
 
 			$usersArr[] = $data;
 		}

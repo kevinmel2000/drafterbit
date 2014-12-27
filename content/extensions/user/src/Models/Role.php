@@ -44,7 +44,7 @@ class Role extends \Drafterbit\Framework\Model {
 	public function getRoleName($id)
 	{
 		$role = $this->getSingleBy('id', $id);
-		return $role->label;
+		return $role['label'];
 	}
 
 	public function getByUser($id)
@@ -84,7 +84,7 @@ class Role extends \Drafterbit\Framework\Model {
 			->select('*')
 			->from('#_users_roles', 'ur')
 			->where("ur.role_id = $id")
-			->fetchAllObjects();
+			->getResult();
 	}
 
 	public function insert($data)
