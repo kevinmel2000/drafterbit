@@ -2,6 +2,7 @@
   drafTerbit = {
     baseUrl: "<?php echo base_url() ?>",
     adminUrl: "<?php echo admin_url() ?>",
+    contentUrl: "<?php echo base_url(app('dir.content')) ?>",
     csrfToken: "<?php echo csrf_token() ?>",
 
     //replace datatable search box;

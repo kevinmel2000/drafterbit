@@ -18,7 +18,7 @@
 			url = $(e.currentTarget).attr('href');
 			console.log(e.currentTarget);
 			// @todo create content path
-			window.opener.CKEDITOR.tools.callFunction(funcNum, drafTerbit.baseUrl+'/content/files/'+url);
+			window.opener.CKEDITOR.tools.callFunction(funcNum, drafTerbit.contentUrl+'/files/'+url);
 			window.close();
 		}
 	}
@@ -26,6 +26,8 @@
 	$('#finder-container').finder({
 		url: drafTerbit.adminUrl+'/files/data',
 		onISelect: ckeditorCallback,
+		upload:false,
+		manage:false,
 		data: {
 			csrf: drafTerbit.csrfToken
 		}
