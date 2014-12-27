@@ -160,39 +160,6 @@ class ExtensionManager {
 	}
 
 	/**
-	 * Register all extensions on path.
-	 *
-	 * @return void
-	 */
-	public function registerAll()
-	{
-		foreach ($this->extensionsPath as $path) {
-			$extensions = $this->createFinder()->in($path)->directories()->depth(0);
-
-			foreach ($extensions as $extension) {
-				$config = $this->extractConfig($extension->getFileName(), $extension);
-
-				$autoload = isset($config['autoload']) ?
-					$config['autoload'] :
-					$this->defaultAutoload($extension->getFileName());
-
-				$this->registerAutoload($autoload, $extension);
-			}
-
-			foreach ($extensions as $extension) {
-				$config = $this->extractConfig($extension->getFileName(), $extension);
-				
-				//register extensions
-				$ns = isset($config['ns']) ? $config['ns'] : $this->defaultNS;
-				$class = $ns.studly_case($extension->getFileName()).'\\'.studly_case($extension->getFileName()).'Extension';
-
-				$mod = new $class($this->app);
-				$this->app->addExtension($mod);
-			}
-		}
-	}
-
-	/**
 	 * Extract config.php from extension directory
 	 *
 	 * @param string $extension modul name
