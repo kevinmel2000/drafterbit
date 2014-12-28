@@ -70,7 +70,7 @@ class Auth extends \Drafterbit\Framework\Model {
 
 		$config = $this->get('config');
 
-		if(trim($route->getPath(), '/') != $config['path.admin'].'/login') {
+		if(trim($route->getPath(), '/') !== $config['path.admin'].'/login') {
 
 			if ($this->isRemembered()) {
 

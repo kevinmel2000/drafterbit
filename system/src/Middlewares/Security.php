@@ -64,7 +64,7 @@ class Security implements HttpKernelInterface {
 	 */
 	public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
 	{
-        if($access = $this->app->getCurrentRoute()->getOption('access')) {
+        if($access = $request->getMatchingRoute()->getOption('access')) {
         	try {
 
         		$auth = $this->app->getExtension('user')->model('Auth');
@@ -85,12 +85,13 @@ class Security implements HttpKernelInterface {
 
         		$referer = $this->app['input']->headers('referer') ? 
         			$this->app['input']->headers('referer') : admin_url('dashboard');
+        		
         		$this->session->getFlashBag()->add('messages', array('text' => $message, 'type' => 'error'));
         		return redirect($referer);
         	}
         }
         
-        if($this->app->getCurrentRoute()->getOption('csrf')) {
+        if($request->getMatchingRoute()->getOption('csrf')) {
 
             $csrfToken = $this->session->get('_token');
             $csrfInput = $request->get('csrf');
