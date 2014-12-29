@@ -27,8 +27,8 @@ class Frontend extends FrontendController {
 	{
 		$page = $this->model('@pages\Pages')->getSingleBy('slug', $slug) or show_404();
 
-		set('page', $page);
-		set('layout', 'layout/'.$page->layout);
-		return $this->render('page/view', $this->data);
+		$data['page'] = $page;
+		$data['layout'] = 'layout/'.$page['layout'];
+		return $this->render('page/view', $data);
 	}
 }
