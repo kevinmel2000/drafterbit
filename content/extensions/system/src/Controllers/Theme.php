@@ -52,15 +52,16 @@ class Theme extends BackendController {
 			$widgets[$position] = $model->widget($position);
 		}
 
-		foreach ($widgets as $name => $arrayOfWidget) {
+		foreach ($widgets as $name => &$arrayOfWidget) {
 
 			foreach ($arrayOfWidget as &$widget) {
 
-				$widget->data['id'] = $widget->id;
-				$widget->data['title'] = $widget->title;
-				$widgetObj = $this->get('widget')->get($widget->name);
-				$widgetObj->data = $widget->data;
-				$widget->ui = $this->get('widget.ui')->build($widgetObj);
+				$widget['data']['id'] = $widget['id'];
+				$widget['data']['title'] = $widget['title'];
+				$widgetObj = $this->get('widget')->get($widget['name']);
+				$widgetObj->data = $widget['data'];
+				
+				$widget['ui'] = $this->get('widget.ui')->build($widgetObj);
 			}
 		}
 

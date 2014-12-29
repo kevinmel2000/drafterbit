@@ -12,10 +12,10 @@ class Widget extends Model {
 			->from('#_widgets','w')
 			->where('position=:position')
 			->setParameter('position', $position)
-			->execute()->fetchAll(\PDO::FETCH_CLASS);
+			->execute()->fetchAll();
 		
 		foreach ($widgets as &$widget) {
-			$widget->data = json_decode($widget->data, true);
+			$widget['data'] = json_decode($widget['data'], true);
 		}
 		
 		return $widgets;
@@ -43,7 +43,7 @@ class Widget extends Model {
 			->from('#_widgets','w')
 			->where('id=:id')
 			->setParameter('id', $id)
-			->execute()->fetchAll(\PDO::FETCH_CLASS);
+			->execute()->fetchAll();
 
 		return reset($widget);
 	}

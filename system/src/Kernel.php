@@ -81,12 +81,12 @@ class Kernel extends Application {
             ->from('#_widgets','w')
             ->where('position=:position')
             ->setParameter('position', $position)
-            ->execute()->fetchAll(\PDO::FETCH_CLASS);
+            ->execute()->fetchAll();
 
         $output = null;
         foreach ($widgets as $widget) {
             $output .=
-            $this['widget']->get($widget->name)->run(json_decode($widget->data, true));
+            $this['widget']->get($widget['name'])->run(json_decode($widget['data'], true));
         }
 
         return $output;

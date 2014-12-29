@@ -188,14 +188,14 @@
                                         <div class="panel panel-default">
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-widget-container" href="#widget-<?php echo $widget->id ?>">
-                                                  <?php echo $widget->name; ?>
+                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-widget-container" href="#widget-<?php echo $widget['id']; ?>">
+                                                  <?php echo $widget['name']; ?>
                                                 </a>
                                               </h4>
                                             </div>
-                                            <div id="widget-<?php echo $widget->id ?>" class="panel-collapse collapse">
+                                            <div id="widget-<?php echo $widget['id'] ?>" class="panel-collapse collapse">
                                               <div class="panel-body">
-                                                  <?php echo $widget->ui; ?>
+                                                  <?php echo $widget['ui']; ?>
                                               </div>
                                             </div>
                                         </div>
