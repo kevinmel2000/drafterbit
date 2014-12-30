@@ -15,6 +15,10 @@
       {
           "type": "vcs",
           "url": "https://github.com/drafterbit/framework.git"
+      },
+      {
+          "type": "vcs",
+          "url": "https://github.com/egig/tika.git"
       }
   ],
   "require": {
@@ -22,7 +26,7 @@
       "symfony/filesystem": "2.5.*",
       "symfony/finder": "2.5.*",
       "twig/twig": "1.15.*",
-      "nesbot/Carbon": "1.8.*",
+      "egig/tika": "dev-master",
       "ircmaxell/password-compat": "1.0.*",
       "natxet/CssMin": "3.0.2",
       "mrclay/minify": "2.2.*",

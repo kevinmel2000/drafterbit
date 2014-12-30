@@ -31,7 +31,7 @@ class Tag extends \Drafterbit\Framework\Model {
 			->setParameter(":$key", $value);
 		}
 
-		$tags = $stmt->execute()->fetchAll(\PDO::FETCH_CLASS);
+		$tags = $stmt->getResult();
 
 		if($singleRequested) {
 			return reset($tags);
@@ -50,7 +50,7 @@ class Tag extends \Drafterbit\Framework\Model {
 		->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
 		->where("pt.post_id = :post_id")
 		->setParameter(':post_id', $id)
-		->execute()->fetchAll(\PDO::FETCH_CLASS);
+		->getResult();
 	}
 
 	public function getIdBy($field, $value)

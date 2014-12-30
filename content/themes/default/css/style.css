@@ -73,3 +73,10 @@ ul.nav li {
 ul.nav li:hover {
     background: #e1e1e1;
 }
+
+/* POST INDEX */
+
+.post .meta {
+    font-size: 0.9em;
+    margin-bottom: 15px;
+}
