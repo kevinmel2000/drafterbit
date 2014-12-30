@@ -37,7 +37,7 @@ class Menus extends Model {
 			->select('*')
 			->from('#_menus', 'm')
 			->where("id = $id")
-			->fetchAllObjects();
+			->getResult();
 	}
 
 	public function update($id, $data)
