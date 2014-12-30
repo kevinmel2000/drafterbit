@@ -61,7 +61,7 @@ class Tag extends \Drafterbit\Framework\Model {
 		->select('*')
 		->from('#_tags', 't')
 		->where("$field = '$value'")
-		->execute()->fetchObject();
+		->execute()->fetch();
 
 		if(!isset($tag->id)) {
 			return false;
