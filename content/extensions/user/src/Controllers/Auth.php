@@ -1,8 +1,7 @@
 <?php namespace Drafterbit\Extensions\User\Controllers;
 
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Drafterbit\Extensions\System\Auth\Exceptions\UserNotAuthorizedException;
 use Drafterbit\Framework\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class Auth extends Controller {
 
@@ -10,12 +9,13 @@ class Auth extends Controller {
 
 	public function login()
 	{
+		$data = array();
 		$this->get('helper')->load('form');
 
 		if ($post = $this->get('input')->post()) {
 
 			$remember = false;
-			if(isset($postData['remember-me'])) {
+			if(isset($post['remember-me'])) {
 				$remember = true;
 			}
 
@@ -37,11 +37,11 @@ class Auth extends Controller {
 				
 				return redirect($redirectAfterLogin);
 			} catch (\Exception $e) {
-				set('messages', [$e->getMessage()]);
+				$data['messages'] = [$e->getMessage()];
 			}
 		}
 
-		return view();
+		return $this->render('@user/auth/login', $data);
 	}
 
 	public function logout()
