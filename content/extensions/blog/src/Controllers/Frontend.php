@@ -15,11 +15,13 @@ class Frontend extends FrontendController {
 		
 		$nextPosts = $this->model('@blog\Post')->take($perPage, $nextOffset);
 
+		$system = $this->model('@system\System')->all();
+
 		foreach ($posts as &$post) {
 
 			$date = date('Y/m', strtotime($post['created_at']));
 
-			$post['date'] = $this->get('time')->parse($post['created_at'])->format('d F Y');
+			$post['date'] = $this->get('time')->parse($post['created_at'])->format($system['format.date']);
 
 			$post['url'] = blog_url($date.'/'.$post['slug']);
 
