@@ -12,18 +12,17 @@ class Auth extends \Drafterbit\Framework\Model {
 		$this->role = $role;
 	}
 
-	public function doLogin($email, $password, $remember = false)
+	public function doLogin($login, $password, $remember = false)
 	{
-		$user = $this->user->getByEmail($email);
-
-		// if no user got by email, we return to.
-		if ( ! $user) {
-			throw new \RuntimeException("Email is not registered yet");
+		if(filter_var($login, FILTER_VALIDATE_EMAIL)) {
+			$user = $this->user->getByEmail($login);
+		} else {
+			$user = $this->user->getByUserName($login);
 		}
 
-		// yes, it's password.
-		if( ! $this->verifyPassword( $password, $user['password'])) {
-			throw new \RuntimeException("Password is not valid.");
+		// if no user got by email, we return to.
+		if ( !$user or !$this->verifyPassword($password, $user['password'])) {
+			throw new \RuntimeException(__("Incorrect login"));
 		}
 
 		// everything is fine ,lets register session

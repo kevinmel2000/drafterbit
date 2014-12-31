@@ -1,10 +1,5 @@
 <?php return [
 
-'login' => [
-	'email' => ['label' => 'Email', 'rules' => ['not-empty', 'email'] ],
-	'password' => ['label' => 'Password', 'rules' => ['not-empty'] ]
-],
-
 'user' => [
 	'real-name' => array('label' => 'Real Name', 	'rules' => array('not-empty')),
 	'website' 	=> array('label' => 'Website', 		'rules' => array('optional')),

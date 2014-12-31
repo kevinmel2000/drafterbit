@@ -49,6 +49,10 @@ class User extends \Drafterbit\Framework\Model {
 		return $this->getBy('email', $email, true);
 	}
 
+	public function getByUserName($username)
+	{
+		return $this->getBy('username', $username, true);
+	}
 
 	public function getSingleBy($key, $value = null)
 	{

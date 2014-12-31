@@ -24,10 +24,11 @@ class Auth extends Controller {
 				$redirectAfterLogin = urldecode($this->get('input')->get('next'));
 			}
 
+			$login = $post['login'];
+
 			try {
-				
-				$this->validate('login', $post);
-				$this->model('@user\Auth')->doLogin($post['email'], $post['password'], $remember);
+
+				$this->model('@user\Auth')->doLogin($post['login'], $post['password'], $remember);
 
 				$userId = $this->get('session')->get('user.id');
 				$userName = $this->get('session')->get('user.name');

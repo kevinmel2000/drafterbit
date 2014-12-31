@@ -6,6 +6,7 @@
 		// user
 		$users = $schema->createTable('#_users');
 		$users->addColumn('id', 'integer', ['autoincrement' => true]);
+		$users->addColumn('username', 'string', ['length' => 16]);
 		$users->addColumn('email', 'string', ['length' => 150]);
 		$users->addColumn('password', 'string', ['length' => 60]);
 		$users->addColumn('real_name', 'string', ['length' => 45]);

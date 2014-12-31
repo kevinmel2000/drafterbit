@@ -45,7 +45,7 @@
 		  			<?php endif; ?>
   			
 			      <form role="form" class="form-signin" method="POST">
-			        <input name="email" type="email" class="form-control input-sm" placeholder="<?= __('EMAIL'); ?>" required autofocus value="<?php echo value('email'   ); ?>">
+			        <input name="login" type="text" class="form-control input-sm" placeholder="<?= __('USERNAME OR EMAIL'); ?>" required autofocus value="<?php echo value('email'   ); ?>">
 			        <input name="password" type="password" class="form-control input-sm" placeholder="<?= __('PASSWORD'); ?>">
 			        <!--<div class="help clearfix">
 				        <a class="pull-right" href="javascript:alert('Coming soon !')">Help <i class="fa fa-question-circle"></i></a>
