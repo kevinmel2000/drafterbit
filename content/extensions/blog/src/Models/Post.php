@@ -129,7 +129,7 @@ class Post extends \Drafterbit\Framework\Model {
 	{
 		return
 		$this->get('db')->createQueryBuilder()
-		->select('p.*, u.real_name as authorName')
+		->select('p.*, u.real_name as authorName, u.username')
 		->from('#_posts', 'p')
 		->innerJoin('p','#_users','u', 'p.user_id = u.id')
 		->where("$field = :value")

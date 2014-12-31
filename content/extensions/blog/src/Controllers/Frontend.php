@@ -34,6 +34,7 @@ class Frontend extends FrontendController {
 			$post['tags'] = $this->model('@blog\Post')->getTags($post['id']);
 		}
 
+		// @todo clean this and create author_url
 		$data['posts'] = $posts;
 
 		$data['prev_link'] = false;

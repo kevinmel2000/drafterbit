@@ -4,7 +4,7 @@
 	<section>
 		<h2>{{ post.title }}</h2>
 		<div class="meta">
-			<span>by <a href="{{base_url('user')}}/{{post.user_id}}">{{ post.authorName }}</a></span> |
+			<span>by <a href="{{base_url('author')}}/{{post.username}}">{{ post.authorName }}</a></span> |
 			<span>on {{ post.date }}</span>
 		</div>
 
