@@ -33,6 +33,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 			$tagUrlPattern = 'tag/{slug}';
 		} else {
 			$urlPattern = 'blog/{yyyy}/{mm}/{slug}';
+			$pageUrlPattern = 'blog/page/{page}';
 			$tagUrlPattern = 'blog/tag/{slug}';
 		}
 	    

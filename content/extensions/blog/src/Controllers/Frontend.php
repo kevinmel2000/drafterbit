@@ -11,7 +11,8 @@ class Frontend extends FrontendController {
 
 		$nextOffset = (($page+1)*$perPage)-$perPage;
 
-		$posts = $this->model('@blog\Post')->take($perPage, $offset) or show_404();
+		$posts = $this->model('@blog\Post')->take($perPage, $offset);
+		
 		$nextPosts = $this->model('@blog\Post')->take($perPage, $nextOffset);
 
 		foreach ($posts as &$post) {

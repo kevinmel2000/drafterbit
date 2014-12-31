@@ -71,19 +71,20 @@ class Post extends \Drafterbit\Framework\Model {
 		$idString = implode(',', $ids);
 
 		$this->withQueryBuilder()
-		->delete('#_posts')
-		->where('id IN ('.$idString.')')
+		->delete('#_comments')
+		->where('post_id IN ('.$idString.')')
 			->execute();
 
 		$this->withQueryBuilder()
 		->delete('#_posts_tags')
 		->where('post_id IN ('.$idString.')')
 			->execute();
-
+		
 		$this->withQueryBuilder()
-		->delete('#_comments')
-		->where('post_id IN ('.$idString.')')
+		->delete('#_posts')
+		->where('id IN ('.$idString.')')
 			->execute();
+
 	}
 
 	public function getBy($field, $value)
