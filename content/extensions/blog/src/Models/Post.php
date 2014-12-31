@@ -7,7 +7,7 @@ class Post extends \Drafterbit\Framework\Model {
 		$query = $this->get('db')->createQueryBuilder();
 
 		$query
-		->select('p.*, u.email as authorEmail, u.real_name as authorName')
+		->select('p.*, u.email as authorEmail, u.real_name as authorName, u.username')
 		->from('#_posts','p')
 		->leftJoin('p','#_users','u', 'p.user_id = u.id');
 
@@ -35,7 +35,7 @@ class Post extends \Drafterbit\Framework\Model {
 	{
 		return
 		$this->withQueryBuilder()
-		->select('p.*, u.email as authorEmail, u.real_name as authorName')
+		->select('p.*, u.email as authorEmail, u.real_name as authorName, u.username')
 		->from('#_posts','p')
 		->leftJoin('p','#_users','u', 'p.user_id = u.id')
 		->Where('p.deleted_at = :deleted_at')

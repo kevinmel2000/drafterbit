@@ -1,19 +1,20 @@
 <?php return [
 
 'user' => [
-	'real-name' => array('label' => 'Real Name', 	'rules' => array('not-empty')),
-	'website' 	=> array('label' => 'Website', 		'rules' => array('optional')),
-	'bio' 		=> array('label' => 'Bio', 			'rules' => array('optional', 'max-length=500')),
-	'roles' 	=> array('label' => 'Role', 		'rules' => array('not-empty')),
-	'email' 	=> array('label' => 'Email', 		'rules' => array('not-empty', 'email')),
-	'password' 	=> array('label' => 'Password', 	'rules' => array('optional')),
-	'password-confirm' 	=> array('label' => 'Password Confirmation', 'rules' => array('optional', 'match=password')),
+	'username'  => ['label' => 'Username', 	'rules' => ['not-empty', 'max-length=16']],
+	'real-name' => ['label' => 'Real Name', 	'rules' => ['not-empty']],
+	'website'   => ['label' => 'Website', 		'rules' => ['optional']],
+	'bio' 	    => ['label' => 'Bio', 			'rules' => ['optional', 'max-length=500']],
+	'roles'     => ['label' => 'Role', 		'rules' => ['not-empty']],
+	'email'     => ['label' => 'Email', 		'rules' => ['not-empty', 'email']],
+	'password'  => ['label' => 'Password', 	'rules' => ['optional']],
+	'password-confirm' 	=> ['label' => 'Password Confirmation', 'rules' => ['optional', 'match=password']],
 ],
 
 'roles' => [
-	'name' => array('label' => 'Role Name', 'rules' => array('not-empty')),
-	'description' => array('label' => 'Description', 'rules' => array('optional', 'max-length=500')),
-	'permission' => array('label' => 'Permission', 'rules' => array('optional'))
+	'name'        => ['label' => 'Role Name', 'rules' => ['not-empty']],
+	'description' => ['label' => 'Description', 'rules' => ['optional', 'max-length=500']],
+	'permission'  => ['label' => 'Permission', 'rules' => ['optional']]
 ]
 
 ];

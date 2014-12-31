@@ -24,8 +24,6 @@ class Auth extends Controller {
 				$redirectAfterLogin = urldecode($this->get('input')->get('next'));
 			}
 
-			$login = $post['login'];
-
 			try {
 
 				$this->model('@user\Auth')->doLogin($post['login'], $post['password'], $remember);

@@ -138,6 +138,7 @@ class User extends BackendController {
 		if($id == 'new') {
 
 			$data = array(
+				'username' => null,
 				'realName' => null,
 				'email' => null,
 				'url' => null,
@@ -153,6 +154,7 @@ class User extends BackendController {
 			$user->roleIds = $this->model('@user\User')->getRoleIds($user->id);
 
 			$data = array(
+				'username' => $user->username,
 				'realName' => $user->real_name,
 				'email' => $user->email,
 				'url' => $user->url,
@@ -160,7 +162,7 @@ class User extends BackendController {
 				'roleIds' => $user->roleIds,
 				'status' => $user->status,
 				'userId' => $user->id,
-				'title' => __('New User')
+				'title' => __('Edit User')
 			);
 		}
 

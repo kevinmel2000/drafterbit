@@ -4,8 +4,11 @@ use Drafterbit\Extensions\System\FrontendController;
 
 class Frontend extends FrontendController {
 	
-	public function view($id)
+	public function view($username)
 	{
-		//..
+		$user = $this->model('@user\User')->getByUserName($username) or show_404();
+
+		$data['user'] = $user;
+		return $this->render('user/view', $data);
 	}
 }

@@ -10,6 +10,10 @@
 <div class="row">
 	<div class="col-md-4">
 		<div class="form-group">
+		    <label for="username" class="control-label"><?php echo __('Username'); ?></label>
+		    <input name="username" type="text" class="form-control" value="<?php echo value('username', $username); ?>">
+		</div>
+		<div class="form-group">
 		    <label for="email" class="control-label"><?php echo  __('Email'); ?></label>
 		    <input name="email" type="email" class="form-control" placeholder="Email" value="<?php echo value('email', $email); ?>">
 		</div>
@@ -18,7 +22,7 @@
 		    <input name="password" autocomplete="off" type="password" class="form-control" autocomplete="off">
 		</div>
 		<div class="form-group">
-		    <label for="password" class="control-label"><?php echo __('Password Again'); ?></label>
+		    <label for="password-confirm" class="control-label"><?php echo __('Password Again'); ?></label>
 		    <input name="password-confirm" type="password" class="form-control" autocomplete="off">
 		</div>
 		 <div class="form-group">
@@ -28,17 +32,6 @@
 	      		<option <?php echo selected('roles', $option['id'], in_array($option['id'], $roleIds)); ?> value="<?php echo $option['id'] ?>"><?php echo $option['label']; ?></option>
 		      	<?php endforeach?>
 	      	</select>
-		</div>
-		<div class="form-group">
-		    <label for="status" class="control-label"><?php echo __('Status'); ?></label>
-		    <div class="radio">
-			    <label>
-				  <input <?php echo checked('status', 1, $status == 1); ?> type="radio" name="status" value="1"> <?php echo __('Active') ?>
-				</label>
-				<label>
-				  <input <?php echo checked('status', 0, $status == 0); ?> type="radio" name="status" value="0"> <?php echo __('Banned') ?>
-				</label>
-			</div>
 		</div>
 	</div>
 	<div class="col-md-4">
@@ -54,6 +47,17 @@
 		    <label for="website" class="control-label">Bio</label>
 		     <textarea name="bio" class="form-control"><?php echo value('bio', $bio); ?></textarea>
 		     <span class="help-block">A little biographical information may be shown publicly.</span>
+		</div>
+		<div class="form-group">
+		    <label for="status" class="control-label"><?php echo __('Status'); ?></label>
+		    <div class="radio">
+			    <label>
+				  <input <?php echo checked('status', 1, $status == 1); ?> type="radio" name="status" value="1"> <?php echo __('Active') ?>
+				</label>
+				<label>
+				  <input <?php echo checked('status', 0, $status == 0); ?> type="radio" name="status" value="0"> <?php echo __('Banned') ?>
+				</label>
+			</div>
 		</div>
 		<div class="form-group">
 			<input type="submit" class="btn btn-primary pull-right" name="action" value="Submit"/>
