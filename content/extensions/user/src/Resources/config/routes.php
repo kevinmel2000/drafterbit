@@ -18,4 +18,10 @@
 			],
 		],
 	],
+
+
+	//  @todo, crate option for user url
+	'author/{username}' => [
+		'controller' => '@user\Frontend::view'
+	]
 ];

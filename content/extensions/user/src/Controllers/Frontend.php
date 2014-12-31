@@ -2,6 +2,10 @@
 
 use Drafterbit\Extensions\System\FrontendController;
 
-class User extends FrontendController {
-	//..
+class Frontend extends FrontendController {
+	
+	public function view($id)
+	{
+		//..
+	}
 }
