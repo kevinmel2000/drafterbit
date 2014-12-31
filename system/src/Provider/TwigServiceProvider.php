@@ -32,6 +32,7 @@ class TwigServiceProvider implements ServiceProviderInterface {
             }
 
             //add widget function
+            // @todo clean this
             $widget = new \Twig_SimpleFunction('widget', function($p){
                 return widget($p);
             });
@@ -48,8 +49,13 @@ class TwigServiceProvider implements ServiceProviderInterface {
                 return theme_url($p);
             });
 
+            $blogUrl = new \Twig_SimpleFunction('blog_url', function($p = null){
+                return blog_url($p);
+            });
+
             $twig->addFunction($baseUrl);
             $twig->addFunction($themeUrl);
+            $twig->addFunction($blogUrl);
             $twig->addFunction($widget);
             $twig->addFunction($menus);
 

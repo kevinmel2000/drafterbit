@@ -40,11 +40,15 @@ class Tag extends \Drafterbit\Framework\Model {
 		return $tags;
 	}
 
+	public function getSingleBy($key, $value = null)
+	{
+		return $this->getBy($key, $value, true);
+	}
+
 	public function getByPost($id)
 	{
 		return
-		$queryBuilder = $this->get('db')->createQueryBuilder();
-		$queryBuilder
+		$this->withQueryBuilder()
 		->select('t.label, t.slug')
 		->from('#_tags', 't')
 		->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
@@ -77,5 +81,17 @@ class Tag extends \Drafterbit\Framework\Model {
 		$this->get('db')->insert('#_tags', $data);
 
 		return $this->get('db')->lastInsertId();
+	}
+
+	public function getPosts($id)
+	{
+		return
+		$this->withQueryBuilder()
+			->select('*')
+			->from('#_posts', 'p')
+			->leftJoin('p','#_posts_tags', 'pt', 'pt.post_id = p.id')
+			->where('pt.tag_id = :tag')
+			->setParameter('tag', $id)
+			->getResult();
 	}
 }

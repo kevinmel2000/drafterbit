@@ -5,11 +5,7 @@
 		<h2>{{ post.title }}</h2>
 		<div class="meta">
 			<span>by <a href="{{base_url('user')}}/{{post.user_id}}">{{ post.authorName }}</a></span> |
-			<span>on {{ post.date }}</span> |
-
-			{% for tag in post.tags %}
-				<span><a href="{{ base_url('tag')}}/{{tag.slug}}">#{{ tag.label }}</a></span>
-			{% endfor %}
+			<span>on {{ post.date }}</span>
 		</div>
 
 		{{ post.content }}
@@ -17,7 +13,7 @@
 		{% if post.tags %}
 		<p>
 			{% for tag in post.tags %}
-				<a href="/blog/tag/{{ tag.slug }}"><span>#{{ tag.label }}</span><a>, 
+				<a href="{{ blog_url('tag')}}/{{tag.slug}}"><span>#{{ tag.label }}</span></a> 
 			{% endfor %}
 		</p>
 		{% endif %}

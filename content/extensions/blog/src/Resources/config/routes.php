@@ -46,6 +46,10 @@
 		'page' => '[1-9]+',
 		]
 	],
+'%blog_tag_url_pattern%' => [
+	'controller' => '@blog\Frontend::tag',
+	'methods' => 'get'
+	],
 
 'blog/comment/submit' => ['controller' => '@blog\Comment::submit', 'methods' => 'post'],
 

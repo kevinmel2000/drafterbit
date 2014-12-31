@@ -30,13 +30,15 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 		if('blog' === $system['homepage']){
 			$urlPattern = '{yyyy}/{mm}/{slug}';
 			$pageUrlPattern = 'page/{page}';
+			$tagUrlPattern = 'tag/{slug}';
 		} else {
 			$urlPattern = 'blog/{yyyy}/{mm}/{slug}';
-			$pageUrlPattern = 'blog/page/{page}';
+			$tagUrlPattern = 'blog/tag/{slug}';
 		}
 	    
 	    $this['router']->addReplaces('%blog_url_pattern%', $urlPattern);
 	    $this['router']->addReplaces('%blog_page_url_pattern%', $pageUrlPattern);
+	    $this['router']->addReplaces('%blog_tag_url_pattern%', $tagUrlPattern);
 	}
 
 	public function getComments($id)
