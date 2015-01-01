@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="drafterbit" default="main">
+
+    <!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <echo msg="Making directory ./build" />
+        <mkdir dir="./build" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: build                                 -->
+    <!-- ============================================  -->
+    <target name="build" depends="prepare">
+
+        
+
+        <copy todir="./build/content" >
+          <fileset defaultexcludes="false" expandsymboliclinks="true" dir="./content">
+            <include name="**" />
+          </fileset>
+        </copy>
+
+        <copy todir="./build/system" >
+          <fileset defaultexcludes="false" expandsymboliclinks="true" dir="./system">
+            <include name="**" />
+          </fileset>
+        </copy>
+
+        <copy file="./index.php" tofile="./build/index.php" overwrite="true"/>
+        <copy file="./config-sample.php" tofile="./build/config-sample.php" overwrite="true"/>
+        
+        <!-- TODO: clean unused vendor files  -->
+        <delete dir="./build/content/cache/data" includeemptydirs="true" />
+        <delete dir="./build/content/cache/asset" includeemptydirs="true" />
+
+        <delete includeemptydirs="true">
+          <fileset dir="./build/content/files">
+            <exclude name=".gitignore" />
+          </fileset>
+        </delete>
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- (DEFAULT)  Target: dist                       -->
+    <!-- ============================================  -->
+    <target name="main" depends="build">
+        <echo msg="Creating archive..." />
+
+        <tar destfile="./drafterbit-dist.tar.gz" compression="gzip">
+            <fileset dir="./build">
+                <include name="*" />
+            </fileset>
+        </tar>
+
+        <echo msg="delete temporary file" />
+        <delete dir="./build" includeemptydirs="true" />
+
+        <echo msg="Dist archive created OK!" />
+    </target>
+</project>
