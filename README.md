@@ -38,13 +38,13 @@ Drafterbit installation package will be available for download soon. For now you
     ```shell
     bower install
     ```
-    
+
 6. From here, you can visit browser, e.g: `http://localhost/drafterbit` then follow installation instruction as usual.
 
-Please let me know if you get any problem.
+Feel free to let me know if you get any problem.
 
 ## Learn
-There is still no documentation at all yet, but for now you can just ask me anything anywhere anytime thru gitter : [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/drafterbit/drafterbit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+There is still no documentation at all yet, but for now you can just ask me anything anywhere anytime thru google group : <https://groups.google.com/forum/#!forum/drafterbit>
 
 ## Contribute
 Drafterbit is an open source and intended to be community-driven project. Any kind of contribution (code, translation, stars, bug reports, feature request) are really appreciated.
