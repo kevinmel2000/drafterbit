@@ -1,5 +1,10 @@
-@media(min-width:768px) {
+@media (min-width:768px) {
     
+    .navbar-brand {
+        height: 30px;
+        padding: 5px;
+    }
+
     .navbar-top-links .dropdown-messages,
     .navbar-top-links .dropdown-tasks,
     .navbar-top-links .dropdown-alerts {
@@ -14,10 +19,5 @@
         position: inherit;
         padding: 0px;
         min-height: 500px;
-    }
-
-    .navbar-brand {
-        height: 30px;
-        padding: 5px;
     }
 }

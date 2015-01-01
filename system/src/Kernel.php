@@ -162,10 +162,6 @@ class Kernel extends Application {
         }
 
         $config = $this['config']->load($configFile);
-        $appConfig = $this['config']['app'];
-
-        $this['debug'] = $appConfig['debug'];
-        $this['exception']->setDebug($this['debug']);
 
         $this['router']->addReplaces('%admin%', $config['path.admin']);
         
@@ -208,13 +204,6 @@ class Kernel extends Application {
         $this['widget']->registerAll();
         
         date_default_timezone_set($system['timezone']);
-
-        if ($appConfig['error.log']) {
-            $this['exception']
-                ->error(function(\Exception $exception, $code) {
-                    $this['log']->addError($exception);
-                });
-        }
 
         if( ! $this['debug']) {
             $this['exception']->error(function( NotFoundHttpException $e){

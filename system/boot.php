@@ -28,6 +28,19 @@ $app['path.install'] = $app['path.public'] =  realpath(__DIR__ .'/../').'/';
 // asset
 $app['config']->addReplaces('%path.vendor.asset%', $app['path'].'vendor/web');
 $app['config']->addReplaces('%path.system.asset%', $app['path'].'Resources/public/assets');
+
+$config = $app['config']['app'];
+$app['debug'] = $config['debug'];
+
+$app['exception']->setDebug($app['debug']);
+
+if ($config['error.log']) {
+    $this['exception']
+        ->error(function(\Exception $exception, $code) use($app) {
+            $app['log']->addError($exception);
+        });
+}
+
 $app['asset']->setCachePath($app['path.content'].'cache/asset');
 
 foreach ($app['config']->get('asset.assets') as $name => $value) {
