@@ -1,22 +1,22 @@
 .comment-action {
-	font-size: 94%;
+    font-size: 94%;
 }
 
 .comment-action > .unspam,
 .comment-action > .unapprove {
-	color: #E8B729;
+    color: #E8B729;
 }
 
 .comment-action > .approve {
-	color: #006505;
-	display: none;
+    color: #006505;
+    display: none;
 }
 
 .comment-action > .unapprove {
-	color: #d98500;
+    color: #d98500;
 }
 
 .comment-action > .spam,
 .comment-action > .trash {
-	color: #a00;
+    color: #a00;
 }

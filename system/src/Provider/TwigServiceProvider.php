@@ -2,6 +2,7 @@
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Drafterbit\System\Twig\DrafterbitSystemExtension;
 
 class TwigServiceProvider implements ServiceProviderInterface {
 
@@ -23,41 +24,7 @@ class TwigServiceProvider implements ServiceProviderInterface {
             $twig = new \Twig_Environment($app['twig.loader'], $app['twig.options']);
             $twig->addGlobal('app', $app);
 
-            $globalVar = [
-                'csrfToken' => csrf_token()
-            ];
-
-            foreach ($globalVar as $key => $val) {
-                $twig->addGlobal($key, $val);
-            }
-
-            //add widget function
-            // @todo clean this
-            $widget = new \Twig_SimpleFunction('widget', function($p){
-                return widget($p);
-            });
-
-            $menus = new \Twig_SimpleFunction('menus', function($p){
-                return menus($p);
-            });
-
-            $baseUrl = new \Twig_SimpleFunction('base_url', function($p = null){
-                return base_url($p);
-            });
-
-            $themeUrl = new \Twig_SimpleFunction('theme_url', function($p = null){
-                return theme_url($p);
-            });
-
-            $blogUrl = new \Twig_SimpleFunction('blog_url', function($p = null){
-                return blog_url($p);
-            });
-
-            $twig->addFunction($baseUrl);
-            $twig->addFunction($themeUrl);
-            $twig->addFunction($blogUrl);
-            $twig->addFunction($widget);
-            $twig->addFunction($menus);
+            $twig->addExtension(new DrafterbitSystemExtension());
 
             if ($app['config']['app.debug']) {
                 $twig->addExtension(new \Twig_Extension_Debug());

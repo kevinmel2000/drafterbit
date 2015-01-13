@@ -6,10 +6,10 @@ use Pimple\ServiceProviderInterface;
 
 class ImageServiceProvider implements ServiceProviderInterface {
 
-	function register(Container $app)
-	{
-		$app['image'] = $app->factory(function(){
-			return (new Image)->setCacheDir($app['path.install'].'cache/images');
-		});
-	}
+    function register(Container $app)
+    {
+        $app['image'] = $app->factory(function(){
+            return (new Image)->setCacheDir($app['path.install'].'cache/images');
+        });
+    }
 }

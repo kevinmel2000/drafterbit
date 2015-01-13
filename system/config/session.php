@@ -46,8 +46,8 @@
  *  happen on a given request.
  */
 
-'gc.probability' 	=> 2,
-'gc.divisor' 		=> 100,
+'gc.probability'     => 2,
+'gc.divisor'         => 100,
 
 /**
  * --------------------------------------------------------------------------

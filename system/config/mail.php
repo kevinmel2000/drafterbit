@@ -10,9 +10,9 @@
  * transport. Just create another MailServiceProvider.
  */
 
-	'from'      => ['' => ''],
-	'smtp.host' => 'smtp.gmail.com',
-	'smtp.port' => '465',
-	'smtp.user' => "",
-	'smtp.pass' => ''
+    'from'      => ['' => ''],
+    'smtp.host' => 'smtp.gmail.com',
+    'smtp.port' => '465',
+    'smtp.user' => "",
+    'smtp.pass' => ''
 ];

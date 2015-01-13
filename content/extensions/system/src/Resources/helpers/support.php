@@ -17,20 +17,20 @@ if ( ! function_exists('admin_url'))
 }
 
 if ( ! function_exists('wysiwyg')) {
-	/**
-	 * Get theme path
-	 *
-	 * @param string $path
-	 */
-	function wysiwyg($name, $default = null, $attr="")
-	{
-		// @todo create asset_url
-		$path = base_url('system/Resources/public/assets');
-		$src = base_url('system/vendor/web/ckeditor/ckeditor.js');
-		$browserUrl = admin_url('files/browser?mode=image');
-		$wpmore = base_url('/system/Resources/public/assets/ckeditor-custom/plugins/wpmore/plugin.js');
+    /**
+     * Get theme path
+     *
+     * @param string $path
+     */
+    function wysiwyg($name, $default = null, $attr="")
+    {
+        // @todo create asset_url
+        $path = base_url('system/Resources/public/assets');
+        $src = base_url('system/vendor/web/ckeditor/ckeditor.js');
+        $browserUrl = admin_url('files/browser?mode=image');
+        $wpmore = base_url('/system/Resources/public/assets/ckeditor-custom/plugins/wpmore/plugin.js');
 
-		$html = <<< EOD
+        $html = <<< EOD
 
 <textarea $attr name="$name">$default</textarea>
 <script src="$src"></script>
@@ -38,12 +38,12 @@ if ( ! function_exists('wysiwyg')) {
 
 CKEDITOR.replace('$name', {
 
-	customConfig : '$path/ckeditor-custom/config.js',
-	skin: 'bootstrap,$path/ckeditor-custom/skins/bootstrap/',
+    customConfig : '$path/ckeditor-custom/config.js',
+    skin: 'bootstrap,$path/ckeditor-custom/skins/bootstrap/',
 
     filebrowserWindowWidth  : 860,
     filebrowserWindowHeight : 453,
-	filebrowserImageBrowseUrl : '$browserUrl'
+    filebrowserImageBrowseUrl : '$browserUrl'
 });
 
 CKEDITOR.plugins.addExternal( 'wpmore', '$wpmore');
@@ -52,63 +52,46 @@ CKEDITOR.config.extraPlugins = 'wpmore';
 </script>
 
 EOD;
-		
-		return $html;
-	}
+        
+        return $html;
+    }
 }
 
 if ( ! function_exists('theme_url')) {
-	/**
-	 * Get theme path
-	 *
-	 * @param string $path
-	 */
-	function theme_url($path = null)
-	{
-		$theme = app('themes')->current();
+    /**
+     * Get theme path
+     *
+     * @param string $path
+     */
+    function theme_url($path = null)
+    {
+        $theme = app('themes')->current();
 
-		$themePath = str_replace(app('path.public'), '', app('path.themes'));
+        $themePath = str_replace(app('path.public'), '', app('path.themes'));
 
-		return base_url("{$themePath}{$theme}".'/'.trim($path,'/'));
-	}
-}
-
-if ( ! function_exists('log_activity')) {
-	/**
-	 * Log message to database
-	 *
-	 * @return void
-	 */
-	function log_activity($message, $context = array())
-	{
-		if(!isset($context['user_id'])) {
-			$context['user_id'] = app('session')->get('user.id');
-			$context['user_name'] = app('session')->get('user.name');
-		}
-		
-		app('log.db')->addInfo($message, $context);
-	}
+        return base_url("{$themePath}{$theme}".'/'.trim($path,'/'));
+    }
 }
 
 if ( ! function_exists('asset_url')) {
-	/**
-	 * Asset url
-	 *
-	 * @return void
-	 */
-	function asset_url($path)
-	{
-		if('@' === $path[0]) {
-			$_temp = explode('/', $path);
+    /**
+     * Asset url
+     *
+     * @return void
+     */
+    function asset_url($path)
+    {
+        if('@' === $path[0]) {
+            $_temp = explode('/', $path);
 
-			if(ltrim(array_shift($_temp), '@') == 'vendor') {
+            if(ltrim(array_shift($_temp), '@') == 'vendor') {
 
-				$base = 'system/vendor/web/';
-				$path = implode('/', $_temp);
-				$path = $base.$path;
-			}
-		}
+                $base = 'system/vendor/web/';
+                $path = implode('/', $_temp);
+                $path = $base.$path;
+            }
+        }
 
-		return base_url($path);
-	}
+        return base_url($path);
+    }
 }

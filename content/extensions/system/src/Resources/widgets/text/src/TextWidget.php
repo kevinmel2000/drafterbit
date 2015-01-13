@@ -4,8 +4,8 @@ use Drafterbit\System\Widget\Widget;
 
 class TextWidget extends Widget {
 
-	public function run($data = null)
-	{
-		return $data['content'];
-	}
+    public function run($data = null)
+    {
+        return $data['content'];
+    }
 }

@@ -5,17 +5,17 @@ use Twig_SimpleFunction;
 
 class TwigExtension extends Twig_Extension {
 
-	function getName()
-	{
-		return 'drafterbit_blog';
-	}
+    function getName()
+    {
+        return 'drafterbit_blog';
+    }
 
-	function getFunctions()
-	{
-		return array(
+    function getFunctions()
+    {
+        return array(
             new Twig_SimpleFunction('comment', function($id) {
-            	return comment($id);
+                return comment($id);
             }),
         );
-	}
+    }
 }

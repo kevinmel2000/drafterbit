@@ -9,7 +9,7 @@
  * xcache, apc, memcache, memcache, or wincache. All proudly provided by our
  * powerfull Doctrine cache. Default is file.
  */
-	'default' => 'file',
+    'default' => 'file',
 
 /**
  *--------------------------------------------------------------------------
@@ -20,7 +20,7 @@
  * While its good practice to not to forget to set the directory to be
  * writable, Doctrine cache will do it for you.
  */
-	'file.path' => __DIR__.'/../../content/cache/data',
+    'file.path' => __DIR__.'/../../content/cache/data',
 /**
  *--------------------------------------------------------------------------
  * Memcache Options
@@ -29,9 +29,9 @@
  * This option used by memcache driver.
  */
 
-	'memcache.host' => '',
-	'memcache.port' => '',
-	'memcache.timeout' => '',
+    'memcache.host' => '',
+    'memcache.port' => '',
+    'memcache.timeout' => '',
 /**
  *--------------------------------------------------------------------------
  * Memcached Options
@@ -39,9 +39,9 @@
  *
  * This options used by memcached driver.
  */
-	'memcached.host' => '',
-	'memcached.port' => '',
-	'memcached.weight' => '',
+    'memcached.host' => '',
+    'memcached.port' => '',
+    'memcached.weight' => '',
 
 /**
  *--------------------------------------------------------------------------
@@ -50,7 +50,7 @@
  *
  * This options used by redis driver.
  */
-	'redis.host' => '',
-	'redis.port' => ''
+    'redis.host' => '',
+    'redis.port' => ''
 
 ];

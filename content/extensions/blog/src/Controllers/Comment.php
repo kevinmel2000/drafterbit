@@ -4,182 +4,190 @@ use Drafterbit\Extensions\System\BackendController;
 
 class Comment extends BackendController {
 
-	public function index()
-	{
-		$model = $this->model('Comment');
+    public function index()
+    {
+        $model = $this->model('Comment');
 
-		$comments = $model->all(['status' => 'active']);
+        $comments = $model->all(['status' => 'active']);
 
-		$data['id'] = 'comments';
-		$data['title'] = __('Comments');
-		$data['status'] = 1;
-		$data['commentsTable'] = $this->dataTable('comments', $this->_table(), $comments);
-		$data['action'] = admin_url('comments/trash');
+        $data['id'] = 'comments';
+        $data['title'] = __('Comments');
+        $data['status'] = 1;
+        $data['commentsTable'] = $this->dataTable('comments', $this->_table(), $comments);
+        $data['action'] = admin_url('comments/trash');
 
-		return $this->render('@blog/admin/comments/index', $data);
-	}
+        return $this->render('@blog/admin/comments/index', $data);
+    }
 
-	public function trash()
-	{
-		$post = $this->get('input')->post();
+    public function trash()
+    {
+        $post = $this->get('input')->post();
 
-		$commentIds = $post['comments'];
+        $commentIds = $post['comments'];
 
-		switch($post['action']) {
-			case "trash":
-				foreach($commentIds as $id) {
-					$this->model('@blog\Comment')->trash($id);
-				}
-				break;
-			case 'delete':
-				$this->model('@blog\Comment')->delete($commentIds);
-			case 'restore':
-				$this->model('@blog\Comment')->restore($commentIds);
-			break;
-			default:
-				break;
-		}
-	}
+        switch($post['action']) {
+            case "trash":
+                foreach($commentIds as $id) {
+                    $this->model('@blog\Comment')->trash($id);
+                }
+                break;
+            case 'delete':
+                $this->model('@blog\Comment')->delete($commentIds);
+            case 'restore':
+                $this->model('@blog\Comment')->restore($commentIds);
+            break;
+            default:
+                break;
+        }
+    }
 
-	public function filter($status)
-	{
-		$comments = $this->model('@blog\Comment')->all(['status' => $status]);
-		
-		$arr  = array();
+    public function filter($status)
+    {
+        $comments = $this->model('@blog\Comment')->all(['status' => $status]);
+        
+        $arr  = array();
 
-		foreach ($comments as $comment) {
-			$comment = (object) $comment;
-			$data = array();
-			$data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
-			$data[] = "{$comment->name} <div><a href=\"mailto:{$comment->email}\">{$comment->email}</a></div>";
+        foreach ($comments as $comment) {
+            $comment = (object) $comment;
+            $data = array();
+            $data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
+            $data[] = "{$comment->name} <div><a href=\"mailto:{$comment->email}\">{$comment->email}</a></div>";
 
-			$content = "{$comment->content}";
+            $content = "{$comment->content}";
 
-			if($comment->deleted_at == '0000-00-00 00:00:00') {
-				$content .= "<div class=\"comment-action\">";
-				if($comment->status != 2) {
+            if($comment->deleted_at == '0000-00-00 00:00:00') {
+                $content .= "<div class=\"comment-action\">";
+                if($comment->status != 2) {
 
 
-					$display = $comment->status == 1 ? 'inline' : 'none';
-					$display2 = $comment->status == 0 ? 'inline' : 'none';
+                    $display = $comment->status == 1 ? 'inline' : 'none';
+                    $display2 = $comment->status == 0 ? 'inline' : 'none';
 
-					$content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
-					$content .=" <a data-status=\"1\" data-id=\"{$comment->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
-					$content .=" <a data-id=\"{$comment->id}\" data-post-id=\"{$comment->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
-					$content .=" <a data-status=\"2\" data-id=\"{$comment->id}\" class=\"spam status\" href=\"#\">Spam</a>";
-					$content .=" <a data-id=\"{$comment->id}\" class=\"trash\" href=\"#\">Trash</a>";
-				} else {
-					$content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" class=\"unspam status\" href=\"#\">Not Spam</a>";
-				}
-				
-				$content .="</div>";
-			}
+                    $content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
+                    $content .=" <a data-status=\"1\" data-id=\"{$comment->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
+                    $content .=" <a data-id=\"{$comment->id}\" data-post-id=\"{$comment->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
+                    $content .=" <a data-status=\"2\" data-id=\"{$comment->id}\" class=\"spam status\" href=\"#\">Spam</a>";
+                    $content .=" <a data-id=\"{$comment->id}\" class=\"trash\" href=\"#\">Trash</a>";
+                } else {
+                    $content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" class=\"unspam status\" href=\"#\">Not Spam</a>";
+                }
+                
+                $content .="</div>";
+            }
 
-			$data[] = $content;
+            $data[] = $content;
 
-			$data[] = '<a href="'.admin_url('blog/edit/'.$comment->post_id).'">'.$comment->title.'</a><br/>'.$comment->created_at;
-			
-			$arr[] = $data;
-		}
+            $data[] = '<a href="'.admin_url('blog/edit/'.$comment->post_id).'">'.$comment->title.'</a><br/>'.$comment->created_at;
+            
+            $arr[] = $data;
+        }
 
-		$ob = new \StdClass;
-		$ob->data = $arr;
-		$ob->recordsTotal= count($arr);
-		$ob->recordsFiltered = count($arr);
+        $ob = new \StdClass;
+        $ob->data = $arr;
+        $ob->recordsTotal= count($arr);
+        $ob->recordsFiltered = count($arr);
 
-		return $this->jsonResponse($ob);
-	}
+        return $this->jsonResponse($ob);
+    }
 
-	private function _table()
-	{
-		return array(
-			[
-				'field' => 'name',
-				'label' => 'Author',
-				'width' => '15%',
-				'format' => function($value, $item){
-					return "{$value} <div><a href=\"mailto:{$item['email']}\">{$item['email']}</a></div>";
-				}],
-			[
-				'field' => 'content',
-				'label' => 'Comment',
-				'width' => '65%',
-				'format' => function($value, $item)
-				{
-					$content = "$value";
-					$content .= "<div class=\"comment-action\">";
+    private function _table()
+    {
+        return array(
+            [
+                'field' => 'name',
+                'label' => 'Author',
+                'width' => '15%',
+                'format' => function($value, $item){
+                    return "{$value} <div><a href=\"mailto:{$item['email']}\">{$item['email']}</a></div>";
+                }],
+            [
+                'field' => 'content',
+                'label' => 'Comment',
+                'width' => '65%',
+                'format' => function($value, $item)
+                {
+                    $content = "$value";
+                    $content .= "<div class=\"comment-action\">";
 
-					$display = $item['status'] == 1 ? 'inline' : 'none';
-					$display2 = $item['status'] == 0 ? 'inline' : 'none';
+                    $display = $item['status'] == 1 ? 'inline' : 'none';
+                    $display2 = $item['status'] == 0 ? 'inline' : 'none';
 
-					$content .=" <a data-status=\"0\" data-id=\"{$item['id']}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
-					$content .=" <a data-status=\"1\" data-id=\"{$item['id']}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
-					$content .=" <a data-id=\"{$item['id']}\" data-post-id=\"{$item['post_id']}\" class=\"reply\" href=\"#\">Reply</a>";
-					$content .=" <a data-status=\"2\" data-id=\"{$item['id']}\" class=\"spam status\" href=\"#\">Spam</a>";
-					$content .=" <a data-id=\"{$item['id']}\" class=\"trash\" href=\"#\">Trash</a>";
-					$content .="</div>";
+                    $content .=" <a data-status=\"0\" data-id=\"{$item['id']}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
+                    $content .=" <a data-status=\"1\" data-id=\"{$item['id']}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
+                    $content .=" <a data-id=\"{$item['id']}\" data-post-id=\"{$item['post_id']}\" class=\"reply\" href=\"#\">Reply</a>";
+                    $content .=" <a data-status=\"2\" data-id=\"{$item['id']}\" class=\"spam status\" href=\"#\">Spam</a>";
+                    $content .=" <a data-id=\"{$item['id']}\" class=\"trash\" href=\"#\">Trash</a>";
+                    $content .="</div>";
 
-					return $content;
-				}],
-			[
-				'field' => 'post_id',
-				'label' => 'In Respose to',
-				'width' => '20%',
-				'format' => function($value, $item){
-					return '<a href="'.admin_url('blog/edit/'.$value).'">'.$item['title'].'</a><br/>'.$item['created_at'];
-				}
-			]
-		);
-	}
+                    return $content;
+                }],
+            [
+                'field' => 'post_id',
+                'label' => 'In Respose to',
+                'width' => '20%',
+                'format' => function($value, $item){
+                    return '<a href="'.admin_url('blog/edit/'.$value).'">'.$item['title'].'</a><br/>'.$item['created_at'];
+                }
+            ]
+        );
+    }
 
-	public function submit()
-	{
-		$comments = $this->get('input')->post('comment');
+    public function submit()
+    {
+        try {
 
-		$data['name'] = $comments['name'];
-		$data['email'] = $comments['email'];
-		$data['url'] = $comments['url'];
-		$data['content'] = $comments['content'];
-		$data['parent_id'] = $comments['parent_id'];
-		$data['post_id'] = $comments['post_id'];
-		$data['created_at'] = \Carbon\Carbon::now();
+            $comment = $this->get('input')->post();
 
-		$id = $this->model('@blog\Comment')->insert($data);
+            $this->validate('comment', $comment);
 
-		$referer = $this->get('input')->headers('referer');
+            $data['name']  = $comment['name'];
+            $data['email'] = $comment['email'];
+            $data['url']   = $comment['url'];
+            $data['content']   = $comment['content'];
+            $data['parent_id'] = $comment['parent_id'];
+            $data['post_id']   = $comment['post_id'];
+            $data['status']    = 1;
+            $data['created_at'] = \Carbon\Carbon::now();
 
-		return redirect($referer.'#comment-'.$id);
-	}
+            $id = $this->model('@blog\Comment')->insert($data);
+            $referer = $this->get('input')->headers('referer');
 
-	public function status()
-	{
-		$id = $this->get('input')->post('id');
-		$status = $this->get('input')->post('status');
+            return redirect($referer.'#comment-'.$id);
+        
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 
-		$this->model('Comment')->changeStatus($id, $status);
-	}
+    public function status()
+    {
+        $id = $this->get('input')->post('id');
+        $status = $this->get('input')->post('status');
 
-	public function quickReply()
-	{
-		$data['post_id'] = $this->get('input')->post('postId');
-		$data['content'] = $this->get('input')->post('comment');
-		$data['parent_id'] = $this->get('input')->post('parentId');
+        $this->model('Comment')->changeStatus($id, $status);
+    }
 
-		$session = $this->get('session');
-		$data['user_id'] = $session->get('user.id');
-		$data['name'] = $session->get('user.name');
-		$data['email'] = $session->get('user.email');
-		$data['created_at'] = \Carbon\Carbon::now();
+    public function quickReply()
+    {
+        $data['post_id'] = $this->get('input')->post('postId');
+        $data['content'] = $this->get('input')->post('comment');
+        $data['parent_id'] = $this->get('input')->post('parentId');
 
-		$id = $this->model('@blog\Comment')->insert($data);
+        $session = $this->get('session');
+        $data['user_id'] = $session->get('user.id');
+        $data['name'] = $session->get('user.name');
+        $data['email'] = $session->get('user.email');
+        $data['created_at'] = \Carbon\Carbon::now();
 
-		return $this->jsonResponse(['msg' => 'Comment saved', 'status' => 'success']);
-	}
+        $id = $this->model('@blog\Comment')->insert($data);
 
-	public function quickTrash()
-	{
-		$id = $this->get('input')->post('id');
-		$this->model('@blog\Comment')->trash($id);
-		return $this->jsonResponse(['msg' => 'Comment moved to trash', 'status' => 'warning']);
-	}
+        return $this->jsonResponse(['msg' => 'Comment saved', 'status' => 'success']);
+    }
+
+    public function quickTrash()
+    {
+        $id = $this->get('input')->post('id');
+        $this->model('@blog\Comment')->trash($id);
+        return $this->jsonResponse(['msg' => 'Comment moved to trash', 'status' => 'warning']);
+    }
 }

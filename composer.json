@@ -23,10 +23,11 @@
   ],
   "require": {
       "drafterbit/framework": "dev-master",
+      "symfony/config": "2.5.*",
+      "symfony/translation": "2.5.*",
       "symfony/filesystem": "2.5.*",
       "symfony/finder": "2.5.*",
       "twig/twig": "1.15.*",
-      "egig/tika": "dev-master",
       "ircmaxell/password-compat": "1.0.*",
       "natxet/CssMin": "3.0.2",
       "mrclay/minify": "2.2.*",

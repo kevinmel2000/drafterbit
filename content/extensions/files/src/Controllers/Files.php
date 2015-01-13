@@ -8,63 +8,63 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class Files extends BackendController {
 
-	public function index()
-	{
-		$data['title'] =  __('Files');
-		return $this->render('@files/admin/index', $data);
-	}
+    public function index()
+    {
+        $data['title'] =  __('Files');
+        return $this->render('@files/admin/index', $data);
+    }
 
-	private function fixPostMaxSizeIssue()
-	{
-		// @todo
-		// handler post max size affected to upload file
-	}
-	
-	public function browser()
-	{	
-		return $this->render('@files/admin/browser');
-	}
+    private function fixPostMaxSizeIssue()
+    {
+        // @todo
+        // handler post max size affected to upload file
+    }
+    
+    public function browser()
+    {    
+        return $this->render('@files/admin/browser');
+    }
 
-	public function data()
-	{
-		$op = $this->get('input')->get('op');
-		$path = $this->get('input')->get('path');
-		
-		$res = new JsonResponse;
+    public function data()
+    {
+        $op = $this->get('input')->get('op');
+        $path = $this->get('input')->get('path');
+        
+        $res = new JsonResponse;
 
-		try {
+        try {
 
-			$data = array();
+            $data = array();
 
-			switch ($op) {
-				case 'ls':
-					$data = $this->get('ofinder')->ls($path);
-					break;
-				case 'delete':
-					$data = $this->get('ofinder')->delete($path);
-					break;
-				case 'mkdir':
-					$folderName = $this->get('input')->get('folder-name');
-					$data = $this->get('ofinder')->mkdir($path, $folderName);
-				break;
+            switch ($op) {
+                case 'ls':
+                    $data = $this->get('ofinder')->ls($path);
+                    break;
+                case 'delete':
+                    $data = $this->get('ofinder')->delete($path);
+                    break;
+                case 'mkdir':
+                    $folderName = $this->get('input')->get('folder-name');
+                    $data = $this->get('ofinder')->mkdir($path, $folderName);
+                break;
 
-				default:
-	 				# code...
-					break;
-			}
+                default:
+                     # code...
+                    break;
+            }
 
-			// upload
-			if($files = $this->get('input')->files('files', array())) {
-				$path = $this->get('input')->post('path');
-				$data = $this->get('ofinder')->upload($path, $files);
-			}
+            // upload
+            if($files = $this->get('input')->files('files', array())) {
+                $path = $this->get('input')->post('path');
+                $data = $this->get('ofinder')->upload($path, $files);
+            }
 
-		} catch (\Exception $e) {
-			$data = array( 'message' => $e->getMessage(), 'status' => 'error');
-		}
-		
-		$res->setData($data);
+        } catch (\Exception $e) {
+            $data = array( 'message' => $e->getMessage(), 'status' => 'error');
+        }
+        
+        $res->setData($data);
 
-		return $res;
-	}
+        return $res;
+    }
 }

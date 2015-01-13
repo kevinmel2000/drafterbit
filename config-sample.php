@@ -22,7 +22,7 @@
  *
  * WARNING ! if you change this, you also need to update your embeded image.
  */
-'path.upload' =>  'content/files',
+'path.upload' =>  '%content_dir%/files',
 
 /**
  * ---------------------------------------------------------------------------
@@ -34,14 +34,14 @@
  */
 
 'database' => [
-	'driver'       => 'pdo_mysql',
-	'user'         => 'root',
-	'password'     => '',
-	'host'         => 'localhost',
-	'port'         => '3306',
-	'dbname'       => '',
-	'charset'      => 'utf8',
-	'collation'    => 'utf8_unicode_ci',
-	'prefix'       => 'dt_',
-	]
+    'driver'       => 'pdo_mysql',
+    'user'         => 'root',
+    'password'     => '',
+    'host'         => 'localhost',
+    'port'         => '3306',
+    'dbname'       => '',
+    'charset'      => 'utf8',
+    'collation'    => 'utf8_unicode_ci',
+    'prefix'       => 'dt_',
+    ]
 ];

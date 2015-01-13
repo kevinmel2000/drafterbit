@@ -5,14 +5,14 @@ use Symfony\Component\Finder\Finder;
 
 class ThemeManager {
 
-	protected $themes;
-	protected $current;
-	protected $path;
+    protected $themes;
+    protected $current;
+    protected $path;
 
-	public function __construct($path = array())
-	{
-		$this->path = $path;
-	}
+    public function __construct($path = array())
+    {
+        $this->path = $path;
+    }
 
     /**
      * Register all modules on path.
@@ -37,23 +37,23 @@ class ThemeManager {
      * Register a theme.
      ** @return void
      */
-	public function register($name, $config)
-	{
-		$this->themes[$name] = $config;
-	}
+    public function register($name, $config)
+    {
+        $this->themes[$name] = $config;
+    }
 
-	/**
-	 * Get or set current theme;
-	 *
-	 * @param string $thame theme name
-	 */
-	public function current($theme = null) {
-		if(is_null($theme)) {
-			return $this->current;
-		}
+    /**
+     * Get or set current theme;
+     *
+     * @param string $thame theme name
+     */
+    public function current($theme = null) {
+        if(is_null($theme)) {
+            return $this->current;
+        }
 
-		return $this->current = $theme;
-	}
+        return $this->current = $theme;
+    }
 
     /**
      * Create finder to finds themes

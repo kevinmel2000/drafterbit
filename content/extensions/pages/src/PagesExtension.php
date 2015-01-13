@@ -2,19 +2,24 @@
 
 class PagesExtension extends \Drafterbit\Framework\Extension {
 
-	public function boot()
-	{
+    public function boot()
+    {
+        //log entities
+        $this->getApplication()->addLogEntityFormatter('page', function($id){
+            
+            $label = $this->model('@pages\Pages')->getSingleBy('id', $id)['title'];
+            return '<a href="'.admin_url('pages/edit/'.$id).'">'.$label.'</a>';
+        });
+    }
 
-	}
+    function getSearchQuery()
+    {
+        $query = $this['db']->createQueryBuilder()
+            ->select('*')
+            ->from('#_pages', 'p')
+            ->where("p.title like :q")
+            ->orWhere("p.content like :q");
 
-	function getSearchQuery()
-	{
-		$query = $this['db']->createQueryBuilder()
-			->select('*')
-			->from('#_pages', 'p')
-			->where("p.title like :q")
-			->orWhere("p.content like :q");
-
-		return array('page', $query);
-	}
+        return array('page', $query);
+    }
 }

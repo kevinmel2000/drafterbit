@@ -1,20 +1,20 @@
 body {
-  padding-top: 100px;
-  padding-bottom: 40px;
-  background-color: #eee;
+    padding-top: 100px;
+    padding-bottom: 40px;
+    background-color: #eee;
 }
 
 .title {
-  margin-top:10px;
-  font-family: "Lobster Two",cursive;
-  font-size: 38px;
-  color:#444;
-  font-weight: 200px;
+    margin-top:10px;
+    font-family: "Lobster Two",cursive;
+    font-size: 40px;
+    color:#555;
+    font-weight: 200px;
 }
 
 .panel,
 .btn {
-  border-radius: 2px;
+    border-radius: 2px;
 }
 
 .panel-heading {
@@ -66,7 +66,7 @@ body {
 }
 
 .help {
-	margin: 9px 0;
+    margin: 9px 0;
 }
 
 .alert {

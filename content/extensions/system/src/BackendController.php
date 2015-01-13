@@ -5,140 +5,141 @@ use Drafterbit\Extensions\System\Models\Menu;
 
 class BackendController extends Controller {
 
-	public function __construct( )
-	{
-		$session = $this->get('session');
+    public function __construct( )
+    {
+        $session = $this->get('session');
 
-		$this->get('template')->addGlobal('title', 'Untitled');
+        $this->get('template')->addGlobal('title', 'Untitled');
 
-		//flash messages
-		$messages = $session->getFlashBag()->get('messages');
-		$this->get('template')->addGlobal('messages', $messages);
-	}
+        //flash messages
+        $messages = $session->getFlashBag()->get('messages');
 
-	private function menu()
-	{
-		$sorted = array();
-		$children = array();
-		$i = 0;
+        $this->get('template')->addGlobal('messages', $messages);
+    }
 
-		foreach ($this->get('app')->getMenu() as $item) {
+    private function menu()
+    {
+        $sorted = array();
+        $children = array();
+        $i = 0;
 
-			$order = isset($item['order']) ? $item['order'] : $i;
-			
-			if(isset($item['parent'])) {
-				$children[$item['parent']][$order] = $item;
+        foreach ($this->get('app')->getNav() as $item) {
 
-			} else {
-				$sorted[$order][] = $item;
-			}
+            $order = isset($item['order']) ? $item['order'] : $i;
+            
+            if(isset($item['parent'])) {
+                $children[$item['parent']][$order] = $item;
 
-			$i++;
-		}
+            } else {
+                $sorted[$order][] = $item;
+            }
 
-		$sorted2 = array();
-		foreach ($sorted as $index => $menu) {
-			$sorted2 = array_merge($sorted2, array_values($menu));
-		}
-		
-		foreach ($sorted2 as &$menu) {
+            $i++;
+        }
 
-			if(isset($children[$menu['id']])) {
-				ksort($children[$menu['id']]);
-				$menu['children'] = $children[$menu['id']];
-			}
-		}
+        $sorted2 = array();
+        foreach ($sorted as $index => $menu) {
+            $sorted2 = array_merge($sorted2, array_values($menu));
+        }
+        
+        foreach ($sorted2 as &$menu) {
 
-		ksort($sorted2);
+            if(isset($children[$menu['id']])) {
+                ksort($children[$menu['id']]);
+                $menu['children'] = $children[$menu['id']];
+            }
+        }
 
-		return $sorted2;
-	}
+        ksort($sorted2);
+
+        return $sorted2;
+    }
     
-	private function createMenu($menuArray)
-	{
-		$menus = array();
+    private function createMenu($menuArray)
+    {
+        $menus = array();
 
-		foreach ($menuArray as $menu) {
+        foreach ($menuArray as $menu) {
 
-			$href = isset($menu['href']) ? $menu['href'] : null;
-			$class = isset($menu['class']) ? $menu['class'] : null;
-			$id = isset($menu['id']) ? $menu['id'] : null;
-			$item = new Menu($menu['label'], $href, $id, $class);
-			
-			if(isset($menu['children'])) {
-				$item->children = $this->createMenu($menu['children']);
-			}
+            $href = isset($menu['href']) ? $menu['href'] : null;
+            $class = isset($menu['class']) ? $menu['class'] : null;
+            $id = isset($menu['id']) ? $menu['id'] : null;
+            $item = new Menu($menu['label'], $href, $id, $class);
+            
+            if(isset($menu['children'])) {
+                $item->children = $this->createMenu($menu['children']);
+            }
 
-			$menus[] = $item;
-		}
+            $menus[] = $item;
+        }
 
-		return $menus;
-	}
+        return $menus;
+    }
 
-	/**
-	 * Create datatables
-	 *
-	 * @param string $id
-	 * @param array $heads
-	 * @param array $data
-	 */
-	public function dataTable($id, $heads, $data)
-	{
-		$thead = array();
-		foreach ($heads as $item) {
-			$th['id'] 		= $item['field'];
-			$th['label'] 	= $item['label'];
-			$th['align'] 	= isset($item['align']) ? $item['align'] : 'left';
-			$th['width'] 	= isset($item['width']) ? $item['width'] : 'auto';
-			$th['format'] 	= (isset($item['format']) and is_callable($item['format'])) ? $item['format'] : false;
+    /**
+     * Create datatables
+     *
+     * @param string $id
+     * @param array $heads
+     * @param array $data
+     */
+    public function dataTable($id, $heads, $data)
+    {
+        $thead = array();
+        foreach ($heads as $item) {
+            $th['id']         = $item['field'];
+            $th['label']     = $item['label'];
+            $th['align']     = isset($item['align']) ? $item['align'] : 'left';
+            $th['width']     = isset($item['width']) ? $item['width'] : 'auto';
+            $th['format']     = (isset($item['format']) and is_callable($item['format'])) ? $item['format'] : false;
 
-			$thead[] = $th;
-		}
+            $thead[] = $th;
+        }
 
-		$rows = array();
+        $rows = array();
 
-		foreach ($data as $item) {
+        foreach ($data as $item) {
 
-			$row['id'] = $item['id'];
+            $row['id'] = $item['id'];
 
-			foreach ($thead as $th) {
-				if($th['format']) {
-					$row['values'][$th['id']] = call_user_func_array($th['format'], [$item[$th['id']], $item]);
-				} else {
-					$row['values'][$th['id']] = $item[$th['id']];
-				}
-			}
-			
-			$rows[] = $row;
-		}
+            foreach ($thead as $th) {
+                if($th['format']) {
+                    $row['values'][$th['id']] = call_user_func_array($th['format'], [$item[$th['id']], $item]);
+                } else {
+                    $row['values'][$th['id']] = $item[$th['id']];
+                }
+            }
+            
+            $rows[] = $row;
+        }
 
-		$data['id']		= $id;
-		$data['rows'] 	= $rows;
-		$data['thead'] 	= $thead;
+        $data['id']        = $id;
+        $data['rows']     = $rows;
+        $data['thead']     = $thead;
 
-		return $this->render('@system/partials/data-table', $data);
-	}
+        return $this->render('@system/partials/data-table', $data);
+    }
 
-	public function tableHeader($name, $data, $headers)
-	{
-		$thead = array();
-		foreach ($headers as $item) {
-			$th = new \StdClass;
-			$th->label = $item['label'];
-			$th->id = $item['field'];
-			$th->align = isset($item['align']) ? $item['align'] : 'left';
-			$th->width = isset($item['width']) ? $item['width'] : 'auto';
-			$th->format = (isset($item['format']) and is_callable($item['format'])) ? $item['format'] : false;
+    public function tableHeader($name, $data, $headers)
+    {
+        $thead = array();
+        foreach ($headers as $item) {
+            $th = new \StdClass;
+            $th->label = $item['label'];
+            $th->id = $item['field'];
+            $th->align = isset($item['align']) ? $item['align'] : 'left';
+            $th->width = isset($item['width']) ? $item['width'] : 'auto';
+            $th->format = (isset($item['format']) and is_callable($item['format'])) ? $item['format'] : false;
 
-			$thead[] = $th;
-		}
+            $thead[] = $th;
+        }
 
-		$data['id'] = $data['name'] = $name;
-		$data['thead'] = $thead;
-		return $this->render('@system/partials/table-header', $data);
-	}
+        $data['id'] = $data['name'] = $name;
+        $data['thead'] = $thead;
+        return $this->render('@system/partials/table-header', $data);
+    }
 
-	/**
+    /**
      * Render Template.
      *
      * @param string $template
@@ -147,20 +148,20 @@ class BackendController extends Controller {
     public function render($template, $data = array())
     {
 
-		//gravatar
-		$session = $this->get('session');
-		$hash = md5(strtolower($session->get('user.email')));
-		$url = "http://www.gravatar.com/avatar/$hash?d=mm&s=17";
-		$userName = $session->get('user.name') ? $session->get('user.name') : $session->get('user.email');
-		$userGravatar = $url;
+        //gravatar
+        $session = $this->get('session');
+        $hash = md5(strtolower($session->get('user.email')));
+        $url = "http://www.gravatar.com/avatar/$hash?d=mm&s=17";
+        $userName = $session->get('user.name') ? $session->get('user.name') : $session->get('user.email');
+        $userGravatar = $url;
 
-		$system = $this->model('@system\System')->all();
-		
-		$this->get('template')
-			->addGlobal('menus', $this->createMenu($this->menu()))
-			->addGlobal('userName', $userName)
-			->addGlobal('userGravatar', $userGravatar)
-			->addGlobal('siteName', $system['site.name']);
+        $system = $this->model('@system\System')->all();
+        
+        $this->get('template')
+            ->addGlobal('menus', $this->createMenu($this->menu()))
+            ->addGlobal('userName', $userName)
+            ->addGlobal('userGravatar', $userGravatar)
+            ->addGlobal('siteName', $system['site.name']);
 
         return $this->get('template')->render($template, $data);
     }

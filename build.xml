@@ -15,8 +15,6 @@
     <!-- ============================================  -->
     <target name="build" depends="prepare">
 
-        
-
         <copy todir="./build/content" >
           <fileset defaultexcludes="false" expandsymboliclinks="true" dir="./content">
             <include name="**" />
@@ -45,7 +43,7 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- (DEFAULT)  Target: dist                       -->
+    <!-- (DEFAULT)  Target: main                       -->
     <!-- ============================================  -->
     <target name="main" depends="build">
         <echo msg="Creating archive..." />

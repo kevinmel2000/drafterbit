@@ -1,0 +1,28 @@
+<div style="display:none;" class="form-comment" id="form-comment-{{ parent_id }}">
+    <form method="post" action="{{ base_url('blog/comment/submit') }}">
+        <div>
+            <label class="label" for="name">Name</label>
+            <input type="text" name="name"/>
+        </div>
+        <div>
+            <label class="label" for="email">Email</label>
+            <input type="email" name="email" />
+        </div>
+        <div>
+            <label class="label" for="url">URL</label>
+            <input type="text" name="url"/>
+        </div>
+        <div>
+            <label class="label">Comment</label>
+            <textarea name="content"></textarea>
+        </div>
+        <div>
+            <input type="hidden" name="parent_id" value="{{ parent_id }}">
+            <input type="hidden" name="post_id" value="{{ post_id }}">
+            <input type="submit" name="submit" value="Submit"/>
+            {% if parent_id != 0 %}
+            <a data-parent-id="{{ parent_id }}" href="javascript:;" class="cancel-reply">Cancal</a>
+            {% endif %}
+        </div>
+    </form>
+</div>

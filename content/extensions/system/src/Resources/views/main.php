@@ -5,13 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?php echo $title ?> | <?php echo $siteName.' Administrator'; ?></title>
         <!-- Core CSS - Include with every page -->
-        <style>
-          @font-face {
-            font-family: 'Lobster Two';
-            src: url("<?php echo base_url(app('dir.system').'/Resources/public/assets/Lobster_Two/LobsterTwo-Regular.ttf') ?>") format('truetype');
-          }
-          .dt-brand {font-family: "Lobster Two";margin-right: 10px;}
-        </style>
+        <link rel="stylesheet" href="<?php echo base_url('system/drafterbit.css'); ?>" type="text/css">
+        
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css('
           :bootstrap_css,
@@ -47,7 +42,7 @@
 
         <!-- script // @todo -->
         <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
-        <script src="<?php echo admin_url('system/drafterbit.js'); ?>" /></script>
+        <script src="<?php echo base_url('system/drafterbit.js'); ?>" /></script>
         <?php $this->js(':bootstrap_js, :notify_js, :jquery_form, @system/js/layout.js'); ?>          
         <?php echo $this->block('js'); ?>
 

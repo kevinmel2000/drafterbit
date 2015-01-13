@@ -2,6 +2,6 @@
 
 interface WidgetInterface {
 
-	
-	public function run();
+    
+    public function run();
 }

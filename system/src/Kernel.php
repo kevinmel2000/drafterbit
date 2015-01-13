@@ -10,11 +10,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class Kernel extends Application {
 
     /**
-     * Application admin menus.
+     * Application admin navigation.
      *
      * @var array
      */
-    protected $menu = array();
+    protected $nav = array();
 
     /**
      * Permissions.
@@ -22,6 +22,13 @@ class Kernel extends Application {
      * @var array
      */
     protected $permissions = array();
+
+    /**
+     * Log Entity Labels.
+     *
+     * @var array
+     */
+    protected $logEntityLabels = array();
     
     /**
      * Application Fronpage options.
@@ -32,9 +39,9 @@ class Kernel extends Application {
 
     public function __construct($environment = 'development', $debug = true)
     {
-    	parent::__construct($environment, $debug);
+        parent::__construct($environment, $debug);
 
-    	$this->register(new ExtensionServiceProvider);
+        $this->register(new ExtensionServiceProvider);
         $this->register(new WidgetServiceProvider);
 
         foreach (require $this->getResourcesPath('config/services.php')
@@ -43,14 +50,14 @@ class Kernel extends Application {
         }
     }
 
-	public function addMenu($menu)
+    public function addNav($nav)
     {
-        $this->menu = array_merge($this->menu, $menu);
+        $this->nav = array_merge($this->nav, $nav);
     }
 
-    public function getMenu()
+    public function getNav()
     {
-        return $this->menu;
+        return $this->nav;
     }
 
     public function addPermission($extension, $permissions)
@@ -83,6 +90,14 @@ class Kernel extends Application {
             ->setParameter('position', $position)
             ->execute()->fetchAll();
 
+        usort($widgets, function($a, $b) {
+            if($a['sequence'] == $b['sequence']) {
+                return $a['id'] - $b['id'];
+            }
+
+            return $a['sequence'] < $b['sequence'] ? -1 : 1;
+        });
+
         $output = null;
         foreach ($widgets as $widget) {
             $output .=
@@ -111,11 +126,11 @@ class Kernel extends Application {
             ->getResult();
 
         usort($data, function($a, $b) {
-            if($a['order'] == $b['order']) {
+            if($a['sequence'] == $b['sequence']) {
                 return $a['id'] - $b['id'];
             }
 
-            return $a['order'] < $b['order'] ? -1 : 1;
+            return $a['sequence'] < $b['sequence'] ? -1 : 1;
         });
 
         foreach ($data as &$item) {
@@ -190,6 +205,11 @@ class Kernel extends Application {
         
         $this['themes']->registerAll();
 
+        // add language catalogue
+        if(is_dir($path = $this['path.themes'].$this['themes']->current().'/l10n')) {
+            $this['translator']->addPath($path);
+        }
+
         $this['path.theme'] = $this['path.themes'].$this['themes']->current().'/';
 
         $extensions = array();
@@ -254,6 +274,7 @@ class Kernel extends Application {
         }, -512);
 
         $this->addMiddleware('Drafterbit\\System\\Middlewares\\Security', array($this, $this['session'], $this['router']));
+        $this->addMiddleware('Drafterbit\\System\\Middlewares\\Log', array($this));
     }
 
     public function getFrontpage()
@@ -302,5 +323,81 @@ class Kernel extends Application {
         }
 
         return $urls;
+    }
+
+    public function setContentDir($dir)
+    {
+        $this['path.content'] = realpath($dir).'/';
+        $this['config']->addReplaces('%content_dir%', $dir);
+    }
+
+    public function setConfigFile($file) {
+        $this['config_file'] = $file;
+    }
+
+    public function run()
+    {
+        $this['dir.content']     = basename($this['path.content']);
+        $this['dir.system']      = basename($this['path']);
+        $this['path.extensions'] = $this['path.content'] . '/extensions';
+        $this['path.install']    = $this['path.public'] =  getcwd().'/';
+
+        // asset
+        $this['config']->addReplaces('%path.vendor.asset%', $this['path'].'vendor/web');
+        $this['config']->addReplaces('%path.system.asset%', $this['path'].'Resources/public/assets');
+
+        $config = $this['config']['app'];
+        $this['debug'] = $config['debug'];
+
+        $this['exception']->setDebug($this['debug']);
+
+        if ($config['error.log']) {
+            $this['exception']
+                ->error(function(\Exception $exception, $code) {
+                    $this['log']->addError($exception);
+                });
+        }
+
+        $this['asset']->setCachePath($this['path.content'].'cache/asset');
+
+        foreach ($this['config']->get('asset.assets') as $name => $value) {
+            $this['asset']->register($name, $value);
+        }
+
+        try {
+
+            $this->configure($this['config_file']);
+
+        } catch(InstallationException $e) {
+
+            $code = $e->getCode();
+            $this['extension.manager']->load('installer');
+            $this->getExtension('installer')->setStart($code);
+        }
+
+        parent::run();
+    }
+
+    function getLogEntityLabel($entity, $id)
+    {
+        return call_user_func_array($this->logEntityLabels[$entity], array($id));
+    }
+
+    function addLogEntityFormatter($entity, $callback)
+    {
+        $this->logEntityLabels[$entity] = $callback;
+    }
+
+    function dashboardWidgets()
+    {
+        $widgets = array();
+        
+        foreach($this->getExtensions() as $extension){
+            if(method_exists($extension, 'dashboardWidgets')) {
+                $widgets =  array_merge($widgets, $extension->dashboardWidgets());
+            }
+        }
+
+        return $widgets;     
     }
 }

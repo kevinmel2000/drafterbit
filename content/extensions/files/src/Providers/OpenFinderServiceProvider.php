@@ -6,11 +6,11 @@ use Drafterbit\Finder;
 
 class OpenFinderServiceProvider implements ServiceProviderInterface {
 
-	function register(Container $app)
-	{
-		$app['ofinder'] = function($c) {
-			$uploads = $c['config']->get('path.upload');
-			return new Finder($c['path.install'].$uploads, $c['file']);
-		};
-	}
+    function register(Container $app)
+    {
+        $app['ofinder'] = function($c) {
+            $uploads = $c['config']->get('path.upload');
+            return new Finder($uploads, $c['file']);
+        };
+    }
 }

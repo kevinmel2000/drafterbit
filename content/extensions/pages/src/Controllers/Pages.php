@@ -6,219 +6,215 @@ use Carbon\Carbon;
 
 class Pages extends BackendController {
 
-	public function index()
-	{			
-		$status = 'untrashed';
+    public function index()
+    {            
+        $status = 'untrashed';
 
-		$pages = $this->model('@pages\Pages')->all(['status' => $status]);
-		
-		$data['status'] = $status;
-		$data['pages'] = $pages;
-		$data['id'] = 'pages';
-		$data['title'] =  __('Pages');
-		$data['action'] = admin_url('pages/trash');
-		$data['pagesTable'] = $this->dataTable('pages', $this->_tableHeader(), $pages);
+        $pages = $this->model('@pages\Pages')->all(['status' => $status]);
+        
+        $data['status'] = $status;
+        $data['pages'] = $pages;
+        $data['id'] = 'pages';
+        $data['title'] =  __('Pages');
+        $data['action'] = admin_url('pages/trash');
+        $data['pagesTable'] = $this->dataTable('pages', $this->_tableHeader(), $pages);
 
-		return $this->render('@pages/admin/index', $data);
-	}
+        return $this->render('@pages/admin/index', $data);
+    }
 
-	public function trash()
-	{
-		$post = $this->get('input')->post();
+    public function trash()
+    {
+        $post = $this->get('input')->post();
 
-		$pageIds = $post['pages'];
+        $pageIds = $post['pages'];
 
-		switch($post['action']) {
-			case "trash":
-				$this->model('@pages\Pages')->trash($pageIds);
-				break;
-			case 'delete':
-				$this->model('@pages\Pages')->delete($pageIds);
-			case 'restore':
-				$this->model('@pages\Pages')->restore($pageIds);
-			break;
-			default:
-				break;
-		}
-	}
+        switch($post['action']) {
+            case "trash":
+                $this->model('@pages\Pages')->trash($pageIds);
+                break;
+            case 'delete':
+                $this->model('@pages\Pages')->delete($pageIds);
+            case 'restore':
+                $this->model('@pages\Pages')->restore($pageIds);
+            break;
+            default:
+                break;
+        }
+    }
 
-	public function filter($status)
-	{
-		$pages = $this->model('@pages\Pages')->all(['status' => $status]);
-		
-		$editUrl = admin_url('pages/edit');
+    public function filter($status)
+    {
+        $pages = $this->model('@pages\Pages')->all(['status' => $status]);
+        
+        $editUrl = admin_url('pages/edit');
 
-		$pagesArr  = array();
+        $pagesArr  = array();
 
-		foreach ($pages as $page) {
+        foreach ($pages as $page) {
 
-			$page = (object)$page;
+            $page = (object)$page;
 
-			$data = array();
-			$data[] = '<input type="checkbox" name="pages[]" value="'.$page->id.'">';
-			$data[] = $status !== 'trashed' ? "<a class='page-edit-link' href='$editUrl/{$page->id}'> {$page->title}</a>" : $page->title;
-			$data[] = $page->created_at;
+            $data = array();
+            $data[] = '<input type="checkbox" name="pages[]" value="'.$page->id.'">';
+            $data[] = $status !== 'trashed' ? "<a class='page-edit-link' href='$editUrl/{$page->id}'> {$page->title}</a>" : $page->title;
+            $data[] = $page->created_at;
 
-			if($status == 'trashed') {
-				$s = ucfirst($status);
-			} else {
-				$s = $page->status == 1 ? 'Published' : 'Unpublished';
-			}
+            if($status == 'trashed') {
+                $s = ucfirst($status);
+            } else {
+                $s = $page->status == 1 ? 'Published' : 'Unpublished';
+            }
 
-			$data[] = $s;
+            $data[] = $s;
 
-			$pagesArr[] = $data;
-		}
+            $pagesArr[] = $data;
+        }
 
-		$ob = new \StdClass;
-		$ob->data = $pagesArr;
-		$ob->recordsTotal= count($pagesArr);
-		$ob->recordsFiltered = count($pagesArr);
+        $ob = new \StdClass;
+        $ob->data = $pagesArr;
+        $ob->recordsTotal= count($pagesArr);
+        $ob->recordsFiltered = count($pagesArr);
 
-		return $this->jsonResponse($ob);
-	}
+        return $this->jsonResponse($ob);
+    }
 
-	public function edit($id)
-	{
-		if($id == 'new') {
+    public function edit($id)
+    {
+        if($id == 'new') {
 
-			$data = array(
-				'title' 	=> __('Create New Page'),
+            $data = array(
+                'title'     => __('Create New Page'),
 
-				'pageId' 	=> null,
-				'pageTitle' => null,
-				'slug' 		=> null,
-				'content' 	=> null,
-				'layout' 	=> null,
-				'status' 	=> 1,
-			);
+                'pageId'     => null,
+                'pageTitle' => null,
+                'slug'         => null,
+                'content'     => null,
+                'layout'     => null,
+                'status'     => 1,
+            );
 
-		} else {
+        } else {
 
-			$page = (object) $this->model('@pages\Pages')->getSingleBy('id', $id);
-			$data = array(
-				'title' 	=> __('Edit Page'),
+            $page = (object) $this->model('@pages\Pages')->getSingleBy('id', $id);
+            $data = array(
+                'title'     => __('Edit Page'),
 
-				'pageId' 	=> $id,
-				'pageTitle' => $page->title,
-				'slug' 		=> $page->slug,
-				'content' 	=> $page->content,
-				'layout'	=> $page->layout,
-				'status' 	=> $page->status,				
-			);
-		}
+                'pageId'     => $id,
+                'pageTitle' => $page->title,
+                'slug'         => $page->slug,
+                'content'     => $page->content,
+                'layout'    => $page->layout,
+                'status'     => $page->status,                
+            );
+        }
 
-		$data['id'] = 'page-edit';
-		$data['action'] = admin_url('pages/save');
-		$data['layoutOptions'] = $this->getLayoutOptions();
+        $data['id'] = 'page-edit';
+        $data['action'] = admin_url('pages/save');
+        $data['layoutOptions'] = $this->getLayoutOptions();
 
-		return $this->render('@pages/admin/editor', $data);
-	}
+        return $this->render('@pages/admin/editor', $data);
+    }
 
-	/**
-	 * Save submitted post data
-	 */
-	public function save()
-	{
-		try {
+    /**
+     * Save submitted post data
+     */
+    public function save()
+    {
+        try {
 
-			$postData = $this->get('input')->post();
+            $postData = $this->get('input')->post();
 
-			$this->validate('page', $postData);
+            $this->validate('page', $postData);
 
-			$id = $postData['id'];
+            $id = $postData['id'];
 
-			if($id) {
-				$data = $this->createUpdateData($postData);
-				$this->model('@pages\Pages')->update($data, $id);			
-				
-				log_activity('updated page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'</a>"');
+            if($id) {
+                $data = $this->createUpdateData($postData);
+                $this->model('@pages\Pages')->update($data, $id);            
+                
+            } else {
 
-			} else {
+                $data = $this->createInsertData($postData);
+                $id = $this->model('@pages\Pages')->insert($data);
+            }
 
-				$data = $this->createInsertData($postData);
-				$id = $this->model('@pages\Pages')->insert($data);
+            $this->get('cache')->delete('pages');
 
-				log_activity('created page "<a href="'.admin_url('pages/edit/'.$id).'">'.$postData['title'].'"</a>');
-			}
+            return $this->jsonResponse(['message' => __('Page succesfully saved'), 'status' => 'success', 'id' => $id]);
 
-			$this->get('cache')->delete('pages');
+        } catch (ValidationFailsException $e) {
+            
+            return $this->jsonResponse(['error' => [
+                    'type' => 'validation',
+                    'message' => $e->getMessage(),
+                    'messages' => $e->getMessages()
+                ]
+            ]);
+        }
+    }
 
-			return $this->jsonResponse(['message' => __('Page succesfully saved'), 'status' => 'success', 'id' => $id]);
+    private function _tableHeader()
+    {
+        $editUrl = admin_url('pages/edit');
+        $formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item['id']}'>$value</i></a>"; };
+        $formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
 
-		} catch (ValidationFailsException $e) {
-			
-			return $this->jsonResponse(['error' => [
-					'type' => 'validation',
-					'message' => $e->getMessage(),
-					'messages' => $e->getMessages()
-				]
-			]);
-		}
-	}
+        return [
+            ['field' => 'title', 'label' => 'Title', 'width' => '70%', 'format' => $formatTitle ],
+            ['field' => 'created_at', 'label' => 'Created', 'width' => '20%'],
+            ['field' => 'status', 'label' => 'Status', 'width' => '10%', 'format' => $formatStatus ]
+        ];
+    }
 
-	private function _tableHeader()
-	{
-		$editUrl = admin_url('pages/edit');
-		$formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item['id']}'>$value</i></a>"; };
-		$formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
+    /**
+     * get available layout from current themes
+     *
+     * @return array
+     */
+    private function getLayoutOptions()
+    {
+        $layouts = $this->get('finder')->in($this->get('path.theme').'layout')->files();
+        $options = array();
+        foreach ($layouts as $layout) {
+            $options[$layout->getFileName()] = $layout->getFileName();
+        }
 
-		return [
-			['field' => 'title', 'label' => 'Title', 'width' => '70%', 'format' => $formatTitle ],
-			['field' => 'created_at', 'label' => 'Created', 'width' => '20%'],
-			['field' => 'status', 'label' => 'Status', 'width' => '10%', 'format' => $formatStatus ]
-		];
-	}
-
-	/**
-	 * get available layout from current themes
-	 *
-	 * @return array
-	 */
-	private function getLayoutOptions()
-	{
-		$layouts = $this->get('finder')->in($this->get('path.theme').'layout')->files();
-		$options = array();
-		foreach ($layouts as $layout) {
-			$options[$layout->getFileName()] = $layout->getFileName();
-		}
-
-		return $options;
-	}
+        return $options;
+    }
 
 
-	/**
-	 * Parse post data to insert to db
-	 *
-	 * @param array $post
-	 * @return array
-	 */
-	protected function createInsertData($post, $isUpdate = false)
-	{
-		$data = array();
-		$data['title'] = $post['title'];
-		$data['slug'] = $post['slug'];
-		$data['content'] = $post['content'];
-		$data['layout'] = $post['layout'];
-		$data['status'] = $post['status'];
-		$data['user_id'] = $this->get('session')->get('user.id');
-		$data['updated_at'] = Carbon::now();
-		
-		if (! $isUpdate) {
-			$data['created_at'] = Carbon::now();
-		}
+    /**
+     * Parse post data to insert to db
+     *
+     * @param array $post
+     * @return array
+     */
+    protected function createInsertData($post, $isUpdate = false)
+    {
+        $data = array();
+        $data['title'] = $post['title'];
+        $data['slug'] = $post['slug'];
+        $data['content'] = $post['content'];
+        $data['layout'] = $post['layout'];
+        $data['status'] = $post['status'];
+        $data['user_id'] = $this->get('session')->get('user.id');
+        $data['updated_at'] = Carbon::now();
+        
+        if (! $isUpdate) {
+            $data['created_at'] = Carbon::now();
+        }
 
-		return $data;
-	}
+        return $data;
+    }
 
-	/**
-	 * Parse post data for update
-	 *
-	 * @param array $post
-	 * @return array
-	 */
-	public function createUpdateData($post)
-	{
-		return $this->createInsertData($post, true);
-	}
+    /**
+     * Parse post data for update
+     *
+     * @param array $post
+     * @return array
+     */
+    public function createUpdateData($post)
+    {
+        return $this->createInsertData($post, true);
+    }
 }

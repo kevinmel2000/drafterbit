@@ -99,7 +99,7 @@ code,
     min-height: 30px;
 }
 
-	.navbar-top-links li {
+    .navbar-top-links li {
       margin: 0px !important;
       padding: 0px !important;
   }
@@ -110,7 +110,7 @@ code,
     }
 
     .navbar-text {
-	      margin: 0px !important;
+          margin: 0px !important;
         min-height: 30px;
         padding: 5px 10px;
     }

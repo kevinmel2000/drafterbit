@@ -1,3 +1,3 @@
 <?php return [
-	'name' => 'search'
+    'name' => 'search'
 ];

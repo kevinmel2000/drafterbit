@@ -7,14 +7,14 @@ use Drafterbit\System\Widget\WidgetUIBuilder;
 
 class WidgetServiceProvider implements ServiceProviderInterface {
 
-	function register(Container $app)
-	{
-		$app['widget'] = function($c) {
-			return new WidgetManager($c['loader']);
-		};
+    function register(Container $app)
+    {
+        $app['widget'] = function($c) {
+            return new WidgetManager($c['loader']);
+        };
 
-		$app['widget.ui'] = function () {
-			return new WidgetUIBuilder;
-		};
-	}
+        $app['widget.ui'] = function () {
+            return new WidgetUIBuilder;
+        };
+    }
 }

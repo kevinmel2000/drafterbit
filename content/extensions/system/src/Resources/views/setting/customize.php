@@ -109,12 +109,13 @@
                                   </h4>
                                 </div>
                                 <div id="<?php echo $pos ?>-menu-position" class="panel-collapse collapse">
-                                  <div class="panel-body <?php echo $pos ?>-menu-container">
+                                  <div class="sortable panel-body <?php echo $pos ?>-menu-container">
+                                    <div class="menu-sortable">
                                     <?php foreach ($menus[$pos] as $menu): ?>
-                                         <div class="panel panel-default menu-item-container">
+                                         <div class="panel panel-default menu-item-container" id="<?php echo $menu['id'] ?>-menu-container">
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-menu-container" href="#menu-<?php echo $menu['id'] ?>">
+                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-menu-container > .menu-sortable" href="#menu-<?php echo $menu['id'] ?>">
                                                   <?php echo $menu['label']; ?>
                                                 </a>
                                               </h4>
@@ -163,6 +164,7 @@
                                             </div>
                                         </div>
                                     <?php endforeach ?>
+                                    </div>
                                     <div class="well well-sm" style="margin-top:5px;">
                                         <a data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#" class="menu-adder">add menu item</a>
                                     </div>
@@ -184,22 +186,24 @@
                                 </div>
                                 <div id="<?php echo $pos ?>-widget-position" class="panel-collapse collapse widget-position">
                                   <div class="panel-body widget-container <?php echo $pos ?>-widget-container">
-                                    <?php foreach ($widgets[$pos] as $widget): ?>
-                                        <div class="panel panel-default">
-                                            <div class="panel-heading">
-                                              <h4 class="panel-title">
-                                                <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-widget-container" href="#widget-<?php echo $widget['id']; ?>">
-                                                  <?php echo $widget['name']; ?>
-                                                </a>
-                                              </h4>
-                                            </div>
-                                            <div id="widget-<?php echo $widget['id'] ?>" class="panel-collapse collapse">
-                                              <div class="panel-body">
-                                                  <?php echo $widget['ui']; ?>
+                                    <div class="widget-sortable">
+                                      <?php foreach ($widgets[$pos] as $widget): ?>
+                                          <div class="panel panel-default widget-item-container" id="<?php echo $widget['id'] ?>-widget-item-container">
+                                              <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                  <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-widget-container > .widget-sortable" href="#widget-<?php echo $widget['id']; ?>">
+                                                    <?php echo $widget['name']; ?>
+                                                  </a>
+                                                </h4>
                                               </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach ?>
+                                              <div id="widget-<?php echo $widget['id'] ?>" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <?php echo $widget['ui']; ?>
+                                                </div>
+                                              </div>
+                                          </div>
+                                      <?php endforeach ?>
+                                    </div>
                                     <div class="well well-sm" style="margin-top:5px;">
                                         <a class="dt-widget-adder" data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#available-widget-dialog">add widget</a>
                                     </div>
@@ -214,8 +218,8 @@
 
         <!-- script -->
         <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
-        <script src="<?php echo admin_url('system/drafterbit.js'); ?>" /></script>
-        <?php $this->js(':bootstrap_js, :notify_js, :jquery_form, @system/js/layout.js, @system/js/customizer.js, :handlebars'); ?>
+        <script src="<?php echo base_url('system/drafterbit.js'); ?>" /></script>
+        <?php $this->js(':bootstrap_js, :jquery_ui_js, :notify_js, :jquery_form, @system/js/layout.js, @system/js/customizer.js, :handlebars'); ?>
         <?php echo $this->block('js'); ?>
 
         <script>
@@ -230,7 +234,7 @@
         </script>
 
         <script id="widget-item-template" type="text/x-handlebars-template">
-        <div class="panel panel-default">
+        <div class="panel panel-default widget-item-container">
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a data-toggle="collapse" data-parent=".widget-container" href="#widget-{{widgetId}}">{{widgetName}}</a>

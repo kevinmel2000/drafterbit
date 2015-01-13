@@ -1,7 +1,7 @@
 $(function(){
 
-	//mobile
-	$('.navbar-toggle').click(function(){
+    //mobile
+    $('.navbar-toggle').click(function(){
 
         leftOffset = $('.dt-off-canvas').css('left');
         if (leftOffset === '0px') {

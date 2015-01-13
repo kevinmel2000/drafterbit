@@ -10,85 +10,77 @@ use Drafterbit\Framework\Application;
 
 class Security implements HttpKernelInterface {
 
-	/**
-	 * The wrapped kernel implementation.
-	 *
-	 * @var \Symfony\Component\HttpKernel\HttpKernelInterface
-	 */
-	protected $kernel;
+    /**
+     * The wrapped kernel implementation.
+     *
+     * @var \Symfony\Component\HttpKernel\HttpKernelInterface
+     */
+    protected $kernel;
 
-	/**
-	 * Darafterbit Application
-	 *
-	 * @var \Drafterbit\Framework\Application
-	 */
-	protected $app;
+    /**
+     * Darafterbit Application
+     *
+     * @var \Drafterbit\Framework\Application
+     */
+    protected $app;
 
-	/**
-	 * The router.
-	 *
-	 * @var \Drafterbit\Component\Routing\Router
-	 */
-	protected $router;
+    /**
+     * The session manager.
+     *
+     * @var \Drafterbit\Component\Sessions\SessionManager
+     */
+    protected $session;
 
-	/**
-	 * The session manager.
-	 *
-	 * @var \Drafterbit\Component\Sessions\SessionManager
-	 */
-	protected $session;
+    /**
+     * Create a new session middleware.
+     *
+     * @param  \Symfony\Component\HttpKernel\HttpKernelInterface  $app
+     * @param  \Drafterbit\Component\Routing\Router  $router
+     */
+    public function __construct(HttpKernelInterface $kernel, Application $app, SessionManager $session)
+    {
+        $this->kernel = $kernel;
+        $this->app = $app;
+        $this->session = $session;
+    }
 
-	/**
-	 * Create a new session middleware.
-	 *
-	 * @param  \Symfony\Component\HttpKernel\HttpKernelInterface  $app
-	 * @param  \Drafterbit\Component\Routing\Router  $router
-	 */
-	public function __construct(HttpKernelInterface $kernel, Application $app, SessionManager $session, RouteManager $router)
-	{
-		$this->kernel = $kernel;
-		$this->app = $app;
-		$this->session = $session;
-		$this->router = $router;
-	}
-
-	/**
-	 * Handle the given request and get the response.
-	 *
-	 * @implements HttpKernelInterface::handle
-	 *
-	 * @param  \Symfony\Component\HttpFoundation\Request  $request
-	 * @param  int   $type
-	 * @param  bool  $catch
-	 * @return \Symfony\Component\HttpFoundation\Response
-	 */
-	public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
-	{
+    /**
+     * Handle the given request and get the response.
+     *
+     * @implements HttpKernelInterface::handle
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @param  int   $type
+     * @param  bool  $catch
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
+    {
         if($access = $request->getMatchingRoute()->getOption('access')) {
-        	try {
+            try {
 
-        		$auth = $this->app->getExtension('user')->model('Auth');
-        		$auth->restrict($access);
+                $auth = $this->app->getExtension('user')->model('Auth');
+                $auth->restrict($access);
 
-        	} catch(UserNotAuthorizedException $e) {
-        		
-        		$message = $e->getMessage();
+            } catch(UserNotAuthorizedException $e) {
+                
+                $message = $e->getMessage();
 
-        		if($this->app['input']->isAjax()) {
-        			return new JsonResponse([
-        				'error' => [
-        					'type' => 'auth',
-        					'message' => $message,
-        				]
-        			]);
-        		}
+                if($this->app['input']->isAjax()) {
+                    return new JsonResponse([
+                        'error' => [
+                            'type' => 'auth',
+                            'message' => $message,
+                        ]
+                    ]);
+                }
 
-        		$referer = $this->app['input']->headers('referer') ? 
-        			$this->app['input']->headers('referer') : admin_url('dashboard');
-        		
-        		$this->session->getFlashBag()->add('messages', array('text' => $message, 'type' => 'error'));
-        		return redirect($referer);
-        	}
+                $referer = $this->app['input']->headers('referer') ? 
+                    $this->app['input']->headers('referer') : admin_url('dashboard');
+                
+                $this->session->getFlashBag()->add('messages', array('text' => $message, 'type' => 'error'));
+                return redirect($referer);
+            }
         }
         
         if($request->getMatchingRoute()->getOption('csrf')) {
@@ -101,8 +93,8 @@ class Security implements HttpKernelInterface {
             }
         }
 
-		$response = $this->kernel->handle($request, $type, $catch);
+        $response = $this->kernel->handle($request, $type, $catch);
         
-		return $response;
-	}
+        return $response;
+    }
 }

@@ -1,5 +1,10 @@
 (function($, drafTerbit) {
 
+    var refreshPreview = function() {
+        var frames = document.getElementsByTagName('IFRAME');
+        frames[0].contentWindow.location.reload(true);
+    }
+
     // delete cusomize session on window close
     $(window).on('beforeunload', function(e){
         $.ajax({
@@ -27,17 +32,23 @@
         $(this).ajaxSubmit({
             dataType: 'json',
             success: function(res, a, b, form){
-                
+                if(res.error) {
+                    if(res.error.type == 'validation') {
+                        for(name in res.error.messages) {
+                            $(form).find(':input[name="'+name+'"]').parent().addClass('has-error');
+                        }
+                    }
+                }
+
                 if(!res.error) {
 
                     $(form).find('input[name="id"]').val(res.id);
-                    
-                    $.notify(res.message, 'success');
-                    
-                    var frames = document.getElementsByTagName('IFRAME');
-                    frames[0].contentWindow.location.reload(true);
-                }
+                    $(form).closest('.menu-item-container').prop('id', res.id+'-menu-item-container');
 
+                    $.notify(res.message, 'success');
+
+                    refreshPreview();
+                }
             }
         });
     });
@@ -79,6 +90,19 @@
     $('.widget-section-back').click(function(e){
         e.preventDefault();
         $('.col-container').animate({marginLeft:"0px"}, 300);
+
+        //collapse opened opened available widget
+        if($('body').data('expanded')) {
+            
+            var x = $('html').width();
+            
+            $('body').animate({marginLeft:"0px"}, 300, function(){
+                $('html').width(x-300);
+            });
+            $('body').data('expanded', 0);
+            $('#dt-widget-availables').data('position', null);
+        }
+
     });
 
     // menu type selectbox 
@@ -119,7 +143,8 @@
             formAction: drafTerbit.adminUrl+'/setting/themes/menus/save'
         });
 
-        $(this).closest('.well').before(html);
+        $(this).closest('.well').siblings('.menu-sortable').append(html);
+        $('.menu-sortable').sortable();
     });
 
     //delete menu
@@ -132,8 +157,7 @@
         $(this).closest('.menu-item-container').fadeOut('fast');
         $(this).closest('.menu-item-container').remove();
 
-        var frames = document.getElementsByTagName('IFRAME');
-        frames[0].contentWindow.location.reload(true);
+        refreshPreview();
     });
 
     //iframe container width control
@@ -175,7 +199,7 @@
             widgetUi: ui,
         });
 
-        $('.widget-position.in > .widget-container').prepend(html);
+        $('.widget-position.in > .widget-container > .widget-sortable').prepend(html);
     });
 
     // widget edit form
@@ -197,11 +221,11 @@
                 if(!res.error) {
 
                     $(form).find('input[name="id"]').val(res.id);
+                    $(form).closest('.widget-item-container').prop('id', res.id+'-widget-item-container');
                     
                     $.notify(res.message, 'success');
                     
-                    var frames = document.getElementsByTagName('IFRAME');
-                    frames[0].contentWindow.location.reload(true);
+                    refreshPreview();
                 }
 
             }
@@ -214,6 +238,56 @@
         var id = $(this).data('id');
         $.post(drafTerbit.adminUrl+'/setting/themes/widget/delete', {id:id});
         $(this).closest('.panel').remove();
+
+        refreshPreview();
      });
+
+     // sort
+    $('.menu-sortable').sortable({
+        update: function(e, ui) {
+
+            var parent = ui.item.parent();
+
+            var ids = parent.sortable('toArray');
+
+            var orders = ids.join(',');
+
+            $.ajax({
+                url: drafTerbit.adminUrl+"/setting/themes/menus/sort",
+                global: false,
+                type: "POST",
+                async: false,
+                dataType: "html",
+                data: "order="+orders,
+                success: function(html){
+                    refreshPreview();
+                }
+            });
+        }
+    });
+
+    // sort widgets
+    $('.widget-sortable').sortable({
+        update: function(e, ui) {
+
+            var parent = ui.item.parent();
+
+            var ids = parent.sortable('toArray');
+
+            var orders = ids.join(',');
+
+            $.ajax({
+                url: drafTerbit.adminUrl+"/setting/themes/widget/sort",
+                global: false,
+                type: "POST",
+                async: false,
+                dataType: "html",
+                data: "order="+orders,
+                success: function(html){
+                    refreshPreview();
+                }
+            });
+        }
+    });
 
 })(jQuery,drafTerbit);

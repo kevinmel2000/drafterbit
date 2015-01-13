@@ -6,9 +6,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class InstallerExtension extends Extension {
 
-	protected $start;
+    protected $start;
 
-	/**
+    /**
      * {@inheritdoc}
      */
     public function boot()
@@ -19,10 +19,10 @@ class InstallerExtension extends Extension {
     }
 
     public function setStart($start) {
-    	$this->start = $start;
+        $this->start = $start;
     }
 
     public function getStart() {
-    	return $this->start;
+        return $this->start;
     }
 }
