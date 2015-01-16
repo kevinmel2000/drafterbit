@@ -7,10 +7,12 @@ class Installer extends Controller {
     
     public function index()
     {
-        $requirement = new Requirement();
+        $requirement = require __DIR__.'/../requirement.php';
 
-        foreach ($requirement->all() as $r) {
-            
+        foreach ($requirement as $r) {
+            if(! call_user_func_array($r['function'], array($this->get('app')) ) ) {
+                throw new \Exception($r['message']);
+            }
         }
 
         $start = $this->getExtension()->getStart();
@@ -97,7 +99,7 @@ class Installer extends Controller {
          foreach ($extMgr->getCoreExtension() as $extension) {
              
              // add and return the extension
-             $ext = $extMgr->load($extension);
+             $ext = $extMgr->get($extension);
              if(is_dir($ext->getResourcesPath('migrations'))) {
                  $this->get('migrator')->create($ext->getResourcesPath('migrations'))->run();
              }
