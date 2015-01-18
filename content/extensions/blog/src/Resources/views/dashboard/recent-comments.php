@@ -20,7 +20,7 @@
                             <?php echo $comment['name'] ?><br/>
                         </td>
                         <td><?php echo $comment['content']; ?></td>
-                        <td><a href="<?php echo admin_url('blog/edit'.$comment['post_id']) ?>"><?php echo $comment['title'] ?></a></td>
+                        <td><a href="<?php echo admin_url('blog/edit/'.$comment['post_id']) ?>"><?php echo $comment['title'] ?></a></td>
                     </tr>
                 <?php endforeach; ?>
             </table>

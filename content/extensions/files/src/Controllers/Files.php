@@ -27,8 +27,8 @@ class Files extends BackendController {
 
     public function data()
     {
-        $op = $this->get('input')->get('op');
-        $path = $this->get('input')->get('path');
+        $op = $this->get('input')->request('op');
+        $path = $this->get('input')->request('path');
         
         $res = new JsonResponse;
 
@@ -47,7 +47,14 @@ class Files extends BackendController {
                     $folderName = $this->get('input')->get('folder-name');
                     $data = $this->get('ofinder')->mkdir($path, $folderName);
                 break;
-
+                case 'rename':
+                    $newName = $this->get('input')->post('newName');
+                    $data = $this->get('ofinder')->rename($path, $newName);
+                break;
+                case 'move':
+                    $dest = $this->get('input')->post('dest');
+                    $data = $this->get('ofinder')->move($path, $dest);
+                break;
                 default:
                      # code...
                     break;
