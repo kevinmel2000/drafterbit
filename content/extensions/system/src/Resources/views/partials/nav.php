@@ -26,7 +26,7 @@
                                 </div>
 
                                 <?php foreach($menu->children as $childMenu): ?>
-                                    <li><a id="<?php echo $childMenu->id ?>" class="<?php echo $childMenu->class ?>" href="<?php echo admin_url($childMenu->href);  ?>"><?php echo $childMenu->label; ?></a></li>
+                                    <li><a id="nav-<?php echo $childMenu->id ?>" class="<?php echo $childMenu->class ?>" href="<?php echo admin_url($childMenu->href);  ?>"><?php echo $childMenu->label; ?></a></li>
                                 <?php endforeach;?>
                             </ul>
                             <!-- /.dropdown -->
@@ -34,7 +34,7 @@
                     
                     <?php else: ?>
                          <li>
-                            <a id="<?php echo $menu->id ?>" class="navbar-link <?php echo $menu->class ?>"  href="<?php echo admin_url($menu->href); ?>">
+                            <a id="nav-<?php echo $menu->id ?>" class="navbar-link <?php echo $menu->class ?>"  href="<?php echo admin_url($menu->href); ?>">
                                 <?php echo $menu->label; ?>
                             </a>
                         </li>

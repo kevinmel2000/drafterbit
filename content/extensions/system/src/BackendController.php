@@ -147,13 +147,13 @@ class BackendController extends Controller {
      */
     public function render($template, $data = array())
     {
-
         //gravatar
         $session = $this->get('session');
-        $hash = md5(strtolower($session->get('user.email')));
-        $url = "http://www.gravatar.com/avatar/$hash?d=mm&s=17";
-        $userName = $session->get('user.name') ? $session->get('user.name') : $session->get('user.email');
-        $userGravatar = $url;
+        $email = $session->get('user.email');
+
+        $userName = $session->get('user.name') ? $session->get('user.name') : $email;
+
+        $userGravatar = gravatar_url($email, 17);
 
         $system = $this->model('@system\System')->all();
         

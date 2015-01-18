@@ -18,7 +18,7 @@ class Auth extends \Drafterbit\Framework\Model {
             $user = $this->user->getByUserName($login);
         }
 
-        if ( !$user or !password_verify($password, $user['password'])) {
+        if ( !$user or !password_verify($password, $user['password']) or ($user['status'] != 1)) {
             throw new \RuntimeException(__("Incorrect Username/Email or Password"));
         }
         

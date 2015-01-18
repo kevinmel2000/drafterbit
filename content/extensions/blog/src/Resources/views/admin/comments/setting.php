@@ -1,0 +1,20 @@
+<?php $this->extend('@system/main'); ?>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+      <form method="POST">
+          <div class="form-group">
+              <label for="comment.moderation" class="control-label">Comment Moderation</label>
+              <select class="form-control" name="comment_moderation">
+                <option value="0" <?php echo selected('comment_moderation', '0', $mode == '0') ?>><?php echo __('Never'); ?></option>
+                <option value="1" <?php echo selected('comment_moderation', '1', $mode == '1') ?>><?php echo __('Always'); ?></option>
+              </select>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-sm btn-primary">Submit</button>
+          </div>
+      </form>
+      </div>
+   </div>
+ </div>

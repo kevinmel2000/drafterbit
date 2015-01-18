@@ -19,17 +19,40 @@ class System extends \Drafterbit\Framework\Model {
         return $array;
     }
 
+    /**
+     * Get system setting by key
+     */
+    public function fetch($key) {
+        $config = $this->all();
+
+        return isset($config[$key]) ? $config[$key] : null;
+    }
+
+    public function exists($key) {
+        $qb = $this->get('db')->createQueryBuilder();
+        $qb->select('*');
+        $qb->from( '#_system', 'st');
+        $qb->where('name=:key');
+        $qb->setParameter('key', $key);
+        return $qb->execute()->fetch();
+    }
+
     public function updateSetting($data)
     {
         foreach ($data as $key => $value) {
 
-            $qb = $this->get('db')->createQueryBuilder();
-            $qb->update( '#_system', 'st');
-            $qb->set('value',':value');
-            $qb->where('name=:key');
-            $qb->setParameter(':key', $key);
-            $qb->setParameter(':value', $value);
-            $qb->execute();
+            if($this->exists($key)) {
+
+                $qb = $this->get('db')->createQueryBuilder();
+                $qb->update( '#_system', 'st');
+                $qb->set('value',':value');
+                $qb->where('name=:key');
+                $qb->setParameter(':key', $key);
+                $qb->setParameter(':value', $value);
+                $qb->execute();
+            } else {
+                $this->get('db')->insert('#_system', array('name' => $key, 'value' => $value));
+            }
         }
     }
 

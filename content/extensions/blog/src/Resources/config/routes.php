@@ -18,9 +18,10 @@
             'subRoutes' => [
                 'data/{status}.json' => ['controller' => '@blog\Comment::filter', 'access' => 'comment.view'],
                 'trash'              => ['controller' => '@blog\Comment::trash',  'access' => 'comment.delete',   'csrf' => true],
-                'status'              => ['controller' => '@blog\Comment::status', 'access' => 'comment.view',     'csrf' => true],
-                'quick-reply'          => ['controller' => '@blog\Comment::quickReply', 'access' => 'comment.view', 'csrf' => true],
-                'quick-trash'          => ['controller' => '@blog\Comment::quickTrash', 'access' => 'comment.delete', 'csrf' => true],
+                'status'             => ['controller' => '@blog\Comment::status', 'access' => 'comment.view',     'csrf' => true],
+                'setting'            => ['controller' => '@blog\Comment::setting'],
+                'quick-reply'        => ['controller' => '@blog\Comment::quickReply', 'access' => 'comment.view', 'csrf' => true],
+                'quick-trash'        => ['controller' => '@blog\Comment::quickTrash', 'access' => 'comment.delete', 'csrf' => true],
             ]
         ]
     ]

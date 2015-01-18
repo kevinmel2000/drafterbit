@@ -1,7 +1,10 @@
 <?php namespace Drafterbit\Extensions\System\Controllers;
 
-use Drafterbit\Extensions\System\BackendController;
 use Symfony\Component\HttpFoundation\Response;
+use Drafterbit\Extensions\System\BackendController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use FtpClient\FtpClient;
 
 class System extends BackendController {
 
@@ -9,7 +12,23 @@ class System extends BackendController {
     {
         $data['title'] = __('Dashboard');
 
-        $data['dashboardWidgets'] = $this->get('app')->dashboardWidgets();
+        $dashboardWidgets = $this->get('app')->dashboardWidgets();
+
+        $dashboard = $this->model('@system\System')->fetch('dashboard');
+
+        $left = $right = array();
+
+        foreach (json_decode($dashboard, true) as $d) {
+            if($d['position'] == 1) {
+                $left[] = $dashboardWidgets[$d['id']];
+            } else {
+                $right[] = $dashboardWidgets[$d['id']];
+            }
+        }
+
+        $data['left'] = $left;
+        $data['right'] = $right;
+
         return $this->render('@system/dashboard', $data);
     }
 

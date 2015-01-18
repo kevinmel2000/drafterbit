@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
 use Drafterbit\Extensions\System\BackendController;
+use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 
 class Comment extends BackendController {
 
@@ -51,7 +52,7 @@ class Comment extends BackendController {
             $comment = (object) $comment;
             $data = array();
             $data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
-            $data[] = "{$comment->name} <div><a href=\"mailto:{$comment->email}\">{$comment->email}</a></div>";
+            $data[] = "<img src='".gravatar_url($comment->email,40)."'/>{$comment->name} <br/><a href=\"mailto:{$comment->email}\">{$comment->email}</a>";
 
             $content = "{$comment->content}";
 
@@ -96,14 +97,14 @@ class Comment extends BackendController {
             [
                 'field' => 'name',
                 'label' => 'Author',
-                'width' => '15%',
+                'width' => '25%',
                 'format' => function($value, $item){
-                    return "{$value} <div><a href=\"mailto:{$item['email']}\">{$item['email']}</a></div>";
+                    return "<img src='".gravatar_url($item['email'])."'/>{$value} <div><a href=\"mailto:{$item['email']}\">{$item['email']}</a></div>";
                 }],
             [
                 'field' => 'content',
                 'label' => 'Comment',
-                'width' => '65%',
+                'width' => '55%',
                 'format' => function($value, $item)
                 {
                     $content = "$value";
@@ -140,22 +141,51 @@ class Comment extends BackendController {
 
             $this->validate('comment', $comment);
 
-            $data['name']  = $comment['name'];
-            $data['email'] = $comment['email'];
-            $data['url']   = $comment['url'];
-            $data['content']   = $comment['content'];
-            $data['parent_id'] = $comment['parent_id'];
-            $data['post_id']   = $comment['post_id'];
-            $data['status']    = 1;
-            $data['created_at'] = \Carbon\Carbon::now();
+            $moderation = $this->model('@system\System')->fetch('comment.moderation');
+
+            $data['name']       = $comment['name'];
+            $data['email']      = $comment['email'];
+            $data['url']        = $comment['url'];
+            $data['content']    = $comment['content'];
+            $data['parent_id']  = $comment['parent_id'];
+            $data['post_id']    = $postId = $comment['post_id'];
+            
+            if($moderation == 0) {
+                $data['status'] = 1;
+            } else if($moderation == 1) {
+                $data['status'] = 0;
+            }
+            
+            $data['created_at'] = $this->get('time')->now();
+            $data['subscribe']  = isset($comment['subscribe']) ? $comment['subscribe'] : 0;
 
             $id = $this->model('@blog\Comment')->insert($data);
             $referer = $this->get('input')->headers('referer');
 
+            //send notification to admin
+            $toEmail = $this->model('@system\System')->fetch('email');
+            $subscriber = $this->getSubscribers($postId);
+
+            array_unshift($subscriber, $toEmail);
+
+            // @todo improve mail message
+            $messageBody = $this->render('@blog/mail/new-comment-notif', $data);
+
+            $message = $this->get('mail')
+                ->setFrom($toEmail)
+                ->setTo($subscriber)
+                ->setSubject('New Comment Notification')
+                ->setBody($messageBody);
+
+            $this->get('mailer')->send($message, $failures);
+
             return redirect($referer.'#comment-'.$id);
         
-        } catch (\Exception $e) {
-            return $e->getMessage();
+        } catch (ValidationFailsException $e) {
+            
+            $messages = $e->getMessages();
+            
+            return implode('<br/>', array_values($messages));
         }
     }
 
@@ -189,5 +219,34 @@ class Comment extends BackendController {
         $id = $this->get('input')->post('id');
         $this->model('@blog\Comment')->trash($id);
         return $this->jsonResponse(['msg' => 'Comment moved to trash', 'status' => 'warning']);
+    }
+
+    /**
+     * Get comment subscriber
+     *
+     * @param int $postId
+     */
+    private function getSubscribers($postId)
+    {
+        $comments =  $this->model('@blog\Post')->getSubscribers($postId);
+
+        $subscriber = array();
+        foreach ($comments as $comment) {
+            $subscriber[] = $comment['email'];
+        }
+
+        return array_unique($subscriber);
+    }
+
+    public function setting()
+    {
+        $data['title'] = __('Comments Setting');
+
+        if($post = $this->get('input')->post()) {
+            $this->model('@system\System')->updateSetting(['comment.moderation' => $post['comment_moderation']]);
+        }
+
+        $data['mode'] = $this->model('@system\System')->fetch('comment.moderation');
+        return $this->render('@blog/admin/comments/setting', $data);
     }
 }

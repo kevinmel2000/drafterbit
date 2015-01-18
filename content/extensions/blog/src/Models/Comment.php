@@ -38,21 +38,37 @@ class Comment extends Model {
         return $query->getResult();
     }
 
+    public function take($num) {
+        return 
+        $query = $this ->withQueryBuilder()
+        ->select('c.*, p.title')
+        ->from('#_comments','c')
+        ->leftJoin('c','#_posts','p', 'c.post_id = p.id')
+        ->where("c.deleted_at = '0000-00-00 00:00:00'")
+        ->orderBy('c.created_at', 'desc')
+        ->setMaxResults($num)
+        ->getResult();
+    }
+
     public function getByPostId($id)
     {
         $query = $this ->withQueryBuilder()
         ->select('c.*')
         ->from('#_comments','c')
         ->where('c.post_id = :post_id')
-        ->andWhere('c.status = 1')
         ->setParameter('post_id', $id);
 
         $comments =  $query->getResult();
 
-        // group parent and childs
         $childs = array();
         $parents = array();    
-        foreach ($comments as $comment) {
+        foreach ($comments as &$comment) {
+            //filter moderation
+            if($comment['status'] == 0) {
+                $comment['content'] = '<em>this comment is awaiting moderation</em>';
+            }
+
+            // group parent and childs
             if($comment['parent_id'] != 0) {
                 $childs[$comment['parent_id']][] = $comment;
             } else {

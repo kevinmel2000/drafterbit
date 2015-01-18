@@ -9,7 +9,8 @@
     ],
     'nav' => [
         [ 'id' => 'blog', 'label' => 'Blog', 'href' => 'blog', 'parent' => 'content'],
-        [ 'id' => 'comments', 'label' => 'Comments', 'href' => 'blog/comments', 'order' => 2]
+        [ 'id' => 'comments', 'label' => 'Comments', 'href' => 'blog/comments', 'order' => 2],
+        [ 'id' => 'comment-setting', 'label' => 'Comments', 'href' => 'comments/setting', 'parent' => 'setting']
     ],
     'permissions' => [
         'post.view' => 'view post',

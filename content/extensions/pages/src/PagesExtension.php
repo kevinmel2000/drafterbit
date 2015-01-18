@@ -22,4 +22,13 @@ class PagesExtension extends \Drafterbit\Framework\Extension {
 
         return array('page', $query);
     }
+
+    function getStat()
+    {
+        $pages = $this->model('Pages')->all(['status' => 'untrashed']);
+
+        return array(
+            'Page(s)' => count($pages)
+        );
+    }
 }

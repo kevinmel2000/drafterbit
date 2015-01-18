@@ -95,3 +95,20 @@ if ( ! function_exists('asset_url')) {
         return base_url($path);
     }
 }
+
+if(!function_exists('gravatar_url')) {
+    
+    /**
+     * Create gravatar url byb given email
+     *
+     * @param string $email
+     * @param int $size
+     * @return void
+     * @author 
+     **/
+    function gravatar_url($email, $size = 47)
+    {
+        $hash = md5(strtolower($email));
+        return "http://www.gravatar.com/avatar/$hash?d=mm&s=$size";
+    }
+}

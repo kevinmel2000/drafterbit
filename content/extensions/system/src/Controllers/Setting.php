@@ -17,19 +17,23 @@ class Setting extends BackendController {
             $this->get('template')->addGlobal('messages', [['text' => "Setting updated", "type" => 'success']]);
         }
         
-        $config = $this->model('@system\System')->all();
-        
+        $system = $this->model('@system\System');
+
         $data = [
-            'siteName' => $config['site.name'],
-            'tagLine' => $config['site.description'],
-            'adminEmail' => $config['email'],
-            'language' => $config['language'],
-            'timezone' => $config['timezone'],
-            'dateFormat' => $config['format.date'],
-            'timeFormat' => $config['format.time'],
-            'homepage' => $config['homepage'],
+            'siteName'    => $system->fetch('site.name'),
+            'tagLine'     => $system->fetch('site.description'),
+            'adminEmail'  => $system->fetch('email'),
+            'language'    => $system->fetch('language'),
+            'timezone'    => $system->fetch('timezone'),
+            'dateFormat'  => $system->fetch('format.date'),
+            'timeFormat'  => $system->fetch('format.time'),
+            'homepage'    => $system->fetch('homepage'),
+            'smtpHost'    => $system->fetch('smtp.host'),
+            'smtpPort'    => $system->fetch('smtp.port'),
+            'smtpUser'    => $system->fetch('smtp.user'),
+            'smtpPass'    => $system->fetch('smtp.pass'),
             'pageOptions' => $this->get('app')->getFrontPageOption(),
-            'title' => __('General Setting'),
+            'title'       => __('General Setting'),
             'id' => 'setting'
         ];
 
@@ -40,8 +44,8 @@ class Setting extends BackendController {
     {
         $data = array();
 
-        $data['site_name'] = $p['site-name'];    
-        $data['site.tagline'] = $p['site-tagline'];    
+        $data['site.name'] = $p['site-name'];    
+        $data['site.description'] = $p['site-tagline'];    
         $data['email'] = $p['email'];    
         $data['language'] = $p['language'];    
         $data['timezone'] = $p['timezone'];
@@ -49,6 +53,11 @@ class Setting extends BackendController {
         $data['format.time'] = $p['format-time'];
 
         $data['homepage'] = $p['homepage'];
+
+        $data['smtp.host'] = $p['smtp-host'];
+        $data['smtp.port'] = $p['smtp-port'];
+        $data['smtp.user'] = $p['smtp-user'];
+        $data['smtp.pass'] = $p['smtp-pass'];
 
         return $data;
     }

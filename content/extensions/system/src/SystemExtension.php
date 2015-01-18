@@ -4,7 +4,7 @@ use Drafterbit\Framework\Application;
 
 class SystemExtension extends \Drafterbit\Framework\Extension {
 
-    function boot()
+    public function boot()
     {
         foreach (['form', 'support', 'twig'] as $helper) {
             $this['helper']->register( $helper, $this->getResourcesPath("helpers/$helper.php"));
@@ -12,16 +12,16 @@ class SystemExtension extends \Drafterbit\Framework\Extension {
         }
     }
 
-    function getReservedBaseUrl()
+    public function getReservedBaseUrl()
     {
         return ['search'];
     }
 
-    function dashboardWidgets()
+    public function dashboardWidgets()
     {
         return array(
-            $this->model('@system\Dashboard')->recent(),
-            $this->model('@system\Dashboard')->info()
+            'recent' => $this->model('@system\Dashboard')->recent(),
+            'stat' => $this->model('@system\Dashboard')->info()
         );
     }
 }

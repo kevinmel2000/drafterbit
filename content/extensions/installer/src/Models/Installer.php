@@ -57,6 +57,8 @@ class Installer extends Model {
         
         $data['extensions'] = json_encode($extensions);
         $data['timezone'] = "Asia/Jakarta";
+        $data['dashboard'] = '[{"id":"recent-comments","display":1,"position":1},{"id":"recent","display":1,"position":1},{"id":"stat","display":1,"position":2}]';
+        $data['comment_moderation'] = 1;
 
         $q = "INSERT INTO #_system (name, value) ";
         $q .= "VALUES ";

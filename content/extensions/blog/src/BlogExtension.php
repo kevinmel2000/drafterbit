@@ -85,4 +85,20 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 
         return base_url($path);
     }
+
+    function dashboardWidgets()
+    {
+        return array(
+            'recent-comments' => $this->model('@blog\Dashboard')->recentComments()
+        );
+    }
+
+    function getStat()
+    {
+        $posts = $this->model('@blog\Post')->all(['status' => 'untrashed']);
+
+        return array(
+            'Post(s)' => count($posts)
+        );
+    }
 }

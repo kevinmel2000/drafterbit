@@ -19,10 +19,15 @@ class Dashboard extends \Drafterbit\Framework\Model {
 
 	public function info()
 	{
+        $stat = $this->get('app')->getStat();
+
 		// site info
-        $data['os'] = $this->getOs();
-        $data['usersCount'] = count($this->get('cache')->fetch('users'));
-        $data['db'] = $this->get('db')->getServerVersion();
+        $stat['User(s)'] = count($this->get('cache')->fetch('users'));
+        $stat['OS'] = $this->getOs();
+        $stat['PHP'] = phpversion();
+        $stat['DB'] = $this->get('db')->getServerVersion();
+        $stat['Time'] = date('H:i:s');
+        $data['stat'] = $stat;
 
         return $this->get('template')->render('@system/dashboard/info', $data);
 	}

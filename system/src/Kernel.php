@@ -400,4 +400,17 @@ class Kernel extends Application {
 
         return $widgets;     
     }
+
+    function getStat()
+    {
+        $stat = array();
+        
+        foreach($this->getExtensions() as $extension){
+            if(method_exists($extension, 'getStat')) {
+                $stat =  array_merge($stat, $extension->getStat());
+            }
+        }
+
+        return $stat;
+    }
 }

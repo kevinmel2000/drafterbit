@@ -174,4 +174,19 @@ class Post extends \Drafterbit\Framework\Model {
             ->where('p.id IN ('.$idString.')')
             ->execute();
     }
+
+    /**
+     * Get post subscribers via comment
+     */
+    public function getSubscribers($postId)
+    {
+        return
+        $this->withQueryBuilder()
+            ->select('email')
+            ->from('#_comments', 'c')
+            ->where('post_id=:post_id')
+            ->andWhere('subscribe=1')
+            ->setParameter('post_id', $postId)
+            ->getResult();
+    }
 }
