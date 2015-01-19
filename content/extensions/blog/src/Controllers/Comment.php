@@ -237,16 +237,4 @@ class Comment extends BackendController {
 
         return array_unique($subscriber);
     }
-
-    public function setting()
-    {
-        $data['title'] = __('Comments Setting');
-
-        if($post = $this->get('input')->post()) {
-            $this->model('@system\System')->updateSetting(['comment.moderation' => $post['comment_moderation']]);
-        }
-
-        $data['mode'] = $this->model('@system\System')->fetch('comment.moderation');
-        return $this->render('@blog/admin/comments/setting', $data);
-    }
 }

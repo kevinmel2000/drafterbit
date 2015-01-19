@@ -6,7 +6,7 @@ class Frontend extends FrontendController {
 
     public function index($page = 1)
     {
-        $perPage = 5;
+        $perPage = $this->model('@system\System')->fetch('post.per_page') ?: 5;
         $offset = ($page*$perPage)-$perPage;
 
         $nextOffset = (($page+1)*$perPage)-$perPage;

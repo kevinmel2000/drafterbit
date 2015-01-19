@@ -247,4 +247,20 @@ class Blog extends BackendController {
             $this->model('@blog\Post')->addTag($tagId, $postId);
         }
     }
+
+    public function setting()
+    {
+        $data['title'] = __('Blog Setting');
+
+        if($post = $this->get('input')->post()) {
+            $this->model('@system\System')->updateSetting([
+                'comment.moderation' => $post['comment_moderation'],
+                'post.per_page' => $post['post_perpage']
+            ]);
+        }
+
+        $data['mode'] = $this->model('@system\System')->fetch('comment.moderation');
+        $data['postPerpage'] = $this->model('@system\System')->fetch('post.per_page');
+        return $this->render('@blog/admin/setting', $data);
+    }
 }

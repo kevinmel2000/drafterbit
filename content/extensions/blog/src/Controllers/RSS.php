@@ -13,7 +13,8 @@ class RSS extends FrontendController {
             'siteDesc' => $system['site.description']
         );
 
-        $perPage = 5;
+        $perPage = $this->model('@system\System')->fetch('post.per_page') ?: 0;
+
         $page = 1;
         $offset = ($page*$perPage)-$perPage;
 
