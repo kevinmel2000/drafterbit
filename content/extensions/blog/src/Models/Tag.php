@@ -2,7 +2,6 @@
 
 class Tag extends \Drafterbit\Framework\Model
 {
-
     public function all()
     {
         $queryBuilder = $this->get('db')->createQueryBuilder();
@@ -24,7 +23,7 @@ class Tag extends \Drafterbit\Framework\Model
                 $queryBuilder->where("$k = $holder")
                     ->setParameter($holder, $v);
             }
-        
+
         } else {
             $queryBuilder->where("$key = :$key")
                 ->setParameter(":$key", $value);

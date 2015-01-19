@@ -5,18 +5,17 @@ use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 
 class Comment extends BackendController
 {
-
     public function index()
     {
         $model = $this->model('Comment');
 
         $comments = $model->all(['status' => 'active']);
 
-        $data['id'] = 'comments';
-        $data['title'] = __('Comments');
+        $data['id']     = 'comments';
+        $data['title']  = __('Comments');
         $data['status'] = 1;
-        $data['commentsTable'] = $this->dataTable('comments', $this->_table(), $comments);
         $data['action'] = admin_url('comments/trash');
+        $data['commentsTable'] = $this->dataTable('comments', $this->_table(), $comments);
 
         return $this->render('@blog/admin/comments/index', $data);
     }
@@ -196,17 +195,17 @@ class Comment extends BackendController
 
     public function quickReply()
     {
-        $data['post_id'] = $this->get('input')->post('postId');
-        $data['content'] = $this->get('input')->post('comment');
+        $data['post_id']   = $this->get('input')->post('postId');
+        $data['content']   = $this->get('input')->post('comment');
         $data['parent_id'] = $this->get('input')->post('parentId');
 
         $session = $this->get('session');
         $data['user_id'] = $session->get('user.id');
-        $data['name'] = $session->get('user.name');
-        $data['email'] = $session->get('user.email');
-        $data['created_at'] = \Carbon\Carbon::now();
+        $data['name']    = $session->get('user.name');
+        $data['email']   = $session->get('user.email');
+        $data['created_at'] = $this->get('time')->now();
 
-        $id = $this->model('@blog\Comment')->insert($data);
+        $id = $this->model('Comment')->insert($data);
 
         return $this->jsonResponse(['msg' => 'Comment saved', 'status' => 'success']);
     }
@@ -214,7 +213,7 @@ class Comment extends BackendController
     public function quickTrash()
     {
         $id = $this->get('input')->post('id');
-        $this->model('@blog\Comment')->trash($id);
+        $this->model('Comment')->trash($id);
         return $this->jsonResponse(['msg' => 'Comment moved to trash', 'status' => 'warning']);
     }
 
@@ -225,7 +224,7 @@ class Comment extends BackendController
      */
     private function getSubscribers($postId)
     {
-        $comments =  $this->model('@blog\Post')->getSubscribers($postId);
+        $comments =  $this->model('Post')->getSubscribers($postId);
 
         $subscriber = array();
         foreach ($comments as $comment) {

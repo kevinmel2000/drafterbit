@@ -2,8 +2,7 @@
 
 class Post extends \Drafterbit\Framework\Model
 {
-
-    public function all($filters)
+    public function all($filter = array())
     {
         $query = $this->get('db')->createQueryBuilder();
 
@@ -12,22 +11,25 @@ class Post extends \Drafterbit\Framework\Model
             ->from('#_posts', 'p')
             ->leftJoin('p', '#_users', 'u', 'p.user_id = u.id');
 
-        $status = $filters['status'];
+        if(isset($filter['status'])) {
+            
+            $status = $filter['status'];
+            
+            if ($status == 'trashed') {
+                $query->where('p.deleted_at != :deleted_at');
+                $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+            } else {
+                $query->Where('p.deleted_at = :deleted_at');
+                $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 
-        if ($status == 'trashed') {
-            $query->where('p.deleted_at != :deleted_at');
-            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
-        } else {
-            $query->Where('p.deleted_at = :deleted_at');
-            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
-
-            if ($status !== 'untrashed') {
-                $query->andWhere('p.status = :status');
-                $s = $status == 'published' ? 1 : 0;
-                $query->setParameter(':status', $s);
+                if ($status !== 'untrashed') {
+                    $query->andWhere('p.status = :status');
+                    $s = $status == 'published' ? 1 : 0;
+                    $query->setParameter(':status', $s);
+                }
             }
         }
-
+        
         return $query->getResult();
     }
 

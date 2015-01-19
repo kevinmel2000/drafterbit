@@ -4,7 +4,6 @@ use Drafterbit\Extensions\System\FrontendController;
 
 class Frontend extends FrontendController
 {
-
     public function index($page = 1)
     {
         $perPage = $this->model('@system\System')->fetch('post.per_page') ?: 5;
@@ -65,11 +64,9 @@ class Frontend extends FrontendController
 
     public function tag($slug)
     {
-
         $tag = $this->model('@blog\Tag')->getSingleBy('slug', $slug);
         $posts = $this->model('@blog\Tag')->getPosts($tag['id']);
         
-
         // @todo :(
         $data['prev_link'] = false;
         $data['next_link'] = false;

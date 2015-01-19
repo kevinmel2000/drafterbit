@@ -4,10 +4,8 @@ use Drafterbit\Framework\Model;
 
 class Comment extends Model
 {
-
-    public function all($filters)
+    public function all($filter)
     {
-        $status = $filters['status'];
 
         $query = $this ->withQueryBuilder()
             ->select('c.*, p.title')
@@ -15,23 +13,28 @@ class Comment extends Model
             ->leftJoin('c', '#_posts', 'p', 'c.post_id = p.id')
             ->orderBy('c.created_at', 'desc');
 
-        if ($status == 'spam') {
-            $query->where('c.status = 2');
-            $query->andWhere('c.deleted_at = :deleted_at');
-            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
-        } elseif ($status == 'trashed') {
-            $query->where('c.deleted_at != :deleted_at');
-            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+        if(isset($filter['status'])) {
 
-        } else {
-            $query->where("c.deleted_at = '0000-00-00 00:00:00'");
+            $status = $filter['status'];
 
-            if ($status == 'approved') {
-                $query->andWhere('c.status = 1');
-            } elseif ($status == 'pending') {
-                $query->andWhere('c.status = 0');
+            if ($status == 'spam') {
+                $query->where('c.status = 2');
+                $query->andWhere('c.deleted_at = :deleted_at');
+                $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+            } elseif ($status == 'trashed') {
+                $query->where('c.deleted_at != :deleted_at');
+                $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
+
             } else {
-                $query->andWhere('c.status != 2');
+                $query->where("c.deleted_at = '0000-00-00 00:00:00'");
+
+                if ($status == 'approved') {
+                    $query->andWhere('c.status = 1');
+                } elseif ($status == 'pending') {
+                    $query->andWhere('c.status = 0');
+                } else {
+                    $query->andWhere('c.status != 2');
+                }
             }
         }
 

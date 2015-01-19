@@ -50,7 +50,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension
             'post',
             function($id){
             
-                $label = $this->model('@blog\Post')->getSingleBy('id', $id)['title'];
+                $label = $this->model('Post')->getSingleBy('id', $id)['title'];
                 return '<a href="'.admin_url('blog/edit/'.$id).'">'.$label.'</a>';
             }
         );
@@ -58,7 +58,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension
 
     public function getComments($id)
     {
-        $model = $this->model('@blog\Comment');
+        $model = $this->model('Comment');
 
         $comments = $model->getByPostId($id);
 
@@ -95,13 +95,13 @@ class BlogExtension extends \Drafterbit\Framework\Extension
     function dashboardWidgets()
     {
         return array(
-            'recent-comments' => $this->model('@blog\Dashboard')->recentComments()
+            'recent-comments' => $this->model('Dashboard')->recentComments()
         );
     }
 
     function getStat()
     {
-        $posts = $this->model('@blog\Post')->all(['status' => 'untrashed']);
+        $posts = $this->model('Post')->all(['status' => 'untrashed']);
 
         return array(
             'Post(s)' => count($posts)

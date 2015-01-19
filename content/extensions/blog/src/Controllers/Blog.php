@@ -1,22 +1,20 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
-use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BackendController;
-use Carbon\Carbon;
+use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 
 class Blog extends BackendController
 {
-
     public function index()
     {
         $status = 'untrashed';
 
-        $posts = $this->model('@blog\Post')->all(['status' => $status]);
+        $posts = $this->model('Post')->all(['status' => $status]);
 
-        $data['status'] = $status;
-        $data['title'] = __('Blog');
-        $data['id'] = 'posts';
-        $data['action'] = admin_url('blog/trash');
+        $data['id']        = 'posts';
+        $data['title']     = __('Blog');
+        $data['status']    = $status;
+        $data['action']    = admin_url('blog/trash');
         $data['blogTable'] = $this->dataTable('posts', $this->_table(), $posts);
 
         return $this->render('@blog/admin/index', $data);
@@ -25,17 +23,18 @@ class Blog extends BackendController
     public function trash()
     {
         $post = $this->get('input')->post();
+        $model = $this->model('Post');
 
         $postIds = $post['posts'];
 
         switch($post['action']) {
             case "trash":
-                $this->model('@blog\Post')->trash($postIds);
+                $model->trash($postIds);
                 break;
             case 'delete':
-                $this->model('@blog\Post')->delete($postIds);
+                $model->delete($postIds);
             case 'restore':
-                $this->model('@blog\Post')->restore($postIds);
+                $model->restore($postIds);
                 break;
             default:
                 break;
@@ -74,12 +73,6 @@ class Blog extends BackendController
         $ob->recordsFiltered = count($pagesArr);
 
         return $this->jsonResponse($ob);
-    }
-
-    private function refreshCache()
-    {
-        $this->get('cache')->delete('posts.published');
-        $this->get('cache')->delete('posts.trashed');
     }
 
     private function _table()
@@ -121,7 +114,7 @@ class Blog extends BackendController
 
     public function edit($id)
     {
-        $tagOptionsArray = $this->model('@blog\Tag')->all();
+        $tagOptionsArray = $this->model('Tag')->all();
         $tagOptions = '[';
         foreach ($tagOptionsArray as $tO) {
             $tO = (object) $tO;
@@ -141,8 +134,9 @@ class Blog extends BackendController
                 'title' => __('New Post'),
             );
         } else {
-            $post = $this->model('@blog\Post')->getBy('id', $id);
-            $post->tags = $this->model('@blog\Post')->getTags($id);
+            $model = $this->model('Post'); 
+            $post = $model->getBy('id', $id);
+            $post->tags = $model->getTags($id);
             
             $tags = array();
             foreach ($post->tags as $tag) {
@@ -170,6 +164,8 @@ class Blog extends BackendController
 
     public function save()
     {
+        $model = $this->model('Post');
+        
         try {
             $postData = $this->get('input')->post();
 
@@ -179,11 +175,11 @@ class Blog extends BackendController
 
             if ($id) {
                 $data = $this->createUpdateData($postData);
-                $this->model('@blog\Post')->update($data, $id);
+                $model->update($data, $id);
             
             } else {
                 $data = $this->createInsertData($postData);
-                $id = $this->model('@blog\Post')->insert($data);
+                $id = $model->insert($data);
             }
 
             if (isset($postData['tags'])) {
@@ -214,15 +210,16 @@ class Blog extends BackendController
     protected function createInsertData($post, $isUpdate = false)
     {
         $data = array();
-        $data['title'] = $post['title'];
-        $data['slug'] = $post['slug'];
-        $data['content'] = $post['content'];
-        $data['user_id'] = $this->get('session')->get('user.id');
-        $data['updated_at'] = Carbon::now();
-        $data['status'] = $post['status'];
+        
+        $data['slug']       = $post['slug'];
+        $data['title']      = $post['title'];
+        $data['status']     = $post['status'];
+        $data['content']    = $post['content'];
+        $data['user_id']    = $this->get('session')->get('user.id');
+        $data['updated_at'] = $this->get('time')->now();
         
         if (! $isUpdate) {
-            $data['created_at'] = Carbon::now();
+            $data['created_at'] = $this->get('time')->now();
         }
 
         return $data;
@@ -241,15 +238,18 @@ class Blog extends BackendController
 
     protected function insertTags($tags, $postId)
     {
+        $post = $this->model('Post');
+        $tag = $this->model('Tag');
+        
         //delete all related tag first
-        $this->model('@blog\Post')->clearTag($postId);
+        $post->clearTag($postId);
 
-        foreach ($tags as $tag) {
-            if (! $tagId = $this->model('@blog\Tag')->getIdBy('label', $tag)) {
-                $tagId = $this->model('@blog\Tag')->save($tag);
+        foreach ($tags as $t) {
+            if (! $tagId = $tag->getIdBy('label', $t)) {
+                $tagId = $tag->save($t);
             }
 
-            $this->model('@blog\Post')->addTag($tagId, $postId);
+            $post->addTag($tagId, $postId);
         }
     }
 
