@@ -33,6 +33,7 @@ class Setting extends BackendController {
             'smtpUser'    => $system->fetch('smtp.user'),
             'smtpPass'    => $system->fetch('smtp.pass'),
             'pageOptions' => $this->get('app')->getFrontPageOption(),
+            'timezoneIdList' => timezone_identifiers_list(),
             'title'       => __('General Setting'),
             'id' => 'setting'
         ];

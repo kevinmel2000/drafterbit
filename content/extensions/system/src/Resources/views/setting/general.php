@@ -49,7 +49,11 @@
              </div>
              <div class="form-group">
                 <label for="timezone" class="control-label">Timezone    </label>
-                  <input name="timezone" type="text" class="form-control" placeholder="Timezone" value="<?php echo value('timezone', $timezone) ?>">
+                  <select name="timezone" class="form-control">
+                    <?php foreach ($timezoneIdList as $key): ?>
+                      <option <?php echo selected('timezone', $key, $timezone == $key); ?> value="<?php echo $key ?>"><?php echo $key ?></option>
+                    <?php endforeach; ?>
+                  </select>
              </div>
              <div class="form-group">
                 <label for="format-date" class="control-label">Date Format</label>
