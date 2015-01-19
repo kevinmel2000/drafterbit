@@ -1,10 +1,11 @@
 <?php namespace Drafterbit\Extensions\System\Models;
 
-class Dashboard extends \Drafterbit\Framework\Model {
+class Dashboard extends \Drafterbit\Framework\Model
+{
 
-	public function recent()
-	{
-		$logs = $this->model('@system\Log')->recent();
+    public function recent()
+    {
+        $logs = $this->model('@system\Log')->recent();
 
         foreach ($logs as &$log) {
             $log = (object)$log;
@@ -15,13 +16,13 @@ class Dashboard extends \Drafterbit\Framework\Model {
         $data['logs'] = $logs;
 
         return $this->get('template')->render('@system/dashboard/recent', $data);
-	}
+    }
 
-	public function info()
-	{
+    public function info()
+    {
         $stat = $this->get('app')->getStat();
 
-		// site info
+        // site info
         $stat['User(s)'] = count($this->get('cache')->fetch('users'));
         $stat['OS'] = $this->getOs();
         $stat['PHP'] = phpversion();
@@ -30,12 +31,12 @@ class Dashboard extends \Drafterbit\Framework\Model {
         $data['stat'] = $stat;
 
         return $this->get('template')->render('@system/dashboard/info', $data);
-	}
+    }
 
-	/**
+    /**
      * Format log message
      *
-     * @param string $line
+     * @param  string $line
      * @return string
      */
     public function formatLog($line)
@@ -54,7 +55,6 @@ class Dashboard extends \Drafterbit\Framework\Model {
 
                 return $this->getEntityLabel($entity, $id);
             },
-
             $line
         );
     }

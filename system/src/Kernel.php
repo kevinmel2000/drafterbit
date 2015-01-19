@@ -7,7 +7,8 @@ use Drafterbit\System\Provider\WidgetServiceProvider;
 use Drafterbit\System\Provider\ExtensionServiceProvider;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Kernel extends Application {
+class Kernel extends Application
+{
 
     /**
      * Application admin navigation.
@@ -44,7 +45,7 @@ class Kernel extends Application {
         $this->register(new ExtensionServiceProvider);
         $this->register(new WidgetServiceProvider);
 
-        foreach (require $this->getResourcesPath('config/services.php')
+        foreach (include $this->getResourcesPath('config/services.php')
             as $provider => $services) {
             $this->addDeferred($provider, $services);
         }
@@ -77,7 +78,7 @@ class Kernel extends Application {
     /**
      * Return widget ui based on given position
      *
-     * @param string $position
+     * @param  string $position
      * @return string
      */
     public function widget($position)
@@ -85,18 +86,20 @@ class Kernel extends Application {
         $qb = $this['db']->createQueryBuilder();
         
         $widgets = $qb->select('*')
-            ->from('#_widgets','w')
+            ->from('#_widgets', 'w')
             ->where('position=:position')
             ->setParameter('position', $position)
             ->execute()->fetchAll();
 
-        usort($widgets, function($a, $b) {
-            if($a['sequence'] == $b['sequence']) {
-                return $a['id'] - $b['id'];
-            }
+        usort(
+            $widgets, function($a, $b) {
+                if($a['sequence'] == $b['sequence']) {
+                    return $a['id'] - $b['id'];
+                }
 
-            return $a['sequence'] < $b['sequence'] ? -1 : 1;
-        });
+                return $a['sequence'] < $b['sequence'] ? -1 : 1;
+            }
+        );
 
         $output = null;
         foreach ($widgets as $widget) {
@@ -110,7 +113,7 @@ class Kernel extends Application {
     /**
      * Return front end menus on given position
      *
-     * @param string $position
+     * @param  string $position
      * @return string
      */
     public function menus($position)
@@ -118,20 +121,22 @@ class Kernel extends Application {
         $qb = $this['db']->createQueryBuilder();
         
         $data = $qb->select('*')
-            ->from('#_menus','m')
+            ->from('#_menus', 'm')
             ->where('position=:position')
             ->andWhere('theme=:theme')
             ->setParameter('position', $position)
             ->setParameter('theme', $this['themes']->current())
             ->getResult();
 
-        usort($data, function($a, $b) {
-            if($a['sequence'] == $b['sequence']) {
-                return $a['id'] - $b['id'];
-            }
+        usort(
+            $data, function($a, $b) {
+                if($a['sequence'] == $b['sequence']) {
+                    return $a['id'] - $b['id'];
+                }
 
-            return $a['sequence'] < $b['sequence'] ? -1 : 1;
-        });
+                return $a['sequence'] < $b['sequence'] ? -1 : 1;
+            }
+        );
 
         foreach ($data as &$item) {
             if($item['type'] == 1) {
@@ -226,14 +231,16 @@ class Kernel extends Application {
         date_default_timezone_set($system['timezone']);
 
         if( ! $this['debug']) {
-            $this['exception']->error(function( NotFoundHttpException $e){
+            $this['exception']->error(
+                function( NotFoundHttpException $e){
                 
-                if(is_file($this['path.theme'].'404.html')) {
-                    return $this['twig']->render('404.html');
-                }
+                    if(is_file($this['path.theme'].'404.html')) {
+                        return $this['twig']->render('404.html');
+                    }
 
-                return file_get_contents($this->getResourcesPath('views/404.html'));
-            });
+                    return file_get_contents($this->getResourcesPath('views/404.html'));
+                }
+            );
         }
 
         $this['log.db'] = function(){
@@ -242,36 +249,43 @@ class Kernel extends Application {
             return $logger;
         };
 
-        $this['log.db']->pushProcessor(function ($record) {
-            $record['formatted'] = "%message%";
-            return $record;
-        });
+        $this['log.db']->pushProcessor(
+            function ($record) {
+                $record['formatted'] = "%message%";
+                return $record;
+            }
+        );
 
         // base url
-        $this['dispatcher']->addListener('boot', function(){
+        $this['dispatcher']->addListener(
+            'boot', function(){
 
-            // frontpage
-            $frontpage = $this->getFrontpage();
-            $system = $this->getExtension('system')->model('@system\System')->all();
-            $homepage = $system['homepage'];
-            $route = $frontpage[$homepage];
+                // frontpage
+                $frontpage = $this->getFrontpage();
+                $system = $this->getExtension('system')->model('@system\System')->all();
+                $homepage = $system['homepage'];
+                $route = $frontpage[$homepage];
 
-            $this['router']->addRouteDefinition('/', [
-                'controller' => $route['controller'],
-                'defaults' => $route['defaults']
-                ]
-            );
+                $this['router']->addRouteDefinition(
+                    '/', [
+                    'controller' => $route['controller'],
+                    'defaults' => $route['defaults']
+                    ]
+                );
 
-            // pages
-            $reservedBaseUrl = implode('|', $this->getReservedBaseUrl());
-            $this['router']->addRouteDefinition('/{slug}', [
-                'controller' => '@pages\Frontend::view',
-                'requirements' => [
+                // pages
+                $reservedBaseUrl = implode('|', $this->getReservedBaseUrl());
+                $this['router']->addRouteDefinition(
+                    '/{slug}', [
+                    'controller' => '@pages\Frontend::view',
+                    'requirements' => [
                     // @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
                     'slug' => "^(?!(?:%admin%|".$reservedBaseUrl."|)(?:/|$)).*$"
-                ]
-            ]);
-        }, -512);
+                    ]
+                    ]
+                );
+            }, -512
+        );
 
         $this->addMiddleware('Drafterbit\\System\\Middlewares\\Security', array($this, $this['session'], $this['router']));
         $this->addMiddleware('Drafterbit\\System\\Middlewares\\Log', array($this));
@@ -282,7 +296,7 @@ class Kernel extends Application {
         $qb = $this['db']->createQueryBuilder();
 
         $pages = $qb->select('*')
-            ->from('#_pages','p')
+            ->from('#_pages', 'p')
             ->execute()->fetchAll();
 
         $options = array();
@@ -331,7 +345,8 @@ class Kernel extends Application {
         $this['config']->addReplaces('%content_dir%', $dir);
     }
 
-    public function setConfigFile($file) {
+    public function setConfigFile($file) 
+    {
         $this['config_file'] = $file;
     }
 
@@ -353,9 +368,11 @@ class Kernel extends Application {
 
         if ($config['error.log']) {
             $this['exception']
-                ->error(function(\Exception $exception, $code) {
-                    $this['log']->addError($exception);
-                });
+                ->error(
+                    function(\Exception $exception, $code) {
+                        $this['log']->addError($exception);
+                    }
+                );
         }
 
         $this['asset']->setCachePath($this['path.content'].'cache/asset');

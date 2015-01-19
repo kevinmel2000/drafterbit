@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Extensions\System\Models;
 
-class Search extends \Drafterbit\Framework\Model {
+class Search extends \Drafterbit\Framework\Model
+{
 
     public function doSearch($q, $queries)
     {

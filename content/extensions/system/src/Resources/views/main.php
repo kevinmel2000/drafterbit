@@ -8,7 +8,8 @@
         <link rel="stylesheet" href="<?php echo base_url('system/drafterbit.css'); ?>" type="text/css">
         
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
-        <?php $this->css('
+        <?php $this->css(
+        '
           :bootstrap_css,
           :notify_css,
           @system/css/overrides-bootstrap.css,
@@ -16,7 +17,8 @@
           @system/css/style.css,
           @system/css/style-desktop.css,
           @system/css/style-mobile.css
-        ') ?>
+        '
+) ?>
         
         <?php echo $this->block('css'); ?>
     </head>
@@ -50,12 +52,14 @@
         drafTerbit.initAjaxForm();
 
 
-        <?php if(isset($messages)): ?>
+        <?php if(isset($messages)) : ?>
                 <?php foreach( $messages as $message ): ?>
                     msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
-                <?php endforeach; ?>
-        <?php endif;?>
+                <?php 
+endforeach; ?>
+        <?php 
+endif;?>
         </script>
 </body>
 </html>

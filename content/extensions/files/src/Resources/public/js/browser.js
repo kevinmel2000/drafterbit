@@ -3,10 +3,10 @@
     // Helper function to get parameters from the query string.
     function getUrlParam(paramName)
     {
-      var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i') ;
-      var match = window.location.search.match(reParam) ;
+        var reParam = new RegExp('(?:[\?&]|&amp;)' + paramName + '=([^&]+)', 'i');
+        var match = window.location.search.match(reParam);
      
-      return (match && match.length > 1) ? match[1] : '' ;
+        return (match && match.length > 1) ? match[1] : '' ;
     }
     var funcNum = getUrlParam('CKEditorFuncNum');
 
@@ -14,7 +14,7 @@
     if(funcNum != '') {
 
         ckeditorCallback = function(e){
-            e.preventDefault( );
+            e.preventDefault();
             url = $(e.currentTarget).attr('href');
             console.log(e.currentTarget);
             // @todo create content path
@@ -23,14 +23,16 @@
         }
     }
 
-    $('#finder-container').finder({
-        url: drafTerbit.adminUrl+'/files/data',
-        onISelect: ckeditorCallback,
-        upload:false,
-        manage:false,
-        data: {
-            csrf: drafTerbit.csrfToken
+    $('#finder-container').finder(
+        {
+            url: drafTerbit.adminUrl+'/files/data',
+            onISelect: ckeditorCallback,
+            upload:false,
+            manage:false,
+            data: {
+                csrf: drafTerbit.csrfToken
+            }
         }
-    });
+    );
 
 })(jQuery, drafTerbit);

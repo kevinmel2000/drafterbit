@@ -1,25 +1,30 @@
 <?php namespace Drafterbit\Extensions\User;
 
-class UserExtension extends \Drafterbit\Framework\Extension {
+class UserExtension extends \Drafterbit\Framework\Extension
+{
 
-	function boot()
-	{
-		//log entities
-        $this->getApplication()->addLogEntityFormatter('user', function($id){
-    	    if($this['session']->get('user.id') == $id ) {
-                $label = __('You');
-            } else {
-                $label = $this->model('@user\User')->getSingleBy('id', $id)['real_name'];
+    function boot()
+    {
+        //log entities
+        $this->getApplication()->addLogEntityFormatter(
+            'user', function($id){
+                if($this['session']->get('user.id') == $id ) {
+                    $label = __('You');
+                } else {
+                       $label = $this->model('@user\User')->getSingleBy('id', $id)['real_name'];
+                }
+                return '<a href="'.admin_url('user/edit/'.$id).'">'.$label.'</a>';
             }
-            return '<a href="'.admin_url('user/edit/'.$id).'">'.$label.'</a>';
-        });
+        );
 
-        $this->getApplication()->addLogEntityFormatter('role', function($id){
-        	
-        	$label = $this->model('@user\Role')->getSingleBy('id', $id)['label'];
-            return '<a href="'.admin_url('user/roles/edit/'.$id).'">'.$label.'</a>';
-        });
-	}
+        $this->getApplication()->addLogEntityFormatter(
+            'role', function($id){
+            
+                $label = $this->model('@user\Role')->getSingleBy('id', $id)['label'];
+                return '<a href="'.admin_url('user/roles/edit/'.$id).'">'.$label.'</a>';
+            }
+        );
+    }
 
     function getReservedBaseUrl()
     {

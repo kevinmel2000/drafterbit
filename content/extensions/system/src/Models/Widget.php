@@ -2,14 +2,15 @@
 
 use Drafterbit\Framework\Model;
 
-class Widget extends Model {
+class Widget extends Model
+{
 
     public function widget($position)
     {
         $qb = $this->get('db')->createQueryBuilder();
         
         $widgets = $qb->select('*')
-            ->from('#_widgets','w')
+            ->from('#_widgets', 'w')
             ->where('position=:position')
             ->setParameter('position', $position)
             ->execute()->fetchAll();
@@ -26,11 +27,13 @@ class Widget extends Model {
         $theme = $this->get('themes')->current();
 
         $this->get('db')
-            ->insert('#_widgets',  array(
+            ->insert(
+                '#_widgets',  array(
                     'name' => $name,
                     'position' =>  $pos,
                     'theme' =>  $theme
-                ));
+                )
+            );
 
         return $this->get('db')->lastInsertId();
     }
@@ -40,7 +43,7 @@ class Widget extends Model {
         $qb = $this->get('db')->createQueryBuilder();
         
         $widget = $qb->select('*')
-            ->from('#_widgets','w')
+            ->from('#_widgets', 'w')
             ->where('id=:id')
             ->setParameter('id', $id)
             ->execute()->fetchAll();

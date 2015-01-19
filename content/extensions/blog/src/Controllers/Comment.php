@@ -3,7 +3,8 @@
 use Drafterbit\Extensions\System\BackendController;
 use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 
-class Comment extends BackendController {
+class Comment extends BackendController
+{
 
     public function index()
     {
@@ -27,18 +28,18 @@ class Comment extends BackendController {
         $commentIds = $post['comments'];
 
         switch($post['action']) {
-            case "trash":
-                foreach($commentIds as $id) {
-                    $this->model('@blog\Comment')->trash($id);
-                }
-                break;
-            case 'delete':
-                $this->model('@blog\Comment')->delete($commentIds);
-            case 'restore':
-                $this->model('@blog\Comment')->restore($commentIds);
+        case "trash":
+            foreach($commentIds as $id) {
+                $this->model('@blog\Comment')->trash($id);
+            }
             break;
-            default:
-                break;
+        case 'delete':
+            $this->model('@blog\Comment')->delete($commentIds);
+        case 'restore':
+            $this->model('@blog\Comment')->restore($commentIds);
+            break;
+        default:
+            break;
         }
     }
 
@@ -52,7 +53,7 @@ class Comment extends BackendController {
             $comment = (object) $comment;
             $data = array();
             $data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
-            $data[] = "<img src='".gravatar_url($comment->email,40)."'/>{$comment->name} <br/><a href=\"mailto:{$comment->email}\">{$comment->email}</a>";
+            $data[] = "<img src='".gravatar_url($comment->email, 40)."'/>{$comment->name} <br/><a href=\"mailto:{$comment->email}\">{$comment->email}</a>";
 
             $content = "{$comment->content}";
 

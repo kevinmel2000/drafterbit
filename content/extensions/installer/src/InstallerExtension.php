@@ -4,7 +4,8 @@ use Drafterbit\Framework\Extension;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
-class InstallerExtension extends Extension {
+class InstallerExtension extends Extension
+{
 
     protected $start;
 
@@ -13,16 +14,20 @@ class InstallerExtension extends Extension {
      */
     public function boot()
     {
-        $this['exception']->error(function(NotFoundHttpException $e) {
-            return redirect(base_url('installer'))->send();
-        });
+        $this['exception']->error(
+            function(NotFoundHttpException $e) {
+                return redirect(base_url('installer'))->send();
+            }
+        );
     }
 
-    public function setStart($start) {
+    public function setStart($start) 
+    {
         $this->start = $start;
     }
 
-    public function getStart() {
+    public function getStart() 
+    {
         return $this->start;
     }
 }

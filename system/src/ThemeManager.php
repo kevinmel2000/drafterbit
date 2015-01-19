@@ -3,7 +3,8 @@
 use Drafterbit\Framework\Application;
 use Symfony\Component\Finder\Finder;
 
-class ThemeManager {
+class ThemeManager
+{
 
     protected $themes;
     protected $current;
@@ -47,7 +48,8 @@ class ThemeManager {
      *
      * @param string $thame theme name
      */
-    public function current($theme = null) {
+    public function current($theme = null) 
+    {
         if(is_null($theme)) {
             return $this->current;
         }
@@ -78,7 +80,7 @@ class ThemeManager {
     /**
      * Get a theme config;
      *
-     * @param string $name
+     * @param  string $name
      * @return array
      */
     public function get($theme = null)

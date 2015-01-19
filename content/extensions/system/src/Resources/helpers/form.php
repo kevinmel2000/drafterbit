@@ -2,16 +2,16 @@
 
 if ( ! function_exists('form_open')) {
 
-/**
+    /**
  * Form Declaration
  *
  * Creates the opening portion of the form.
  *
- * @access    public
- * @param    string    the URI segments of the form destination
- * @param    array    a key/value pair of attributes
- * @param    array    a key/value pair hidden data
- * @return    string
+ * @access public
+ * @param  string    the URI segments of the form destination
+ * @param  array    a key/value pair of attributes
+ * @param  array    a key/value pair hidden data
+ * @return string
  */
 
     function form_open($action = '', $attributes = '', $hidden = array())
@@ -22,7 +22,7 @@ if ( ! function_exists('form_open')) {
 
         $form = '<form action="'.$action.'"';
 
-        $form .= _join_attributes($attributes, TRUE);
+        $form .= _join_attributes($attributes, true);
 
         $form .= '>';
 
@@ -39,16 +39,16 @@ if ( ! function_exists('form_open')) {
 
 if ( ! function_exists('input_hidden')) {
 
-/**
+    /**
  * Hidden Input Field
  *
  * Generates hidden fields.  You can pass a simple key/value string or an associative
  * array with multiple values.
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @return string
  */
 
     function input_hidden($name, $value = '')
@@ -56,7 +56,7 @@ if ( ! function_exists('input_hidden')) {
         $form = '';
         if (is_array($name)) {
             foreach ($name as $key => $val) {
-                $form .= input_hidden($key, $val, TRUE);
+                $form .= input_hidden($key, $val, true);
             }
             return $form;
         }
@@ -66,7 +66,7 @@ if ( ! function_exists('input_hidden')) {
         } else {
             foreach ($value as $k => $v) {
                 $k = (is_int($k)) ? '' : $k;
-                $form .= form_hidden($name.'['.$k.']', $v, TRUE);
+                $form .= form_hidden($name.'['.$k.']', $v, true);
             }
         }
         
@@ -76,14 +76,14 @@ if ( ! function_exists('input_hidden')) {
 
 if ( ! function_exists('input_text')) {
 
-/**
+    /**
  * Text Input Field
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  string
+ * @return string
  */
 
     function input_text($data = '', $value = '', $extra = '')
@@ -97,16 +97,16 @@ if ( ! function_exists('input_text')) {
 
 if ( ! function_exists('input_password')) {
 
-/**
+    /**
  * Password Field
  *
  * Identical to the input function but adds the "password" type
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  string
+ * @return string
  */
 
     function input_password($data = '', $value = '', $extra = '')
@@ -122,16 +122,16 @@ if ( ! function_exists('input_password')) {
 
 if ( ! function_exists('input_file')) {
 
-/**
+    /**
  * Upload Field
  *
  * Identical to the input function but adds the "file" type
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  string
+ * @return string
  */
 
     function input_file($data = '', $value = '', $extra = '')
@@ -145,17 +145,16 @@ if ( ! function_exists('input_file')) {
     }
 }
 
-if ( ! function_exists('input_textarea'))
-{
+if ( ! function_exists('input_textarea')) {
 
-/**
+    /**
  * Textarea field
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  string
+ * @return string
  */
 
     function input_textarea($data = '', $value = '', $extra = '')
@@ -177,18 +176,17 @@ if ( ! function_exists('input_textarea'))
 }
 
 
-if ( ! function_exists('input_multiselect'))
-{
+if ( ! function_exists('input_multiselect')) {
 
-/**
+    /**
  * Multi-select menu
  *
- * @access    public
- * @param    string
- * @param    array
- * @param    mixed
- * @param    string
- * @return    type
+ * @access public
+ * @param  string
+ * @param  array
+ * @param  mixed
+ * @param  string
+ * @return type
  */
     function input_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
     {
@@ -203,15 +201,15 @@ if ( ! function_exists('input_multiselect'))
 
 if ( ! function_exists('input_select')) {
 
-/**
+    /**
  * Drop-down Menu
  *
- * @access    public
- * @param    string
- * @param    array
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  string
+ * @param  array
+ * @param  string
+ * @param  string
+ * @return string
  */
 
     function input_select($name = '', $options = array(), $selected = array(), $extra = '')
@@ -220,9 +218,10 @@ if ( ! function_exists('input_select')) {
             $selected = array($selected);
         }
 
-        if ($extra != '') $extra = ' '.$extra;
+        if ($extra != '') { $extra = ' '.$extra; 
+        }
 
-        $multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
+        $multiple = (count($selected) > 1 && strpos($extra, 'multiple') === false) ? ' multiple="multiple"' : '';
 
         $form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
 
@@ -255,32 +254,32 @@ if ( ! function_exists('input_select')) {
 
 if ( ! function_exists('input_checkbox')) {
 
-/**
+    /**
  * Checkbox Field
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    bool
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  bool
+ * @param  string
+ * @return string
  */
 
-    function input_checkbox($data = '', $value = '', $checked = FALSE, $extra = '')
+    function input_checkbox($data = '', $value = '', $checked = false, $extra = '')
     {
         $defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
         if (is_array($data) AND array_key_exists('checked', $data)) {
             $checked = $data['checked'];
 
-            if ($checked == FALSE) {
+            if ($checked == false) {
                 unset($data['checked']);
             } else {
                 $data['checked'] = 'checked';
             }
         }
 
-        if ($checked == TRUE) {
+        if ($checked == true) {
             $defaults['checked'] = 'checked';
         } else {
             unset($defaults['checked']);
@@ -292,18 +291,18 @@ if ( ! function_exists('input_checkbox')) {
 
 if ( ! function_exists('input_radio')) {
 
-/**
+    /**
  * Radio Button
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    bool
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  bool
+ * @param  string
+ * @return string
  */
 
-    function input_radio($data = '', $value = '', $checked = FALSE, $extra = '')
+    function input_radio($data = '', $value = '', $checked = false, $extra = '')
     {
         if ( ! is_array($data)) {
             $data = array('name' => $data);
@@ -316,14 +315,14 @@ if ( ! function_exists('input_radio')) {
 
 if ( ! function_exists('input_submit')) {
 
-/**
+    /**
  * Submit Button
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  string
+ * @return string
  */
 
     function input_submit($data = '', $value = '', $extra = '')
@@ -336,14 +335,14 @@ if ( ! function_exists('input_submit')) {
 
 if ( ! function_exists('input_reset')) {
 
-/**
+    /**
  * Reset Button
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  string
+ * @return string
  */
     function input_reset($data = '', $value = '', $extra = '')
     {
@@ -353,17 +352,16 @@ if ( ! function_exists('input_reset')) {
     }
 }
 
-if ( ! function_exists('input_button'))
-{
+if ( ! function_exists('input_button')) {
 
-/**
+    /**
  * Form Button
  *
- * @access    public
- * @param    mixed
- * @param    string
- * @param    string
- * @return    string
+ * @access public
+ * @param  mixed
+ * @param  string
+ * @param  string
+ * @return string
  */
     function input_button($data = '', $content = '', $extra = '')
     {
@@ -382,14 +380,14 @@ if ( ! function_exists('input_button'))
 
 if ( ! function_exists('label')) {
 
-/**
+    /**
  * Form Label Tag
  *
- * @access    public
- * @param    string    The text to appear onscreen
- * @param    string    The id the label applies to
- * @param    string    Additional attributes
- * @return    string
+ * @access public
+ * @param  string    The text to appear onscreen
+ * @param  string    The id the label applies to
+ * @param  string    Additional attributes
+ * @return string
  */
 
     function label($label_text = '', $id = '', $attributes = array())
@@ -416,23 +414,23 @@ if ( ! function_exists('label')) {
 
 if ( ! function_exists('fieldset_open')) {
 
-/**
+    /**
  * Fieldset Tag
  *
  * Used to produce <fieldset><legend>text</legend>.  To close fieldset
  * use form_fieldset_close()
  *
- * @access    public
- * @param    string    The legend text
- * @param    string    Additional attributes
- * @return    string
+ * @access public
+ * @param  string    The legend text
+ * @param  string    Additional attributes
+ * @return string
  */
 
     function fieldset_open($legend_text = '', $attributes = array())
     {
         $fieldset = "<fieldset";
 
-        $fieldset .= _join_attributes($attributes, FALSE);
+        $fieldset .= _join_attributes($attributes, false);
 
         $fieldset .= ">\n";
 
@@ -447,11 +445,11 @@ if ( ! function_exists('fieldset_open')) {
 
 if ( ! function_exists('fieldset_close')) {
 
-/**
+    /**
  * Fieldset Close Tag
  *
- * @access    public
- * @return    string
+ * @access public
+ * @return string
  */
 
     function fieldset_close()
@@ -462,11 +460,11 @@ if ( ! function_exists('fieldset_close')) {
 
 if ( ! function_exists('form_close')) {
 
-/**
+    /**
  * Form Close Tag
  *
- * @access    public
- * @return    string
+ * @access public
+ * @return string
  */
 
     function form_close()
@@ -478,12 +476,12 @@ if ( ! function_exists('form_close')) {
 
 if ( ! function_exists('_prepare_value')) {
 
-/**
+    /**
  * Format text so it can be safely placed in a form field in case it has HTML tags.
  *
- * @access    public
- * @param    string
- * @return    string
+ * @access public
+ * @param  string
+ * @return string
  */
 
     function _prepare_value($str = '', $field_name = '')
@@ -523,15 +521,15 @@ if ( ! function_exists('_prepare_value')) {
 
 if ( ! function_exists('_parse_attributes')) {
 
-/**
+    /**
  * Parse the form attributes
  *
  * Helper function used by some of the form helpers
  *
- * @access    private
- * @param    array
- * @param    array
- * @return    string
+ * @access private
+ * @param  array
+ * @param  array
+ * @return string
  */
 
     function _parse_attributes($attributes, $default)
@@ -565,17 +563,17 @@ if ( ! function_exists('_parse_attributes')) {
 
 if ( ! function_exists('_join_attributes')) {
 
-/**
+    /**
  * Attributes To String
  *
  * Helper function used by some of the form helpers
  *
- * @access    private
- * @param    mixed
- * @param    bool
- * @return    string
+ * @access private
+ * @param  mixed
+ * @param  bool
+ * @return string
  */
-    function _join_attributes($attributes, $formtag = FALSE)
+    function _join_attributes($attributes, $formtag = false)
     {
         if (is_object($attributes) AND count($attributes) > 0) {
             $attributes = (array)$attributes;
@@ -584,7 +582,7 @@ if ( ! function_exists('_join_attributes')) {
         if (is_array($attributes) AND count($attributes) > 0) {
             $atts = '';
 
-            if ( ! isset($attributes['method']) AND $formtag === TRUE) {
+            if ( ! isset($attributes['method']) AND $formtag === true) {
                 $atts .= ' method="post"';
             }
 
@@ -601,8 +599,8 @@ if ( ! function_exists('value')) {
     /**
      * Get input value
      *
-     * @param string $name
-     * @param mixed $value
+     * @param  string $name
+     * @param  mixed  $value
      * @return void
      */
     function value($name, $default = null)
@@ -615,10 +613,10 @@ if ( ! function_exists('set_option')) {
     /**
      * Set the option to current selected or checked
      *
-     * @param string $name
-     * @param string $type
-     * @param mixed $value
-     * @param mixed $default
+     * @param  string $name
+     * @param  string $type
+     * @param  mixed  $value
+     * @param  mixed  $default
      * @return void
      */
     function set_option($name, $type = "selected", $value = null, $default = false)
@@ -629,7 +627,8 @@ if ( ! function_exists('set_option')) {
 
         $post = app('input')->get($name);
 
-        if (is_null($post)) return null;
+        if (is_null($post)) { return null; 
+        }
 
         if (is_array($post)) {
             return in_array($value, $post) ? $type : null;
@@ -643,9 +642,9 @@ if ( ! function_exists('checked')) {
     /**
      * Set input checked
      *
-     * @param string $name
-     * @param mixed $value
-     * @param mixed $default
+     * @param  string $name
+     * @param  mixed  $value
+     * @param  mixed  $default
      * @return void
      */
     function checked($name, $value = null, $default = false)
@@ -658,9 +657,9 @@ if ( ! function_exists('selected')) {
     /**
      * Set options selected
      *
-     * @param string $name
-     * @param mixed $value
-     * @param mixed $default
+     * @param  string $name
+     * @param  mixed  $value
+     * @param  mixed  $default
      * @return void
      */
     function selected($name, $value = null, $default = false)
@@ -673,9 +672,9 @@ if ( ! function_exists('hide')) {
     /**
      * Hide a form section based in value
      *
-     * @param string $name
-     * @param mixed $value
-     * @param mixed $default
+     * @param  string $name
+     * @param  mixed  $value
+     * @param  mixed  $default
      * @return void
      */
     function hide($name, $value = null, $default = false)

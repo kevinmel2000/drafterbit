@@ -6,7 +6,8 @@
             </th>
             <?php foreach ($thead as $th): ?>
                 <th width="<?php echo $th['width']; ?>" align="<?php echo $th['align']; ?>"><?php echo $th['label']; ?></th>
-            <?php endforeach; ?>
+            <?php 
+endforeach; ?>
         </tr>
     </thead>
     <tbody>
@@ -15,8 +16,10 @@
                 <td><input type="checkbox" name="<?php echo $id ?>[]" value="<?php echo $row['id']; ?>"></td>
                 <?php foreach ($thead as $th): ?>
                 <td><?php echo $row['values'][$th['id']]; ?></td>
-                <?php endforeach; ?>
+                <?php 
+endforeach; ?>
             </tr>
-        <?php endforeach;?>
+        <?php 
+endforeach;?>
     </tbody>
 </table>

@@ -3,7 +3,8 @@
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Finder\Finder;
 
-class ExtensionManager {
+class ExtensionManager
+{
 
     protected $app;
     protected $loaded;
@@ -16,9 +17,9 @@ class ExtensionManager {
     /**
      * Extension manager constructor.
      *
-     * @param Drafterbit\Framework\Application $app
-     * @param Composer\ClassLoader $loader
-     * @param array $extensionsPath
+     * @param  Drafterbit\Framework\Application $app
+     * @param  Composer\ClassLoader             $loader
+     * @param  array                            $extensionsPath
      * @return void
      */
     public function __construct(Kernel $app, ClassLoader $loader, $extensionsPath = array())
@@ -48,7 +49,7 @@ class ExtensionManager {
                     $config = array();
 
                     if(file_exists($file.'/config.php')) {
-                        $config = require $file.'/config.php';
+                        $config = include $file.'/config.php';
                     }
 
                     $config['path'] = $path;
@@ -163,45 +164,45 @@ class ExtensionManager {
      * Extract config.php from extension directory
      *
      * @param string $extension modul name
-     * @param string $path extension path
+     * @param string $path      extension path
      */
     private function extractConfig($extension, $path)
     {
-        return require $path.'/config.php';
+        return include $path.'/config.php';
     }
 
     /**
      * Register autoload config to conposer autoloader
      *
-     * @param array $config
-     * @param string $basepath
+     * @param  array  $config
+     * @param  string $basepath
      * @return void
      */
     private function registerAutoload($config, $basePath)
     {
         foreach ($config as $key => $value) {
             switch($key) {
-                case 'psr-4':
-                    foreach ($value as $ns => $path) {
-                        $this->loader->addPsr4($ns, $basePath.'/'.$path);
-                    }
-                break;
+            case 'psr-4':
+                foreach ($value as $ns => $path) {
+                    $this->loader->addPsr4($ns, $basePath.'/'.$path);
+                }
+                    break;
 
-                case 'psr-0':
-                    foreach ($value as $ns => $path) {
-                        $this->loader->addNamespace($ns, $basePath.'/'.$path);
-                    }
-                break;
+            case 'psr-0':
+                foreach ($value as $ns => $path) {
+                    $this->loader->addNamespace($ns, $basePath.'/'.$path);
+                }
+                    break;
 
-                case 'classmap':
-                        $this->loader->addClassmap($value);
-                break;
+            case 'classmap':
+                    $this->loader->addClassmap($value);
+                    break;
 
-                case 'files':
-                    foreach ($value as $file) {
-                        require $basePath.$extension.'/'.$file;
-                    }
-                break;
+            case 'files':
+                foreach ($value as $file) {
+                    include $basePath.$extension.'/'.$file;
+                }
+                    break;
             }
         }
     }

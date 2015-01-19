@@ -4,7 +4,8 @@ use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BackendController;
 use Carbon\Carbon;
 
-class Pages extends BackendController {
+class Pages extends BackendController
+{
 
     public function index()
     {            
@@ -29,16 +30,16 @@ class Pages extends BackendController {
         $pageIds = $post['pages'];
 
         switch($post['action']) {
-            case "trash":
-                $this->model('@pages\Pages')->trash($pageIds);
-                break;
-            case 'delete':
-                $this->model('@pages\Pages')->delete($pageIds);
-            case 'restore':
-                $this->model('@pages\Pages')->restore($pageIds);
+        case "trash":
+            $this->model('@pages\Pages')->trash($pageIds);
             break;
-            default:
-                break;
+        case 'delete':
+            $this->model('@pages\Pages')->delete($pageIds);
+        case 'restore':
+            $this->model('@pages\Pages')->restore($pageIds);
+            break;
+        default:
+            break;
         }
     }
 
@@ -144,20 +145,26 @@ class Pages extends BackendController {
 
         } catch (ValidationFailsException $e) {
             
-            return $this->jsonResponse(['error' => [
+            return $this->jsonResponse(
+                ['error' => [
                     'type' => 'validation',
                     'message' => $e->getMessage(),
                     'messages' => $e->getMessages()
                 ]
-            ]);
+                ]
+            );
         }
     }
 
     private function _tableHeader()
     {
         $editUrl = admin_url('pages/edit');
-        $formatTitle = function($value, $item) use ($editUrl) {return "<a href='$editUrl/{$item['id']}'>$value</i></a>"; };
-        $formatStatus = function($value, $item) {return $value == 1 ? 'Published' : 'Unpublished'; };
+        $formatTitle = function($value, $item) use ($editUrl) {
+            return "<a href='$editUrl/{$item['id']}'>$value</i></a>"; 
+        };
+        $formatStatus = function($value, $item) {
+            return $value == 1 ? 'Published' : 'Unpublished'; 
+        };
 
         return [
             ['field' => 'title', 'label' => 'Title', 'width' => '70%', 'format' => $formatTitle ],
@@ -186,7 +193,7 @@ class Pages extends BackendController {
     /**
      * Parse post data to insert to db
      *
-     * @param array $post
+     * @param  array $post
      * @return array
      */
     protected function createInsertData($post, $isUpdate = false)
@@ -210,7 +217,7 @@ class Pages extends BackendController {
     /**
      * Parse post data for update
      *
-     * @param array $post
+     * @param  array $post
      * @return array
      */
     public function createUpdateData($post)

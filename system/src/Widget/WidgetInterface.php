@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\System\Widget;
 
-interface WidgetInterface {
+interface WidgetInterface
+{
 
     
     public function run();

@@ -6,7 +6,8 @@
             </th>
             <?php foreach ($thead as $th): ?>
                 <th width="<?php echo $th->width; ?>" align="<?php echo $th->align; ?>"><?php echo $th->label; ?></th>
-            <?php endforeach; ?>
+            <?php 
+endforeach; ?>
         </tr>
     </thead>
 </table>

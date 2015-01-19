@@ -6,7 +6,8 @@ use Pimple\Container;
 use Swift_SmtpTransport;
 use Pimple\ServiceProviderInterface;
 
-class MailServiceProvider implements ServiceProviderInterface {
+class MailServiceProvider implements ServiceProviderInterface
+{
     
     public function register(Container $app)
     {
@@ -31,8 +32,10 @@ class MailServiceProvider implements ServiceProviderInterface {
             return $transport;
         };
 
-        $app['mail'] = $app->factory(function(){
-            return Swift_Message::newInstance();
-        });
+        $app['mail'] = $app->factory(
+            function(){
+                return Swift_Message::newInstance();
+            }
+        );
     }
 }

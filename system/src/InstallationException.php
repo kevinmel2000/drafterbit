@@ -1,3 +1,5 @@
 <?php namespace Drafterbit\System;
 
-class InstallationException extends \Exception {}
+class InstallationException extends \Exception
+{
+}

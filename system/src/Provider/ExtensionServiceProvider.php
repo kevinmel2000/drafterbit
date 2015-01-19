@@ -4,7 +4,8 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Drafterbit\System\ExtensionManager;
 
-class ExtensionServiceProvider implements ServiceProviderInterface {
+class ExtensionServiceProvider implements ServiceProviderInterface
+{
 
     function register(Container $app)
     {

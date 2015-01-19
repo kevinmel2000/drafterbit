@@ -4,7 +4,8 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
-class FilesystemServiceProvider implements ServiceProviderInterface {
+class FilesystemServiceProvider implements ServiceProviderInterface
+{
 
     function register(Container $app)
     {

@@ -2,7 +2,8 @@
 
 use Drafterbit\Extensions\System\FrontendController;
 
-class Frontend extends FrontendController {
+class Frontend extends FrontendController
+{
 
     /**
      * /search Controller

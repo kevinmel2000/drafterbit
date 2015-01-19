@@ -3,7 +3,8 @@
 use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BackendController;
 
-class Roles extends BackendController {
+class Roles extends BackendController
+{
 
     public function index()
     {
@@ -14,7 +15,9 @@ class Roles extends BackendController {
 
         $editUrl = admin_url('user/roles/edit');
         $tableHead = array(
-            ['field' => 'label', 'label' => 'Role', 'format' => function($value, $item) use ($editUrl)  {return "<a href='$editUrl/{$item['id']}'>$value</a>";}],
+            ['field' => 'label', 'label' => 'Role', 'format' => function($value, $item) use ($editUrl)  {
+                return "<a href='$editUrl/{$item['id']}'>$value</a>";
+            }],
             ['field' => 'description', 'label' => 'Description']
         );
 
@@ -32,43 +35,45 @@ class Roles extends BackendController {
         $roles = $this->get('input')->post('roles');
 
         if(!$roles) {
-            return $this->jsonResponse([
+            return $this->jsonResponse(
+                [
                 'message' => 'Please make selection',
                 'status' => 'error'
-            ]);
+                ]
+            );
         }
 
         $action = $this->get('input')->post('action');
 
         switch($action) {
-            case "delete":
+        case "delete":
 
-                $freezed = array();
-                $notfreezed = array();
+            $freezed = array();
+            $notfreezed = array();
                 
-                foreach ($roles as $role) {
-                    if($this->model('@user\Role')->getRoledUsers($role)) {
-                        $freezed[] = $this->model('@user\Role')->getRoleName($role);
-                    } else {
-                        $notfreezed[] = $role;
-                    }
-                }
-
-                if($notfreezed) {
-                    $this->model('@user\Role')->delete($notfreezed);
-                }
-
-                if(count($freezed) > 0) {
-                    $message = 'Can not delete following roles: '.implode(', ',$freezed).'. Due to there are users roled by them';
-                    $status = 'warning';
+            foreach ($roles as $role) {
+                if($this->model('@user\Role')->getRoledUsers($role)) {
+                    $freezed[] = $this->model('@user\Role')->getRoleName($role);
                 } else {
-                    $message = 'Selected roles was deleted';
-                    $status = 'success';
+                    $notfreezed[] = $role;
                 }
+            }
 
-                break;
-            default:
-                break;
+            if($notfreezed) {
+                $this->model('@user\Role')->delete($notfreezed);
+            }
+
+            if(count($freezed) > 0) {
+                $message = 'Can not delete following roles: '.implode(', ', $freezed).'. Due to there are users roled by them';
+                $status = 'warning';
+            } else {
+                $message = 'Selected roles was deleted';
+                $status = 'success';
+            }
+
+            break;
+        default:
+            break;
         }
         
         return $this->jsonResponse(['message' => $message, 'status' => $status]);

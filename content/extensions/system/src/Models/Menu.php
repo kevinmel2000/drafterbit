@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Extensions\System\Models;
 
-class Menu {
+class Menu
+{
 
     public $label;
     public $href = '#';

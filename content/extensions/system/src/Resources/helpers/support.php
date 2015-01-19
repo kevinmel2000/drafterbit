@@ -1,19 +1,18 @@
 <?php
 
-if ( ! function_exists('admin_url'))
-{
+if ( ! function_exists('admin_url')) {
      /**
      * admin url
      *
-     * @param string $sub
+     * @param  string $sub
      * @return string
      */
-     function admin_url($sub = null)
-     {
-          $admin = app('config')['path.admin'];
-          $path = is_null($sub) ? $admin : $admin.'/'.$sub;
-          return base_url($path);
-     }
+    function admin_url($sub = null)
+    {
+         $admin = app('config')['path.admin'];
+         $path = is_null($sub) ? $admin : $admin.'/'.$sub;
+         return base_url($path);
+    }
 }
 
 if ( ! function_exists('wysiwyg')) {
@@ -69,7 +68,7 @@ if ( ! function_exists('theme_url')) {
 
         $themePath = str_replace(app('path.public'), '', app('path.themes'));
 
-        return base_url("{$themePath}{$theme}".'/'.trim($path,'/'));
+        return base_url("{$themePath}{$theme}".'/'.trim($path, '/'));
     }
 }
 
@@ -101,8 +100,8 @@ if(!function_exists('gravatar_url')) {
     /**
      * Create gravatar url byb given email
      *
-     * @param string $email
-     * @param int $size
+     * @param  string $email
+     * @param  int    $size
      * @return void
      * @author 
      **/

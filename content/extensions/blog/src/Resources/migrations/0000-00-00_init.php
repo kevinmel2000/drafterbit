@@ -1,12 +1,12 @@
 <?php return [
     
-    'up' => function () use($app)
+    'up' => function () use ($app)
     {
         $schema = $app['db']->getSchemaManager()->createSchema();        
         
         // pages
         $posts = $schema->createTable('#_posts');
-        $posts->addColumn('id', 'integer',['autoincrement' => true]);
+        $posts->addColumn('id', 'integer', ['autoincrement' => true]);
         $posts->addColumn('slug', 'string', ['length' => 150]);
         $posts->addColumn('title', 'string', ['length' => 150]);
         $posts->addColumn('content', 'text');
@@ -21,7 +21,7 @@
 
         // tags
         $tags = $schema->createTable('#_tags');
-        $tags->addColumn('id', 'integer',['autoincrement' => true]);
+        $tags->addColumn('id', 'integer', ['autoincrement' => true]);
         $tags->addColumn('slug', 'string', ['length' => 45]);
         $tags->addColumn('label', 'string', ['length' => 45]);
         $tags->setPrimaryKey(['id']);

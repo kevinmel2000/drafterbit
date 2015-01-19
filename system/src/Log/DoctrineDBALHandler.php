@@ -22,13 +22,15 @@ class DoctrineDBALHandler extends AbstractProcessingHandler
             $this->initialize();
         }
 
-        $this->statement->execute(array(
+        $this->statement->execute(
+            array(
             'channel' => $record['channel'],
             'level' => $record['level'],
             'message' => $record['message'],
             'time' => $record['datetime']->format('U'),
             'context' => json_encode($record['context'])
-        ));
+            )
+        );
     }
 
     private function initialize()

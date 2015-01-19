@@ -2,12 +2,13 @@
 
 use Drafterbit\Framework\Application;
 
-class SystemExtension extends \Drafterbit\Framework\Extension {
+class SystemExtension extends \Drafterbit\Framework\Extension
+{
 
     public function boot()
     {
         foreach (['form', 'support', 'twig'] as $helper) {
-            $this['helper']->register( $helper, $this->getResourcesPath("helpers/$helper.php"));
+            $this['helper']->register($helper, $this->getResourcesPath("helpers/$helper.php"));
             $this['helper']->load($helper);
         }
     }

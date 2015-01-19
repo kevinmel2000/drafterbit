@@ -3,7 +3,8 @@
 use Drafterbit\Extensions\System\FrontendController;
 use Symfony\Component\HttpFoundation\Response;
 
-class RSS extends FrontendController {
+class RSS extends FrontendController
+{
 
     public function index()
     {

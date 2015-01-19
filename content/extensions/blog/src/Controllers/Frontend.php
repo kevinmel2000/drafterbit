@@ -2,7 +2,8 @@
 
 use Drafterbit\Extensions\System\FrontendController;
 
-class Frontend extends FrontendController {
+class Frontend extends FrontendController
+{
 
     public function index($page = 1)
     {
@@ -63,7 +64,8 @@ class Frontend extends FrontendController {
         return $this->render('blog/view', $data);
     }
 
-    public function tag($slug) {
+    public function tag($slug) 
+    {
 
         $tag = $this->model('@blog\Tag')->getSingleBy('slug', $slug); 
         $posts = $this->model('@blog\Tag')->getPosts($tag['id']);

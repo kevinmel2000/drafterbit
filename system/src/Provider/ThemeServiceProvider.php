@@ -4,7 +4,8 @@ use Pimple\Container;
 use Drafterbit\System\ThemeManager;
 use Pimple\ServiceProviderInterface;
 
-class ThemeServiceProvider implements ServiceProviderInterface {
+class ThemeServiceProvider implements ServiceProviderInterface
+{
 
     function register(Container $app)
     {

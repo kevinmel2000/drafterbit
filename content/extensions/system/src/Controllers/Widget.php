@@ -2,7 +2,8 @@
 
 use Drafterbit\Extensions\System\BackendController;
 
-class Widget extends BackendController {
+class Widget extends BackendController
+{
 
     /**
      * Widget setting
@@ -29,7 +30,7 @@ class Widget extends BackendController {
 
             foreach ($arrayOfWidget as $widget) {
 
-            $widgetObj = $this->get('widget')->get($widget->name);
+                $widgetObj = $this->get('widget')->get($widget->name);
 
                 $widget->ui = $this->get('widget.ui')->build($widgetObj);
             }
@@ -47,7 +48,8 @@ class Widget extends BackendController {
 
     public function add($name)
     {
-        if(!$this->isAjax()) show_404();
+        if(!$this->isAjax()) { show_404(); 
+        }
         
         $widget = $this->get('widget')->get($name);
         $pos = $this->get('input')->get('pos');
@@ -66,7 +68,8 @@ class Widget extends BackendController {
 
     public function edit($id)
     {
-        if(!$this->isAjax()) show_404();
+        if(!$this->isAjax()) { show_404(); 
+        }
         
         $installed = $this->model('widget')->fetch($id);
 

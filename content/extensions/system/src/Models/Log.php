@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Extensions\System\Models;
 
-class Log extends \Drafterbit\Framework\Model {
+class Log extends \Drafterbit\Framework\Model
+{
 
     public function all()
     {

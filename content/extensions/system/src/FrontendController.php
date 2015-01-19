@@ -2,7 +2,8 @@
 
 use Drafterbit\Framework\Controller;
 
-class FrontendController extends Controller {
+class FrontendController extends Controller
+{
 
     /**
      * Helper method to render template

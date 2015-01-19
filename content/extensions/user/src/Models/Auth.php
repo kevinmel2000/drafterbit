@@ -2,7 +2,8 @@
 
 use Drafterbit\Extensions\User\Auth\Exceptions\UserNotAuthorizedException;
 
-class Auth extends \Drafterbit\Framework\Model {
+class Auth extends \Drafterbit\Framework\Model
+{
 
     public function __construct()
     {
@@ -28,7 +29,7 @@ class Auth extends \Drafterbit\Framework\Model {
     /**
      * Set all required session during app run
      *
-     * @param object $user
+     * @param  object $user
      * @return void
      */
     public function registerSession($user)
@@ -43,7 +44,7 @@ class Auth extends \Drafterbit\Framework\Model {
             'user.email' => $user['email'],
             'user.name' => $user['real_name'],
             'user.permissions' => $userPermissions,
-            '_token' => sha1( (string) microtime(true)),
+            '_token' => sha1((string) microtime(true)),
         );
 
         foreach ($data as $key => $value) {
@@ -68,7 +69,7 @@ class Auth extends \Drafterbit\Framework\Model {
     /**
      * Restrict user to given access key
      *
-     * @param string $accessKey
+     * @param  string $accessKey
      * @return void
      */
     public function restrict($accessKey)
@@ -87,8 +88,10 @@ class Auth extends \Drafterbit\Framework\Model {
 
         if( !in_array($accessKey, $userPermissions)) {
             $label = $permissions[$accessKey];
-            throw new UserNotAuthorizedException("Sorry, you are not authorized to $label.
-                Try logout and login again or please request access to administrator");
+            throw new UserNotAuthorizedException(
+                "Sorry, you are not authorized to $label.
+                Try logout and login again or please request access to administrator"
+            );
         }
 
         return true;

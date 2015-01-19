@@ -1,10 +1,11 @@
 <?php namespace Drafterbit\Extensions\User\Models;
 
-class User extends \Drafterbit\Framework\Model {
+class User extends \Drafterbit\Framework\Model
+{
 
     public function all($filters)
     {
-        $query = $this->withQueryBuilder()->select('*') ->from('#_users','u');
+        $query = $this->withQueryBuilder()->select('*')            ->from('#_users', 'u');
 
         $status = $filters['status'];
 
@@ -26,13 +27,13 @@ class User extends \Drafterbit\Framework\Model {
             foreach ($key as $k => $v) {
                 $holder = ":$k";
                 $queryBuilder->where("$k = $holder")
-                   ->setParameter($holder, $v);
+                    ->setParameter($holder, $v);
             }
         
         } else {
             
             $queryBuilder->where("$key = :$key")
-            ->setParameter(":$key", $value);
+                ->setParameter(":$key", $value);
         }
 
         $users = $queryBuilder->getResult();
@@ -85,7 +86,8 @@ class User extends \Drafterbit\Framework\Model {
             ->delete('#_users_roles', array('user_id' => $id));
     }
 
-    public function insertRole($roleId, $userId) {
+    public function insertRole($roleId, $userId) 
+    {
         
         $data['role_id'] = $roleId;
         $data['user_id'] = $userId;
@@ -97,11 +99,11 @@ class User extends \Drafterbit\Framework\Model {
     public function getRoleIds($id)
     {
         $queryBuilder = $this->withQueryBuilder()
-        ->select('r.id')
-        ->from('#_roles', 'r')
-        ->join('r', '#_users_roles', 'ur', 'ur.role_id = r.id')
-        ->where('ur.user_id = :user_id')
-        ->setParameter(':user_id', $id);
+            ->select('r.id')
+            ->from('#_roles', 'r')
+            ->join('r', '#_users_roles', 'ur', 'ur.role_id = r.id')
+            ->where('ur.user_id = :user_id')
+            ->setParameter(':user_id', $id);
 
         $roles = $queryBuilder->getResult();
 
@@ -117,17 +119,17 @@ class User extends \Drafterbit\Framework\Model {
     /**
      * Get user Permission by given user id
      *
-     * @param int $userId
+     * @param  int $userId
      * @return array
      */
     public function getPermissions($userId)
     {
         $queryBuilder = $this->withQueryBuilder()
-        ->select('r.permissions')
-        ->from('#_users_roles', 'ur')
-        ->join('ur', '#_roles', 'r', 'ur.role_id = r.id')
-        ->where('ur.user_id = :user_id')
-        ->setParameter(':user_id', $userId);
+            ->select('r.permissions')
+            ->from('#_users_roles', 'ur')
+            ->join('ur', '#_roles', 'r', 'ur.role_id = r.id')
+            ->where('ur.user_id = :user_id')
+            ->setParameter(':user_id', $userId);
 
         $roles = $queryBuilder->getResult();
 

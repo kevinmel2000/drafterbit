@@ -4,7 +4,7 @@
             <h3 class="panel-title"><?php echo __('Recent Comments'); ?></h3>
         </div>
         <div class="panel-body">
-         <?php if($comments): ?>
+            <?php if($comments) : ?>
             <table class="table">
                 <thead>
                     <tr>
@@ -22,11 +22,13 @@
                         <td><?php echo $comment['content']; ?></td>
                         <td><a href="<?php echo admin_url('blog/edit/'.$comment['post_id']) ?>"><?php echo $comment['title'] ?></a></td>
                     </tr>
-                <?php endforeach; ?>
+                <?php 
+endforeach; ?>
             </table>
-         <?php else: ?>
+            <?php else: ?>
             <?php echo __('No Recent Comment'); ?>.
-         <?php endif ?>
+            <?php 
+endif ?>
         </div>
     </div>
 </div>

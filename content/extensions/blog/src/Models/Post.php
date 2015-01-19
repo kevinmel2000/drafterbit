@@ -1,15 +1,16 @@
 <?php namespace Drafterbit\Blog\Models;
 
-class Post extends \Drafterbit\Framework\Model {
+class Post extends \Drafterbit\Framework\Model
+{
 
     public function all($filters)
     {
         $query = $this->get('db')->createQueryBuilder();
 
         $query
-        ->select('p.*, u.email as authorEmail, u.real_name as authorName, u.username')
-        ->from('#_posts','p')
-        ->leftJoin('p','#_users','u', 'p.user_id = u.id');
+            ->select('p.*, u.email as authorEmail, u.real_name as authorName, u.username')
+            ->from('#_posts', 'p')
+            ->leftJoin('p', '#_users', 'u', 'p.user_id = u.id');
 
         $status = $filters['status'];
 
@@ -21,7 +22,7 @@ class Post extends \Drafterbit\Framework\Model {
             $query->Where('p.deleted_at = :deleted_at');
             $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 
-            if($status !== 'untrashed'){
+            if($status !== 'untrashed') {
                 $query->andWhere('p.status = :status');
                 $s = $status == 'published' ? 1 : 0;
                 $query->setParameter(':status', $s);
@@ -35,16 +36,16 @@ class Post extends \Drafterbit\Framework\Model {
     {
         return
         $this->withQueryBuilder()
-        ->select('p.*, u.email as authorEmail, u.real_name as authorName, u.username')
-        ->from('#_posts','p')
-        ->leftJoin('p','#_users','u', 'p.user_id = u.id')
-        ->Where('p.deleted_at = :deleted_at')
-        ->setParameter(':deleted_at', '0000-00-00 00:00:00')
-        ->andWhere('p.status = :status')
-        ->setParameter(':status', 1)
-        ->setFirstResult($offset)
-        ->setMaxResults($limit)
-        ->getResult();
+            ->select('p.*, u.email as authorEmail, u.real_name as authorName, u.username')
+            ->from('#_posts', 'p')
+            ->leftJoin('p', '#_users', 'u', 'p.user_id = u.id')
+            ->Where('p.deleted_at = :deleted_at')
+            ->setParameter(':deleted_at', '0000-00-00 00:00:00')
+            ->andWhere('p.status = :status')
+            ->setParameter(':status', 1)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getResult();
     }
 
     public function insert($data)
@@ -61,28 +62,32 @@ class Post extends \Drafterbit\Framework\Model {
     /**
      * Delete post and related entities permanently
      *
-     * @param array $ids
+     * @param  array $ids
      * @return void
      */
     public function delete($ids)
     {
         $ids = (array) $ids;
-        $ids = array_map(function($v){return "'$v'";}, $ids);
+        $ids = array_map(
+            function($v){
+                return "'$v'";
+            }, $ids
+        );
         $idString = implode(',', $ids);
 
         $this->withQueryBuilder()
-        ->delete('#_comments')
-        ->where('post_id IN ('.$idString.')')
+            ->delete('#_comments')
+            ->where('post_id IN ('.$idString.')')
             ->execute();
 
         $this->withQueryBuilder()
-        ->delete('#_posts_tags')
-        ->where('post_id IN ('.$idString.')')
+            ->delete('#_posts_tags')
+            ->where('post_id IN ('.$idString.')')
             ->execute();
         
         $this->withQueryBuilder()
-        ->delete('#_posts')
-        ->where('id IN ('.$idString.')')
+            ->delete('#_posts')
+            ->where('id IN ('.$idString.')')
             ->execute();
 
     }
@@ -93,15 +98,15 @@ class Post extends \Drafterbit\Framework\Model {
         
         return (object)
         $queryBuilder->select('*')->from('#_posts', 'p')
-        ->where("$field = '$value'")
-        ->execute()->fetch();
+            ->where("$field = '$value'")
+            ->execute()->fetch();
     }
 
     public function clearTag($id)
     {
         return
         $this->get('db')
-        ->delete('#_posts_tags', array("post_id" => $id));
+            ->delete('#_posts_tags', array("post_id" => $id));
     }
 
     public function addTag($tagId, $id)
@@ -118,23 +123,23 @@ class Post extends \Drafterbit\Framework\Model {
 
         return
         $queryBuilder
-        ->select('t.label, t.slug')
-        ->from('#_tags', 't')
-        ->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
-        ->where("pt.post_id = '$id'")
-        ->execute()->fetchAll();
+            ->select('t.label, t.slug')
+            ->from('#_tags', 't')
+            ->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
+            ->where("pt.post_id = '$id'")
+            ->execute()->fetchAll();
     }
 
     public function getSingleBy($field, $value)
     {
         return
         $this->get('db')->createQueryBuilder()
-        ->select('p.*, u.real_name as authorName, u.username')
-        ->from('#_posts', 'p')
-        ->innerJoin('p','#_users','u', 'p.user_id = u.id')
-        ->where("p.$field = :value")
-        ->setParameter(':value', $value)
-        ->execute()->fetch();
+            ->select('p.*, u.real_name as authorName, u.username')
+            ->from('#_posts', 'p')
+            ->innerJoin('p', '#_users', 'u', 'p.user_id = u.id')
+            ->where("p.$field = :value")
+            ->setParameter(':value', $value)
+            ->execute()->fetch();
     }
 
     /**
@@ -144,14 +149,18 @@ class Post extends \Drafterbit\Framework\Model {
      */
     public function restore($ids)
     {
-        $ids = array_map(function($v){return "'$v'";}, $ids);
+        $ids = array_map(
+            function($v){
+                return "'$v'";
+            }, $ids
+        );
 
         $idString = implode(',', $ids);
         $deleted_at = new \Carbon\Carbon;
 
         $this->withQueryBuilder()
             ->update('#_posts', 'p')
-            ->set('deleted_at',"'0000-00-00 00:00:00'")
+            ->set('deleted_at', "'0000-00-00 00:00:00'")
             ->where('p.id IN ('.$idString.')')
             ->execute();
     }
@@ -159,18 +168,22 @@ class Post extends \Drafterbit\Framework\Model {
     /**
      * Trash pages by given ids
      *
-     * @param array $ids
+     * @param  array $ids
      * @return void
      */
     public function trash($ids)
     {
-        $ids = array_map(function($v){return "'$v'";}, $ids);
+        $ids = array_map(
+            function($v){
+                return "'$v'";
+            }, $ids
+        );
         $idString = implode(',', $ids);
         $deleted_at = new \Carbon\Carbon;
 
         $this->withQueryBuilder()
             ->update('#_posts', 'p')
-            ->set('deleted_at',"'$deleted_at'")
+            ->set('deleted_at', "'$deleted_at'")
             ->where('p.id IN ('.$idString.')')
             ->execute();
     }

@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\System\Widget;
 
-class WidgetUIBuilder {
+class WidgetUIBuilder
+{
 
     /**
      * Build user interface for a widget

@@ -7,7 +7,8 @@
         <!-- Core CSS - Include with every page -->
 
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
-        <?php $this->css('
+        <?php $this->css(
+        '
           :bootstrap_css,
           :notify_css,
           @system/css/overrides-bootstrap.css,
@@ -16,7 +17,8 @@
           @system/css/style-desktop.css,
           @system/css/style-mobile.css,
           @system/css/themes/customizer.css
-        ') ?>
+        '
+) ?>
         
         <?php echo $this->block('css'); ?>
     </head>
@@ -31,7 +33,8 @@
                   <li>
                       <a data-ui="<?php echo base64_encode($widget->ui); ?>" data-name="<?php echo ucfirst($widget->getName()); ?>" class="dt-widget-item" href="javascript:;"><?php echo ucfirst($widget->getName()); ?></a>
                   </li>
-                <?php endforeach; ?>
+                <?php 
+endforeach; ?>
             </ul>
         </div>
         <div id="dt-iframe-container">
@@ -104,7 +107,7 @@
                                 <div class="panel-heading">
                                   <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#menus-section" href="#<?php echo $pos ?>-menu-position">
-                                      <?php echo $pos ?>
+                                        <?php echo $pos ?>
                                     </a>
                                   </h4>
                                 </div>
@@ -116,7 +119,7 @@
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent=".<?php echo $pos ?>-menu-container > .menu-sortable" href="#menu-<?php echo $menu['id'] ?>">
-                                                  <?php echo $menu['label']; ?>
+                                                    <?php echo $menu['label']; ?>
                                                 </a>
                                               </h4>
                                             </div>
@@ -147,7 +150,8 @@
                                                   <select class="form-control input-sm" name="page">
                                                     <?php foreach ($pageOptions as $v => $label): ?>
                                                       <option <?php echo selected('page', $v, $menu['page'] == $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
-                                                    <?php endforeach;?>
+                                                    <?php 
+endforeach;?>
                                                   </select>
                                                 </div>
 
@@ -163,7 +167,8 @@
                                             </form>
                                             </div>
                                         </div>
-                                    <?php endforeach ?>
+                                    <?php 
+endforeach ?>
                                     </div>
                                     <div class="well well-sm" style="margin-top:5px;">
                                         <a data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#" class="menu-adder">add menu item</a>
@@ -171,7 +176,8 @@
                                   </div>
                                 </div>
                             </div>
-                        <?php endforeach ?>
+                        <?php 
+endforeach ?>
                     </div>
                     <div class="section" id="widget-section">
                         <h2>Widgets</h2>
@@ -180,14 +186,14 @@
                                 <div class="panel-heading">
                                   <h4 class="panel-title">
                                     <a data-toggle="collapse" data-parent="#widget-section" href="#<?php echo $pos ?>-widget-position">
-                                      <?php echo $pos ?>
+                                        <?php echo $pos ?>
                                     </a>
                                   </h4>
                                 </div>
                                 <div id="<?php echo $pos ?>-widget-position" class="panel-collapse collapse widget-position">
                                   <div class="panel-body widget-container <?php echo $pos ?>-widget-container">
                                     <div class="widget-sortable">
-                                      <?php foreach ($widgets[$pos] as $widget): ?>
+                                        <?php foreach ($widgets[$pos] as $widget): ?>
                                           <div class="panel panel-default widget-item-container" id="<?php echo $widget['id'] ?>-widget-item-container">
                                               <div class="panel-heading">
                                                 <h4 class="panel-title">
@@ -202,7 +208,8 @@
                                                 </div>
                                               </div>
                                           </div>
-                                      <?php endforeach ?>
+                                        <?php 
+endforeach ?>
                                     </div>
                                     <div class="well well-sm" style="margin-top:5px;">
                                         <a class="dt-widget-adder" data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#available-widget-dialog">add widget</a>
@@ -210,7 +217,8 @@
                                   </div>
                                 </div>
                             </div>
-                        <?php endforeach ?>
+                        <?php 
+endforeach ?>
                     </div>
                 </div>
             </div>
@@ -225,12 +233,14 @@
         <script>
         drafTerbit.initAjaxForm();
 
-        <?php if(isset($messages)): ?>
+        <?php if(isset($messages)) : ?>
                 <?php foreach( $messages as $message ): ?>
                     msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
-                <?php endforeach; ?>
-        <?php endif;?>
+                <?php 
+endforeach; ?>
+        <?php 
+endif;?>
         </script>
 
         <script id="widget-item-template" type="text/x-handlebars-template">
@@ -283,7 +293,8 @@
                     <select name="page" class="form-control input-sm">
                         <?php foreach ($pageOptions as $v => $label): ?>
                           <option <?php echo selected('page', $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
-                        <?php endforeach;?>
+                        <?php 
+endforeach;?>
                     </select>
                   </div>
 

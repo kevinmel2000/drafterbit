@@ -4,7 +4,8 @@ use Drafterbit\Framework\RootTrait;
 use Drafterbit\Framework\ExtensionTrait;
 use Drafterbit\Framework\Controller;
 
-abstract class Widget extends Controller implements WidgetInterface {
+abstract class Widget extends Controller implements WidgetInterface
+{
     use RootTrait, ExtensionTrait;
 
     /**
@@ -47,7 +48,7 @@ abstract class Widget extends Controller implements WidgetInterface {
      * Get or set config value;
      *
      * @param string $name
-     * @param mixed $value
+     * @param mixed  $value
      */
     public function config($name = null, $value = null)
     {

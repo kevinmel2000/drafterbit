@@ -2,7 +2,8 @@
 
 use Drafterbit\Framework\Application;
 
-class FilesExtension extends \Drafterbit\Framework\Extension {
+class FilesExtension extends \Drafterbit\Framework\Extension
+{
 
     public $controllers = ['admin'];
     

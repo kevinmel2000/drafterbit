@@ -20,10 +20,10 @@
 
         <div class="frames-container cf <?php echo (!$v->hasFrames ? 'empty' : '') ?>">
 
-          <?php /* List file names & line numbers for all stack frames;
+            <?php /* List file names & line numbers for all stack frames;
                    clicking these links/buttons will display the code view
                    for that particular frame */ ?>
-          <?php foreach($v->frames as $i => $frame): ?>
+            <?php foreach($v->frames as $i => $frame): ?>
             <div class="frame <?php echo ($i == 0 ? 'active' : '') ?>" id="frame-line-<?php echo $i ?>">
     <div class="frame-method-info">
       <span class="frame-index"><?php echo (count($v->frames) - $i - 1) ?>.</span>
@@ -36,7 +36,8 @@
              --><span class="frame-line"><?php echo (int) $frame->getLine() ?></span>
               </span>
             </div>
-          <?php endforeach ?>
+            <?php 
+endforeach ?>
 
         </div>
 
@@ -46,12 +47,14 @@
             <div class="exception">
               <h3 class="exc-title">
                 <?php foreach($v->name as $i => $nameSection): ?>
-                  <?php if($i == count($v->name) - 1): ?>
+                    <?php if($i == count($v->name) - 1) : ?>
                     <span class="exc-title-primary"><?php echo $e($nameSection) ?></span>
-                  <?php else: ?>
+                    <?php else: ?>
                     <?php echo $e($nameSection) . ' \\' ?>
-                  <?php endif ?>
-                <?php endforeach ?>
+                    <?php 
+endif ?>
+                <?php 
+endforeach ?>
               </h3>
               <p class="exc-message">
                 <?php echo $e($v->message) ?>
@@ -59,64 +62,72 @@
             </div>
           </header>
 
-          <?php /* Display a code block for all frames in the stack.
+            <?php /* Display a code block for all frames in the stack.
                  * @todo: This should PROBABLY be done on-demand, lest
                  * we get 200 frames to process. */ ?>
           <div class="frame-code-container <?php echo (!$v->hasFrames ? 'empty' : '') ?>">
             <?php foreach($v->frames as $i => $frame): ?>
-              <?php $line = $frame->getLine(); ?>
+                <?php $line = $frame->getLine(); ?>
                 <div class="frame-code <?php echo ($i == 0 ) ? 'active' : '' ?>" id="frame-code-<?php echo $i ?>">
                   <div class="frame-file">
                     <?php $filePath = $frame->getFile(); ?>
-                    <?php if($filePath && $editorHref = $v->handler->getEditorHref($filePath, (int) $line)): ?>
+                    <?php if($filePath && $editorHref = $v->handler->getEditorHref($filePath, (int) $line)) : ?>
                       <a href="<?php echo $editorHref ?>" class="editor-link">
                           <strong><?php echo $e($filePath ?: '<#unknown>') ?></strong>
                       </a>
                     <?php else: ?>
                       <strong><?php echo $e($filePath ?: '<#unknown>') ?></strong>
-                    <?php endif ?>
+                    <?php 
+endif ?>
                   </div>
-                  <?php
+                    <?php
                     // Do nothing if there's no line to work off
-                    if($line !== null):
+                    if($line !== null) :
 
-                    // the $line is 1-indexed, we nab -1 where needed to account for this
-        $range = $frame->getFileLines($line - 8, 10);
-        $range = array_map(function($line){ return empty($line) ? ' ' : $line;}, $range);
-                    $start = key($range) + 1;
-                    $code  = join("\n", $range);
-                  ?>
+                        // the $line is 1-indexed, we nab -1 where needed to account for this
+                        $range = $frame->getFileLines($line - 8, 10);
+                        $range = array_map(
+                            function($line){
+                                return empty($line) ? ' ' : $line;
+                            }, $range
+                        );
+                        $start = key($range) + 1;
+                        $code  = join("\n", $range);
+                    ?>
                   <pre class="code-block prettyprint linenums:<?php echo $start ?>"><?php echo $e($code) ?></pre>
-                  <?php endif ?>
+                    <?php 
+                    endif ?>
 
-                  <?php
+                    <?php
                     /* Append comments for this frame */
                     $comments = $frame->getComments();
-                  ?>
+                    ?>
                   <div class="frame-comments <?php echo empty($comments) ? 'empty' : '' ?>">
                     <?php foreach($comments as $commentNo => $comment): ?>
-                      <?php extract($comment) ?>
+                        <?php extract($comment) ?>
                       <div class="frame-comment" id="comment-<?php echo $i . '-' . $commentNo ?>">
                         <span class="frame-comment-context"><?php echo $e($context) ?></span>
                         <?php echo $e($comment, true) ?>
                       </div>
-                    <?php endforeach ?>
+                    <?php 
+endforeach ?>
                   </div>
 
                 </div>
-            <?php endforeach ?>
+            <?php 
+endforeach ?>
           </div>
 
-          <?php /* List data-table values, i.e: $_SERVER, $_GET, .... */ ?>
+            <?php /* List data-table values, i.e: $_SERVER, $_GET, .... */ ?>
           <div class="view-detail-wrapper">
             <a href="#" class="view-detail" >Toggle Details</a>
           </div>
           <div class="details">
             <div class="data-table-container" id="data-tables">
-              <?php foreach($v->tables as $label => $data): ?>
+                <?php foreach($v->tables as $label => $data): ?>
                 <div class="data-table" id="sg-<?php echo $e($slug($label)) ?>">
                   <label><?php echo $e($label) ?></label>
-                  <?php if(!empty($data)): ?>
+                    <?php if(!empty($data)) : ?>
                       <table class="data-table">
                         <thead>
                           <tr>
@@ -124,28 +135,32 @@
                             <td class="data-table-v">Value</td>
                           </tr>
                         </thead>
-                      <?php foreach($data as $k => $value): ?>
+                        <?php foreach($data as $k => $value): ?>
                         <tr>
                           <td><?php echo $e($k) ?></td>
                           <td><?php echo $e(print_r($value, true)) ?></td>
                         </tr>
-                      <?php endforeach ?>
+                        <?php 
+endforeach ?>
                       </table>
-                  <?php else: ?>
+                    <?php else: ?>
                     <span class="empty">empty</span>
-                  <?php endif ?>
+                    <?php 
+endif ?>
                 </div>
-              <?php endforeach ?>
+                <?php 
+endforeach ?>
             </div>
 
             <?php /* List registered handlers, in order of first to last registered */ ?>
             <div class="data-table-container" id="handlers">
               <label>Registered Handlers</label>
-              <?php foreach($v->handlers as $i => $handler): ?>
+                <?php foreach($v->handlers as $i => $handler): ?>
                 <div class="handler <?php echo ($handler === $v->handler) ? 'active' : ''?>">
-                  <?php echo $i ?>. <?php echo $e(get_class($handler)) ?>
+                    <?php echo $i ?>. <?php echo $e(get_class($handler)) ?>
                 </div>
-              <?php endforeach ?>
+                <?php 
+endforeach ?>
             </div>
 
           </div> <!-- .details -->

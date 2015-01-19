@@ -4,7 +4,8 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Drafterbit\Finder;
 
-class OpenFinderServiceProvider implements ServiceProviderInterface {
+class OpenFinderServiceProvider implements ServiceProviderInterface
+{
 
     function register(Container $app)
     {

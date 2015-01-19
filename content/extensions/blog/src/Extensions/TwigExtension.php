@@ -3,7 +3,8 @@
 use Twig_Extension;
 use Twig_SimpleFunction;
 
-class TwigExtension extends Twig_Extension {
+class TwigExtension extends Twig_Extension
+{
 
     function getName()
     {
@@ -13,9 +14,11 @@ class TwigExtension extends Twig_Extension {
     function getFunctions()
     {
         return array(
-            new Twig_SimpleFunction('comment', function($id) {
-                return comment($id);
-            }),
+            new Twig_SimpleFunction(
+                'comment', function($id) {
+                    return comment($id);
+                }
+            ),
         );
     }
 }

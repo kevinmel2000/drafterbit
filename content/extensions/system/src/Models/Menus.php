@@ -2,13 +2,14 @@
 
 use Drafterbit\Framework\Model;
 
-class Menus extends Model {
+class Menus extends Model
+{
 
     public function getByThemePosition($theme, $position)
     {        
         $menus = $this->withQueryBuilder()
             ->select('*')
-            ->from('#_menus','w')
+            ->from('#_menus', 'w')
             ->where('position=:position')
             ->andWhere('theme=:theme')
             ->setParameter('position', $position)

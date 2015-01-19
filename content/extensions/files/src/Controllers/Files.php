@@ -6,7 +6,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-class Files extends BackendController {
+class Files extends BackendController
+{
 
     public function index()
     {
@@ -37,27 +38,27 @@ class Files extends BackendController {
             $data = array();
 
             switch ($op) {
-                case 'ls':
-                    $data = $this->get('ofinder')->ls($path);
-                    break;
-                case 'delete':
-                    $data = $this->get('ofinder')->delete($path);
-                    break;
-                case 'mkdir':
-                    $folderName = $this->get('input')->get('folder-name');
-                    $data = $this->get('ofinder')->mkdir($path, $folderName);
+            case 'ls':
+                $data = $this->get('ofinder')->ls($path);
                 break;
-                case 'rename':
-                    $newName = $this->get('input')->post('newName');
-                    $data = $this->get('ofinder')->rename($path, $newName);
+            case 'delete':
+                $data = $this->get('ofinder')->delete($path);
                 break;
-                case 'move':
-                    $dest = $this->get('input')->post('dest');
-                    $data = $this->get('ofinder')->move($path, $dest);
+            case 'mkdir':
+                $folderName = $this->get('input')->get('folder-name');
+                $data = $this->get('ofinder')->mkdir($path, $folderName);
                 break;
-                default:
-                     # code...
-                    break;
+            case 'rename':
+                $newName = $this->get('input')->post('newName');
+                $data = $this->get('ofinder')->rename($path, $newName);
+                break;
+            case 'move':
+                $dest = $this->get('input')->post('dest');
+                $data = $this->get('ofinder')->move($path, $dest);
+                break;
+            default:
+                 # code...
+                break;
             }
 
             // upload

@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Extensions\User\Models;
 
-class Role extends \Drafterbit\Framework\Model {
+class Role extends \Drafterbit\Framework\Model
+{
 
     public function all()
     {
@@ -18,13 +19,13 @@ class Role extends \Drafterbit\Framework\Model {
             foreach ($key as $k => $v) {
                 $holder = ":$k";
                 $q->where("$k = $holder")
-                   ->setParameter($holder, $v);
+                    ->setParameter($holder, $v);
             }
         
         } else {
             
             $q->where("$key = :$key")
-            ->setParameter(":$key", $value);
+                ->setParameter(":$key", $value);
         }
 
         $roles = $q->getResult();
@@ -51,12 +52,12 @@ class Role extends \Drafterbit\Framework\Model {
     {
         return
         $this->withQueryBuilder()
-        ->select('*')
-        ->from('#_roles', 'r')
-        ->innerJoin('r', '#_users_roles', 'ur', 'r.id = ur.role_id')
-        ->where("ur.user_id = :user_id")
-        ->setParameter(':user_id', $id)
-        ->getResult();
+            ->select('*')
+            ->from('#_roles', 'r')
+            ->innerJoin('r', '#_users_roles', 'ur', 'r.id = ur.role_id')
+            ->where("ur.user_id = :user_id")
+            ->setParameter(':user_id', $id)
+            ->getResult();
     }
 
     public function update($data, array $where)
@@ -68,12 +69,16 @@ class Role extends \Drafterbit\Framework\Model {
     public function delete($ids = array())
     {
         $ids = (array) $ids;
-        $ids = array_map(function($v){return "'$v'";}, $ids);
+        $ids = array_map(
+            function($v){
+                return "'$v'";
+            }, $ids
+        );
         $idString = implode(',', $ids);
         
         $this->withQueryBuilder()
-        ->delete('#_roles')
-        ->where('id IN ('.$idString.')')
+            ->delete('#_roles')
+            ->where('id IN ('.$idString.')')
             ->execute();
     }
 

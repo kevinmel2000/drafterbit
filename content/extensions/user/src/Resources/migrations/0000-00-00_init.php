@@ -1,5 +1,5 @@
 <?php return [
-    'up' => function() use($app)
+    'up' => function() use ($app)
     {
         $schema = $app['db']->getSchemaManager()->createSchema();        
         
@@ -33,7 +33,7 @@
 
         // users_roles
         $users_roles = $schema->createTable('#_users_roles');
-        $users_roles->addColumn('id', 'integer',['autoincrement' => true]);
+        $users_roles->addColumn('id', 'integer', ['autoincrement' => true]);
         $users_roles->addColumn('user_id', 'integer');
         $users_roles->addColumn('role_id', 'integer');
         $users_roles->setPrimaryKey(['id']);

@@ -1,15 +1,18 @@
 <?php namespace Drafterbit\Extensions\Pages;
 
-class PagesExtension extends \Drafterbit\Framework\Extension {
+class PagesExtension extends \Drafterbit\Framework\Extension
+{
 
     public function boot()
     {
         //log entities
-        $this->getApplication()->addLogEntityFormatter('page', function($id){
+        $this->getApplication()->addLogEntityFormatter(
+            'page', function($id){
             
-            $label = $this->model('@pages\Pages')->getSingleBy('id', $id)['title'];
-            return '<a href="'.admin_url('pages/edit/'.$id).'">'.$label.'</a>';
-        });
+                $label = $this->model('@pages\Pages')->getSingleBy('id', $id)['title'];
+                return '<a href="'.admin_url('pages/edit/'.$id).'">'.$label.'</a>';
+            }
+        );
     }
 
     function getSearchQuery()

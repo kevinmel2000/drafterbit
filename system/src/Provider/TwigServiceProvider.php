@@ -4,7 +4,8 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 use Drafterbit\System\Twig\DrafterbitSystemExtension;
 
-class TwigServiceProvider implements ServiceProviderInterface {
+class TwigServiceProvider implements ServiceProviderInterface
+{
 
     public function register(Container $app)
     {
@@ -42,10 +43,12 @@ class TwigServiceProvider implements ServiceProviderInterface {
         };
 
         $app['twig.loader'] = function ($app) {
-            return new \Twig_Loader_Chain(array(
+            return new \Twig_Loader_Chain(
+                array(
                 $app['twig.loader.array'],
                 $app['twig.loader.filesystem'],
-            ));
+                )
+            );
         };
     }
 }

@@ -10,19 +10,21 @@
 
     $('.pages-status-filter option[value="'+urlHash+'"]').prop('selected', true);
 
-    drafTerbit.pages.dt = $("#pages-data-table").dataTable({
-        ajax: {
-            url: drafTerbit.adminUrl+"/pages/data/"+urlHash+".json",
-        },
-        "bFilter": true,
-        "oLanguage": {
-          "sLengthMenu": "Showing _MENU_ records per page",
-          "sSearch": "_INPUT_",
-        },
-        "columnDefs": [
+    drafTerbit.pages.dt = $("#pages-data-table").dataTable(
+        {
+            ajax: {
+                url: drafTerbit.adminUrl+"/pages/data/"+urlHash+".json",
+            },
+            "bFilter": true,
+            "oLanguage": {
+                "sLengthMenu": "Showing _MENU_ records per page",
+                "sSearch": "_INPUT_",
+            },
+            "columnDefs": [
             {'orderable': false, 'searchable':false, 'targets':[0]}
-        ]
-    });
+            ]
+        }
+    );
 
     drafTerbit.replaceDTSearch(drafTerbit.pages.dt);
 
@@ -52,16 +54,20 @@
 
     changeUncreateAction(urlHash);
     
-    $('#pages-index-form').ajaxForm(function(){
-        var urlHash2 = window.location.hash.replace('#','');
-        drafTerbit.pages.dt.api().ajax.url(drafTerbit.adminUrl+"/pages/data/"+urlHash2+".json").load();
-    });
+    $('#pages-index-form').ajaxForm(
+        function(){
+            var urlHash2 = window.location.hash.replace('#','');
+            drafTerbit.pages.dt.api().ajax.url(drafTerbit.adminUrl+"/pages/data/"+urlHash2+".json").load();
+        }
+    );
 
     //status-filter
-    $('.pages-status-filter').on('change', function(){
-        var s = $(this).val();
-        filterByStatus(s);
-        changeUncreateAction(s);        
-    });
+    $('.pages-status-filter').on(
+        'change', function(){
+            var s = $(this).val();
+            filterByStatus(s);
+            changeUncreateAction(s);        
+        }
+    );
 
 })(jQuery, drafTerbit);

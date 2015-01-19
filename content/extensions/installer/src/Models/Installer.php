@@ -2,7 +2,8 @@
 
 use Drafterbit\Framework\Model;
 
-class Installer extends Model {
+class Installer extends Model
+{
     
     public function createAdmin($email, $password)
     {
@@ -12,11 +13,13 @@ class Installer extends Model {
             $permissions = array_merge($permissions, array_keys($extPermissions));
         }
 
-        $this->get('db')->insert('#_roles', [
+        $this->get('db')->insert(
+            '#_roles', [
             'label'=> 'Administrator',
             'description' => 'God of the site',
             'permissions' => json_encode($permissions)
-        ]);
+            ]
+        );
 
         $roleId = $this->get('db')->lastInsertId();
 
@@ -28,10 +31,12 @@ class Installer extends Model {
         $this->get('db')->insert('#_users', $user);
         $userId = $this->get('db')->lastInsertId();
         
-        $this->get('db')->insert('#_users_roles', [
+        $this->get('db')->insert(
+            '#_users_roles', [
             'user_id' => $userId,
             'role_id' => $roleId
-        ]);
+            ]
+        );
 
         return array('userId' => $userId, 'roleId' => $roleId);
     }
@@ -71,7 +76,7 @@ class Installer extends Model {
         }
 
         $q = rtrim($q, ',').';';
-        return $this->get('db')->executeUpdate($q,$param);
+        return $this->get('db')->executeUpdate($q, $param);
     }
 
     public function createDummyPage($user)

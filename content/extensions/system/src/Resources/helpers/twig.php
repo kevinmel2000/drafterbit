@@ -1,11 +1,10 @@
 <?php
 
-if ( ! function_exists('widget'))
-{
+if ( ! function_exists('widget')) {
     /**
      * Widget function extension for templating
      *
-     * @param string $position widget position
+     * @param  string $position widget position
      * @return string
      */
     function widget($position)
@@ -14,12 +13,11 @@ if ( ! function_exists('widget'))
     }
 }
 
-if ( ! function_exists('menus'))
-{
+if ( ! function_exists('menus')) {
     /**
      * Menus function extension for templating
      *
-     * @param string $position widget position
+     * @param  string $position widget position
      * @return array
      */
     function menus($position)

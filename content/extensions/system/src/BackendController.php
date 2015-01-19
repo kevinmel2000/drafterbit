@@ -3,7 +3,8 @@
 use Drafterbit\Framework\Controller;
 use Drafterbit\Extensions\System\Models\Menu;
 
-class BackendController extends Controller {
+class BackendController extends Controller
+{
 
     public function __construct( )
     {
@@ -80,8 +81,8 @@ class BackendController extends Controller {
      * Create datatables
      *
      * @param string $id
-     * @param array $heads
-     * @param array $data
+     * @param array  $heads
+     * @param array  $data
      */
     public function dataTable($id, $heads, $data)
     {
@@ -143,7 +144,7 @@ class BackendController extends Controller {
      * Render Template.
      *
      * @param string $template
-     * @param array $data
+     * @param array  $data
      */
     public function render($template, $data = array())
     {

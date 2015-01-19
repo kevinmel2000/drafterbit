@@ -21,30 +21,34 @@
 
             for(var i=0;i<this.dr.length;i++) {
                 var parent = this;
-                this.dr[i].addEventListener('click', function(e){
+                this.dr[i].addEventListener(
+                    'click', function(e){
                     
-                    e.preventDefault();
+                        e.preventDefault();
 
-                    parent.hideAllForms();
+                        parent.hideAllForms();
 
-                    var id = this.dataset.commentId;
-                    var el = document.getElementById('form-comment-'+id);
+                        var id = this.dataset.commentId;
+                        var el = document.getElementById('form-comment-'+id);
                         el.style.display = 'block';
-                });
+                    }
+                );
             }
         },
 
         listenCancel: function() {
             for(var i=0;i<this.cr.length;i++) {
                 var parent = this;
-                this.cr[i].addEventListener('click', function(e){
+                this.cr[i].addEventListener(
+                    'click', function(e){
                     
-                    e.preventDefault();
-                    // var id = this.dataset.parentId;
-                    parent.hideAllForms()
-                    parent.showMainForm();
+                        e.preventDefault();
+                        // var id = this.dataset.parentId;
+                        parent.hideAllForms()
+                        parent.showMainForm();
 
-                });
+                    }
+                );
             }
         },
 

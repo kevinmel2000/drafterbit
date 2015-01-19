@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Extensions\System\Models;
 
-class Cache extends \Drafterbit\Framework\Model {
+class Cache extends \Drafterbit\Framework\Model
+{
 
     public function getAll()
     {

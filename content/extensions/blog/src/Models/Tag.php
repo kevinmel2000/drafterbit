@@ -1,15 +1,16 @@
 <?php namespace Drafterbit\Blog\Models;
 
-class Tag extends \Drafterbit\Framework\Model {
+class Tag extends \Drafterbit\Framework\Model
+{
 
     public function all()
     {
         $queryBuilder = $this->get('db')->createQueryBuilder();
         return
         $queryBuilder
-        ->select('*')
-        ->from('#_tags','t')
-        ->execute()->fetchAll();
+            ->select('*')
+            ->from('#_tags', 't')
+            ->execute()->fetchAll();
     }
 
     public function getBy($key, $value = null, $singleRequested=false)
@@ -22,13 +23,13 @@ class Tag extends \Drafterbit\Framework\Model {
             foreach ($key as $k => $v) {
                 $holder = ":$k";
                 $queryBuilder->where("$k = $holder")
-                   ->setParameter($holder, $v);
+                    ->setParameter($holder, $v);
             }
         
         } else {
             
             $queryBuilder->where("$key = :$key")
-            ->setParameter(":$key", $value);
+                ->setParameter(":$key", $value);
         }
 
         $tags = $stmt->getResult();
@@ -49,12 +50,12 @@ class Tag extends \Drafterbit\Framework\Model {
     {
         return
         $this->withQueryBuilder()
-        ->select('t.label, t.slug')
-        ->from('#_tags', 't')
-        ->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
-        ->where("pt.post_id = :post_id")
-        ->setParameter(':post_id', $id)
-        ->getResult();
+            ->select('t.label, t.slug')
+            ->from('#_tags', 't')
+            ->innerJoin('t', '#_posts_tags', 'pt', 't.id = pt.tag_id')
+            ->where("pt.post_id = :post_id")
+            ->setParameter(':post_id', $id)
+            ->getResult();
     }
 
     public function getIdBy($field, $value)
@@ -62,10 +63,10 @@ class Tag extends \Drafterbit\Framework\Model {
         $queryBuilder = $this->get('db')->createQueryBuilder();
         
         $tag = $queryBuilder
-        ->select('*')
-        ->from('#_tags', 't')
-        ->where("$field = '$value'")
-        ->execute()->fetch();
+            ->select('*')
+            ->from('#_tags', 't')
+            ->where("$field = '$value'")
+            ->execute()->fetch();
 
         if(!isset($tag->id)) {
             return false;
@@ -89,7 +90,7 @@ class Tag extends \Drafterbit\Framework\Model {
         $this->withQueryBuilder()
             ->select('*')
             ->from('#_posts', 'p')
-            ->leftJoin('p','#_posts_tags', 'pt', 'pt.post_id = p.id')
+            ->leftJoin('p', '#_posts_tags', 'pt', 'pt.post_id = p.id')
             ->where('pt.tag_id = :tag')
             ->setParameter('tag', $id)
             ->getResult();

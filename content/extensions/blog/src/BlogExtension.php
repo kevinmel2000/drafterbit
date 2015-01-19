@@ -3,7 +3,8 @@
 use Drafterbit\Framework\ExtensionEvent;
 use Drafterbit\Framework\Application;
 
-class BlogExtension extends \Drafterbit\Framework\Extension {
+class BlogExtension extends \Drafterbit\Framework\Extension
+{
 
     public function boot()
     {
@@ -15,19 +16,21 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 
         // this must be after path.theme registered
         if(class_exists($extensionClass)) {
-            $this['twig']->addExtension( new $extensionClass);
+            $this['twig']->addExtension(new $extensionClass);
         }
 
-        $this->getApplication()->addFrontPageOption(['blog' => [
+        $this->getApplication()->addFrontPageOption(
+            ['blog' => [
             'label' => 'Blog',
             'controller' => '@blog\Frontend::index',
             'defaults' => array('slug' => 'blog')
             ]
-        ]);
+            ]
+        );
 
         $system = $this->model('@system\System')->all();
 
-        if('blog' === $system['homepage']){
+        if('blog' === $system['homepage']) {
             $urlPattern = '{yyyy}/{mm}/{slug}';
             $pageUrlPattern = 'page/{page}';
             $tagUrlPattern = 'tag/{slug}';
@@ -43,11 +46,13 @@ class BlogExtension extends \Drafterbit\Framework\Extension {
 
 
         //log entities
-        $this->getApplication()->addLogEntityFormatter('post', function($id){
+        $this->getApplication()->addLogEntityFormatter(
+            'post', function($id){
             
-            $label = $this->model('@blog\Post')->getSingleBy('id', $id)['title'];
-            return '<a href="'.admin_url('blog/edit/'.$id).'">'.$label.'</a>';
-        });
+                $label = $this->model('@blog\Post')->getSingleBy('id', $id)['title'];
+                return '<a href="'.admin_url('blog/edit/'.$id).'">'.$label.'</a>';
+            }
+        );
     }
 
     public function getComments($id)

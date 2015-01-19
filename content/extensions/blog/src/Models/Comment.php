@@ -2,17 +2,18 @@
 
 use Drafterbit\Framework\Model;
 
-class Comment extends Model {
+class Comment extends Model
+{
 
     public function all($filters)
     {
         $status = $filters['status'];
 
         $query = $this ->withQueryBuilder()
-        ->select('c.*, p.title')
-        ->from('#_comments','c')
-        ->leftJoin('c','#_posts','p', 'c.post_id = p.id')
-        ->orderBy('c.created_at', 'desc');
+            ->select('c.*, p.title')
+            ->from('#_comments', 'c')
+            ->leftJoin('c', '#_posts', 'p', 'c.post_id = p.id')
+            ->orderBy('c.created_at', 'desc');
 
         if($status == 'spam') {
             $query->where('c.status = 2');
@@ -26,7 +27,7 @@ class Comment extends Model {
 
             $query->where("c.deleted_at = '0000-00-00 00:00:00'");
 
-            if($status == 'approved'){
+            if($status == 'approved') {
                 $query->andWhere('c.status = 1');
             } else if($status == 'pending') {
                 $query->andWhere('c.status = 0');
@@ -38,25 +39,26 @@ class Comment extends Model {
         return $query->getResult();
     }
 
-    public function take($num) {
+    public function take($num) 
+    {
         return 
         $query = $this ->withQueryBuilder()
-        ->select('c.*, p.title')
-        ->from('#_comments','c')
-        ->leftJoin('c','#_posts','p', 'c.post_id = p.id')
-        ->where("c.deleted_at = '0000-00-00 00:00:00'")
-        ->orderBy('c.created_at', 'desc')
-        ->setMaxResults($num)
-        ->getResult();
+            ->select('c.*, p.title')
+            ->from('#_comments', 'c')
+            ->leftJoin('c', '#_posts', 'p', 'c.post_id = p.id')
+            ->where("c.deleted_at = '0000-00-00 00:00:00'")
+            ->orderBy('c.created_at', 'desc')
+            ->setMaxResults($num)
+            ->getResult();
     }
 
     public function getByPostId($id)
     {
         $query = $this ->withQueryBuilder()
-        ->select('c.*')
-        ->from('#_comments','c')
-        ->where('c.post_id = :post_id')
-        ->setParameter('post_id', $id);
+            ->select('c.*')
+            ->from('#_comments', 'c')
+            ->where('c.post_id = :post_id')
+            ->setParameter('post_id', $id);
 
         $comments =  $query->getResult();
 
@@ -102,7 +104,8 @@ class Comment extends Model {
         return $this->get('db')->lastInsertid();
     }
 
-    public function update($id, $data) {
+    public function update($id, $data) 
+    {
         $this->get('db')->update('#_comments', $data, array('id' => $id));
     }
 
@@ -123,14 +126,18 @@ class Comment extends Model {
      */
     public function restore($ids)
     {
-        $ids = array_map(function($v){return "'$v'";}, $ids);
+        $ids = array_map(
+            function($v){
+                return "'$v'";
+            }, $ids
+        );
 
         $idString = implode(',', $ids);
         $deleted_at = new \Carbon\Carbon;
 
         $this->withQueryBuilder()
             ->update('#_comments', 'c')
-            ->set('c.deleted_at',"'0000-00-00 00:00:00'")
+            ->set('c.deleted_at', "'0000-00-00 00:00:00'")
             ->where('c.id IN ('.$idString.')')
             ->execute();
     }
@@ -140,13 +147,17 @@ class Comment extends Model {
         $ids = (array) $ids;
         unset($ids['all']);
 
-        $ids = array_map(function($v){return "'$v'";}, $ids);
+        $ids = array_map(
+            function($v){
+                return "'$v'";
+            }, $ids
+        );
         $idString = implode(',', $ids);
 
         $q = $this->withQueryBuilder()
-        ->delete('#_comments')
-        ->where('id IN ('.$idString.')')
-        ->orWhere('parent_id IN ('.$idString.')');
+            ->delete('#_comments')
+            ->where('id IN ('.$idString.')')
+            ->orWhere('parent_id IN ('.$idString.')');
         
         $q->execute();
     }

@@ -3,7 +3,8 @@
 use Drafterbit\Framework\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-class Auth extends Controller {
+class Auth extends Controller
+{
 
     public function login()
     {

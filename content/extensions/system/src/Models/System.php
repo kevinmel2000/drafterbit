@@ -1,15 +1,16 @@
 <?php namespace Drafterbit\Extensions\System\Models;
 
-class System extends \Drafterbit\Framework\Model {
+class System extends \Drafterbit\Framework\Model
+{
 
     public function all()
     {
         $queryBuilder = $this->get('db')->createQueryBuilder();
 
         $sets = $queryBuilder
-        ->select('st.*')
-        ->from('#_system','st')        
-        ->getResult();
+            ->select('st.*')
+            ->from('#_system', 'st')        
+            ->getResult();
 
         $array = array();
         foreach ($sets as $set) {
@@ -22,16 +23,18 @@ class System extends \Drafterbit\Framework\Model {
     /**
      * Get system setting by key
      */
-    public function fetch($key) {
+    public function fetch($key) 
+    {
         $config = $this->all();
 
         return isset($config[$key]) ? $config[$key] : null;
     }
 
-    public function exists($key) {
+    public function exists($key) 
+    {
         $qb = $this->get('db')->createQueryBuilder();
         $qb->select('*');
-        $qb->from( '#_system', 'st');
+        $qb->from('#_system', 'st');
         $qb->where('name=:key');
         $qb->setParameter('key', $key);
         return $qb->execute()->fetch();
@@ -44,8 +47,8 @@ class System extends \Drafterbit\Framework\Model {
             if($this->exists($key)) {
 
                 $qb = $this->get('db')->createQueryBuilder();
-                $qb->update( '#_system', 'st');
-                $qb->set('value',':value');
+                $qb->update('#_system', 'st');
+                $qb->set('value', ':value');
                 $qb->where('name=:key');
                 $qb->setParameter(':key', $key);
                 $qb->setParameter(':value', $value);

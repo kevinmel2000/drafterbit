@@ -14,7 +14,7 @@
             <ul class="nav navbar-top-links navbar-left">
                 <?php foreach ($menus as $menu): ?>
                     
-                    <?php if($menu->hasChildren()): ?>
+                    <?php if($menu->hasChildren()) : ?>
                         <li class="dropdown">
                             <a class="navbar-link dropdown-toggle" data-toggle="dropdown" href="#">
                                 <?php echo $menu->label; ?>
@@ -27,7 +27,8 @@
 
                                 <?php foreach($menu->children as $childMenu): ?>
                                     <li><a id="nav-<?php echo $childMenu->id ?>" class="<?php echo $childMenu->class ?>" href="<?php echo admin_url($childMenu->href);  ?>"><?php echo $childMenu->label; ?></a></li>
-                                <?php endforeach;?>
+                                <?php 
+endforeach;?>
                             </ul>
                             <!-- /.dropdown -->
                         </li>
@@ -38,9 +39,11 @@
                                 <?php echo $menu->label; ?>
                             </a>
                         </li>
-                    <?php endif; ?>
+                    <?php 
+endif; ?>
 
-                <?php endforeach ?>
+                <?php 
+endforeach ?>
             </ul>
             </div>
 

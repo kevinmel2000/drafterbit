@@ -2,7 +2,8 @@
 
 use Drafterbit\Extensions\System\BackendController;
 
-class Theme extends BackendController {
+class Theme extends BackendController
+{
     
     public function index()
     {
@@ -57,13 +58,15 @@ class Theme extends BackendController {
         foreach ($positions as $position) {
             $widgets[$position] = $model->widget($position);
 
-            usort($widgets[$position], function($a, $b) {
-                if($a['sequence'] == $b['sequence']) {
-                    return $a['id'] - $b['id'];
-                }
+            usort(
+                $widgets[$position], function($a, $b) {
+                    if($a['sequence'] == $b['sequence']) {
+                        return $a['id'] - $b['id'];
+                    }
 
-                return $a['sequence'] < $b['sequence'] ? -1 : 1;
-            });
+                    return $a['sequence'] < $b['sequence'] ? -1 : 1;
+                }
+            );
         }
 
         foreach ($widgets as $name => &$arrayOfWidget) {
@@ -89,13 +92,15 @@ class Theme extends BackendController {
             $menus[$position] = $menuModel->getByThemePosition($theme, $position);
 
             //sort
-            usort($menus[$position], function($a, $b) {
-                if($a['sequence'] == $b['sequence']) {
-                    return $a['id'] - $b['id'];
-                }
+            usort(
+                $menus[$position], function($a, $b) {
+                    if($a['sequence'] == $b['sequence']) {
+                        return $a['id'] - $b['id'];
+                    }
 
-                return $a['sequence'] < $b['sequence'] ? -1 : 1;
-            });
+                    return $a['sequence'] < $b['sequence'] ? -1 : 1;
+                }
+            );
         }
 
         $config = $this->model('@system\System')->all();
@@ -135,16 +140,20 @@ class Theme extends BackendController {
         $this->get('session')->set('customize_data', $c_data);
 
         if($this->get('input')->post('action') == 'save') {
-            $this->model('@system\System')->updateSetting([
+            $this->model('@system\System')->updateSetting(
+                [
                 'site.name' => $general['title'],
                 'site.description' => $general['tagline'],
-            ]);
+                ]
+            );
         }
 
         $url = $this->get('input')->post('url');
 
-        return $this->jsonResponse(array(
+        return $this->jsonResponse(
+            array(
             'url' => $url,
-        ));
+            )
+        );
     }
 }

@@ -2,7 +2,8 @@
 
 use Drafterbit\System\Widget\Widget;
 
-class TextWidget extends Widget {
+class TextWidget extends Widget
+{
 
     public function run($data = null)
     {

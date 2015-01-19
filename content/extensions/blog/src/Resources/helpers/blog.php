@@ -5,11 +5,12 @@ if ( ! function_exists('comment')) {
     /**
      * Print comments and form
      *
-     * @param in $id post id
+     * @param  in $id post id
      * @return string
-     * @todo find the right way to do this
+     * @todo   find the right way to do this
      */
-    function comment($id) {
+    function comment($id) 
+    {
         $comments = app()->getExtension('blog')->getComments($id);
 
         $data['comments'] = $comments;
@@ -49,10 +50,11 @@ if ( ! function_exists('blog_url')) {
     /**
      * Blog url, this will create proper url for posts
      *
-     * @param string $path
+     * @param  string $path
      * @return string
      */
-    function blog_url($path) {
+    function blog_url($path) 
+    {
         return app()->getExtension('blog')->getUrl($path);
     }
 }

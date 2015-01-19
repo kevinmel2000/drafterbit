@@ -2,23 +2,25 @@
 
         drafTerbit.blog = {};
 
-        if(window.location.hash == '') {
-            window.location.hash = 'untrashed';
-        }
+    if(window.location.hash == '') {
+        window.location.hash = 'untrashed';
+    }
         
         var urlHash = window.location.hash.replace('#','');
 
         $('.blog-status-filter option[value="'+urlHash+'"]').prop('selected', true);
 
-        drafTerbit.blog.dt =  $("#posts-data-table").dataTable({
-                         "oLanguage": {
-                            //"sLengthMenu": "Showing _MENU_ records per page",
-                            ///"sSearch": "Search this table: _INPUT_",
-                        },
-                    "columnDefs": [
+        drafTerbit.blog.dt =  $("#posts-data-table").dataTable(
+            {
+                "oLanguage": {
+                                //"sLengthMenu": "Showing _MENU_ records per page",
+                                ///"sSearch": "Search this table: _INPUT_",
+                },
+                "columnDefs": [
                         {'orderable': false, 'searchable':false, 'targets':[0]}
                     ]
-                });
+                }
+        );
 
         drafTerbit.replaceDTSearch(drafTerbit.blog.dt);
 
@@ -45,20 +47,24 @@
 
         changeUncreateAction(urlHash);
         
-        $('#posts-index-form').ajaxForm(function(response){
-            if(response.error) {
-                $.notify(response.error.message, 'error');
-            }
+        $('#posts-index-form').ajaxForm(
+            function(response){
+                if(response.error) {
+                    $.notify(response.error.message, 'error');
+                }
 
-            var urlHash2 = window.location.hash.replace('#','');
-            drafTerbit.blog.dt.api().ajax.url(drafTerbit.adminUrl+"/blog/data/"+urlHash2+".json").load();
-        });
+                var urlHash2 = window.location.hash.replace('#','');
+                drafTerbit.blog.dt.api().ajax.url(drafTerbit.adminUrl+"/blog/data/"+urlHash2+".json").load();
+            }
+        );
 
         //status-filter
-        $('.blog-status-filter').on('change', function(){
-            var s = $(this).val();
-            filterByStatus(s);
-            changeUncreateAction(s);        
-        });
+        $('.blog-status-filter').on(
+            'change', function(){
+                var s = $(this).val();
+                filterByStatus(s);
+                changeUncreateAction(s);        
+            }
+        );
 
 })(jQuery, drafTerbit);

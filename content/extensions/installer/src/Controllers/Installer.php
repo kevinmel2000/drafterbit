@@ -3,14 +3,15 @@
 use Drafterbit\Framework\Controller;
 use Drafterbit\Extensions\Installer\Requirement;
 
-class Installer extends Controller {
+class Installer extends Controller
+{
     
     public function index()
     {
-        $requirement = require __DIR__.'/../requirement.php';
+        $requirement = include __DIR__.'/../requirement.php';
 
         foreach ($requirement as $r) {
-            if(! call_user_func_array($r['function'], array($this->get('app')) ) ) {
+            if(! call_user_func_array($r['function'], array($this->get('app'))) ) {
                 throw new \Exception($r['message']);
             }
         }
@@ -55,12 +56,12 @@ class Installer extends Controller {
              $content = strtr($string, $config);
              $dest = $this->get('path.install').'/config.php';
              
-             if(is_writable($dest)) {
-                 file_put_contents($dest, $content);
-             } else {
-                 $config = $content;
+            if(is_writable($dest)) {
+                file_put_contents($dest, $content);
+            } else {
+                $config = $content;
                 return json_encode(['config' => $config]);
-             }
+            }
              
         
         } catch(\Exception $e) {
@@ -96,14 +97,14 @@ class Installer extends Controller {
          $extMgr = $this->get('extension.manager');
 
          // migrations    
-         foreach ($extMgr->getCoreExtension() as $extension) {
+        foreach ($extMgr->getCoreExtension() as $extension) {
              
-             // add and return the extension
-             $ext = $extMgr->get($extension);
-             if(is_dir($ext->getResourcesPath('migrations'))) {
-                 $this->get('migrator')->create($ext->getResourcesPath('migrations'))->run();
-             }
-         }
+            // add and return the extension
+            $ext = $extMgr->get($extension);
+            if(is_dir($ext->getResourcesPath('migrations'))) {
+                $this->get('migrator')->create($ext->getResourcesPath('migrations'))->run();
+            }
+        }
 
          $model = $this->model('Installer');
          

@@ -36,12 +36,14 @@
                     <li class="checkbox permission">
                         <input <?php echo checked('permissions', $id, in_array($id, $permissionIds)); ?> type="checkbox" name="permissions[]" value="<?php echo $id ?>" ><?php echo ucfirst($label) ?>
                     </li>
-                <?php endforeach; ?>
+                <?php 
+endforeach; ?>
                 </ul>
                 </div>
             </div>
         </div>
-    <?php endforeach;?>
+    <?php 
+endforeach;?>
     </div>
     </div>
 </div>

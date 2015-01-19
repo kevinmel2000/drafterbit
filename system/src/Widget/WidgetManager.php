@@ -4,7 +4,8 @@ use Drafterbit\Framework\Application;
 use Composer\Autoload\ClassLoader;
 use Symfony\Component\Finder\Finder;
 
-class WidgetManager {
+class WidgetManager
+{
 
     protected $loader;
     protected $Widgets;
@@ -14,9 +15,9 @@ class WidgetManager {
     /**
      * Module manager constructor.
      *
-     * @param Drafterbit\Framework\Application $app
-     * @param Composer\ClassLoader $loader
-     * @param array $modulesPath
+     * @param  Drafterbit\Framework\Application $app
+     * @param  Composer\ClassLoader             $loader
+     * @param  array                            $modulesPath
      * @return void
      */
     public function __construct(ClassLoader $loader, $widgetPath = array())
@@ -28,7 +29,7 @@ class WidgetManager {
     /**
      * Register a widget;
      *
-     * @param Drafterbit\WidgetInterface $widget
+     * @param  Drafterbit\WidgetInterface $widget
      * @return void
      */
     public function register(WidgetInterface $widget)
@@ -39,7 +40,7 @@ class WidgetManager {
     /**
      * Get a widget by name;
      *
-     * @param string $nameegis
+     * @param  string $nameegis
      * @return Drafterbit\WidgetInterface
      */
     public function get($name)
@@ -85,45 +86,45 @@ class WidgetManager {
      * Extract config.php from module directory
      *
      * @param string $module modul name
-     * @param string $path module path
+     * @param string $path   module path
      */
     private function extractConfig($module, $path)
     {
-        return require $path.'/config.php';
+        return include $path.'/config.php';
     }
 
     /**
      * Register autoload config to conposer autoloader
      *
-     * @param array $config
-     * @param string $basepath
+     * @param  array  $config
+     * @param  string $basepath
      * @return void
      */
     private function registerAutoload($config, $basePath)
     {
         foreach ($config as $key => $value) {
             switch($key) {
-                case 'psr-4':
-                    foreach ($value as $ns => $path) {
-                        $this->loader->addPsr4($ns, $basePath.'/'.$path);
-                    }
-                break;
+            case 'psr-4':
+                foreach ($value as $ns => $path) {
+                    $this->loader->addPsr4($ns, $basePath.'/'.$path);
+                }
+                    break;
 
-                case 'psr-0':
-                    foreach ($value as $ns => $path) {
-                        $this->loader->addNamespace($ns, $basePath.'/'.$path);
-                    }
-                break;
+            case 'psr-0':
+                foreach ($value as $ns => $path) {
+                    $this->loader->addNamespace($ns, $basePath.'/'.$path);
+                }
+                    break;
 
-                case 'classmap':
-                        $this->loader->addClassmap($value);
-                break;
+            case 'classmap':
+                    $this->loader->addClassmap($value);
+                    break;
 
-                case 'files':
-                    foreach ($value as $file) {
-                        require $basePath.$module.'/'.$file;
-                    }
-                break;
+            case 'files':
+                foreach ($value as $file) {
+                    include $basePath.$module.'/'.$file;
+                }
+                    break;
             }
         }
     }

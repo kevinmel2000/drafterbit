@@ -12,18 +12,20 @@
                             <h4><?php echo $prop['name'] ?></h4>
 
                             <a href="<?php echo admin_url('setting/themes/customize?csrf='.csrf_token()); ?>" target="_blank" class="btn btn-xs btn-primary pull-right" style="margin-left:5px;">Costumize</a>
-                            <?php  if($currentTheme == $prop['id']): ?>
+                            <?php  if($currentTheme == $prop['id']) : ?>
                             <a disabled class="btn btn-xs btn-default pull-right">Active</a>
                             <?php else:?>
                             <form method="POST">
                             <input type="hidden" name="theme" value="<?php echo $prop['id']; ?>">
                             <input type="submit" value="Activate" class="btn btn-xs btn-success pull-right">
                             </form>
-                            <?php endif; ?>
+                            <?php 
+endif; ?>
                         </div>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            <?php 
+endforeach; ?>
         </div>
     </div>
 </div>

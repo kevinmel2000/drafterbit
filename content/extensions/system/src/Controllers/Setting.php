@@ -2,7 +2,8 @@
 
 use Drafterbit\Extensions\System\BackendController;
 
-class Setting extends BackendController {
+class Setting extends BackendController
+{
 
     public function general()
     {

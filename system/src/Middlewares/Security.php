@@ -8,7 +8,8 @@ use Drafterbit\Component\Routing\Router as RouteManager;
 use Drafterbit\Component\Session\SessionManager;
 use Drafterbit\Framework\Application;
 
-class Security implements HttpKernelInterface {
+class Security implements HttpKernelInterface
+{
 
     /**
      * The wrapped kernel implementation.
@@ -34,8 +35,8 @@ class Security implements HttpKernelInterface {
     /**
      * Create a new session middleware.
      *
-     * @param  \Symfony\Component\HttpKernel\HttpKernelInterface  $app
-     * @param  \Drafterbit\Component\Routing\Router  $router
+     * @param \Symfony\Component\HttpKernel\HttpKernelInterface $app
+     * @param \Drafterbit\Component\Routing\Router              $router
      */
     public function __construct(HttpKernelInterface $kernel, Application $app, SessionManager $session)
     {
@@ -49,9 +50,9 @@ class Security implements HttpKernelInterface {
      *
      * @implements HttpKernelInterface::handle
      *
-     * @param  \Symfony\Component\HttpFoundation\Request  $request
-     * @param  int   $type
-     * @param  bool  $catch
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param  int                                       $type
+     * @param  bool                                      $catch
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
@@ -67,12 +68,14 @@ class Security implements HttpKernelInterface {
                 $message = $e->getMessage();
 
                 if($this->app['input']->isAjax()) {
-                    return new JsonResponse([
+                    return new JsonResponse(
+                        [
                         'error' => [
                             'type' => 'auth',
                             'message' => $message,
                         ]
-                    ]);
+                        ]
+                    );
                 }
 
                 $referer = $this->app['input']->headers('referer') ? 

@@ -1,12 +1,12 @@
 <?php return [
     
-    'up' => function() use($app)
+    'up' => function() use ($app)
     {
         $schema = $app['db']->getSchemaManager()->createSchema();        
         
         // pages
         $pages = $schema->createTable('#_pages');
-        $pages->addColumn('id', 'integer',['autoincrement' => true]);
+        $pages->addColumn('id', 'integer', ['autoincrement' => true]);
         $pages->addColumn('slug', 'string', ['length' => 150]);
         $pages->addColumn('title', 'string', ['length' => 150]);
         $pages->addColumn('content', 'text');

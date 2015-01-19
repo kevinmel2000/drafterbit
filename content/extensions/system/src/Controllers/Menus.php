@@ -3,7 +3,8 @@
 use Drafterbit\Extensions\System\BackendController;
 use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 
-class Menus extends BackendController {
+class Menus extends BackendController
+{
 
     function index()
     {

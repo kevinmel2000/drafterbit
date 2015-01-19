@@ -5,17 +5,19 @@
 		<description><?php echo $siteDesc; ?></description>		
 		<link><?php echo base_url(); ?></link>
 		<atom:link href="<?php echo base_url('feed.xml') ?>" rel="self" type="application/rss+xml" />
-		<?php foreach ($posts as $post): ?>
+    <?php foreach ($posts as $post): ?>
 			<item>
 				<title><?php echo $post['title']; ?></title>
-				<?php if($post['excerpt']): ?>
+				<?php if($post['excerpt']) : ?>
 				<description><?php echo $post['excerpt']; ?></description>
-			    <?php else: ?>
+        <?php else: ?>
 				<description><?php echo $post['content']; ?></description>
-			    <?php endif; ?>
+        <?php 
+endif; ?>
                 <pubDate><?php $post['date'] ?></pubDate>
 				<link><?php echo $post['url'] ?></link>
 			</item>
-		<?php endforeach; ?>
+    <?php 
+endforeach; ?>
 	</channel>
 </rss>

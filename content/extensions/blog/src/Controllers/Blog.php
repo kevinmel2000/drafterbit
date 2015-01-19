@@ -4,7 +4,8 @@ use Drafterbit\Component\Validation\Exceptions\ValidationFailsException;
 use Drafterbit\Extensions\System\BackendController;
 use Carbon\Carbon;
 
-class Blog extends BackendController {
+class Blog extends BackendController
+{
 
     public function index()
     {        
@@ -28,16 +29,16 @@ class Blog extends BackendController {
         $postIds = $post['posts'];
 
         switch($post['action']) {
-            case "trash":
-                $this->model('@blog\Post')->trash($postIds);
-                break;
-            case 'delete':
-                $this->model('@blog\Post')->delete($postIds);
-            case 'restore':
-                $this->model('@blog\Post')->restore($postIds);
+        case "trash":
+            $this->model('@blog\Post')->trash($postIds);
             break;
-            default:
-                break;
+        case 'delete':
+            $this->model('@blog\Post')->delete($postIds);
+        case 'restore':
+            $this->model('@blog\Post')->restore($postIds);
+            break;
+        default:
+            break;
         }
     }
 
@@ -92,24 +93,29 @@ class Blog extends BackendController {
                 'label' => 'Title',
                 'width' => '40%',
                 'format' => function($value, $item) use ($editUrl) {
-                    return "<a href='$editUrl/{$item['id']}'>$value</a>"; }],
+                    return "<a href='$editUrl/{$item['id']}'>$value</a>"; 
+                }],
             [
                 'field' => 'authorName',
                 'label' => 'Author',
                 'width' => '20%',
                 'format' => function($value, $item) use ($userUrl) {
-                    return "<a href='$userUrl/{$item['user_id']}'>$value</a>"; }],
+                    return "<a href='$userUrl/{$item['user_id']}'>$value</a>"; 
+                }],
             [
                 'field' => 'status',
                 'label' => 'Status',
                 'width' => '20%',
                 'format' => function($value, $item) use ($userUrl) {
-                    return $value == 1 ? 'Published' : 'Unpublished'; }],
+                    return $value == 1 ? 'Published' : 'Unpublished'; 
+                }],
             [
                 'field' => 'created_at',
                 'label' => 'Created',
                 'width' => '20%',
-                'format' => function($value, $item){ return $value; }],
+                'format' => function($value, $item){
+                    return $value; 
+                }],
         );
     }
 
@@ -183,7 +189,7 @@ class Blog extends BackendController {
             }
 
             if(isset($postData['tags'])) {
-                $this->insertTags( $postData['tags'], $id);
+                $this->insertTags($postData['tags'], $id);
             }
 
             // @todo log here
@@ -191,19 +197,21 @@ class Blog extends BackendController {
 
         } catch (ValidationFailsException $e) {
 
-            return $this->jsonResponse(['error' => [
+            return $this->jsonResponse(
+                ['error' => [
                     'type' => 'validation',
                     'message' => $e->getMessage(),
                     'messages' => $e->getMessages()
                 ]
-            ]);
+                ]
+            );
         }
     }
 
     /**
      * Parse post data to insert to db
      *
-     * @param array $post
+     * @param  array $post
      * @return array
      */
     protected function createInsertData($post, $isUpdate = false)
@@ -226,7 +234,7 @@ class Blog extends BackendController {
     /**
      * Parse post data for update
      *
-     * @param array $post
+     * @param  array $post
      * @return array
      */
     public function createUpdateData($post)
@@ -253,10 +261,12 @@ class Blog extends BackendController {
         $data['title'] = __('Blog Setting');
 
         if($post = $this->get('input')->post()) {
-            $this->model('@system\System')->updateSetting([
+            $this->model('@system\System')->updateSetting(
+                [
                 'comment.moderation' => $post['comment_moderation'],
                 'post.per_page' => $post['post_perpage']
-            ]);
+                ]
+            );
         }
 
         $data['mode'] = $this->model('@system\System')->fetch('comment.moderation');

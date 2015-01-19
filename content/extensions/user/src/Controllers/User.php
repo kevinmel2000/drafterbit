@@ -5,7 +5,8 @@ use Drafterbit\Extensions\System\BackendController;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class User extends BackendController {
+class User extends BackendController
+{
 
     public function index()
     {
@@ -15,14 +16,14 @@ class User extends BackendController {
             $action = $this->get('input')->post('action');
 
             switch($action) {
-                case "Delete":
-                    foreach ($userIds as $id) {
-                        $this->model('@user\User')->delete($id);
-                    }
-                    message('Users deleted !', 'success');
-                    break;
-                default:
-                    break;
+            case "Delete":
+                foreach ($userIds as $id) {
+                    $this->model('@user\User')->delete($id);
+                }
+                message('Users deleted !', 'success');
+                break;
+            default:
+                break;
             }
         }
 
@@ -49,10 +50,10 @@ class User extends BackendController {
         $userIds = $post['users'];
 
         switch($post['action']) {
-            case 'delete':
-                $this->model('@user\User')->delete($userIds);
+        case 'delete':
+            $this->model('@user\User')->delete($userIds);
             break;
-            default:
+        default:
             break;
         }
     }
@@ -63,10 +64,12 @@ class User extends BackendController {
 
         return array(
             ['field' => 'real_name', 'label' => 'Name', 'format' => function($value, $item) use ($editUrl) {
-                    return "<a href='$editUrl/{$item['id']}'>$value</a>"; }],
+                    return "<a href='$editUrl/{$item['id']}'>$value</a>"; 
+            }],
             ['field' => 'email', 'label' => 'Email'],
             ['field' => 'status', 'label' => 'Status', 'format' => function($value, $item) {
-                    return $value == 1 ? __('active') : __('banned'); }],
+                    return $value == 1 ? __('active') : __('banned'); 
+            }],
         );
     }
 
@@ -117,7 +120,7 @@ class User extends BackendController {
             }
 
             //insert roles
-            $this->insertRoles( $postData['roles'], $id );
+            $this->insertRoles($postData['roles'], $id);
 
             $data['id'] = $id;
             $data['message'] = 'User saved !';

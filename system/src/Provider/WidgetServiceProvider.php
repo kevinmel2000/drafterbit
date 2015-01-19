@@ -5,7 +5,8 @@ use Pimple\ServiceProviderInterface;
 use Drafterbit\System\Widget\WidgetManager;
 use Drafterbit\System\Widget\WidgetUIBuilder;
 
-class WidgetServiceProvider implements ServiceProviderInterface {
+class WidgetServiceProvider implements ServiceProviderInterface
+{
 
     function register(Container $app)
     {
