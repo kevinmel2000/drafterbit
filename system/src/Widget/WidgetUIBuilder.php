@@ -27,7 +27,6 @@ class WidgetUIBuilder
         $param = $widget->config('input') ? $widget->config('input') : array();
         
         foreach ($param as $name => $config) {
-            
             $html .= '<div class="form-group">';
 
             $name = $name;
@@ -37,13 +36,12 @@ class WidgetUIBuilder
                 $default = $widget->data[$name];
 
             } else {
-
                 $default = isset($config['default']) ? $config['default'] : null;
             }
 
             $options = isset($config['options']) ? $config['options'] : array();
 
-            if(!method_exists($this, $type)) {
+            if (!method_exists($this, $type)) {
                 throw new \RuntimeException("Type $type is not supported by Widget UI Builder");
             }
 

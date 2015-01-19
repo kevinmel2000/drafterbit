@@ -8,7 +8,7 @@ class Blog extends BackendController
 {
 
     public function index()
-    {        
+    {
         $status = 'untrashed';
 
         $posts = $this->model('@blog\Post')->all(['status' => $status]);
@@ -29,16 +29,16 @@ class Blog extends BackendController
         $postIds = $post['posts'];
 
         switch($post['action']) {
-        case "trash":
-            $this->model('@blog\Post')->trash($postIds);
-            break;
-        case 'delete':
-            $this->model('@blog\Post')->delete($postIds);
-        case 'restore':
-            $this->model('@blog\Post')->restore($postIds);
-            break;
-        default:
-            break;
+            case "trash":
+                $this->model('@blog\Post')->trash($postIds);
+                break;
+            case 'delete':
+                $this->model('@blog\Post')->delete($postIds);
+            case 'restore':
+                $this->model('@blog\Post')->restore($postIds);
+                break;
+            default:
+                break;
         }
     }
 
@@ -56,7 +56,7 @@ class Blog extends BackendController
             $data[] = $status !== 'trashed' ? "<a class='post-edit-link' href='$editUrl/{$post['id']}'>{$post['title']}</a>" : $post['title'];
             $data[] ='<a href="'.admin_url('blog/edit/'.$post['id']).'">'.$post['authorName'].'</a>';
 
-            if($status == 'trashed') {
+            if ($status == 'trashed') {
                 $s = ucfirst($status);
             } else {
                 $s = $post['status'] == 1 ? 'Published' : 'Unpublished';
@@ -93,28 +93,28 @@ class Blog extends BackendController
                 'label' => 'Title',
                 'width' => '40%',
                 'format' => function($value, $item) use ($editUrl) {
-                    return "<a href='$editUrl/{$item['id']}'>$value</a>"; 
+                    return "<a href='$editUrl/{$item['id']}'>$value</a>";
                 }],
             [
                 'field' => 'authorName',
                 'label' => 'Author',
                 'width' => '20%',
                 'format' => function($value, $item) use ($userUrl) {
-                    return "<a href='$userUrl/{$item['user_id']}'>$value</a>"; 
+                    return "<a href='$userUrl/{$item['user_id']}'>$value</a>";
                 }],
             [
                 'field' => 'status',
                 'label' => 'Status',
                 'width' => '20%',
                 'format' => function($value, $item) use ($userUrl) {
-                    return $value == 1 ? 'Published' : 'Unpublished'; 
+                    return $value == 1 ? 'Published' : 'Unpublished';
                 }],
             [
                 'field' => 'created_at',
                 'label' => 'Created',
                 'width' => '20%',
                 'format' => function($value, $item){
-                    return $value; 
+                    return $value;
                 }],
         );
     }
@@ -129,8 +129,7 @@ class Blog extends BackendController
         }
         $tagOptions = rtrim($tagOptions, ',').']';
 
-        if('new' == $id) {
-
+        if ('new' == $id) {
             $data = array(
                 'postId' => null,
                 'postTitle' => null,
@@ -142,7 +141,6 @@ class Blog extends BackendController
                 'title' => __('New Post'),
             );
         } else {
-
             $post = $this->model('@blog\Post')->getBy('id', $id);
             $post->tags = $this->model('@blog\Post')->getTags($id);
             
@@ -179,16 +177,16 @@ class Blog extends BackendController
 
             $id = $postData['id'];
 
-            if($id) {
+            if ($id) {
                 $data = $this->createUpdateData($postData);
                 $this->model('@blog\Post')->update($data, $id);
             
             } else {
-                $data = $this->createInsertData($postData);                
+                $data = $this->createInsertData($postData);
                 $id = $this->model('@blog\Post')->insert($data);
             }
 
-            if(isset($postData['tags'])) {
+            if (isset($postData['tags'])) {
                 $this->insertTags($postData['tags'], $id);
             }
 
@@ -196,7 +194,6 @@ class Blog extends BackendController
             return $this->jsonResponse(['message' => __('Post succesfully saved'), 'status' => 'success', 'id' => $id]);
 
         } catch (ValidationFailsException $e) {
-
             return $this->jsonResponse(
                 ['error' => [
                     'type' => 'validation',
@@ -248,7 +245,7 @@ class Blog extends BackendController
         $this->model('@blog\Post')->clearTag($postId);
 
         foreach ($tags as $tag) {
-            if( ! $tagId = $this->model('@blog\Tag')->getIdBy('label', $tag)) {
+            if (! $tagId = $this->model('@blog\Tag')->getIdBy('label', $tag)) {
                 $tagId = $this->model('@blog\Tag')->save($tag);
             }
 
@@ -260,7 +257,7 @@ class Blog extends BackendController
     {
         $data['title'] = __('Blog Setting');
 
-        if($post = $this->get('input')->post()) {
+        if ($post = $this->get('input')->post()) {
             $this->model('@system\System')->updateSetting(
                 [
                 'comment.moderation' => $post['comment_moderation'],

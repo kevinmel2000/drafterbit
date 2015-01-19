@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\System\Asset\Filter;
 
-use Assetic\Asset\AssetInterface;  
+use Assetic\Asset\AssetInterface;
 
 class DrafterbitFontAwesomeFilter extends DrafterbitBasePathFilter
 {

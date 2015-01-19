@@ -29,4 +29,4 @@
     <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>"/>
 </form>
 
-<?php $this->js(':datatables_js, :bootstrap_datatables_js, :jquery_check_all, :jquery_form'); ?>
+<?php $this->js(':datatables_js, :bootstrap_datatables_js, :jquery_check_all, :jquery_form'); 

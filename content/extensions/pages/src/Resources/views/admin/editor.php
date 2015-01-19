@@ -39,4 +39,4 @@
     </div>
 </div>
 
-<?php $this->js('@pages/js/editor.js'); ?>
+<?php $this->js('@pages/js/editor.js'); 

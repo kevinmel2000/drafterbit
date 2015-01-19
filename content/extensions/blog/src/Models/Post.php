@@ -14,15 +14,14 @@ class Post extends \Drafterbit\Framework\Model
 
         $status = $filters['status'];
 
-        if($status == 'trashed') {
+        if ($status == 'trashed') {
             $query->where('p.deleted_at != :deleted_at');
-            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');            
+            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
         } else {
-
             $query->Where('p.deleted_at = :deleted_at');
             $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 
-            if($status !== 'untrashed') {
+            if ($status !== 'untrashed') {
                 $query->andWhere('p.status = :status');
                 $s = $status == 'published' ? 1 : 0;
                 $query->setParameter(':status', $s);
@@ -71,7 +70,8 @@ class Post extends \Drafterbit\Framework\Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
         $idString = implode(',', $ids);
 
@@ -152,7 +152,8 @@ class Post extends \Drafterbit\Framework\Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
 
         $idString = implode(',', $ids);
@@ -176,7 +177,8 @@ class Post extends \Drafterbit\Framework\Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
         $idString = implode(',', $ids);
         $deleted_at = new \Carbon\Carbon;

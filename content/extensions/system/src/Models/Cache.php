@@ -7,8 +7,7 @@ class Cache extends \Drafterbit\Framework\Model
     {
         $data = array();
 
-        if(is_dir($this->get('path.cache'))) {
-
+        if (is_dir($this->get('path.cache'))) {
             $finder = $this->get('finder');
             $finder->in($this->get('path.cache'))->directories();
             

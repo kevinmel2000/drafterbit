@@ -13,13 +13,12 @@ class Tag extends \Drafterbit\Framework\Model
             ->execute()->fetchAll();
     }
 
-    public function getBy($key, $value = null, $singleRequested=false)
+    public function getBy($key, $value = null, $singleRequested = false)
     {
         $queryBuilder = $this->get('db')->createQueryBuilder();
         $stmt = $queryBuilder->select('*')->from('#_tags', 't');
 
         if (is_array($key)) {
-        
             foreach ($key as $k => $v) {
                 $holder = ":$k";
                 $queryBuilder->where("$k = $holder")
@@ -27,14 +26,13 @@ class Tag extends \Drafterbit\Framework\Model
             }
         
         } else {
-            
             $queryBuilder->where("$key = :$key")
                 ->setParameter(":$key", $value);
         }
 
         $tags = $stmt->getResult();
 
-        if($singleRequested) {
+        if ($singleRequested) {
             return reset($tags);
         }
 
@@ -68,7 +66,7 @@ class Tag extends \Drafterbit\Framework\Model
             ->where("$field = '$value'")
             ->execute()->fetch();
 
-        if(!isset($tag->id)) {
+        if (!isset($tag->id)) {
             return false;
         }
 

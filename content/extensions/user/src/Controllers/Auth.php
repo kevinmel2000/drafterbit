@@ -18,12 +18,11 @@ class Auth extends Controller
     {
         $redirectAfterLogin = admin_url();
 
-        if($next = $this->get('input')->get('next')) {
+        if ($next = $this->get('input')->get('next')) {
             $redirectAfterLogin = urldecode($next);
         }
 
         try {
-
             $post = $this->get('input')->post();
 
             $this->model('@user\Auth')->doLogin($post['login'], $post['password']);

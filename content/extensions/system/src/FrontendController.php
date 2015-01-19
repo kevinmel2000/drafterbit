@@ -17,11 +17,10 @@ class FrontendController extends Controller
 
 
         // we need to check if site is not being customized
-        // if yes we need to use temporary custom data 
+        // if yes we need to use temporary custom data
         $system = $this->model('@system\System')->all();
         
-        if($this->get('session')->get('customize_mode')) {
-
+        if ($this->get('session')->get('customize_mode')) {
             $customizingBadge = '<div style="color:#9C6D3B;padding:5px;background:#FCF8E3;z-index:9999;">Customize Mode is On</div>';
 
             $customData = $this->get('session')->get('customize_data');
@@ -39,7 +38,6 @@ class FrontendController extends Controller
         }
 
         foreach ($globals as $key => $value) {
-
             $this->get('twig')->addGlobal($key, $value);
         }
 

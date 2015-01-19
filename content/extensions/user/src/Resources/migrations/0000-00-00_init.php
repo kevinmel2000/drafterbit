@@ -1,7 +1,7 @@
 <?php return [
     'up' => function() use ($app)
     {
-        $schema = $app['db']->getSchemaManager()->createSchema();        
+        $schema = $app['db']->getSchemaManager()->createSchema();
         
         // user
         $users = $schema->createTable('#_users');

@@ -104,26 +104,26 @@ class WidgetManager
     {
         foreach ($config as $key => $value) {
             switch($key) {
-            case 'psr-4':
-                foreach ($value as $ns => $path) {
-                    $this->loader->addPsr4($ns, $basePath.'/'.$path);
-                }
+                case 'psr-4':
+                    foreach ($value as $ns => $path) {
+                        $this->loader->addPsr4($ns, $basePath.'/'.$path);
+                    }
                     break;
 
-            case 'psr-0':
-                foreach ($value as $ns => $path) {
-                    $this->loader->addNamespace($ns, $basePath.'/'.$path);
-                }
+                case 'psr-0':
+                    foreach ($value as $ns => $path) {
+                        $this->loader->addNamespace($ns, $basePath.'/'.$path);
+                    }
                     break;
 
-            case 'classmap':
+                case 'classmap':
                     $this->loader->addClassmap($value);
                     break;
 
-            case 'files':
-                foreach ($value as $file) {
-                    include $basePath.$module.'/'.$file;
-                }
+                case 'files':
+                    foreach ($value as $file) {
+                        include $basePath.$module.'/'.$file;
+                    }
                     break;
             }
         }

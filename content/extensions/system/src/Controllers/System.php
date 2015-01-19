@@ -20,7 +20,7 @@ class System extends BackendController
         $left = $right = array();
 
         foreach (json_decode($dashboard, true) as $d) {
-            if($d['position'] == 1) {
+            if ($d['position'] == 1) {
                 $left[] = $dashboardWidgets[$d['id']];
             } else {
                 $right[] = $dashboardWidgets[$d['id']];
@@ -39,23 +39,23 @@ class System extends BackendController
         $logIds = $this->get('input')->post('log');
 
         switch($action) {
-        case "delete":
-            if($logIds) {
-                foreach ($logIds as $id) {
-                    $this->model('@system\Log')->delete($id);
+            case "delete":
+                if ($logIds) {
+                    foreach ($logIds as $id) {
+                        $this->model('@system\Log')->delete($id);
+                    }
+                    $msg = 'Logs deleted';
+                    $this->get('template')->addGlobal('messages', [['text' => $msg, "type" => 'success']]);
                 }
-                $msg = 'Logs deleted';
+                break;
+            case "clear":
+                $this->model('@system\Log')->clear();
+                $msg = 'Logs cleared';
+
                 $this->get('template')->addGlobal('messages', [['text' => $msg, "type" => 'success']]);
-            }
-            break;
-        case "clear":
-            $this->model('@system\Log')->clear();
-            $msg = 'Logs cleared';
 
-            $this->get('template')->addGlobal('messages', [['text' => $msg, "type" => 'success']]);
-
-        default:
-            break;
+            default:
+                break;
         }
 
 
@@ -84,8 +84,7 @@ class System extends BackendController
         $post = $this->get('input')->post();
 
         if (isset($post['action']) and ($post['action'] == 'delete') and isset($post['cache'])) {
-
-            foreach($post['cache'] as $key ) {
+            foreach ($post['cache'] as $key) {
                 $this->get('cache')->delete($key);
             }
         }
@@ -111,7 +110,9 @@ class System extends BackendController
     public function drafterbitJs()
     {
         return new Response(
-            $this->render('@system/drafterbitjs'), Response::HTTP_OK, array(
+            $this->render('@system/drafterbitjs'),
+            Response::HTTP_OK,
+            array(
             'content-type' => 'application/javascript'
             )
         );
@@ -120,7 +121,9 @@ class System extends BackendController
     public function drafterbitCss()
     {
         return new Response(
-            $this->render('@system/drafterbitcss'), Response::HTTP_OK, array(
+            $this->render('@system/drafterbitcss'),
+            Response::HTTP_OK,
+            array(
             'content-type' => 'text/css'
             )
         );

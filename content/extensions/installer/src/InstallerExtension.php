@@ -3,7 +3,6 @@
 use Drafterbit\Framework\Extension;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-
 class InstallerExtension extends Extension
 {
 
@@ -21,12 +20,12 @@ class InstallerExtension extends Extension
         );
     }
 
-    public function setStart($start) 
+    public function setStart($start)
     {
         $this->start = $start;
     }
 
-    public function getStart() 
+    public function getStart()
     {
         return $this->start;
     }

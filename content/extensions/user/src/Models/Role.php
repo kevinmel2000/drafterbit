@@ -5,17 +5,16 @@ class Role extends \Drafterbit\Framework\Model
 
     public function all()
     {
-        return 
+        return
         $this->get('db')
             ->fetchAll('SELECT * from #_roles');
     }
 
-    public function getBy($key, $value = null, $singleRequested=false)
+    public function getBy($key, $value = null, $singleRequested = false)
     {
         $q = $this->withQueryBuilder()->select('*')->from('#_roles', 'u');
 
         if (is_array($key)) {
-        
             foreach ($key as $k => $v) {
                 $holder = ":$k";
                 $q->where("$k = $holder")
@@ -23,14 +22,13 @@ class Role extends \Drafterbit\Framework\Model
             }
         
         } else {
-            
             $q->where("$key = :$key")
                 ->setParameter(":$key", $value);
         }
 
         $roles = $q->getResult();
 
-        if($singleRequested) {
+        if ($singleRequested) {
             return reset($roles);
         }
 
@@ -72,7 +70,8 @@ class Role extends \Drafterbit\Framework\Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
         $idString = implode(',', $ids);
         
@@ -107,7 +106,7 @@ class Role extends \Drafterbit\Framework\Model
 
     public function save($id, $data)
     {
-        if($this->isExists($id)) {
+        if ($this->isExists($id)) {
             $this->update($data, ['id' => $id]);
         } else {
             $id = $this->insert($data);

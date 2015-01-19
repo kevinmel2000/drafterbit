@@ -1,6 +1,6 @@
 <?php
 
-if ( ! function_exists('widget')) {
+if (! function_exists('widget')) {
     /**
      * Widget function extension for templating
      *
@@ -13,7 +13,7 @@ if ( ! function_exists('widget')) {
     }
 }
 
-if ( ! function_exists('menus')) {
+if (! function_exists('menus')) {
     /**
      * Menus function extension for templating
      *

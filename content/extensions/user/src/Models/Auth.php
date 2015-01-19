@@ -13,13 +13,13 @@ class Auth extends \Drafterbit\Framework\Model
 
     public function doLogin($login, $password)
     {
-        if(filter_var($login, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($login, FILTER_VALIDATE_EMAIL)) {
             $user = $this->user->getByEmail($login);
         } else {
             $user = $this->user->getByUserName($login);
         }
 
-        if ( !$user or !password_verify($password, $user['password']) or ($user['status'] != 1)) {
+        if (!$user or !password_verify($password, $user['password']) or ($user['status'] != 1)) {
             throw new \RuntimeException(__("Incorrect Username/Email or Password"));
         }
         
@@ -60,7 +60,7 @@ class Auth extends \Drafterbit\Framework\Model
 
         $config = $this->get('config');
 
-        if(!in_array(trim($route->getPath(), '/'), [$config['path.admin'].'/login', $config['path.admin'].'/do_login'])) {
+        if (!in_array(trim($route->getPath(), '/'), [$config['path.admin'].'/login', $config['path.admin'].'/do_login'])) {
             $next = urlencode(base_url($request->getPathInfo()));
             return redirect(admin_url("login?next=$next"))->send();
         }
@@ -73,7 +73,7 @@ class Auth extends \Drafterbit\Framework\Model
      * @return void
      */
     public function restrict($accessKey)
-    {        
+    {
         $encrypter = $this->get('encrypter');
         $session = $this->get('session');
 
@@ -86,7 +86,7 @@ class Auth extends \Drafterbit\Framework\Model
 
         $userPermissions = unserialize($encrypter->decrypt($session->get('user.permissions')));
 
-        if( !in_array($accessKey, $userPermissions)) {
+        if (!in_array($accessKey, $userPermissions)) {
             $label = $permissions[$accessKey];
             throw new UserNotAuthorizedException(
                 "Sorry, you are not authorized to $label.

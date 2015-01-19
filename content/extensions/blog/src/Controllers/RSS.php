@@ -28,7 +28,6 @@ class RSS extends FrontendController
         $system = $this->model('@system\System')->all();
 
         foreach ($posts as &$post) {
-
             $date = date('Y/m', strtotime($post['created_at']));
 
             $post['date'] = $this->get('time')->parse($post['created_at'])->format($system['format.date']);
@@ -37,7 +36,7 @@ class RSS extends FrontendController
 
             $post['excerpt'] = false;
             
-            if(strpos($post['content'], '<!--more-->') !== false) {
+            if (strpos($post['content'], '<!--more-->') !== false) {
                 $post['excerpt'] = current(explode('<!--more-->', $post['content'])).'&hellip;';
             }
 

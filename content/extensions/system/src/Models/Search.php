@@ -7,13 +7,12 @@ class Search extends \Drafterbit\Framework\Model
     {
         $results = array();
         
-        if($q) {        
+        if ($q) {
             foreach ($queries as $name => $query) {
-
                 $query->setParameter(':q', "%$q%");
                 $res = $query->getResult();
 
-                if($res) {
+                if ($res) {
                     $data = array();
                     $data['name'] = $name;
                     $data['results'] = $res;

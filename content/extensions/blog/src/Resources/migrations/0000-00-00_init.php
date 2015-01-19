@@ -2,7 +2,7 @@
     
     'up' => function () use ($app)
     {
-        $schema = $app['db']->getSchemaManager()->createSchema();        
+        $schema = $app['db']->getSchemaManager()->createSchema();
         
         // pages
         $posts = $schema->createTable('#_posts');

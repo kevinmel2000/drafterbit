@@ -6,7 +6,7 @@ use Drafterbit\Extensions\System\Models\Menu;
 class BackendController extends Controller
 {
 
-    public function __construct( )
+    public function __construct()
     {
         $session = $this->get('session');
 
@@ -25,10 +25,9 @@ class BackendController extends Controller
         $i = 0;
 
         foreach ($this->get('app')->getNav() as $item) {
-
             $order = isset($item['order']) ? $item['order'] : $i;
             
-            if(isset($item['parent'])) {
+            if (isset($item['parent'])) {
                 $children[$item['parent']][$order] = $item;
 
             } else {
@@ -44,8 +43,7 @@ class BackendController extends Controller
         }
         
         foreach ($sorted2 as &$menu) {
-
-            if(isset($children[$menu['id']])) {
+            if (isset($children[$menu['id']])) {
                 ksort($children[$menu['id']]);
                 $menu['children'] = $children[$menu['id']];
             }
@@ -61,13 +59,12 @@ class BackendController extends Controller
         $menus = array();
 
         foreach ($menuArray as $menu) {
-
             $href = isset($menu['href']) ? $menu['href'] : null;
             $class = isset($menu['class']) ? $menu['class'] : null;
             $id = isset($menu['id']) ? $menu['id'] : null;
             $item = new Menu($menu['label'], $href, $id, $class);
             
-            if(isset($menu['children'])) {
+            if (isset($menu['children'])) {
                 $item->children = $this->createMenu($menu['children']);
             }
 
@@ -100,11 +97,10 @@ class BackendController extends Controller
         $rows = array();
 
         foreach ($data as $item) {
-
             $row['id'] = $item['id'];
 
             foreach ($thead as $th) {
-                if($th['format']) {
+                if ($th['format']) {
                     $row['values'][$th['id']] = call_user_func_array($th['format'], [$item[$th['id']], $item]);
                 } else {
                     $row['values'][$th['id']] = $item[$th['id']];

@@ -11,7 +11,7 @@ class Installer extends Controller
         $requirement = include __DIR__.'/../requirement.php';
 
         foreach ($requirement as $r) {
-            if(! call_user_func_array($r['function'], array($this->get('app'))) ) {
+            if (! call_user_func_array($r['function'], array($this->get('app')))) {
                 throw new \Exception($r['message']);
             }
         }
@@ -31,7 +31,6 @@ class Installer extends Controller
 
 
         try {
-
             $config = $this->get('input')->post('database');
             $this->get('config')->set('database', $config);
 
@@ -56,7 +55,7 @@ class Installer extends Controller
              $content = strtr($string, $config);
              $dest = $this->get('path.install').'/config.php';
              
-            if(is_writable($dest)) {
+            if (is_writable($dest)) {
                 file_put_contents($dest, $content);
             } else {
                 $config = $content;
@@ -64,10 +63,10 @@ class Installer extends Controller
             }
              
         
-        } catch(\Exception $e) {
-            if( in_array($e->getCode(), ['1045', '1044'])) {
+        } catch (\Exception $e) {
+            if (in_array($e->getCode(), ['1045', '1044'])) {
                 $message = "Database Access Denied";
-            } else if('1049' == $e->getCode()) {
+            } elseif ('1049' == $e->getCode()) {
                 $message = "Unknown Database";
             } else {
                 $message = $e->getMessage();
@@ -96,12 +95,11 @@ class Installer extends Controller
          $config = $this->get('config');
          $extMgr = $this->get('extension.manager');
 
-         // migrations    
+         // migrations
         foreach ($extMgr->getCoreExtension() as $extension) {
-             
             // add and return the extension
             $ext = $extMgr->get($extension);
-            if(is_dir($ext->getResourcesPath('migrations'))) {
+            if (is_dir($ext->getResourcesPath('migrations'))) {
                 $this->get('migrator')->create($ext->getResourcesPath('migrations'))->run();
             }
         }

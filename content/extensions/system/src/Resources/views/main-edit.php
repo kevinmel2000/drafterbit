@@ -15,4 +15,4 @@
     <input type="hidden" name="csrf" value="<?php echo csrf_token(); ?>"/>
 </form>
 
-<?php $this->js(':jquery_form'); ?>
+<?php $this->js(':jquery_form'); 

@@ -16,7 +16,7 @@ class Menus extends BackendController
 
         $theme = $this->get('themes')->current();
 
-        foreach ($positions as $position) {        
+        foreach ($positions as $position) {
             $menus[$position] = $model->getByThemePosition($theme, $position);
         }
 
@@ -42,7 +42,7 @@ class Menus extends BackendController
                 'message' => 'Menu saved',
                 'id' => $id,
             ];
-        } catch(ValidationFailsException $e) {
+        } catch (ValidationFailsException $e) {
             $response = [
                 'error' => [
                     'type' => 'validation',

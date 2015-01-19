@@ -48,9 +48,9 @@ class ThemeManager
      *
      * @param string $thame theme name
      */
-    public function current($theme = null) 
+    public function current($theme = null)
     {
-        if(is_null($theme)) {
+        if (is_null($theme)) {
             return $this->current;
         }
 

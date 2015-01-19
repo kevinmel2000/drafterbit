@@ -8,4 +8,4 @@
 
 <?php echo $cacheTable; ?>
 
-<?php $this->js('@system/js/cache.js'); ?>
+<?php $this->js('@system/js/cache.js'); 

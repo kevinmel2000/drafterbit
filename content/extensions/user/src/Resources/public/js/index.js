@@ -2,7 +2,7 @@
 
     drafTerbit.users = {};
 
-    if(window.location.hash == '') {
+    if (window.location.hash == '') {
         window.location.hash = 'all';
     }
 
@@ -38,7 +38,7 @@
     $('#users-index-form').ajaxForm(
         {
             beforeSend: function(){
-                if(confirm('Are you sure you want to delete those users, this con not be undone ?')) {
+                if (confirm('Are you sure you want to delete those users, this con not be undone ?')) {
                     return true;
                 } else {
                     return false;
@@ -53,7 +53,8 @@
 
         //status-filter
         $('.users-status-filter').on(
-            'change', function(){
+            'change',
+            function(){
                 var s = $(this).val();
                 filterByStatus(s);
             }

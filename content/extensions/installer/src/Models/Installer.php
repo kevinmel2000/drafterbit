@@ -14,7 +14,8 @@ class Installer extends Model
         }
 
         $this->get('db')->insert(
-            '#_roles', [
+            '#_roles',
+            [
             'label'=> 'Administrator',
             'description' => 'God of the site',
             'permissions' => json_encode($permissions)
@@ -32,7 +33,8 @@ class Installer extends Model
         $userId = $this->get('db')->lastInsertId();
         
         $this->get('db')->insert(
-            '#_users_roles', [
+            '#_users_roles',
+            [
             'user_id' => $userId,
             'role_id' => $roleId
             ]

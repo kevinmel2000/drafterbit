@@ -9,21 +9,20 @@ class User extends \Drafterbit\Framework\Model
 
         $status = $filters['status'];
 
-        if($status == 'banned') {
+        if ($status == 'banned') {
             $query->where('u.status = 0');
-        } else if($status == 'active') {
+        } elseif ($status == 'active') {
             $query->where('u.status = 1');
         }
 
         return $query->getResult();
     }
 
-    public function getBy($key, $value = null, $singleRequested=false)
+    public function getBy($key, $value = null, $singleRequested = false)
     {
         $queryBuilder = $this->withQueryBuilder()->select('*')->from('#_users', 'u');
 
         if (is_array($key)) {
-        
             foreach ($key as $k => $v) {
                 $holder = ":$k";
                 $queryBuilder->where("$k = $holder")
@@ -31,14 +30,13 @@ class User extends \Drafterbit\Framework\Model
             }
         
         } else {
-            
             $queryBuilder->where("$key = :$key")
                 ->setParameter(":$key", $value);
         }
 
         $users = $queryBuilder->getResult();
 
-        if($singleRequested) {
+        if ($singleRequested) {
             return reset($users);
         }
 
@@ -86,7 +84,7 @@ class User extends \Drafterbit\Framework\Model
             ->delete('#_users_roles', array('user_id' => $id));
     }
 
-    public function insertRole($roleId, $userId) 
+    public function insertRole($roleId, $userId)
     {
         
         $data['role_id'] = $roleId;
@@ -135,8 +133,8 @@ class User extends \Drafterbit\Framework\Model
 
         $permissions = array();
 
-        foreach($roles as $role) {
-            if($role['permissions']) {
+        foreach ($roles as $role) {
+            if ($role['permissions']) {
                 $permissions = array_merge($permissions, json_decode($role['permissions'], true));
             }
         }

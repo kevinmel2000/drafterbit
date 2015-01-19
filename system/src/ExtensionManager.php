@@ -36,19 +36,18 @@ class ExtensionManager
      */
     public function getInstalled()
     {
-        if(count($this->installed) == 0) {
+        if (count($this->installed) == 0) {
             foreach ($this->extensionsPath as $path) {
                 $finder = $this->createFinder()->in($path)->directories()->depth(0);
                 foreach ($finder as $file) {
-
                     $name = $file->getFileName();
-                    if(in_array($name, $this->installed)) {
+                    if (in_array($name, $this->installed)) {
                         throw new \Exception("Extension name collision: $name");
                     }
 
                     $config = array();
 
-                    if(file_exists($file.'/config.php')) {
+                    if (file_exists($file.'/config.php')) {
                         $config = include $file.'/config.php';
                     }
 
@@ -109,13 +108,13 @@ class ExtensionManager
      */
     public function get($extension)
     {
-        if(isset($this->loaded[$extension])) {
+        if (isset($this->loaded[$extension])) {
             return $this->loaded[$extension];
         }
 
         $installed = $this->getInstalled();
 
-        if(!array_key_exists($extension, $installed)) {
+        if (!array_key_exists($extension, $installed)) {
             throw new \Exception("Extension $extension is not installed yet");
         }
 
@@ -134,18 +133,18 @@ class ExtensionManager
         $class = $ns.studly_case($extension).'\\'.studly_case($extension).'Extension';
 
         // register menu
-        if(isset($config['nav'])) {
+        if (isset($config['nav'])) {
             $this->app->addNav($config['nav']);
         }
 
         // register permissions
-        if(isset($config['permissions'])) {
+        if (isset($config['permissions'])) {
             $this->app->addPermission($extension, $config['permissions']);
         }
 
         $instance = new $class;
 
-        if(is_dir($instance->getResourcesPath('widgets'))) {
+        if (is_dir($instance->getResourcesPath('widgets'))) {
             $this->app['widget']->addPath($instance->getResourcesPath('widgets'));
         }
 
@@ -182,26 +181,26 @@ class ExtensionManager
     {
         foreach ($config as $key => $value) {
             switch($key) {
-            case 'psr-4':
-                foreach ($value as $ns => $path) {
-                    $this->loader->addPsr4($ns, $basePath.'/'.$path);
-                }
+                case 'psr-4':
+                    foreach ($value as $ns => $path) {
+                        $this->loader->addPsr4($ns, $basePath.'/'.$path);
+                    }
                     break;
 
-            case 'psr-0':
-                foreach ($value as $ns => $path) {
-                    $this->loader->addNamespace($ns, $basePath.'/'.$path);
-                }
+                case 'psr-0':
+                    foreach ($value as $ns => $path) {
+                        $this->loader->addNamespace($ns, $basePath.'/'.$path);
+                    }
                     break;
 
-            case 'classmap':
+                case 'classmap':
                     $this->loader->addClassmap($value);
                     break;
 
-            case 'files':
-                foreach ($value as $file) {
-                    include $basePath.$extension.'/'.$file;
-                }
+                case 'files':
+                    foreach ($value as $file) {
+                        include $basePath.$extension.'/'.$file;
+                    }
                     break;
             }
         }

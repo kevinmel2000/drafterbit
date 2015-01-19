@@ -9,15 +9,14 @@ class Pages extends \Drafterbit\Framework\Model
 
         $status = $filters['status'];
 
-        if($status == 'trashed') {
+        if ($status == 'trashed') {
             $query->where('p.deleted_at != :deleted_at');
-            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');            
+            $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
         } else {
-
             $query->where('p.deleted_at = :deleted_at');
             $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 
-            if($status !== 'untrashed') {
+            if ($status !== 'untrashed') {
                 $query->andWhere('p.status = :status');
                 $s = $status == 'published' ? 1 : 0;
                 $query->setParameter(':status', $s);
@@ -39,13 +38,12 @@ class Pages extends \Drafterbit\Framework\Model
         $this->get('db')->update('#_pages', $data, array('id' => $id));
     }
 
-    public function getBy($key, $value = null, $singleRequested=false)
+    public function getBy($key, $value = null, $singleRequested = false)
     {
         $queryBuilder = $this->get('db')->createQueryBuilder();
         $stmt = $queryBuilder->select('*')->from('#_pages', 'p');
 
         if (is_array($key)) {
-        
             foreach ($key as $k => $v) {
                 $holder = ":$k";
                 $queryBuilder->where("$k = $holder")
@@ -53,14 +51,13 @@ class Pages extends \Drafterbit\Framework\Model
             }
         
         } else {
-            
             $queryBuilder->where("$key = :$key")
                 ->setParameter(":$key", $value);
         }
 
         $pages = $stmt->getResult();
 
-        if($singleRequested) {
+        if ($singleRequested) {
             return reset($pages);
         }
 
@@ -84,7 +81,8 @@ class Pages extends \Drafterbit\Framework\Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
         $idString = implode(',', $ids);
 
@@ -105,7 +103,8 @@ class Pages extends \Drafterbit\Framework\Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
         $idString = implode(',', $ids);
         $deleted_at = new \Carbon\Carbon;
@@ -127,7 +126,8 @@ class Pages extends \Drafterbit\Framework\Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
 
         $idString = implode(',', $ids);

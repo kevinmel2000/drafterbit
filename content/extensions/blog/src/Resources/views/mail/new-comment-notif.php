@@ -8,4 +8,4 @@ Email: <?php echo $email; ?>
 Url: <?php echo $url; ?>
 
 Content:
-<?php echo $content ?>
+<?php echo $content 

@@ -12,18 +12,18 @@ class User extends BackendController
     {
         $userIds = $this->get('input')->post('users');
 
-        if($userIds) {
+        if ($userIds) {
             $action = $this->get('input')->post('action');
 
             switch($action) {
-            case "Delete":
-                foreach ($userIds as $id) {
-                    $this->model('@user\User')->delete($id);
-                }
-                message('Users deleted !', 'success');
-                break;
-            default:
-                break;
+                case "Delete":
+                    foreach ($userIds as $id) {
+                        $this->model('@user\User')->delete($id);
+                    }
+                    message('Users deleted !', 'success');
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -50,11 +50,11 @@ class User extends BackendController
         $userIds = $post['users'];
 
         switch($post['action']) {
-        case 'delete':
-            $this->model('@user\User')->delete($userIds);
-            break;
-        default:
-            break;
+            case 'delete':
+                $this->model('@user\User')->delete($userIds);
+                break;
+            default:
+                break;
         }
     }
 
@@ -64,11 +64,11 @@ class User extends BackendController
 
         return array(
             ['field' => 'real_name', 'label' => 'Name', 'format' => function($value, $item) use ($editUrl) {
-                    return "<a href='$editUrl/{$item['id']}'>$value</a>"; 
+                    return "<a href='$editUrl/{$item['id']}'>$value</a>";
             }],
             ['field' => 'email', 'label' => 'Email'],
             ['field' => 'status', 'label' => 'Status', 'format' => function($value, $item) {
-                    return $value == 1 ? __('active') : __('banned'); 
+                    return $value == 1 ? __('active') : __('banned');
             }],
         );
     }
@@ -102,19 +102,17 @@ class User extends BackendController
     public function save()
     {
         try {
-
             $postData = $this->get('input')->post();
 
             $this->validate('user', $postData);
             
             $id = $postData['id'];
 
-            if($id) {
+            if ($id) {
                 $updateData = $this->createUpdateData($postData);
                 $this->model('@user\User')->update($updateData, ['id' => $id]);
             
             } else {
-
                 $insertData = $this->createInsertData($postData);
                 $id = $this->model('@user\User')->insert($insertData);
             }
@@ -126,7 +124,7 @@ class User extends BackendController
             $data['message'] = 'User saved !';
             $data['status'] = 'success';
 
-        } catch ( ValidationFailsException $e) {
+        } catch (ValidationFailsException $e) {
             $data['error'] = [
                 'type' => 'validation',
                 'messages' => $e->getMessages(),
@@ -138,8 +136,7 @@ class User extends BackendController
 
     public function edit($id = null)
     {
-        if($id == 'new') {
-
+        if ($id == 'new') {
             $data = array(
                 'username' => null,
                 'realName' => null,
@@ -152,7 +149,6 @@ class User extends BackendController
                 'title' => __('New User')
             );
         } else {
-
             $user = (object) $this->model('@user\User')->getSingleBy('id', $id);
             $user->roleIds = $this->model('@user\User')->getRoleIds($user->id);
 
@@ -182,7 +178,7 @@ class User extends BackendController
     {
         $this->model('@user\User')->clearRoles($id);
 
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             $this->model('@user\User')->insertRole($role, $id);
         }
     }
@@ -193,7 +189,7 @@ class User extends BackendController
         $data['email'] = $post['email'];
         $data['username'] = $post['username'];
         
-        if(isset($post['password']) and trim($post['password']) !== '') {
+        if (isset($post['password']) and trim($post['password']) !== '') {
             $data['password'] = password_hash($post['password'], PASSWORD_BCRYPT);
         }
         
@@ -203,7 +199,7 @@ class User extends BackendController
         $data['real_name'] = isset($post['real-name']) ? $post['real-name'] : null;
         $data['updated_at'] = Carbon::Now();
 
-        if( ! $update) {
+        if (! $update) {
             $data['created_at'] = Carbon::Now();
         }
 

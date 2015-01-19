@@ -15,21 +15,20 @@ class Comment extends Model
             ->leftJoin('c', '#_posts', 'p', 'c.post_id = p.id')
             ->orderBy('c.created_at', 'desc');
 
-        if($status == 'spam') {
+        if ($status == 'spam') {
             $query->where('c.status = 2');
             $query->andWhere('c.deleted_at = :deleted_at');
             $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
-        } else if ($status == 'trashed') {
+        } elseif ($status == 'trashed') {
             $query->where('c.deleted_at != :deleted_at');
             $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 
         } else {
-
             $query->where("c.deleted_at = '0000-00-00 00:00:00'");
 
-            if($status == 'approved') {
+            if ($status == 'approved') {
                 $query->andWhere('c.status = 1');
-            } else if($status == 'pending') {
+            } elseif ($status == 'pending') {
                 $query->andWhere('c.status = 0');
             } else {
                 $query->andWhere('c.status != 2');
@@ -39,9 +38,9 @@ class Comment extends Model
         return $query->getResult();
     }
 
-    public function take($num) 
+    public function take($num)
     {
-        return 
+        return
         $query = $this ->withQueryBuilder()
             ->select('c.*, p.title')
             ->from('#_comments', 'c')
@@ -63,15 +62,15 @@ class Comment extends Model
         $comments =  $query->getResult();
 
         $childs = array();
-        $parents = array();    
+        $parents = array();
         foreach ($comments as &$comment) {
             //filter moderation
-            if($comment['status'] == 0) {
+            if ($comment['status'] == 0) {
                 $comment['content'] = '<em>this comment is awaiting moderation</em>';
             }
 
             // group parent and childs
-            if($comment['parent_id'] != 0) {
+            if ($comment['parent_id'] != 0) {
                 $childs[$comment['parent_id']][] = $comment;
             } else {
                 $parents[] = $comment;
@@ -104,7 +103,7 @@ class Comment extends Model
         return $this->get('db')->lastInsertid();
     }
 
-    public function update($id, $data) 
+    public function update($id, $data)
     {
         $this->get('db')->update('#_comments', $data, array('id' => $id));
     }
@@ -129,7 +128,8 @@ class Comment extends Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
 
         $idString = implode(',', $ids);
@@ -150,7 +150,8 @@ class Comment extends Model
         $ids = array_map(
             function($v){
                 return "'$v'";
-            }, $ids
+            },
+            $ids
         );
         $idString = implode(',', $ids);
 

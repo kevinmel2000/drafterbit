@@ -2,7 +2,7 @@
 
     drafTerbit.comments = {};
 
-    if(window.location.hash == '') {
+    if (window.location.hash == '') {
         window.location.hash = 'active';
     }
     
@@ -37,7 +37,9 @@
 
     // listen
     $(document).on(
-        'click', '.comment-action .status', function(e){
+        'click',
+        '.comment-action .status',
+        function(e){
             e.preventDefault();
 
             var status = $(this).data('status');
@@ -57,11 +59,10 @@
             if (status == 2) {
                 $(this).parents('tr').fadeOut('fast');
                 $.notify('Comment marked as spam', 'warning');
-            }
-            else if($(this).hasClass('unspam')) {
+            } else if ($(this).hasClass('unspam')) {
                 $(this).parents('tr').fadeOut('fast');
                 $.notify('Comment marked as not spam', 'warning');
-            } else {        
+            } else {
                 $(this).toggle();
                 $(this).siblings('.unapprove, .approve').toggle();
             }
@@ -72,7 +73,9 @@
 
     // listen
     $(document).on(
-        'click', '.comment-action .trash', function(e){
+        'click',
+        '.comment-action .trash',
+        function(e){
             e.preventDefault();
             $.post(
                 drafTerbit.adminUrl+'/comments/quick-trash',
@@ -90,7 +93,9 @@
 
     // listen
     $(document).on(
-        'click', '.comment-action .reply', function(e){
+        'click',
+        '.comment-action .reply',
+        function(e){
             e.preventDefault();
             var id = $(this).data('id');
             var postId = $(this).data('post-id');
@@ -105,7 +110,7 @@
             '</div>'
             ].join('');
 
-            if(!$(this).data('append')) {
+            if (!$(this).data('append')) {
                 $(this).parents('td').append(form);
                 $(this).data('append', true);
             } else {
@@ -115,17 +120,21 @@
     );
 
     $(document).on(
-        'click', '.inline-form-cancel', function(){
-            $(this).parents('.inline-form').hide(); 
+        'click',
+        '.inline-form-cancel',
+        function(){
+            $(this).parents('.inline-form').hide();
         }
     );
 
     // listen
     $(document).on(
-        'click', '.inline-form-submit', function(){
+        'click',
+        '.inline-form-submit',
+        function(){
         
             var comment = $(this).parent().siblings('textarea').val();
-            if(comment.trim() !== '') {
+            if (comment.trim() !== '') {
                 $.post(
                     drafTerbit.adminUrl+'/comments/quick-reply',
                     {
@@ -162,7 +171,7 @@
 
     // change trash, add restore button
     changeUncreateAction = function(s){
-        if(s === 'trashed') {
+        if (s === 'trashed') {
             $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Delete').val('delete');
             $('.uncreate-action').before('<button type="submit" name="action" value="restore" class="btn btn-sm btn-default comments-restore"><i class="fa fa-refresh"></i> Restore </button>');
         } else {
@@ -175,7 +184,8 @@
 
     //status-filter
     $('.comments-status-filter').on(
-        'change', function(){
+        'change',
+        function(){
             var s = $(this).val();
             filterByStatus(s);
             changeUncreateAction(s);

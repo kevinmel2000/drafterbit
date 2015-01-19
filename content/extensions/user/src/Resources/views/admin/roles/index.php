@@ -12,4 +12,4 @@
 
 <?php echo $rolesTable; ?>
 
-<?php $this->js('@user/js/roles/index.js'); ?>
+<?php $this->js('@user/js/roles/index.js'); 

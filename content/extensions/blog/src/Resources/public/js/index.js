@@ -2,7 +2,7 @@
 
         drafTerbit.blog = {};
 
-    if(window.location.hash == '') {
+    if (window.location.hash == '') {
         window.location.hash = 'untrashed';
     }
         
@@ -36,7 +36,7 @@
 
         // change trash, add restore button
         changeUncreateAction = function(s){
-            if(s === 'trashed') {
+            if (s === 'trashed') {
                 $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Delete').val('delete');
                 $('.uncreate-action').before('<button type="submit" name="action" value="restore" class="btn btn-sm btn-default posts-restore"><i class="fa fa-refresh"></i> Restore </button>');
             } else {
@@ -49,7 +49,7 @@
         
         $('#posts-index-form').ajaxForm(
             function(response){
-                if(response.error) {
+                if (response.error) {
                     $.notify(response.error.message, 'error');
                 }
 
@@ -60,10 +60,11 @@
 
         //status-filter
         $('.blog-status-filter').on(
-            'change', function(){
+            'change',
+            function(){
                 var s = $(this).val();
                 filterByStatus(s);
-                changeUncreateAction(s);        
+                changeUncreateAction(s);
             }
         );
 

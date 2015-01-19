@@ -19,7 +19,7 @@ class Frontend extends FrontendController
 
         $queries = array();
         foreach ($extensions as $extension) {
-            if(method_exists($extension, 'getSearchQuery')) {
+            if (method_exists($extension, 'getSearchQuery')) {
                 list($name, $query) = $extension->getSearchQuery();
                 $queries[$name] = $query;
             }
@@ -28,7 +28,6 @@ class Frontend extends FrontendController
         $results = $model->doSearch($q, $queries);
 
         foreach ($results as &$result) {
-
             $data['results'] = $result['results'];
             $result['content'] = $this->get('twig')->render($result['name'].'/search.html', $data);
         }

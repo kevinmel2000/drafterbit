@@ -19,7 +19,8 @@ class TwigServiceProvider implements ServiceProviderInterface
                     'charset'          => $app['config']['app.charset'],
                     'debug'            => $app['config']['app.debug'],
                     'strict_variables' => $app['config']['app.debug']
-                ), $app['twig.options']
+                ),
+                $app['twig.options']
             );
 
             $twig = new \Twig_Environment($app['twig.loader'], $app['twig.options']);

@@ -8,7 +8,7 @@ class Pages extends BackendController
 {
 
     public function index()
-    {            
+    {
         $status = 'untrashed';
 
         $pages = $this->model('@pages\Pages')->all(['status' => $status]);
@@ -30,16 +30,16 @@ class Pages extends BackendController
         $pageIds = $post['pages'];
 
         switch($post['action']) {
-        case "trash":
-            $this->model('@pages\Pages')->trash($pageIds);
-            break;
-        case 'delete':
-            $this->model('@pages\Pages')->delete($pageIds);
-        case 'restore':
-            $this->model('@pages\Pages')->restore($pageIds);
-            break;
-        default:
-            break;
+            case "trash":
+                $this->model('@pages\Pages')->trash($pageIds);
+                break;
+            case 'delete':
+                $this->model('@pages\Pages')->delete($pageIds);
+            case 'restore':
+                $this->model('@pages\Pages')->restore($pageIds);
+                break;
+            default:
+                break;
         }
     }
 
@@ -52,7 +52,6 @@ class Pages extends BackendController
         $pagesArr  = array();
 
         foreach ($pages as $page) {
-
             $page = (object)$page;
 
             $data = array();
@@ -60,7 +59,7 @@ class Pages extends BackendController
             $data[] = $status !== 'trashed' ? "<a class='page-edit-link' href='$editUrl/{$page->id}'> {$page->title}</a>" : $page->title;
             $data[] = $page->created_at;
 
-            if($status == 'trashed') {
+            if ($status == 'trashed') {
                 $s = ucfirst($status);
             } else {
                 $s = $page->status == 1 ? 'Published' : 'Unpublished';
@@ -81,8 +80,7 @@ class Pages extends BackendController
 
     public function edit($id)
     {
-        if($id == 'new') {
-
+        if ($id == 'new') {
             $data = array(
                 'title'     => __('Create New Page'),
 
@@ -95,7 +93,6 @@ class Pages extends BackendController
             );
 
         } else {
-
             $page = (object) $this->model('@pages\Pages')->getSingleBy('id', $id);
             $data = array(
                 'title'     => __('Edit Page'),
@@ -105,7 +102,7 @@ class Pages extends BackendController
                 'slug'         => $page->slug,
                 'content'     => $page->content,
                 'layout'    => $page->layout,
-                'status'     => $page->status,                
+                'status'     => $page->status,
             );
         }
 
@@ -122,19 +119,17 @@ class Pages extends BackendController
     public function save()
     {
         try {
-
             $postData = $this->get('input')->post();
 
             $this->validate('page', $postData);
 
             $id = $postData['id'];
 
-            if($id) {
+            if ($id) {
                 $data = $this->createUpdateData($postData);
-                $this->model('@pages\Pages')->update($data, $id);            
+                $this->model('@pages\Pages')->update($data, $id);
                 
             } else {
-
                 $data = $this->createInsertData($postData);
                 $id = $this->model('@pages\Pages')->insert($data);
             }
@@ -144,7 +139,6 @@ class Pages extends BackendController
             return $this->jsonResponse(['message' => __('Page succesfully saved'), 'status' => 'success', 'id' => $id]);
 
         } catch (ValidationFailsException $e) {
-            
             return $this->jsonResponse(
                 ['error' => [
                     'type' => 'validation',
@@ -160,10 +154,10 @@ class Pages extends BackendController
     {
         $editUrl = admin_url('pages/edit');
         $formatTitle = function($value, $item) use ($editUrl) {
-            return "<a href='$editUrl/{$item['id']}'>$value</i></a>"; 
+            return "<a href='$editUrl/{$item['id']}'>$value</i></a>";
         };
         $formatStatus = function($value, $item) {
-            return $value == 1 ? 'Published' : 'Unpublished'; 
+            return $value == 1 ? 'Published' : 'Unpublished';
         };
 
         return [

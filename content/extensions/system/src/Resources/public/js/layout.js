@@ -15,16 +15,16 @@ $(
         )
 
         // sticky-sticky-toolbar
-        if(document.getElementById('sticky-toolbar')) {
+        if (document.getElementById('sticky-toolbar')) {
             tlOff = $('#sticky-toolbar').offset().top - 30;
             $(window).on(
-                'scroll', function(e){
+                'scroll',
+                function(e){
                     //console.log();
                     var wSc = $(this).scrollTop();
 
-                    if(wSc > (tlOff)) {
-
-                        if(!$('#sticky-toolbar').data('replaced')) {
+                    if (wSc > (tlOff)) {
+                        if (!$('#sticky-toolbar').data('replaced')) {
                             var el = $('<div>',{id:'sticky-toolbar-replacer'})
                             .height($('#sticky-toolbar').height());
                             $('#sticky-toolbar').after(el);
@@ -42,7 +42,7 @@ $(
                                 'z-index': 1000
                             }
                         )
-                    } else if(wSc < (tlOff)) {
+                    } else if (wSc < (tlOff)) {
                         $('#sticky-toolbar').removeAttr('style');
                         $('#sticky-toolbar').siblings('#sticky-toolbar-replacer').remove();
                         $('#sticky-toolbar').data('replaced', false);

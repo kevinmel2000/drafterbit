@@ -8,7 +8,7 @@
 
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css(
-        '
+    '
           :bootstrap_css,
           :notify_css,
           @system/css/overrides-bootstrap.css,
@@ -29,11 +29,14 @@
                 <h3>Available Widgets</h3>
             </div>
             <ul>
-                <?php foreach ($availableWidget as $widget): ?>
+                <?php foreach ($availableWidget as $widget) :
+?>
                   <li>
-                      <a data-ui="<?php echo base64_encode($widget->ui); ?>" data-name="<?php echo ucfirst($widget->getName()); ?>" class="dt-widget-item" href="javascript:;"><?php echo ucfirst($widget->getName()); ?></a>
+                      <a data-ui="<?php echo base64_encode($widget->ui);
+?>" data-name="<?php echo ucfirst($widget->getName());
+?>" class="dt-widget-item" href="javascript:;"><?php echo ucfirst($widget->getName()); ?></a>
                   </li>
-                <?php 
+                <?php
 endforeach; ?>
             </ul>
         </div>
@@ -102,7 +105,8 @@ endforeach; ?>
                     </div>
                     <div class="section" id="menus-section">
                         <h2>Navigation</h2>
-                        <?php foreach ($menuPositions as $pos): ?>
+                        <?php foreach ($menuPositions as $pos) :
+?>
                              <div class="panel panel-default">
                                 <div class="panel-heading">
                                   <h4 class="panel-title">
@@ -114,7 +118,8 @@ endforeach; ?>
                                 <div id="<?php echo $pos ?>-menu-position" class="panel-collapse collapse">
                                   <div class="sortable panel-body <?php echo $pos ?>-menu-container">
                                     <div class="menu-sortable">
-                                    <?php foreach ($menus[$pos] as $menu): ?>
+                                    <?php foreach ($menus[$pos] as $menu) :
+?>
                                          <div class="panel panel-default menu-item-container" id="<?php echo $menu['id'] ?>-menu-container">
                                             <div class="panel-heading">
                                               <h4 class="panel-title">
@@ -148,9 +153,10 @@ endforeach; ?>
                                                 <div class="form-group menu-type-page" style="<?php echo hide('menu-type', 2, $menu['type'] == 2); ?>">
                                                   <label>Page</label>
                                                   <select class="form-control input-sm" name="page">
-                                                    <?php foreach ($pageOptions as $v => $label): ?>
+                                                    <?php foreach ($pageOptions as $v => $label) :
+?>
                                                       <option <?php echo selected('page', $v, $menu['page'] == $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
-                                                    <?php 
+                                                    <?php
 endforeach;?>
                                                   </select>
                                                 </div>
@@ -167,21 +173,23 @@ endforeach;?>
                                             </form>
                                             </div>
                                         </div>
-                                    <?php 
+                                    <?php
 endforeach ?>
                                     </div>
                                     <div class="well well-sm" style="margin-top:5px;">
-                                        <a data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#" class="menu-adder">add menu item</a>
+                                        <a data-position="<?php echo $pos;
+?>" data-theme="<?php echo $theme; ?>" href="#" class="menu-adder">add menu item</a>
                                     </div>
                                   </div>
                                 </div>
                             </div>
-                        <?php 
+                        <?php
 endforeach ?>
                     </div>
                     <div class="section" id="widget-section">
                         <h2>Widgets</h2>
-                        <?php foreach ($widgetPositions as $pos): ?>
+                        <?php foreach ($widgetPositions as $pos) :
+?>
                              <div class="panel panel-default">
                                 <div class="panel-heading">
                                   <h4 class="panel-title">
@@ -193,7 +201,8 @@ endforeach ?>
                                 <div id="<?php echo $pos ?>-widget-position" class="panel-collapse collapse widget-position">
                                   <div class="panel-body widget-container <?php echo $pos ?>-widget-container">
                                     <div class="widget-sortable">
-                                        <?php foreach ($widgets[$pos] as $widget): ?>
+                                        <?php foreach ($widgets[$pos] as $widget) :
+?>
                                           <div class="panel panel-default widget-item-container" id="<?php echo $widget['id'] ?>-widget-item-container">
                                               <div class="panel-heading">
                                                 <h4 class="panel-title">
@@ -208,16 +217,17 @@ endforeach ?>
                                                 </div>
                                               </div>
                                           </div>
-                                        <?php 
+                                        <?php
 endforeach ?>
                                     </div>
                                     <div class="well well-sm" style="margin-top:5px;">
-                                        <a class="dt-widget-adder" data-position="<?php echo $pos; ?>" data-theme="<?php echo $theme; ?>" href="#available-widget-dialog">add widget</a>
+                                        <a class="dt-widget-adder" data-position="<?php echo $pos;
+?>" data-theme="<?php echo $theme; ?>" href="#available-widget-dialog">add widget</a>
                                     </div>
                                   </div>
                                 </div>
                             </div>
-                        <?php 
+                        <?php
 endforeach ?>
                     </div>
                 </div>
@@ -233,13 +243,15 @@ endforeach ?>
         <script>
         drafTerbit.initAjaxForm();
 
-        <?php if(isset($messages)) : ?>
-                <?php foreach( $messages as $message ): ?>
+        <?php if (isset($messages)) :
+?>
+                <?php foreach ($messages as $message) :
+?>
                     msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
-                <?php 
+                <?php
 endforeach; ?>
-        <?php 
+        <?php
 endif;?>
         </script>
 
@@ -291,9 +303,10 @@ endif;?>
                   <div style="display:block" class="form-group menu-type-page">
                     <label>Page</label>
                     <select name="page" class="form-control input-sm">
-                        <?php foreach ($pageOptions as $v => $label): ?>
+                        <?php foreach ($pageOptions as $v => $label) :
+?>
                           <option <?php echo selected('page', $v) ?> value="<?php echo $v ?>"><?php echo $label ?></option>
-                        <?php 
+                        <?php
 endforeach;?>
                     </select>
                   </div>

@@ -31,9 +31,10 @@
              <div class="form-group">
                 <label for="format-time" class="control-label">Front Page</label>
                   <select class="form-control" name="homepage">
-                        <?php foreach($pageOptions as $value => $label): ?>
+                        <?php foreach ($pageOptions as $value => $label) :
+?>
                           <option <?php echo selected('homepage', $value, $homepage == $value); ?> value="<?php echo $value ?>"><?php echo $label ?></option>
-                        <?php 
+                        <?php
 endforeach; ?>
                   </select>
              </div>
@@ -51,9 +52,10 @@ endforeach; ?>
              <div class="form-group">
                 <label for="timezone" class="control-label">Timezone    </label>
                   <select name="timezone" class="form-control">
-                    <?php foreach ($timezoneIdList as $key): ?>
+                    <?php foreach ($timezoneIdList as $key) :
+?>
                       <option <?php echo selected('timezone', $key, $timezone == $key); ?> value="<?php echo $key ?>"><?php echo $key ?></option>
-                    <?php 
+                    <?php
 endforeach; ?>
                   </select>
              </div>

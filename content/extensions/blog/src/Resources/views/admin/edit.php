@@ -44,4 +44,4 @@ var tagOptions = <?php echo $tagOptions; ?>;
 var tags = <?php echo json_encode(value('tags', $tags)); ?>
 </script>
 
-<?php $this->js(':magicsuggest_js, @blog/js/editor.js'); ?>
+<?php $this->js(':magicsuggest_js, @blog/js/editor.js'); 

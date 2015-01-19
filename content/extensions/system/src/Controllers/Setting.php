@@ -10,7 +10,6 @@ class Setting extends BackendController
         $post = $this->get('input')->post();
 
         if ($post) {
-
             // @todo validate setting
 
             $data = $this->setupData($post);
@@ -46,10 +45,10 @@ class Setting extends BackendController
     {
         $data = array();
 
-        $data['site.name'] = $p['site-name'];    
-        $data['site.description'] = $p['site-tagline'];    
-        $data['email'] = $p['email'];    
-        $data['language'] = $p['language'];    
+        $data['site.name'] = $p['site-name'];
+        $data['site.description'] = $p['site-tagline'];
+        $data['email'] = $p['email'];
+        $data['language'] = $p['language'];
         $data['timezone'] = $p['timezone'];
         $data['format.date'] = $p['format-date'];
         $data['format.time'] = $p['format-time'];

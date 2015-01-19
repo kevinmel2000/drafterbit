@@ -46,7 +46,7 @@ class Kernel extends Application
         $this->register(new WidgetServiceProvider);
 
         foreach (include $this->getResourcesPath('config/services.php')
-            as $provider => $services) {
+ as $provider => $services) {
             $this->addDeferred($provider, $services);
         }
     }
@@ -63,7 +63,7 @@ class Kernel extends Application
 
     public function addPermission($extension, $permissions)
     {
-        if(!isset($this->permissions[$extension])) {
+        if (!isset($this->permissions[$extension])) {
             $this->permissions[$extension] = $permissions;
         } else {
             $this->permissions[$extension] = array_merge($this->permissions[$extension], $permissions);
@@ -92,8 +92,9 @@ class Kernel extends Application
             ->execute()->fetchAll();
 
         usort(
-            $widgets, function($a, $b) {
-                if($a['sequence'] == $b['sequence']) {
+            $widgets,
+            function($a, $b) {
+                if ($a['sequence'] == $b['sequence']) {
                     return $a['id'] - $b['id'];
                 }
 
@@ -129,8 +130,9 @@ class Kernel extends Application
             ->getResult();
 
         usort(
-            $data, function($a, $b) {
-                if($a['sequence'] == $b['sequence']) {
+            $data,
+            function($a, $b) {
+                if ($a['sequence'] == $b['sequence']) {
                     return $a['id'] - $b['id'];
                 }
 
@@ -139,9 +141,9 @@ class Kernel extends Application
         );
 
         foreach ($data as &$item) {
-            if($item['type'] == 1) {
+            if ($item['type'] == 1) {
                 $item['link'] = strtr($item['link'], array("%base_url%" => base_url()));
-            } else if($item['type'] == 2) {
+            } elseif ($item['type'] == 2) {
                 $pages = $this->getFrontpage();
                 $item['link'] = base_url($pages[$item['page']]['defaults']['slug']);
             }
@@ -155,18 +157,16 @@ class Kernel extends Application
         $this['extension.manager']->load('system');
 
         try {
-            
             $schema = $this['db']->getSchemaManager();
             
-            if(!$schema->tablesExist('#_system')) {
+            if (!$schema->tablesExist('#_system')) {
                 throw new InstallationException("No System Table", 2);
             }
 
             return $this->getExtension('system')->model('System')->all();
 
         } catch (\PDOException $e) {
-
-            if(in_array($e->getCode(), ['1045', '1044','1046', '1049'])) {
+            if (in_array($e->getCode(), ['1045', '1044','1046', '1049'])) {
                 die('bad config :(');
             }
 
@@ -177,7 +177,7 @@ class Kernel extends Application
 
     public function configure($configFile)
     {
-        if(!file_exists($configFile)) {
+        if (!file_exists($configFile)) {
             throw new InstallationException('No Config File', 1);
         }
 
@@ -187,12 +187,11 @@ class Kernel extends Application
         
         $this['path.cache'] =  $this['path.content'].'cache/data';
         
-        foreach (
-            [
+        foreach ([
             'fontawesome' => 'Drafterbit\\System\\Asset\Filter\\DrafterbitFontAwesomeFilter',
             'chosen_css' => 'Drafterbit\\System\\Asset\Filter\\DrafterbitChosenFilter'
             ]
-            as $name => $class) {
+ as $name => $class) {
                 $this['asset']->getFilterManager()->set($name, new $class($this['dir.system'].'/vendor/web'));
         }
 
@@ -211,14 +210,14 @@ class Kernel extends Application
         $this['themes']->registerAll();
 
         // add language catalogue
-        if(is_dir($path = $this['path.themes'].$this['themes']->current().'/l10n')) {
+        if (is_dir($path = $this['path.themes'].$this['themes']->current().'/l10n')) {
             $this['translator']->addPath($path);
         }
 
         $this['path.theme'] = $this['path.themes'].$this['themes']->current().'/';
 
         $extensions = array();
-        if($system !== false) {
+        if ($system !== false) {
             $extensions = json_decode($system['extensions'], true);
         }
 
@@ -230,11 +229,11 @@ class Kernel extends Application
         
         date_default_timezone_set($system['timezone']);
 
-        if( ! $this['debug']) {
+        if (! $this['debug']) {
             $this['exception']->error(
-                function( NotFoundHttpException $e){
+                function(NotFoundHttpException $e){
                 
-                    if(is_file($this['path.theme'].'404.html')) {
+                    if (is_file($this['path.theme'].'404.html')) {
                         return $this['twig']->render('404.html');
                     }
 
@@ -258,7 +257,8 @@ class Kernel extends Application
 
         // base url
         $this['dispatcher']->addListener(
-            'boot', function(){
+            'boot',
+            function(){
 
                 // frontpage
                 $frontpage = $this->getFrontpage();
@@ -267,7 +267,8 @@ class Kernel extends Application
                 $route = $frontpage[$homepage];
 
                 $this['router']->addRouteDefinition(
-                    '/', [
+                    '/',
+                    [
                     'controller' => $route['controller'],
                     'defaults' => $route['defaults']
                     ]
@@ -276,7 +277,8 @@ class Kernel extends Application
                 // pages
                 $reservedBaseUrl = implode('|', $this->getReservedBaseUrl());
                 $this['router']->addRouteDefinition(
-                    '/{slug}', [
+                    '/{slug}',
+                    [
                     'controller' => '@pages\Frontend::view',
                     'requirements' => [
                     // @prototype  'slug' => "^(?!(?:backend|blog)(?:/|$)).*$"
@@ -284,7 +286,8 @@ class Kernel extends Application
                     ]
                     ]
                 );
-            }, -512
+            },
+            -512
         );
 
         $this->addMiddleware('Drafterbit\\System\\Middlewares\\Security', array($this, $this['session'], $this['router']));
@@ -330,8 +333,8 @@ class Kernel extends Application
     public function getReservedBaseUrl()
     {
         $urls = array();
-        foreach($this->getExtensions() as $extension){
-            if(method_exists($extension, 'getReservedBaseUrl')) {
+        foreach ($this->getExtensions() as $extension) {
+            if (method_exists($extension, 'getReservedBaseUrl')) {
                 $urls =  array_merge($urls, $extension->getReservedBaseUrl());
             }
         }
@@ -345,7 +348,7 @@ class Kernel extends Application
         $this['config']->addReplaces('%content_dir%', $dir);
     }
 
-    public function setConfigFile($file) 
+    public function setConfigFile($file)
     {
         $this['config_file'] = $file;
     }
@@ -382,11 +385,9 @@ class Kernel extends Application
         }
 
         try {
-
             $this->configure($this['config_file']);
 
-        } catch(InstallationException $e) {
-
+        } catch (InstallationException $e) {
             $code = $e->getCode();
             $this['extension.manager']->load('installer');
             $this->getExtension('installer')->setStart($code);
@@ -409,21 +410,21 @@ class Kernel extends Application
     {
         $widgets = array();
         
-        foreach($this->getExtensions() as $extension){
-            if(method_exists($extension, 'dashboardWidgets')) {
+        foreach ($this->getExtensions() as $extension) {
+            if (method_exists($extension, 'dashboardWidgets')) {
                 $widgets =  array_merge($widgets, $extension->dashboardWidgets());
             }
         }
 
-        return $widgets;     
+        return $widgets;
     }
 
     function getStat()
     {
         $stat = array();
         
-        foreach($this->getExtensions() as $extension){
-            if(method_exists($extension, 'getStat')) {
+        foreach ($this->getExtensions() as $extension) {
+            if (method_exists($extension, 'getStat')) {
                 $stat =  array_merge($stat, $extension->getStat());
             }
         }

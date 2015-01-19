@@ -2,7 +2,7 @@
 
     drafTerbit.pages = {};
 
-    if(window.location.hash == '') {
+    if (window.location.hash == '') {
         window.location.hash = 'untrashed';
     }
     
@@ -43,7 +43,7 @@
 
     // change trash, add restore button
     changeUncreateAction = function(s){
-        if(s === 'trashed') {
+        if (s === 'trashed') {
             $('.uncreate-action').html('<i class="fa fa-trash-o"></i> Delete').val('delete');
             $('.uncreate-action').before('<button type="submit" name="action" value="restore" class="btn btn-sm btn-default pages-restore"><i class="fa fa-refresh"></i> Restore </button>');
         } else {
@@ -63,10 +63,11 @@
 
     //status-filter
     $('.pages-status-filter').on(
-        'change', function(){
+        'change',
+        function(){
             var s = $(this).val();
             filterByStatus(s);
-            changeUncreateAction(s);        
+            changeUncreateAction(s);
         }
     );
 

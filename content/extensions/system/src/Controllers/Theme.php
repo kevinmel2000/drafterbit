@@ -12,7 +12,7 @@ class Theme extends BackendController
         $cache = $this->get('cache');
         $post = $this->get('input')->post();
 
-        if($post) {
+        if ($post) {
             $this->setting->updateTheme($post['theme']);
 
             $cache->delete('settings');
@@ -43,7 +43,7 @@ class Theme extends BackendController
 
         $positions = $currentTheme['widgets'];
 
-        if(!isset($currentTheme->widget->position)) {
+        if (!isset($currentTheme->widget->position)) {
             //return 'Current theme does not support widget';
         }
 
@@ -59,8 +59,9 @@ class Theme extends BackendController
             $widgets[$position] = $model->widget($position);
 
             usort(
-                $widgets[$position], function($a, $b) {
-                    if($a['sequence'] == $b['sequence']) {
+                $widgets[$position],
+                function($a, $b) {
+                    if ($a['sequence'] == $b['sequence']) {
                         return $a['id'] - $b['id'];
                     }
 
@@ -70,9 +71,7 @@ class Theme extends BackendController
         }
 
         foreach ($widgets as $name => &$arrayOfWidget) {
-
             foreach ($arrayOfWidget as &$widget) {
-
                 $widget['data']['id'] = $widget['id'];
                 $widget['data']['title'] = $widget['title'];
                 $widgetObj = $this->get('widget')->get($widget['name']);
@@ -88,13 +87,14 @@ class Theme extends BackendController
 
         $theme = $this->get('themes')->current();
 
-        foreach ($menuPositions as $position) {        
+        foreach ($menuPositions as $position) {
             $menus[$position] = $menuModel->getByThemePosition($theme, $position);
 
             //sort
             usort(
-                $menus[$position], function($a, $b) {
-                    if($a['sequence'] == $b['sequence']) {
+                $menus[$position],
+                function($a, $b) {
+                    if ($a['sequence'] == $b['sequence']) {
                         return $a['id'] - $b['id'];
                     }
 
@@ -125,7 +125,7 @@ class Theme extends BackendController
     public function customPreview()
     {
         // end session if preview window id closed
-        if($this->get('input')->post('endSession')) {
+        if ($this->get('input')->post('endSession')) {
             $this->get('session')->remove('customize_mode');
             $this->get('session')->remove('customize_data');
 
@@ -139,7 +139,7 @@ class Theme extends BackendController
         );
         $this->get('session')->set('customize_data', $c_data);
 
-        if($this->get('input')->post('action') == 'save') {
+        if ($this->get('input')->post('action') == 'save') {
             $this->model('@system\System')->updateSetting(
                 [
                 'site.name' => $general['title'],

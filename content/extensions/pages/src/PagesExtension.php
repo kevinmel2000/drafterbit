@@ -7,7 +7,8 @@ class PagesExtension extends \Drafterbit\Framework\Extension
     {
         //log entities
         $this->getApplication()->addLogEntityFormatter(
-            'page', function($id){
+            'page',
+            function($id){
             
                 $label = $this->model('@pages\Pages')->getSingleBy('id', $id)['title'];
                 return '<a href="'.admin_url('pages/edit/'.$id).'">'.$label.'</a>';

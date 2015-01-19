@@ -15,7 +15,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension
         $extensionClass = $ns.'\\Extensions\\TwigExtension';
 
         // this must be after path.theme registered
-        if(class_exists($extensionClass)) {
+        if (class_exists($extensionClass)) {
             $this['twig']->addExtension(new $extensionClass);
         }
 
@@ -30,7 +30,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension
 
         $system = $this->model('@system\System')->all();
 
-        if('blog' === $system['homepage']) {
+        if ('blog' === $system['homepage']) {
             $urlPattern = '{yyyy}/{mm}/{slug}';
             $pageUrlPattern = 'page/{page}';
             $tagUrlPattern = 'tag/{slug}';
@@ -47,7 +47,8 @@ class BlogExtension extends \Drafterbit\Framework\Extension
 
         //log entities
         $this->getApplication()->addLogEntityFormatter(
-            'post', function($id){
+            'post',
+            function($id){
             
                 $label = $this->model('@blog\Post')->getSingleBy('id', $id)['title'];
                 return '<a href="'.admin_url('blog/edit/'.$id).'">'.$label.'</a>';
@@ -84,7 +85,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension
     {
         $system = $this->model('@system\System')->all();
 
-        if('blog' !== $system['homepage']) {
+        if ('blog' !== $system['homepage']) {
             $path = "blog/".$path;
         }
 

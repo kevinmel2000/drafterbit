@@ -3,71 +3,87 @@
             <div class="row row-sticky-toolbar" style="margin:10px 0;">
                 <div class="pull-right">
 
-                    <?php if($search) : ?>
+                    <?php if ($search) :
+?>
                     <div style="display:inline-block; float:right;margin-left:5px;">
                         <input type="search" class="form-control input-sm" placeholder="Search">
                     </div>
-                    <?php 
+                    <?php
 endif; ?>
                     
-                    <?php if($filters) : ?>
-                    <?php foreach ($filters as $filter): ?>
+                    <?php if ($filters) :
+?>
+                    <?php foreach ($filters as $filter) :
+?>
                     <div style="display:inline-block; float:right;margin-left:5px;">
                     <select name="filter" class="form-control input-sm">
-                        <?php foreach ($filter as $key => $value): ?>
+                        <?php foreach ($filter as $key => $value) :
+?>
                             <option><?php echo $value ?></option>
-                        <?php 
+                        <?php
 endforeach ?>
                     </select>
                     </div>
-                    <?php 
+                    <?php
 endforeach ?>
-                    <?php 
+                    <?php
 endif; ?>
 
-                    <?php foreach ($toolbars['right'] as $btn): ?>
-                        <?php if($btn->type == 'a') : ?>
+                    <?php foreach ($toolbars['right'] as $btn) :
+?>
+                        <?php if ($btn->type == 'a') :
+?>
                             <a href="<?php echo $btn->href ?>" class="btn btn-<?php echo $btn->classType ?> btn-sm">
-                                <?php if($btn->faClass) : ?>
+                                <?php if ($btn->faClass) :
+?>
                                     <i class="fa <?php echo $btn->faClass ?>" style="<?php echo isset($btn->faStyle) ? $btn->faStyle : '' ?>"></i>
-                                <?php 
+                                <?php
 endif;?>
                                 <?php echo $btn->label ?>
                             </a>
-                        <?php elseif($btn->type == 'submit') : ?>
+                        <?php
+elseif ($btn->type == 'submit') :
+?>
                             <button class="btn btn-<?php echo $btn->classType ?> btn-sm" type="submit" name="<?php echo $btn->name ?>" value="<?php echo $btn->value; ?>">
-                                <?php if($btn->faClass) : ?>
+                                <?php if ($btn->faClass) :
+?>
                                     <i class="fa <?php echo $btn->faClass ?>"></i>
-                                <?php 
+                                <?php
 endif;?>
                                 <?php echo $btn->label ?>
                             </button>
-                        <?php 
+                        <?php
 endif; ?>
-                    <?php 
+                    <?php
 endforeach; ?>
                 </div>
 
-                <?php foreach ($toolbars['left'] as $btn): ?>
-                    <?php if($btn->type == 'a') : ?>
+                <?php foreach ($toolbars['left'] as $btn) :
+?>
+                    <?php if ($btn->type == 'a') :
+?>
                         <a href="<?php echo $btn->href ?>" class="btn btn-<?php echo $btn->classType ?> btn-sm">
-                            <?php if($btn->faClass) : ?>
+                            <?php if ($btn->faClass) :
+?>
                                 <i class="fa <?php echo $btn->faClass ?>" style="<?php echo isset($btn->faStyle) ? $btn->faStyle : '' ?>"></i>
-                            <?php 
+                            <?php
 endif;?>
                             <?php echo $btn->label ?>
                         </a>
-                    <?php elseif($btn->type == 'submit') : ?>
+                    <?php
+elseif ($btn->type == 'submit') :
+?>
                         <button class="btn btn-<?php echo $btn->classType ?> btn-sm" type="submit" name="<?php echo $btn->name ?>" value="<?php echo $btn->value; ?>">
-                            <?php if($btn->faClass) : ?>
+                            <?php if ($btn->faClass) :
+?>
                                 <i class="fa <?php echo $btn->faClass ?>"></i>
-                            <?php 
+                            <?php
 endif;?>
                             <?php echo $btn->label ?>
                         </button>
-                    <?php 
+                    <?php
 endif; ?>
-                <?php 
+                <?php
 endforeach; ?>
             </div>
     </div>

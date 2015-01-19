@@ -15,7 +15,8 @@ class TwigExtension extends Twig_Extension
     {
         return array(
             new Twig_SimpleFunction(
-                'comment', function($id) {
+                'comment',
+                function($id) {
                     return comment($id);
                 }
             ),

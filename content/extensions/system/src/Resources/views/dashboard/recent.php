@@ -4,7 +4,8 @@
             <h3 class="panel-title">Recent</h3>
         </div>
         <div class="panel-body">
-            <?php if($logs) : ?>
+            <?php if ($logs) :
+?>
             <table width="100%" class="table table-condensed">
             <thead>
                 <tr>
@@ -13,18 +14,21 @@
                 </tr>
             </thead>
             <tbody>
-            <?php foreach ($logs as $log): ?>
+            <?php foreach ($logs as $log) :
+?>
                 <tr>
                     <td width="40%;"><?php echo date('d/m/Y H:i', $log->time); ?></td>
                     <td><?php echo $log->formattedMsg; ?></td>
                 </tr>
-            <?php 
+            <?php
 endforeach; ?>
             </tbody>
             </table>
-            <?php else: ?>
+            <?php
+else :
+?>
                 <p><?php echo __('No recent activity') ?></p>
-            <?php 
+            <?php
 endif; ?>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
 
-if ( ! function_exists('files_url')) {
+if (! function_exists('files_url')) {
     /**
      * Add Message.
      *

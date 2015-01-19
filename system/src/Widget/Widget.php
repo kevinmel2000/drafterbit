@@ -38,14 +38,16 @@ abstract class Widget extends Controller implements WidgetInterface
 
     /**
      * Widget construction.
+     *
+     * @param WidgetUIBuilder $uiBuilder widget for build ui
      */
-    public function __construct(WidgetUIBuilder $uiBuider = null)
+    public function __construct(WidgetUIBuilder $uiBuilder = null)
     {
-        $this->uiBuider = is_null($uiBuider) ? new WidgetUIBuilder : $uiBuider;
+        $this->uiBuilder = is_null($uiBuilder) ? new WidgetUIBuilder : $uiBuilder;
     }
 
     /**
-     * Get or set config value;
+     * Get or set config value.
      *
      * @param string $name
      * @param mixed  $value
@@ -53,15 +55,15 @@ abstract class Widget extends Controller implements WidgetInterface
     public function config($name = null, $value = null)
     {
         // if no arg passed, just return the config
-        if(is_null($name) and is_null($value)) {
+        if (is_null($name) and is_null($value)) {
             return $this->config;
         }
 
-        if(is_array($name)) {
+        if (is_array($name)) {
             return $this->config = $name;
         }
 
-        if(is_null($value)) {
+        if (is_null($value)) {
             return isset($this->config[$name]) ? $this->config[$name] : false;
         }
 
@@ -72,6 +74,7 @@ abstract class Widget extends Controller implements WidgetInterface
      * Set widget data.
      *
      * @param array $data
+     * @return void
      */
     public function setData($data)
     {

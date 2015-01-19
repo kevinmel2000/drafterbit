@@ -1,7 +1,9 @@
 (function($, document, drafTerbit){
 
     $(document).on(
-        'click', '.begin-button', function(e){
+        'click',
+        '.begin-button',
+        function(e){
             e.preventDefault();
             var a = e.target;
             var next = $(a).data('next');
@@ -43,18 +45,16 @@
         {
             dataType: 'json',
             success: function(res, status, xhr, form){
-                if(res.message == 'ok') {
+                if (res.message == 'ok') {
                     var next = form.data('next');
                     $('.install-section').hide();
                     $(next).fadeIn();
             
-                } else if(res.config) {
-
+                } else if (res.config) {
                     $('.config-textarea textarea').text(res.config);
                     $('.config-textarea').modal('show');
 
                 } else {
-                
                     $.notify(res.message, 'danger');
                 }
             }
@@ -66,16 +66,17 @@
             beforeSend: function(){
                 $('.install-trapper').fadeIn();
             },
-            success: function(res, status, xhr, form){    
+            success: function(res, status, xhr, form){
             
                 $('.install-trapper').fadeOut();
 
-                if(res.message == 'ok') {
+                if (res.message == 'ok') {
                     $.notify('Installation success !, redirecting to login page... ', 'success');
                     setTimeout(
                         function(){
                             window.location.replace(drafTerbit.baseUrl+'admin/login');
-                        }, 3000
+                        },
+                        3000
                     );
                 }
             }

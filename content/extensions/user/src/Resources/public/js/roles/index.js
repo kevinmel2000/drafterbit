@@ -22,7 +22,7 @@
             {
                 dataType: 'json',
                 beforeSend: function(){
-                    if(confirm('Are you sure you want to delete those roles, this con not be undone ?')) {
+                    if (confirm('Are you sure you want to delete those roles, this con not be undone ?')) {
                         return true;
                     } else {
                         return false;

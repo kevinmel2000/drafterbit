@@ -57,17 +57,15 @@ class Security implements HttpKernelInterface
      */
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
-        if($access = $request->getMatchingRoute()->getOption('access')) {
+        if ($access = $request->getMatchingRoute()->getOption('access')) {
             try {
-
                 $auth = $this->app->getExtension('user')->model('Auth');
                 $auth->restrict($access);
 
-            } catch(UserNotAuthorizedException $e) {
-                
+            } catch (UserNotAuthorizedException $e) {
                 $message = $e->getMessage();
 
-                if($this->app['input']->isAjax()) {
+                if ($this->app['input']->isAjax()) {
                     return new JsonResponse(
                         [
                         'error' => [
@@ -78,7 +76,7 @@ class Security implements HttpKernelInterface
                     );
                 }
 
-                $referer = $this->app['input']->headers('referer') ? 
+                $referer = $this->app['input']->headers('referer') ?
                     $this->app['input']->headers('referer') : admin_url('dashboard');
                 
                 $this->session->getFlashBag()->add('messages', array('text' => $message, 'type' => 'error'));
@@ -86,12 +84,11 @@ class Security implements HttpKernelInterface
             }
         }
         
-        if($request->getMatchingRoute()->getOption('csrf')) {
-
+        if ($request->getMatchingRoute()->getOption('csrf')) {
             $csrfToken = $this->session->get('_token');
             $csrfInput = $request->get('csrf');
 
-            if($csrfToken !== $csrfInput) {
+            if ($csrfToken !== $csrfInput) {
                 throw new \RuntimeException("invalid session");
             }
         }

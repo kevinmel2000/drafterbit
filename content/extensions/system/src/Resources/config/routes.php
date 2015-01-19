@@ -51,7 +51,7 @@
     // Trail-slash Redirector
     '{url}' => [
         'controller' => function($url){
-            return redirect(base_url(rtrim($url, '/')), 301); 
+            return redirect(base_url(rtrim($url, '/')), 301);
         },
         'requirements' => [
             'url' => ".*/$"

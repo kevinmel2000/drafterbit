@@ -7,7 +7,8 @@
 
     // delete cusomize session on window close
     $(window).on(
-        'beforeunload', function(e){
+        'beforeunload',
+        function(e){
             $.ajax(
                 {
                     type: 'post',
@@ -24,7 +25,7 @@
         {
             dataType: 'json',
             success: function(res){
-                if(res.url) {
+                if (res.url) {
                     $('iframe').prop('src', res.url);
                     console.log(res.url);
                 }
@@ -34,22 +35,23 @@
 
     // menu form
     $(document).on(
-        'submit', '.menu-form',function(e){
+        'submit',
+        '.menu-form',
+        function(e){
             e.preventDefault();
             $(this).ajaxSubmit(
                 {
                     dataType: 'json',
                     success: function(res, a, b, form){
-                        if(res.error) {
-                            if(res.error.type == 'validation') {
-                                for(name in res.error.messages) {
+                        if (res.error) {
+                            if (res.error.type == 'validation') {
+                                for (name in res.error.messages) {
                                     $(form).find(':input[name="'+name+'"]').parent().addClass('has-error');
                                 }
                             }
                         }
 
-                        if(!res.error) {
-
+                        if (!res.error) {
                             $(form).find('input[name="id"]').val(res.id);
                             $(form).closest('.menu-item-container').prop('id', res.id+'-menu-item-container');
 
@@ -64,24 +66,27 @@
     );
 
     $('iframe').on(
-        'load', function(e){
+        'load',
+        function(e){
             var currentPreviewUrl = e.currentTarget.contentWindow.document.URL
             $('#customizer-form input[name="url"]').val(currentPreviewUrl);
         
             $(this).contents().find('a').on(
-                'click', function(e){
-                    if(e.currentTarget.href.indexOf(drafTerbit.baseUrl) == -1) {
+                'click',
+                function(e){
+                    if (e.currentTarget.href.indexOf(drafTerbit.baseUrl) == -1) {
                         e.preventDefault();
                         console.log('Can\'t load external url when customizing');
                     }
                 }
-            );        
+            );
         }
     );
 
     $('iframe').contents().find('a').on(
-        'click', function(e){
-            if(e.currentTarget.href.indexOf(drafTerbit.baseUrl) == -1) {
+        'click',
+        function(e){
+            if (e.currentTarget.href.indexOf(drafTerbit.baseUrl) == -1) {
                 e.preventDefault();
                 console.log('Can\'t load external url while customizing');
             }
@@ -113,12 +118,13 @@
             $('.col-container').animate({marginLeft:"0px"}, 300);
 
             //collapse opened opened available widget
-            if($('body').data('expanded')) {
-            
+            if ($('body').data('expanded')) {
                 var x = $('html').width();
             
                 $('body').animate(
-                    {marginLeft:"0px"}, 300, function(){
+                    {marginLeft:"0px"},
+                    300,
+                    function(){
                         $('html').width(x-300);
                     }
                 );
@@ -129,15 +135,17 @@
         }
     );
 
-    // menu type selectbox 
+    // menu type selectbox
     $(document).on(
-        'change', '.menu-type', function(){
+        'change',
+        '.menu-type',
+        function(){
             var id = $(this).val();
             var parent = $(this).parent('.form-group');
-            if(id == 1) {
+            if (id == 1) {
                 parent.siblings('.menu-type-page').hide();
                 parent.siblings('.menu-type-link').show();
-            } else if(id == 2) {
+            } else if (id == 2) {
                 parent.siblings('.menu-type-link').hide();
                 parent.siblings('.menu-type-page').show();
             }
@@ -145,10 +153,12 @@
     );
 
     $(document).on(
-        'keyup', '.menu-label', function(){
+        'keyup',
+        '.menu-label',
+        function(){
             var val= $(this).val();
 
-            if(val.trim() == '') {
+            if (val.trim() == '') {
                 val = 'unlabeled';
             }
 
@@ -158,7 +168,9 @@
 
     // add menu
     $(document).on(
-        'click', '.menu-adder', function(e){
+        'click',
+        '.menu-adder',
+        function(e){
             e.preventDefault();
             var position = $(this).data('position');
             var theme = $(this).data('theme');
@@ -181,7 +193,9 @@
 
     //delete menu
     $(document).on(
-        'click', '.delete-menu-item', function(e){
+        'click',
+        '.delete-menu-item',
+        function(e){
             e.preventDefault();
             var id = $(this).closest('.menu-form').find('input[name="id"]').val();
         
@@ -201,12 +215,16 @@
 
     //available widget adder/toggler
     $(document).on(
-        'click', '.dt-widget-adder', function() {
+        'click',
+        '.dt-widget-adder',
+        function() {
             var x = $('html').width();
             var position = $(this).data('position');
-            if($('body').data('expanded')) {
+            if ($('body').data('expanded')) {
                 $('body').animate(
-                    {marginLeft:"0px"}, 300, function(){
+                    {marginLeft:"0px"},
+                    300,
+                    function(){
                         $('html').width(x-300);
                     }
                 );
@@ -223,7 +241,9 @@
 
     // widget addition
     $(document).on(
-        'click', '.dt-widget-item', function(){
+        'click',
+        '.dt-widget-item',
+        function(){
             var pos = $(this).closest('#dt-widget-availables').data('position');
             var id = Date.now();
             var name = $(this).data('name');
@@ -246,7 +266,9 @@
 
     // widget edit form
     $(document).on(
-        'submit', '.widget-edit-form',function(e){
+        'submit',
+        '.widget-edit-form',
+        function(e){
             e.preventDefault();
             var theme = $(this).closest('.widget-container').find('a.dt-widget-adder').data('theme');
             var position = $(this).closest('.widget-container').find('a.dt-widget-adder').data('position');
@@ -262,8 +284,7 @@
                     },
                     success: function(res, a, b, form){
                 
-                        if(!res.error) {
-
+                        if (!res.error) {
                             $(form).find('input[name="id"]').val(res.id);
                             $(form).closest('.widget-item-container').prop('id', res.id+'-widget-item-container');
                     
@@ -280,7 +301,9 @@
 
     //delete widget
      $(document).on(
-         'click', '.dt-widget-remover',function(e){
+         'click',
+         '.dt-widget-remover',
+            function(e){
                 e.preventDefault();
                 var id = $(this).data('id');
                 $.post(drafTerbit.adminUrl+'/setting/themes/widget/delete', {id:id});

@@ -61,9 +61,8 @@ class Log implements HttpKernelInterface
 
         unset($requestContext['password']);
 
-        if($beforeLog) {
-
-            if($userId = $this->app['session']->get('user.id')) {
+        if ($beforeLog) {
+            if ($userId = $this->app['session']->get('user.id')) {
                 $context = [
                     'user_id' => $userId,
                     'ip' => $request->getClientIp()
@@ -80,8 +79,8 @@ class Log implements HttpKernelInterface
 
         $afterLog = (array) $route->getOption('log.after');
 
-        if($afterLog) {
-            if($userId = $this->app['session']->get('user.id')) {
+        if ($afterLog) {
+            if ($userId = $this->app['session']->get('user.id')) {
                 $context = [
                     'user_id' => $userId,
                     'ip' => $request->getClientIp()
@@ -90,10 +89,9 @@ class Log implements HttpKernelInterface
                 $context = array_merge($context, $requestContext);
 
                 // if response is json, we creat response context;
-                if($response instanceof JsonResponse) {
-
+                if ($response instanceof JsonResponse) {
                     $responseContext = json_decode($response->getContent(), true);
-                    if(json_last_error() == JSON_ERROR_NONE) {
+                    if (json_last_error() == JSON_ERROR_NONE) {
                         $context = array_merge($context, $responseContext);
                     }
                 }
@@ -111,7 +109,7 @@ class Log implements HttpKernelInterface
     {
         $newArray = array();
         foreach ($context as $key => $value) {
-            if(is_string($value)) {
+            if (is_string($value)) {
                 $newArray['%'.$key.'%'] = $value;
             }
         }

@@ -1,7 +1,6 @@
 <?php
 
-if ( ! function_exists('comment')) {
-
+if (! function_exists('comment')) {
     /**
      * Print comments and form
      *
@@ -9,7 +8,7 @@ if ( ! function_exists('comment')) {
      * @return string
      * @todo   find the right way to do this
      */
-    function comment($id) 
+    function comment($id)
     {
         $comments = app()->getExtension('blog')->getComments($id);
 
@@ -45,15 +44,14 @@ if ( ! function_exists('comment')) {
     }
 }
 
-if ( ! function_exists('blog_url')) {
-
+if (! function_exists('blog_url')) {
     /**
      * Blog url, this will create proper url for posts
      *
      * @param  string $path
      * @return string
      */
-    function blog_url($path) 
+    function blog_url($path)
     {
         return app()->getExtension('blog')->getUrl($path);
     }

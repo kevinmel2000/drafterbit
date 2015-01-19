@@ -12,9 +12,11 @@
             <!-- /.navbar-header -->
             <div class="dt-off-canvas">
             <ul class="nav navbar-top-links navbar-left">
-                <?php foreach ($menus as $menu): ?>
+                <?php foreach ($menus as $menu) :
+?>
                     
-                    <?php if($menu->hasChildren()) : ?>
+                    <?php if ($menu->hasChildren()) :
+?>
                         <li class="dropdown">
                             <a class="navbar-link dropdown-toggle" data-toggle="dropdown" href="#">
                                 <?php echo $menu->label; ?>
@@ -25,24 +27,28 @@
                                   <span class="caret-inner"></span>
                                 </div>
 
-                                <?php foreach($menu->children as $childMenu): ?>
-                                    <li><a id="nav-<?php echo $childMenu->id ?>" class="<?php echo $childMenu->class ?>" href="<?php echo admin_url($childMenu->href);  ?>"><?php echo $childMenu->label; ?></a></li>
-                                <?php 
+                                <?php foreach ($menu->children as $childMenu) :
+?>
+                                    <li><a id="nav-<?php echo $childMenu->id ?>" class="<?php echo $childMenu->class ?>" href="<?php echo admin_url($childMenu->href);
+?>"><?php echo $childMenu->label; ?></a></li>
+                                <?php
 endforeach;?>
                             </ul>
                             <!-- /.dropdown -->
                         </li>
                     
-                    <?php else: ?>
+                    <?php
+else :
+?>
                          <li>
                             <a id="nav-<?php echo $menu->id ?>" class="navbar-link <?php echo $menu->class ?>"  href="<?php echo admin_url($menu->href); ?>">
                                 <?php echo $menu->label; ?>
                             </a>
                         </li>
-                    <?php 
+                    <?php
 endif; ?>
 
-                <?php 
+                <?php
 endforeach ?>
             </ul>
             </div>

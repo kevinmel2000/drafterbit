@@ -19,7 +19,6 @@ class Frontend extends FrontendController
         $system = $this->model('@system\System')->all();
 
         foreach ($posts as &$post) {
-
             $date = date('Y/m', strtotime($post['created_at']));
 
             $post['date'] = $this->get('time')->parse($post['created_at'])->format($system['format.date']);
@@ -28,7 +27,7 @@ class Frontend extends FrontendController
 
             $post['excerpt'] = false;
             
-            if(strpos($post['content'], '<!--more-->') !== false) {
+            if (strpos($post['content'], '<!--more-->') !== false) {
                 $post['excerpt'] = current(explode('<!--more-->', $post['content'])).'&hellip;';
             }
 
@@ -41,11 +40,11 @@ class Frontend extends FrontendController
         $data['prev_link'] = false;
         $data['next_link'] = false;
 
-        if($page > 1) {
+        if ($page > 1) {
             $data['prev_link'] = blog_url('page/'.($page-1));
         }
 
-        if($nextPosts) {
+        if ($nextPosts) {
             $data['next_link'] = blog_url('page/'.($page+1));
         }
 
@@ -64,10 +63,10 @@ class Frontend extends FrontendController
         return $this->render('blog/view', $data);
     }
 
-    public function tag($slug) 
+    public function tag($slug)
     {
 
-        $tag = $this->model('@blog\Tag')->getSingleBy('slug', $slug); 
+        $tag = $this->model('@blog\Tag')->getSingleBy('slug', $slug);
         $posts = $this->model('@blog\Tag')->getPosts($tag['id']);
         
 
@@ -76,7 +75,6 @@ class Frontend extends FrontendController
         $data['next_link'] = false;
         
         foreach ($posts as &$post) {
-
             $date = date('Y/m', strtotime($post['created_at']));
 
             $post['date'] = $this->get('time')->parse($post['created_at'])->format('d F Y');
@@ -85,7 +83,7 @@ class Frontend extends FrontendController
 
             $post['excerpt'] = false;
             
-            if(strpos($post['content'], '<!--more-->') !== false) {
+            if (strpos($post['content'], '<!--more-->') !== false) {
                 $post['excerpt'] = current(explode('<!--more-->', $post['content'])).'&hellip;';
             }
 

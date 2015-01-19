@@ -1,7 +1,6 @@
 <?php
 
-if ( ! function_exists('form_open')) {
-
+if (! function_exists('form_open')) {
     /**
  * Form Declaration
  *
@@ -28,7 +27,7 @@ if ( ! function_exists('form_open')) {
 
         // @todo add CSRF protection
 
-        if (is_array($hidden) AND count($hidden) > 0) {
+        if (is_array($hidden) and count($hidden) > 0) {
             $form .= sprintf("<div style=\"display:none\">%s</div>", form_hidden($hidden));
         }
 
@@ -37,8 +36,7 @@ if ( ! function_exists('form_open')) {
 }
 
 
-if ( ! function_exists('input_hidden')) {
-
+if (! function_exists('input_hidden')) {
     /**
  * Hidden Input Field
  *
@@ -52,7 +50,7 @@ if ( ! function_exists('input_hidden')) {
  */
 
     function input_hidden($name, $value = '')
-    {    
+    {
         $form = '';
         if (is_array($name)) {
             foreach ($name as $key => $val) {
@@ -61,7 +59,7 @@ if ( ! function_exists('input_hidden')) {
             return $form;
         }
 
-        if ( ! is_array($value)) {
+        if (! is_array($value)) {
             $form .= '<input type="hidden" name="'.$name.'" value="'._prepare_value($value, $name).'" />'."\n";
         } else {
             foreach ($value as $k => $v) {
@@ -74,8 +72,7 @@ if ( ! function_exists('input_hidden')) {
     }
 }
 
-if ( ! function_exists('input_text')) {
-
+if (! function_exists('input_text')) {
     /**
  * Text Input Field
  *
@@ -95,8 +92,7 @@ if ( ! function_exists('input_text')) {
 }
 
 
-if ( ! function_exists('input_password')) {
-
+if (! function_exists('input_password')) {
     /**
  * Password Field
  *
@@ -111,7 +107,7 @@ if ( ! function_exists('input_password')) {
 
     function input_password($data = '', $value = '', $extra = '')
     {
-        if ( ! is_array($data)) {
+        if (! is_array($data)) {
             $data = array('name' => $data);
         }
 
@@ -120,8 +116,7 @@ if ( ! function_exists('input_password')) {
     }
 }
 
-if ( ! function_exists('input_file')) {
-
+if (! function_exists('input_file')) {
     /**
  * Upload Field
  *
@@ -136,7 +131,7 @@ if ( ! function_exists('input_file')) {
 
     function input_file($data = '', $value = '', $extra = '')
     {
-        if ( ! is_array($data)) {
+        if (! is_array($data)) {
             $data = array('name' => $data);
         }
 
@@ -145,8 +140,7 @@ if ( ! function_exists('input_file')) {
     }
 }
 
-if ( ! function_exists('input_textarea')) {
-
+if (! function_exists('input_textarea')) {
     /**
  * Textarea field
  *
@@ -161,7 +155,7 @@ if ( ! function_exists('input_textarea')) {
     {
         $defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'cols' => '40', 'rows' => '10');
 
-        if ( ! is_array($data) OR ! isset($data['value'])) {
+        if (! is_array($data) or ! isset($data['value'])) {
             $val = $value;
         } else {
             $val = $data['value'];
@@ -176,8 +170,7 @@ if ( ! function_exists('input_textarea')) {
 }
 
 
-if ( ! function_exists('input_multiselect')) {
-
+if (! function_exists('input_multiselect')) {
     /**
  * Multi-select menu
  *
@@ -190,7 +183,7 @@ if ( ! function_exists('input_multiselect')) {
  */
     function input_multiselect($name = '', $options = array(), $selected = array(), $extra = '')
     {
-        if ( ! strpos($extra, 'multiple')) {
+        if (! strpos($extra, 'multiple')) {
             $extra .= ' multiple="multiple"';
         }
 
@@ -199,8 +192,7 @@ if ( ! function_exists('input_multiselect')) {
 }
 
 
-if ( ! function_exists('input_select')) {
-
+if (! function_exists('input_select')) {
     /**
  * Drop-down Menu
  *
@@ -214,11 +206,12 @@ if ( ! function_exists('input_select')) {
 
     function input_select($name = '', $options = array(), $selected = array(), $extra = '')
     {
-        if ( ! is_array($selected)) {
+        if (! is_array($selected)) {
             $selected = array($selected);
         }
 
-        if ($extra != '') { $extra = ' '.$extra; 
+        if ($extra != '') {
+            $extra = ' '.$extra;
         }
 
         $multiple = (count($selected) > 1 && strpos($extra, 'multiple') === false) ? ' multiple="multiple"' : '';
@@ -226,7 +219,6 @@ if ( ! function_exists('input_select')) {
         $form = '<select name="'.$name.'"'.$extra.$multiple.">\n";
 
         foreach ($options as $key => $val) {
-
             $key = (string) $key;
 
             if (is_array($val) && ! empty($val)) {
@@ -252,8 +244,7 @@ if ( ! function_exists('input_select')) {
     }
 }
 
-if ( ! function_exists('input_checkbox')) {
-
+if (! function_exists('input_checkbox')) {
     /**
  * Checkbox Field
  *
@@ -269,7 +260,7 @@ if ( ! function_exists('input_checkbox')) {
     {
         $defaults = array('type' => 'checkbox', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-        if (is_array($data) AND array_key_exists('checked', $data)) {
+        if (is_array($data) and array_key_exists('checked', $data)) {
             $checked = $data['checked'];
 
             if ($checked == false) {
@@ -289,8 +280,7 @@ if ( ! function_exists('input_checkbox')) {
     }
 }
 
-if ( ! function_exists('input_radio')) {
-
+if (! function_exists('input_radio')) {
     /**
  * Radio Button
  *
@@ -304,7 +294,7 @@ if ( ! function_exists('input_radio')) {
 
     function input_radio($data = '', $value = '', $checked = false, $extra = '')
     {
-        if ( ! is_array($data)) {
+        if (! is_array($data)) {
             $data = array('name' => $data);
         }
 
@@ -313,8 +303,7 @@ if ( ! function_exists('input_radio')) {
     }
 }
 
-if ( ! function_exists('input_submit')) {
-
+if (! function_exists('input_submit')) {
     /**
  * Submit Button
  *
@@ -333,8 +322,7 @@ if ( ! function_exists('input_submit')) {
     }
 }
 
-if ( ! function_exists('input_reset')) {
-
+if (! function_exists('input_reset')) {
     /**
  * Reset Button
  *
@@ -352,8 +340,7 @@ if ( ! function_exists('input_reset')) {
     }
 }
 
-if ( ! function_exists('input_button')) {
-
+if (! function_exists('input_button')) {
     /**
  * Form Button
  *
@@ -367,7 +354,7 @@ if ( ! function_exists('input_button')) {
     {
         $defaults = array('name' => (( ! is_array($data)) ? $data : ''), 'type' => 'button');
 
-        if ( is_array($data) AND isset($data['content'])) {
+        if (is_array($data) and isset($data['content'])) {
             $content = $data['content'];
 
             // content is not an attribute
@@ -378,8 +365,7 @@ if ( ! function_exists('input_button')) {
     }
 }
 
-if ( ! function_exists('label')) {
-
+if (! function_exists('label')) {
     /**
  * Form Label Tag
  *
@@ -399,9 +385,8 @@ if ( ! function_exists('label')) {
             $label .= " for=\"$id\"";
         }
 
-        if (is_array($attributes) AND count($attributes) > 0) {
-            foreach ($attributes as $key => $val)
-            {
+        if (is_array($attributes) and count($attributes) > 0) {
+            foreach ($attributes as $key => $val) {
                 $label .= ' '.$key.'="'.$val.'"';
             }
         }
@@ -412,8 +397,7 @@ if ( ! function_exists('label')) {
     }
 }
 
-if ( ! function_exists('fieldset_open')) {
-
+if (! function_exists('fieldset_open')) {
     /**
  * Fieldset Tag
  *
@@ -443,8 +427,7 @@ if ( ! function_exists('fieldset_open')) {
 }
 
 
-if ( ! function_exists('fieldset_close')) {
-
+if (! function_exists('fieldset_close')) {
     /**
  * Fieldset Close Tag
  *
@@ -458,8 +441,7 @@ if ( ! function_exists('fieldset_close')) {
     }
 }
 
-if ( ! function_exists('form_close')) {
-
+if (! function_exists('form_close')) {
     /**
  * Form Close Tag
  *
@@ -474,8 +456,7 @@ if ( ! function_exists('form_close')) {
 }
 
 
-if ( ! function_exists('_prepare_value')) {
-
+if (! function_exists('_prepare_value')) {
     /**
  * Format text so it can be safely placed in a form field in case it has HTML tags.
  *
@@ -519,8 +500,7 @@ if ( ! function_exists('_prepare_value')) {
 }
 
 
-if ( ! function_exists('_parse_attributes')) {
-
+if (! function_exists('_parse_attributes')) {
     /**
  * Parse the form attributes
  *
@@ -561,8 +541,7 @@ if ( ! function_exists('_parse_attributes')) {
     }
 }
 
-if ( ! function_exists('_join_attributes')) {
-
+if (! function_exists('_join_attributes')) {
     /**
  * Attributes To String
  *
@@ -575,14 +554,14 @@ if ( ! function_exists('_join_attributes')) {
  */
     function _join_attributes($attributes, $formtag = false)
     {
-        if (is_object($attributes) AND count($attributes) > 0) {
+        if (is_object($attributes) and count($attributes) > 0) {
             $attributes = (array)$attributes;
         }
 
-        if (is_array($attributes) AND count($attributes) > 0) {
+        if (is_array($attributes) and count($attributes) > 0) {
             $atts = '';
 
-            if ( ! isset($attributes['method']) AND $formtag === true) {
+            if (! isset($attributes['method']) and $formtag === true) {
                 $atts .= ' method="post"';
             }
 
@@ -595,7 +574,7 @@ if ( ! function_exists('_join_attributes')) {
     }
 }
 
-if ( ! function_exists('value')) {
+if (! function_exists('value')) {
     /**
      * Get input value
      *
@@ -609,7 +588,7 @@ if ( ! function_exists('value')) {
     }
 }
 
-if ( ! function_exists('set_option')) {
+if (! function_exists('set_option')) {
     /**
      * Set the option to current selected or checked
      *
@@ -627,7 +606,8 @@ if ( ! function_exists('set_option')) {
 
         $post = app('input')->get($name);
 
-        if (is_null($post)) { return null; 
+        if (is_null($post)) {
+            return null;
         }
 
         if (is_array($post)) {
@@ -638,7 +618,7 @@ if ( ! function_exists('set_option')) {
     }
 }
 
-if ( ! function_exists('checked')) {
+if (! function_exists('checked')) {
     /**
      * Set input checked
      *
@@ -653,7 +633,7 @@ if ( ! function_exists('checked')) {
     }
 }
 
-if ( ! function_exists('selected')) {
+if (! function_exists('selected')) {
     /**
      * Set options selected
      *
@@ -668,7 +648,7 @@ if ( ! function_exists('selected')) {
     }
 }
 
-if ( ! function_exists('hide')) {
+if (! function_exists('hide')) {
     /**
      * Hide a form section based in value
      *
@@ -679,7 +659,7 @@ if ( ! function_exists('hide')) {
      */
     function hide($name, $value = null, $default = false)
     {
-        if($default) {
+        if ($default) {
             return 'display:block';
         }
         

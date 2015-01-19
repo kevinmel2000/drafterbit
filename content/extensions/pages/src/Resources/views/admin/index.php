@@ -23,4 +23,4 @@
 
 <?php echo $pagesTable; ?>
 
-<?php $this->js('@pages/js/index.js'); ?>
+<?php $this->js('@pages/js/index.js'); 

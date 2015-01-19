@@ -28,7 +28,8 @@ class Widget extends Model
 
         $this->get('db')
             ->insert(
-                '#_widgets',  array(
+                '#_widgets',
+                array(
                     'name' => $name,
                     'position' =>  $pos,
                     'theme' =>  $theme
@@ -60,7 +61,7 @@ class Widget extends Model
     {
         $data =  json_encode($data);
 
-        if($this->has($id)) {
+        if ($this->has($id)) {
             $this->get('db')->update('#_widgets', array('title' => $title, 'data' => $data), array('id' => $id));
             return $id;
         }

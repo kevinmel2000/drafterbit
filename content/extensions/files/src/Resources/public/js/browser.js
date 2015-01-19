@@ -11,8 +11,7 @@
     var funcNum = getUrlParam('CKEditorFuncNum');
 
     var ckeditorCallback;
-    if(funcNum != '') {
-
+    if (funcNum != '') {
         ckeditorCallback = function(e){
             e.preventDefault();
             url = $(e.currentTarget).attr('href');

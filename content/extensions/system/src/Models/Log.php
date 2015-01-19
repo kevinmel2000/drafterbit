@@ -21,7 +21,7 @@ class Log extends \Drafterbit\Framework\Model
             ->from('#_logs', 'l')
             ->orderBy('time', 'DESC')->setMaxResults(10);
 
-        return $stmt->execute()->fetchAll();    
+        return $stmt->execute()->fetchAll();
     }
 
     public function delete($id)

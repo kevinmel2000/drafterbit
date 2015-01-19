@@ -1,6 +1,6 @@
 <?php
 
-if ( ! function_exists('admin_url')) {
+if (! function_exists('admin_url')) {
      /**
      * admin url
      *
@@ -15,13 +15,13 @@ if ( ! function_exists('admin_url')) {
     }
 }
 
-if ( ! function_exists('wysiwyg')) {
+if (! function_exists('wysiwyg')) {
     /**
      * Get theme path
      *
      * @param string $path
      */
-    function wysiwyg($name, $default = null, $attr="")
+    function wysiwyg($name, $default = null, $attr = "")
     {
         // @todo create asset_url
         $path = base_url('system/Resources/public/assets');
@@ -56,7 +56,7 @@ EOD;
     }
 }
 
-if ( ! function_exists('theme_url')) {
+if (! function_exists('theme_url')) {
     /**
      * Get theme path
      *
@@ -72,7 +72,7 @@ if ( ! function_exists('theme_url')) {
     }
 }
 
-if ( ! function_exists('asset_url')) {
+if (! function_exists('asset_url')) {
     /**
      * Asset url
      *
@@ -80,11 +80,10 @@ if ( ! function_exists('asset_url')) {
      */
     function asset_url($path)
     {
-        if('@' === $path[0]) {
+        if ('@' === $path[0]) {
             $_temp = explode('/', $path);
 
-            if(ltrim(array_shift($_temp), '@') == 'vendor') {
-
+            if (ltrim(array_shift($_temp), '@') == 'vendor') {
                 $base = 'system/vendor/web/';
                 $path = implode('/', $_temp);
                 $path = $base.$path;
@@ -95,15 +94,14 @@ if ( ! function_exists('asset_url')) {
     }
 }
 
-if(!function_exists('gravatar_url')) {
-    
+if (!function_exists('gravatar_url')) {
     /**
      * Create gravatar url byb given email
      *
      * @param  string $email
      * @param  int    $size
      * @return void
-     * @author 
+     * @author
      **/
     function gravatar_url($email, $size = 47)
     {

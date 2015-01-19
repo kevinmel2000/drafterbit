@@ -12,17 +12,18 @@
         },
 
         hideAllForms: function() {
-            for(var n=0;n<this.forms.length;n++) {
+            for (var n=0; n<this.forms.length; n++) {
                 this.forms[n].style.display = 'none';
             }
         },
 
         listenReply: function(){
 
-            for(var i=0;i<this.dr.length;i++) {
+            for (var i=0; i<this.dr.length; i++) {
                 var parent = this;
                 this.dr[i].addEventListener(
-                    'click', function(e){
+                    'click',
+                    function(e){
                     
                         e.preventDefault();
 
@@ -37,10 +38,11 @@
         },
 
         listenCancel: function() {
-            for(var i=0;i<this.cr.length;i++) {
+            for (var i=0; i<this.cr.length; i++) {
                 var parent = this;
                 this.cr[i].addEventListener(
-                    'click', function(e){
+                    'click',
+                    function(e){
                     
                         e.preventDefault();
                         // var id = this.dataset.parentId;

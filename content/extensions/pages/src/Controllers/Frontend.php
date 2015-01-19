@@ -20,7 +20,7 @@ class Frontend extends FrontendController
         
         $data['page'] = $page;
 
-        // @todo: blank layout        
+        // @todo: blank layout
         return $this->render('page/view', $data);
     }
 

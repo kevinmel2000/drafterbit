@@ -6,7 +6,7 @@ class Menus extends Model
 {
 
     public function getByThemePosition($theme, $position)
-    {        
+    {
         $menus = $this->withQueryBuilder()
             ->select('*')
             ->from('#_menus', 'w')
@@ -21,7 +21,7 @@ class Menus extends Model
 
     public function save($id, $data)
     {
-        if($this->exists($id)) {
+        if ($this->exists($id)) {
             return $this->update($id, $data);
         } else {
             return $this->insert($data);

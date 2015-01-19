@@ -1,6 +1,6 @@
 <?php namespace Drafterbit\System\Asset\Filter;
 
-use Assetic\Asset\AssetInterface;  
+use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
 
 class DrafterbitBasePathFilter implements FilterInterface

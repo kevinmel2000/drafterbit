@@ -28,18 +28,18 @@ class Comment extends BackendController
         $commentIds = $post['comments'];
 
         switch($post['action']) {
-        case "trash":
-            foreach($commentIds as $id) {
-                $this->model('@blog\Comment')->trash($id);
-            }
-            break;
-        case 'delete':
-            $this->model('@blog\Comment')->delete($commentIds);
-        case 'restore':
-            $this->model('@blog\Comment')->restore($commentIds);
-            break;
-        default:
-            break;
+            case "trash":
+                foreach ($commentIds as $id) {
+                    $this->model('@blog\Comment')->trash($id);
+                }
+                break;
+            case 'delete':
+                $this->model('@blog\Comment')->delete($commentIds);
+            case 'restore':
+                $this->model('@blog\Comment')->restore($commentIds);
+                break;
+            default:
+                break;
         }
     }
 
@@ -57,11 +57,9 @@ class Comment extends BackendController
 
             $content = "{$comment->content}";
 
-            if($comment->deleted_at == '0000-00-00 00:00:00') {
+            if ($comment->deleted_at == '0000-00-00 00:00:00') {
                 $content .= "<div class=\"comment-action\">";
-                if($comment->status != 2) {
-
-
+                if ($comment->status != 2) {
                     $display = $comment->status == 1 ? 'inline' : 'none';
                     $display2 = $comment->status == 0 ? 'inline' : 'none';
 
@@ -137,7 +135,6 @@ class Comment extends BackendController
     public function submit()
     {
         try {
-
             $comment = $this->get('input')->post();
 
             $this->validate('comment', $comment);
@@ -151,9 +148,9 @@ class Comment extends BackendController
             $data['parent_id']  = $comment['parent_id'];
             $data['post_id']    = $postId = $comment['post_id'];
             
-            if($moderation == 0) {
+            if ($moderation == 0) {
                 $data['status'] = 1;
-            } else if($moderation == 1) {
+            } elseif ($moderation == 1) {
                 $data['status'] = 0;
             }
             
@@ -183,7 +180,6 @@ class Comment extends BackendController
             return redirect($referer.'#comment-'.$id);
         
         } catch (ValidationFailsException $e) {
-            
             $messages = $e->getMessages();
             
             return implode('<br/>', array_values($messages));

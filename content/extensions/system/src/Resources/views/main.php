@@ -9,7 +9,7 @@
         
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css(
-        '
+    '
           :bootstrap_css,
           :notify_css,
           @system/css/overrides-bootstrap.css,
@@ -52,13 +52,15 @@
         drafTerbit.initAjaxForm();
 
 
-        <?php if(isset($messages)) : ?>
-                <?php foreach( $messages as $message ): ?>
+        <?php if (isset($messages)) :
+?>
+                <?php foreach ($messages as $message) :
+?>
                     msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
-                <?php 
+                <?php
 endforeach; ?>
-        <?php 
+        <?php
 endif;?>
         </script>
 </body>

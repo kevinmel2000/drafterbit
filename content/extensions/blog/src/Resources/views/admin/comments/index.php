@@ -22,4 +22,4 @@
 
 <?php echo $commentsTable; ?>
 
-<?php $this->js('@blog/js/comment/index.js'); ?>
+<?php $this->js('@blog/js/comment/index.js'); 

@@ -14,7 +14,7 @@ class Widget extends BackendController
 
         $positions = $currentTheme['widgets'];
 
-        if(!isset($currentTheme->widget->position)) {
+        if (!isset($currentTheme->widget->position)) {
             //return 'Current theme does not support widget';
         }
 
@@ -27,9 +27,7 @@ class Widget extends BackendController
         $widg = $this->get('widget')->all();
 
         foreach ($widgets as $name => $arrayOfWidget) {
-
             foreach ($arrayOfWidget as $widget) {
-
                 $widgetObj = $this->get('widget')->get($widget->name);
 
                 $widget->ui = $this->get('widget.ui')->build($widgetObj);
@@ -48,7 +46,8 @@ class Widget extends BackendController
 
     public function add($name)
     {
-        if(!$this->isAjax()) { show_404(); 
+        if (!$this->isAjax()) {
+            show_404();
         }
         
         $widget = $this->get('widget')->get($name);
@@ -68,7 +67,8 @@ class Widget extends BackendController
 
     public function edit($id)
     {
-        if(!$this->isAjax()) { show_404(); 
+        if (!$this->isAjax()) {
+            show_404();
         }
         
         $installed = $this->model('widget')->fetch($id);

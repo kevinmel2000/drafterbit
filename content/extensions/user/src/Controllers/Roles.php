@@ -34,7 +34,7 @@ class Roles extends BackendController
 
         $roles = $this->get('input')->post('roles');
 
-        if(!$roles) {
+        if (!$roles) {
             return $this->jsonResponse(
                 [
                 'message' => 'Please make selection',
@@ -46,34 +46,34 @@ class Roles extends BackendController
         $action = $this->get('input')->post('action');
 
         switch($action) {
-        case "delete":
+            case "delete":
 
-            $freezed = array();
-            $notfreezed = array();
+                $freezed = array();
+                $notfreezed = array();
                 
-            foreach ($roles as $role) {
-                if($this->model('@user\Role')->getRoledUsers($role)) {
-                    $freezed[] = $this->model('@user\Role')->getRoleName($role);
-                } else {
-                    $notfreezed[] = $role;
+                foreach ($roles as $role) {
+                    if ($this->model('@user\Role')->getRoledUsers($role)) {
+                        $freezed[] = $this->model('@user\Role')->getRoleName($role);
+                    } else {
+                        $notfreezed[] = $role;
+                    }
                 }
-            }
 
-            if($notfreezed) {
-                $this->model('@user\Role')->delete($notfreezed);
-            }
+                if ($notfreezed) {
+                    $this->model('@user\Role')->delete($notfreezed);
+                }
 
-            if(count($freezed) > 0) {
-                $message = 'Can not delete following roles: '.implode(', ', $freezed).'. Due to there are users roled by them';
-                $status = 'warning';
-            } else {
-                $message = 'Selected roles was deleted';
-                $status = 'success';
-            }
+                if (count($freezed) > 0) {
+                    $message = 'Can not delete following roles: '.implode(', ', $freezed).'. Due to there are users roled by them';
+                    $status = 'warning';
+                } else {
+                    $message = 'Selected roles was deleted';
+                    $status = 'success';
+                }
 
-            break;
-        default:
-            break;
+                break;
+            default:
+                break;
         }
         
         return $this->jsonResponse(['message' => $message, 'status' => $status]);
@@ -109,11 +109,11 @@ class Roles extends BackendController
         $data['id'] = 'roles-edit';
         $data['permissions'] = $this->get('app')->getPermissions();
 
-        $data['action'] = admin_url('user/roles/save');;
+        $data['action'] = admin_url('user/roles/save');
+        ;
         $data['roleId'] = $id;
 
-        if($role = $this->model('@user\Role')->getsingleBy('id', $id)) {
-                        
+        if ($role = $this->model('@user\Role')->getsingleBy('id', $id)) {
             $data['roleName'] = $role['label'];
             $data['description'] = $role['description'];
             $data['permissionIds'] = $role['permissions'] ? json_decode($role['permissions'], true) : array();
@@ -134,7 +134,6 @@ class Roles extends BackendController
 
             
         try {
-            
             $posts = $this->get('input')->post();
 
             $this->validate('roles', $posts);
@@ -166,7 +165,7 @@ class Roles extends BackendController
         $data['label'] = $post['name'];
         $data['description'] = $post['description'];
 
-        if(isset($post['permissions'])) {
+        if (isset($post['permissions'])) {
             $data['permissions'] = json_encode($post['permissions']);
         }
 

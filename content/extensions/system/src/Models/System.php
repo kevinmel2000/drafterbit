@@ -9,7 +9,7 @@ class System extends \Drafterbit\Framework\Model
 
         $sets = $queryBuilder
             ->select('st.*')
-            ->from('#_system', 'st')        
+            ->from('#_system', 'st')
             ->getResult();
 
         $array = array();
@@ -23,14 +23,14 @@ class System extends \Drafterbit\Framework\Model
     /**
      * Get system setting by key
      */
-    public function fetch($key) 
+    public function fetch($key)
     {
         $config = $this->all();
 
         return isset($config[$key]) ? $config[$key] : null;
     }
 
-    public function exists($key) 
+    public function exists($key)
     {
         $qb = $this->get('db')->createQueryBuilder();
         $qb->select('*');
@@ -43,9 +43,7 @@ class System extends \Drafterbit\Framework\Model
     public function updateSetting($data)
     {
         foreach ($data as $key => $value) {
-
-            if($this->exists($key)) {
-
+            if ($this->exists($key)) {
                 $qb = $this->get('db')->createQueryBuilder();
                 $qb->update('#_system', 'st');
                 $qb->set('value', ':value');

@@ -11,4 +11,4 @@
 
 <?php echo $logTable; ?>
 
-<?php $this->js('@system/js/log.js'); ?>
+<?php $this->js('@system/js/log.js'); 
