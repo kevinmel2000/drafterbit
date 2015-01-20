@@ -104,7 +104,7 @@ class Installer extends Controller
             }
         }
 
-         $model = $this->model('Installer');
+         $model = $this->model('Install');
          
          //add first user(admin)
          $adminIds = $model->createAdmin($admin['email'], $admin['password']);

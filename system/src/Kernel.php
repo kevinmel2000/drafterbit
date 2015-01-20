@@ -384,10 +384,13 @@ class Kernel extends Application
             $this['asset']->register($name, $value);
         }
 
+        // @todo, admin routes already loaded here
+
         try {
             $this->configure($this['config_file']);
 
         } catch (InstallationException $e) {
+            
             $code = $e->getCode();
             $this['extension.manager']->load('installer');
             $this->getExtension('installer')->setStart($code);
