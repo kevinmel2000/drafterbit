@@ -3,8 +3,7 @@
 use Drafterbit\Framework\Model;
 
 class Install extends Model
-{
-    
+{   
     public function createAdmin($email, $password)
     {
         $permissions = array();
@@ -16,7 +15,7 @@ class Install extends Model
         $this->get('db')->insert(
             '#_roles',
             [
-            'label'=> 'Administrator',
+            'label'       => 'Administrator',
             'description' => 'God of the site',
             'permissions' => json_encode($permissions)
             ]
@@ -24,11 +23,11 @@ class Install extends Model
 
         $roleId = $this->get('db')->lastInsertId();
 
-        $user['email'] = $email;
-        $user['password'] = password_hash($password, PASSWORD_BCRYPT);
-        $user['username'] = 'admin';
+        $user['email']     = $email;
+        $user['password']  = password_hash($password, PASSWORD_BCRYPT);
+        $user['username']  = 'admin';
         $user['real_name'] = 'Administrator';
-        $user['status'] = 1;
+        $user['status']    = 1;
 
         $this->get('db')->insert('#_users', $user);
         $userId = $this->get('db')->lastInsertId();
@@ -48,27 +47,28 @@ class Install extends Model
     {
         $page = $this->createSamplePage($userId);
         $this->createMenu($page);
-        $this->createFirstPost($userId);
+        $firstPost = $this->createFirstPost($userId);
+        $this->createFirstComment($firstPost);
         $this->addWidget();
 
-        $data['site.name'] = $name;
+        $data['site.name']        = $name;
         $data['site.description'] = $desc;
-        $data['email'] = $email;
-        $data['language'] = 'en_EN';
-        $data['format.date'] = 'm dS Y';
-        $data['format.time'] = 'H:m:s';
-        $data['theme'] = 'default';
-        $data['homepage'] = 'blog';
+        $data['email']            = $email;
+        $data['language']         = 'en_EN';
+        $data['format.date']      = 'm dS Y';
+        $data['format.time']      = 'H:m:s';
+        $data['theme']            = 'default';
+        $data['homepage']         = 'blog';
 
         $extensions = array(
             "pages" => '0.1.0',
-            "blog" => '0.1.0',
-            "user" => '0.1.0',
+            "blog"  => '0.1.0',
+            "user"  => '0.1.0',
             "files" => '0.1.0');
         
         $data['extensions'] = json_encode($extensions);
-        $data['timezone'] = "Asia/Jakarta";
-        $data['dashboard'] = '[{"id":"recent-comments","display":1,"position":1},{"id":"recent","display":1,"position":1},{"id":"stat","display":1,"position":2}]';
+        $data['timezone']   = "Asia/Jakarta";
+        $data['dashboard']  = '[{"id":"recent-comments","display":1,"position":1},{"id":"recent","display":1,"position":1},{"id":"stat","display":1,"position":2}]';
         $data['comment_moderation'] = 1;
 
         $q = "INSERT INTO #_system (name, value) ";
@@ -85,10 +85,10 @@ class Install extends Model
         return $this->get('db')->executeUpdate($q, $param);
     }
 
-    public function createSamplePage($user)
+    private function createSamplePage($user)
     {
-        $data['title'] = "Sample Page";
-        $data['slug'] = "sample-page";
+        $data['title']   = "Sample Page";
+        $data['slug']    = "sample-page";
         $data['content'] = "This is Sample Page is to be edited or removed.";
         $data['user_id'] = $user;
         $data['created_at'] = date('Y-m-d H:m:s');
@@ -99,7 +99,7 @@ class Install extends Model
         return "pages:$id";
     }
 
-    public function createMenu($page)
+    private function createMenu($page)
     {
         $data = [
             ['label' => "Home",
@@ -121,7 +121,7 @@ class Install extends Model
         }
     }
 
-    public function addWidget()
+    private function addWidget()
     {
         $data = [
             'name' => 'search',
@@ -134,7 +134,7 @@ class Install extends Model
         $this->get('db')->insert('#_widgets', $data);
     }
 
-    public function createFirstPost($user)
+    private function createFirstPost($user)
     {
         $data['title'] = "Hello World";
         $data['slug'] = "sample-page";
@@ -145,5 +145,21 @@ class Install extends Model
 
         $this->get('db')->insert('#_posts', $data);
         $id = $this->get('db')->lastInsertId();
+
+        return $id;
+    }
+
+    private function createFirstComment($postId)
+    {
+        $data['content'] = 'This is test comment. Go to admin panel to delete this'.
+        $data['name'] = 'Drafterbit';
+        $data['email'] = 'noreply@drafterbit.org';
+        $data['url'] = 'drafterbit.org';
+        $data['subscribe'] = 0;
+        $data['post_id'] = $postId;
+        $data['status'] = 1;
+        $data['created_at'] = $this->get('time')->now();
+
+        $this->get('db')->insert('#_comments', $data);
     }
 }
