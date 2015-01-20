@@ -9,7 +9,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Kernel extends Application
 {
-
     /**
      * Application admin navigation.
      *
@@ -46,7 +45,7 @@ class Kernel extends Application
         $this->register(new WidgetServiceProvider);
 
         foreach (include $this->getResourcesPath('config/services.php')
- as $provider => $services) {
+            as $provider => $services) {
             $this->addDeferred($provider, $services);
         }
     }
@@ -154,8 +153,6 @@ class Kernel extends Application
 
     public function loadsystem()
     {
-        $this['extension.manager']->load('system');
-
         try {
             $schema = $this['db']->getSchemaManager();
             
@@ -163,6 +160,7 @@ class Kernel extends Application
                 throw new InstallationException("No System Table", 2);
             }
 
+            $this['extension.manager']->load('system');
             return $this->getExtension('system')->model('System')->all();
 
         } catch (\PDOException $e) {
@@ -171,7 +169,6 @@ class Kernel extends Application
             }
 
             throw $e;
-
         }
     }
 
@@ -184,14 +181,14 @@ class Kernel extends Application
         $config = $this['config']->load($configFile);
 
         $this['router']->addReplaces('%admin%', $config['path.admin']);
-        
+
         $this['path.cache'] =  $this['path.content'].'cache/data';
-        
+
         foreach ([
             'fontawesome' => 'Drafterbit\\System\\Asset\Filter\\DrafterbitFontAwesomeFilter',
             'chosen_css' => 'Drafterbit\\System\\Asset\Filter\\DrafterbitChosenFilter'
             ]
- as $name => $class) {
+            as $name => $class) {
                 $this['asset']->getFilterManager()->set($name, new $class($this['dir.system'].'/vendor/web'));
         }
 
@@ -383,8 +380,6 @@ class Kernel extends Application
         foreach ($this['config']->get('asset.assets') as $name => $value) {
             $this['asset']->register($name, $value);
         }
-
-        // @todo, admin routes already loaded here
 
         try {
             $this->configure($this['config_file']);
