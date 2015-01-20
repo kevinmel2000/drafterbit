@@ -21,9 +21,9 @@ class System extends BackendController
 
         foreach (json_decode($dashboard, true) as $d) {
             if ($d['position'] == 1) {
-                $left[] = $dashboardWidgets[$d['id']];
+                $left[$d['id']] = $dashboardWidgets[$d['id']];
             } else {
-                $right[] = $dashboardWidgets[$d['id']];
+                $right[$d['id']] = $dashboardWidgets[$d['id']];
             }
         }
 
@@ -31,6 +31,36 @@ class System extends BackendController
         $data['right'] = $right;
 
         return $this->render('@system/dashboard', $data);
+    }
+
+    public function sortDashboard() {
+        $dashboardWidgets = $this->get('app')->dashboardWidgets();
+        
+        $widgets = array_keys($dashboardWidgets);
+
+        $order = $this->get('input')->post('order');
+        $pos = $this->get('input')->post('pos');
+
+        $order = explode(',', $order);
+
+        $order = array_map(function($el){
+            return substr($el, strlen('dashboard-widget-'));
+        }, $order);
+
+        $diff = array_diff($widgets, $order);
+        $pos = ($pos == 'left') ? 1 : 2;
+        $diffPos = ($pos == 1) ? 2 : 1;
+
+        $data = array();
+        foreach ($order as $id) {
+            $data[] = ['id' => $id, 'position' => $pos, 'display' => 1];
+        }
+
+        foreach ($diff as $id) {
+            $data[] = ['id' => $id, 'position' => $diffPos, 'display' => 1];
+        }
+
+        $this->model('System')->updateSetting(['dashboard' => json_encode($data)]);
     }
 
     public function log()

@@ -33,9 +33,10 @@
 
             'system' => [
                 'subRoutes' => [
-                    'dashboard'     => ['controller' => '@system\System::dashboard'],
-                    'log'           => ['controller' => '@system\System::log',  'access' => 'log.view'],
-                    'cache'         => ['controller' => '@system\System::cache','access' => 'cache.view'],
+                    'dashboard'      => ['controller' => '@system\System::dashboard'],
+                    'dashboard/sort' => ['controller' => '@system\System::sortDashboard'],
+                    'log'            => ['controller' => '@system\System::log',  'access' => 'log.view'],
+                    'cache'          => ['controller' => '@system\System::cache','access' => 'cache.view'],
                 ],
             ],
         ],
