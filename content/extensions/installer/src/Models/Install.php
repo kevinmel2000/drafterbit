@@ -137,7 +137,7 @@ class Install extends Model
     private function createFirstPost($user)
     {
         $data['title'] = "Hello World";
-        $data['slug'] = "sample-page";
+        $data['slug'] = "hello-world";
         $data['content'] = "This is Hello World Page is to be edited or removed.";
         $data['user_id'] = $user;
         $data['created_at'] = date('Y-m-d H:m:s');

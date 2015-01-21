@@ -29,8 +29,8 @@
 
         <copy file="./index.php" tofile="./build/index.php" overwrite="true"/>
         <copy file="./config-sample.php" tofile="./build/config-sample.php" overwrite="true"/>
+        <copy file="./.htaccess" tofile="./build/.htaccess" overwrite="true"/>
         
-        <!-- TODO: clean unused vendor files  -->
         <delete dir="./build/content/cache/data" includeemptydirs="true" />
         <delete dir="./build/content/cache/asset" includeemptydirs="true" />
 
@@ -40,6 +40,227 @@
           </fileset>
         </delete>
 
+        <!-- clean unused vendor files  -->
+        <fileset dir="./build/system/vendor" id="packageFiles">
+            <include name="doctrine/annotations/README.md" />
+            <include name="doctrine/annotations/composer.json" />
+            
+            <exclude name="doctrine/cache/lib/**" />
+            <exclude name="doctrine/cache/LICENSE" />
+            <include name="doctrine/cache/**" />
+
+            <exclude name="doctrine/collections/lib/**" />
+            <exclude name="doctrine/collections/LICENSE" />
+            <include name="doctrine/collections/**" />
+
+            <exclude name="doctrine/common/lib/**" />
+            <exclude name="doctrine/common/LICENSE" />
+            <include name="doctrine/common/**" />
+
+            <exclude name="doctrine/dbal/lib/**" />
+            <exclude name="doctrine/dbal/LICENSE" />
+            <include name="doctrine/dbal/**" />
+
+            <exclude name="doctrine/inflector/lib/**" />
+            <exclude name="doctrine/inflector/LICENSE" />
+            <include name="doctrine/inflector/**" />
+
+            <exclude name="doctrine/lexer/lib/**" />
+            <exclude name="doctrine/lexer/LICENSE" />
+            <include name="doctrine/lexer/**" />
+
+            <exclude name="drafterbit/framework/src/**" />
+            <exclude name="drafterbit/framework/LICENSE" />
+            <include name="drafterbit/framework/**" />
+
+            <exclude name="filp/whoops/src/**" />
+            <exclude name="filp/whoops/LICENSE.md" />
+            <include name="filp/whoops/**" />
+
+            <exclude name="gregwar/cache/Gregwar/Cache/*.php" />
+            <exclude name="gregwar/cache/Gregwar/Cache/LICENSE" />
+            <include name="gregwar/cache/Gregwar/Cache/**" />
+
+            <exclude name="gregwar/image/Gregwar/Image/Adapter/**" />
+            <exclude name="gregwar/image/Gregwar/Image/Exceptions/**" />
+            <exclude name="gregwar/image/Gregwar/Image/Sources/**" />
+            <exclude name="gregwar/image/Gregwar/Image/*.php" />
+            <exclude name="gregwar/image/Gregwar/Image/LICENSE" />
+            <include name="gregwar/image/Gregwar/Image/**" />
+
+            <exclude name="ircmaxell/password-compat/lib/**" />
+            <exclude name="ircmaxell/password-compat/LICENSE.md" />
+            <include name="ircmaxell/password-compat/**" />
+
+            <exclude name="kriswallsmith/assetic/src/**" />
+            <exclude name="kriswallsmith/assetic/LICENSE" />
+            <include name="kriswallsmith/assetic/**" />
+
+            <exclude name="monolog/monolog/src/**" />
+            <exclude name="monolog/monolog/LICENSE" />
+            <include name="monolog/monolog/**" />
+
+            <exclude name="mrclay/minify/min/**" />
+            <exclude name="mrclay/minify/LICENSE.txt" />
+            <include name="mrclay/minify/**" />
+
+            <exclude name="nesbot/carbon/src/**" />
+            <exclude name="nesbot/carbon/LICENSE" />
+            <include name="nesbot/carbon/**" />
+
+            <exclude name="patchwork/utf8/class/**" />
+            <include name="patchwork/utf8/**" />
+
+            <exclude name="pimple/pimple/src/**" />
+            <exclude name="pimple/pimple/LICENSE" />
+            <include name="pimple/pimple/**" />
+
+            <exclude name="psr/log/Psr/**" />
+            <exclude name="psr/log/LICENSE" />
+            <include name="psr/log/**" />
+
+            <exclude name="stack/builder/src/**" />
+            <exclude name="stack/builder/LICENSE" />
+            <include name="stack/builder/**" />
+
+            <exclude name="swiftmailer/swiftmailer/lib/**" />
+            <exclude name="swiftmailer/swiftmailer/LICENSE" />
+            <include name="swiftmailer/swiftmailer/**" />
+
+            <exclude name="symfony/config/Symfont/Component/Config/**" />
+            <exclude name="symfony/config/Symfont/Component/Config/LICENSE" />
+            <include name="symfony/config/Symfont/Component/Config/Tests/**" />
+            <include name="symfony/config/Symfont/Component/Config/CHANGELOG.md" />
+            <include name="symfony/config/Symfont/Component/Config/README.md" />
+            <include name="symfony/config/Symfont/Component/Config/composer.json" />
+            <include name="symfony/config/Symfont/Component/Config/phpunit.xml.dist" />
+
+            <exclude name="symfony/debug/Symfont/Component/Debug/**" />
+            <exclude name="symfony/debug/Symfont/Component/Debug/LICENSE" />
+            <include name="symfony/debug/Symfont/Component/Debug/Tests/**" />
+            <include name="symfony/debug/Symfont/Component/Debug/CHANGELOG.md" />
+            <include name="symfony/debug/Symfont/Component/Debug/README.md" />
+            <include name="symfony/debug/Symfont/Component/Debug/composer.json" />
+            <include name="symfony/debug/Symfont/Component/Debug/phpunit.xml.dist" />
+
+            <exclude name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/**" />
+            <exclude name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/LICENSE" />
+            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/Tests/**" />
+            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/CHANGELOG.md" />
+            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/composer.json" />
+            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/phpunit.xml.dist" />
+
+            <exclude name="symfony/filesystem/Symfont/Component/Filesystem/**" />
+            <exclude name="symfony/filesystem/Symfont/Component/Filesystem/LICENSE" />
+            <include name="symfony/filesystem/Symfont/Component/Filesystem/Tests/**" />
+            <include name="symfony/filesystem/Symfont/Component/Filesystem/CHANGELOG.md" />
+            <include name="symfony/filesystem/Symfont/Component/Filesystem/composer.json" />
+            <include name="symfony/filesystem/Symfont/Component/Filesystem/phpunit.xml.dist" />
+
+            <exclude name="symfony/finder/Symfont/Component/Finder/**" />
+            <exclude name="symfony/finder/Symfont/Component/Finder/LICENSE" />
+            <include name="symfony/finder/Symfont/Component/Finder/Tests/**" />
+            <include name="symfony/finder/Symfont/Component/Finder/CHANGELOG.md" />
+            <include name="symfony/finder/Symfont/Component/Finder/composer.json" />
+            <include name="symfony/finder/Symfont/Component/Finder/phpunit.xml.dist" />
+
+            <exclude name="symfony/http-foundation/Symfont/Component/HttpFoundation/**" />
+            <exclude name="symfony/http-foundation/Symfont/Component/HttpFoundation/LICENSE" />
+            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/Tests/**" />
+            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/CHANGELOG.md" />
+            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/composer.json" />
+            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/phpunit.xml.dist" />
+
+            <exclude name="symfony/http-kernel/Symfont/Component/HttpKernel/**" />
+            <exclude name="symfony/http-kernel/Symfont/Component/HttpKernel/LICENSE" />
+            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/Tests/**" />
+            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/CHANGELOG.md" />
+            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/composer.json" />
+            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/phpunit.xml.dist" />
+
+            <exclude name="symfony/process/Symfont/Component/Process/**" />
+            <exclude name="symfony/process/Symfont/Component/Process/LICENSE" />
+            <include name="symfony/process/Symfont/Component/Process/Tests/**" />
+            <include name="symfony/process/Symfont/Component/Process/CHANGELOG.md" />
+            <include name="symfony/process/Symfont/Component/Process/composer.json" />
+            <include name="symfony/process/Symfont/Component/Process/phpunit.xml.dist" />
+
+            <exclude name="symfony/routing/Symfont/Component/Routing/**" />
+            <exclude name="symfony/routing/Symfont/Component/Routing/LICENSE" />
+            <include name="symfony/routing/Symfont/Component/Routing/Tests/**" />
+            <include name="symfony/routing/Symfont/Component/Routing/CHANGELOG.md" />
+            <include name="symfony/routing/Symfont/Component/Routing/composer.json" />
+            <include name="symfony/routing/Symfont/Component/Routing/phpunit.xml.dist" />
+
+            <exclude name="symfony/translation/Symfont/Component/Translation/**" />
+            <exclude name="symfony/translation/Symfont/Component/Translation/LICENSE" />
+            <include name="symfony/translation/Symfont/Component/Translation/Tests/**" />
+            <include name="symfony/translation/Symfont/Component/Translation/CHANGELOG.md" />
+            <include name="symfony/translation/Symfont/Component/Translation/composer.json" />
+            <include name="symfony/translation/Symfont/Component/Translation/phpunit.xml.dist" />
+
+            <exclude name="twig/twig/lib/**" />
+            <exclude name="twig/twig/LICENSE" />
+            <include name="twig/twig/**" />
+
+            <exclude name="web/bootstrap/dist/**" />
+            <include name="web/bootstrap/**" />
+
+            <exclude name="web/bootstrap-contextmenu/bootstrap-contextmenu.js" />
+            <include name="web/bootstrap-contextmenu/**" />
+
+            <exclude name="web/bootstrapvalidator/dist/**" />
+            <include name="web/bootstrapvalidator/**" />
+
+            <exclude name="web/chekall/jquery-check-all.js" />
+            <exclude name="web/chekall/jquery-check-all.min.js" />
+            <include name="web/chekall/**" />
+
+            <include name="web/chosen/docsupport/**" />
+            <include name="web/chosen/index.html" />
+            <include name="web/chosen/index.proto.html" />
+            <include name="web/chosen/options.html" />
+
+            <include name="web/ckeditor/samples/**" />
+            <include name="web/ckeditor/CHANGES.md" />
+            <include name="web/ckeditor/README.md" />
+            <include name="web/ckeditor/bower.json" />
+            <include name="web/ckeditor/composer.json" />
+
+            <exclude name="web/datatables/license.txt" />
+            <include name="web/datatables/bower.json" />
+            <include name="web/datatables/Contributing.md" />
+            <include name="web/datatables/Readme.md" />
+
+            <exclude name="web/finder/server/**" />
+            <exclude name="web/finder/finder.css" />
+            <exclude name="web/finder/finder.js" />
+            <include name="web/finder/**" />
+            
+            <exclude name="web/fontawesome/css/**" />
+            <exclude name="web/fontawesome/fonts/**" />
+            <include name="web/fontawesome/**" />
+
+            <exclude name="web/handlebars/*.js" />
+            <include name="web/handlebars/**" />
+
+            <exclude name="web/jquery/dist/**" />
+            <exclude name="web/jquery/MIT-LICENSE.txt" />
+            <include name="web/jquery/**" />
+
+            <exclude name="web/jquery-ui/*.js" />
+            <exclude name="web/jquery-ui/LICENSE.txt" />
+            <include name="web/jquery-ui/**" />
+
+            <exclude name="web/magicsuggest/*.css" />
+            <exclude name="web/magicsuggest/*.js" />
+            <include name="web/magicsuggest/**" />
+
+        </fileset>
+         
+       <delete includeemptydirs="true">
+         <fileset refid="packageFiles" />
+       </delete>
     </target>
 
     <!-- ============================================  -->
