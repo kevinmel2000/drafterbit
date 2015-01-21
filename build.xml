@@ -209,9 +209,6 @@
             <exclude name="web/bootstrap-contextmenu/bootstrap-contextmenu.js" />
             <include name="web/bootstrap-contextmenu/**" />
 
-            <exclude name="web/bootstrapvalidator/dist/**" />
-            <include name="web/bootstrapvalidator/**" />
-
             <exclude name="web/chekall/jquery-check-all.js" />
             <exclude name="web/chekall/jquery-check-all.min.js" />
             <include name="web/chekall/**" />
@@ -269,7 +266,7 @@
     <target name="main" depends="build">
         <echo msg="Creating archive..." />
 
-        <tar destfile="./drafterbit-dist.tar.gz" compression="gzip">
+        <tar destfile="./drafterbit-dist.zip" compression="zip">
             <fileset dir="./build">
                 <include name="*" />
             </fileset>

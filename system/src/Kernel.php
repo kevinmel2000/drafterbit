@@ -387,8 +387,8 @@ class Kernel extends Application
         } catch (InstallationException $e) {
             
             $code = $e->getCode();
-            $this['extension.manager']->load('installer');
-            $this->getExtension('installer')->setStart($code);
+            $this['extension.manager']->load('install');
+            $this->getExtension('install')->setStart($code);
         }
 
         parent::run();

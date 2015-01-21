@@ -1,4 +1,4 @@
-<?php namespace Drafterbit\Extensions\Installer\Models;
+<?php namespace Drafterbit\Extensions\Install\Models;
 
 use Drafterbit\Framework\Model;
 

@@ -1,11 +1,9 @@
-<?php namespace Drafterbit\Extensions\Installer\Controllers;
+<?php namespace Drafterbit\Extensions\Install\Controllers;
 
 use Drafterbit\Framework\Controller;
-use Drafterbit\Extensions\Installer\Requirement;
 
-class Installer extends Controller
-{
-    
+class Install extends Controller
+{   
     public function index()
     {
         $requirement = include __DIR__.'/../requirement.php';
@@ -18,7 +16,6 @@ class Installer extends Controller
 
         $start = $this->getExtension()->getStart();
         
-        // @todo: set start before installing
         $data['start'] = $start;
         $data['preloader'] = base_url($this->get('dir.content').'/cache/img/preloader.GIF');
 
@@ -28,7 +25,6 @@ class Installer extends Controller
     public function check()
     {
         $message = 'ok';
-
 
         try {
             $config = $this->get('input')->post('database');
@@ -42,6 +38,14 @@ class Installer extends Controller
             $stub = $this->getExtension()->getResourcesPath('stub/config.php.stub');
 
             $string = file_get_contents($stub);
+
+            if(!$db['host']) {
+                throw new \Exception("Host can not be empty");
+            }
+
+            if(!$db['dbname']) {
+                throw new \Exception("Database can not be empty");
+            }
 
             $config = array(
                 '%db.driver%' => $db['driver'],
@@ -90,10 +94,10 @@ class Installer extends Controller
         $site = $this->get('input')->post('site');
         $admin = $this->get('session')->get('install_admin');
          
-         $this->get('config')->load($this->get('path.install').'/config.php');
+        $this->get('config')->load($this->get('path.install').'/config.php');
 
-         $config = $this->get('config');
-         $extMgr = $this->get('extension.manager');
+        $config = $this->get('config');
+        $extMgr = $this->get('extension.manager');
 
          // migrations
         foreach ($extMgr->getCoreExtension() as $extension) {

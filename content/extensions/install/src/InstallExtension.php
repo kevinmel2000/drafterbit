@@ -1,9 +1,9 @@
-<?php namespace Drafterbit\Extensions\Installer;
+<?php namespace Drafterbit\Extensions\Install;
 
 use Drafterbit\Framework\Extension;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class InstallerExtension extends Extension
+class InstallExtension extends Extension
 {
 
     protected $start;
@@ -15,7 +15,7 @@ class InstallerExtension extends Extension
     {
         $this['exception']->error(
             function(NotFoundHttpException $e) {
-                return redirect(base_url('installer'))->send();
+                return redirect(base_url('install'))->send();
             }
         );
     }

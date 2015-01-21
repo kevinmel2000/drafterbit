@@ -48,22 +48,22 @@
 </head>
 <body>
     <div class="container" style="margin-top:100px">        
-        <div class="row install-section">
+        <div class="row install-section" id="start">
             <div style="text-align:center">
                 <h2 class="title">Drafterbit</h2>
                 <span class="help-block">Web software you can use to create a wabsite.</span>
                 <br/>
                 <br/>
-                <a href="#" data-next="<?php echo $start == 2 ? '#admin-account' : '#database-connect' ?>" class="btn btn-default begin-button"/> Install </a>
+                <a href="<?php echo $start == 2 ? '#step-2' : '#step-1' ?>" class="btn btn-default begin-button"/> Install </a>
             </div>
         </div>
         
-        <div class="row install-section" style="display:none;" id="database-connect">
+        <div class="row install-section" style="display:none;" id="step-1">
             <div class="header" style="text-align:center">
                 <h2>Database Connection</h2>
                 <span class="help-block">Please Enter Your Database Conection Detail</span>
             </div>
-            <form data-next="#admin-account" method="post" class="static-form" id="database-form" action="<?php echo base_url('installer/check')?>">
+            <form data-next="#step-2" method="post" class="static-form" id="database-form" action="<?php echo base_url('install/check')?>">
                 <div class="col-md-3 col-md-offset-3">
                     <div class="form-group">
                         <label class="control-label">Driver</label>
@@ -94,19 +94,19 @@
                             <input type="text" name="database[prefix]" class="form-control" value="dt_"/>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary pull-right"/> NEXT </a>
+                        <button type="submit" class="btn btn-primary pull-right"> NEXT </button>
                     </div>
                 </div>
             </form>
         </div>
 
-        <div class="row install-section" style="display:none;" id="admin-account">
+        <div class="row install-section" style="display:none;" id="step-2">
             <div class="header" style="text-align:center">
                 <h2>Administrator Account</h2>
                 <span class="help-block">Create Administrator Account</span>
             </div>
             <div class="col-md-4 col-md-offset-4">
-                <form action="<?php echo base_url('installer/admin') ?>" data-next="#site-name" class="static-form" method="post">
+                <form action="<?php echo base_url('install/admin') ?>" data-next="#step-3" class="static-form" method="post">
                     <div class="form-group">
                         <label class="control-label">Email</label>
                         <input required type="email" name="admin[email]" class="form-control"/>
@@ -116,31 +116,42 @@
                         <input type="password" name="admin[password]" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary pull-right"/> NEXT </button>
+                        <button type="submit" class="btn btn-primary pull-right"> NEXT </button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <div class="row install-section" style="display:none;" id="site-name">
+        <div class="row install-section" style="display:none;" id="step-3">
             <div class="header" style="text-align:center">
                 <h2>Name Your Site</h2>
                 <span class="help-block">You always can change this later.</span>
             </div>
             <div class="col-md-4 col-md-offset-4">
-            <form class="install-form" method="post" action="<?php echo base_url('installer/install') ?>">
-                <div class="form-group">
-                    <label class="control-label">Name</label>
-                        <input required type="text" name="site[name]" class="form-control"/>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Description</label>
-                        <textarea type="text" name="site[desc]" class="form-control"/></textarea>
-                </div>
-                <div class="form-group">
-                        <button type="submit" name="submit" class="btn btn-primary pull-right"/> Install</button>
-                </div>
-            </form>
+                <form class="install-form" method="post" action="<?php echo base_url('install/install') ?>">
+                    <div class="form-group">
+                        <label class="control-label">Name</label>
+                            <input required type="text" name="site[name]" class="form-control"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                            <textarea type="text" name="site[desc]" class="form-control"/></textarea>
+                    </div>
+                    <div class="form-group">
+                            <button type="submit" name="submit" class="btn btn-primary pull-right"> Install</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row install-section" style="display:none" id="success">
+            <div class="header" style="text-align:center">
+                <h2>Installation success !!</h2>
+                <span class="help-block">Choose what to do now</span>
+            </div>
+            <div class="col-md-4 col-md-offset-4" style="text-align:center">
+                <a class="btn btn-default col-md-6s" href="<?php echo base_url() ?>">View my website</a>
+                <a class="btn btn-default col-md-6s" href="<?php echo base_url('admin/login') ?>">Go to admin</a>
             </div>
         </div>
 
@@ -150,7 +161,7 @@
             <div class="modal-content">
                   <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <h4 class="modal-title">Can't Create Config file</h4>
+                    <h4 class="modal-title">Can't Write Config file</h4>
                   </div>
                   <div class="modal-body">
                       <p>You need to create config file manually. Create file named 'config.php' in installation directory with following content then refresh this page.</p>
@@ -167,7 +178,7 @@
         <h3><img alt="loading" src="<?php echo $preloader; ?>" /></h3>
     </div>
 
-    <?php $this->js(':jquery, :bootstrap_js, :bootstrap_validator_js, :jquery_form, :notify_js, @installer/js/install.js'); ?>
+    <?php $this->js(':jquery, :bootstrap_js, :bootstrap_validator_js, :jquery_form, :notify_js, @install/js/install.js'); ?>
     <?php echo $this->block('js') ?>
 
 </body>
