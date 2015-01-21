@@ -264,13 +264,20 @@
     <!-- (DEFAULT)  Target: main                       -->
     <!-- ============================================  -->
     <target name="main" depends="build">
-        <echo msg="Creating archive..." />
+        <echo msg="Creating Tar archive..." />
 
-        <tar destfile="./drafterbit-dist.zip" compression="zip">
+        <tar destfile="./drafterbit-dist.tar.gz" compression="gzip">
             <fileset dir="./build">
-                <include name="*" />
+                <include name="**" />
             </fileset>
         </tar>
+
+        <echo msg="Creating Zip archive..." />
+        <zip destfile="./drafterbit-dist.zip">
+            <fileset dir="./build">
+                <include name="**" />
+            </fileset>
+        </zip>
 
         <echo msg="delete temporary file" />
         <delete dir="./build" includeemptydirs="true" />
