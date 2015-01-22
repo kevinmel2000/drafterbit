@@ -1,4 +1,17 @@
  (function($){
+
+  $('body').hide();
+  NProgress.start();
+  
+  window.onunload = function(){
+    $('body').hide();
+  };
+
+  $(window).load(function(){
+    $('body').fadeIn('fast');
+    NProgress.done();
+  });
+
   drafTerbit = {
     baseUrl: "<?php echo base_url() ?>",
     adminUrl: "<?php echo admin_url() ?>",
@@ -8,7 +21,6 @@
     //replace datatable search box;
     replaceDTSearch: function(dt) {
       $('.dataTables_filter').remove();
-
 
       $(document).on('keydown', "input[type=search]", function(e){
         var code = e.keyCode || e.which;

@@ -39,7 +39,10 @@ return [
         'jquery_ui_js'              => '%path.vendor.asset%/jquery-ui/jquery-ui.min.js',
         'handlebars'                => '%path.vendor.asset%/handlebars/handlebars.min.js',
         'finder_css'                => '%path.vendor.asset%/finder/finder.css',
-        'finder_js'                 => '%path.vendor.asset%/finder/finder.js'
+        'finder_js'                 => '%path.vendor.asset%/finder/finder.js',
+
+        'nprogress_js'                 => '%path.vendor.asset%/nprogress/nprogress.js',
+        'nprogress_css'                 => '%path.vendor.asset%/nprogress/nprogress.css'
 ]
 
 ];

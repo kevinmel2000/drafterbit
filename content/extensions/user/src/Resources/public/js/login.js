@@ -1,4 +1,17 @@
 (function($){
+
+  $('body').hide();
+  NProgress.start();
+  
+  window.onunload = function(){
+    $('body').hide();
+  };
+
+  $(window).load(function(){
+    $('body').fadeIn('fast');
+    NProgress.done();
+  });
+
     $('form').ajaxForm(
         {
             success: function(res){

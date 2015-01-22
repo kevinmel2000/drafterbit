@@ -31,6 +31,7 @@
     "finder": "https://github.com/drafterbit/finder.git",
     "ckeditor": "latest",
     "egig-notify": "latest",
-    "handlebars": "latest"
+    "handlebars": "latest",
+    "nprogress": "latest"
   }
 }

@@ -253,6 +253,11 @@
             <exclude name="web/magicsuggest/*.js" />
             <include name="web/magicsuggest/**" />
 
+            <exclude name="web/nprogress/nprogress.css" />
+            <exclude name="web/nprogress/nprogress.js" />
+            <exclude name="web/nprogress/License.md" />
+            <include name="web/nprogress/**" />
+
         </fileset>
          
        <delete includeemptydirs="true">

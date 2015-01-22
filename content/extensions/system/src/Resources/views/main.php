@@ -9,16 +9,17 @@
         
         <?php $this->css(':fontawesome', ':fontawesome'); ?>
         <?php $this->css(
-    '
+          '
           :bootstrap_css,
           :notify_css,
+          :nprogress_css,
           @system/css/overrides-bootstrap.css,
           @system/css/overrides-datatables.css,
           @system/css/style.css,
           @system/css/style-desktop.css,
           @system/css/style-mobile.css
         '
-) ?>
+        ) ?>
         
         <?php echo $this->block('css'); ?>
     </head>
@@ -44,6 +45,7 @@
 
         <!-- script // @todo -->
         <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
+        <script src="<?php echo asset_url('@vendor/nprogress/nprogress.js'); ?>" /></script>
         <script src="<?php echo base_url('system/drafterbit.js'); ?>" /></script>
         <?php $this->js(':bootstrap_js, :notify_js, :jquery_form, @system/js/layout.js'); ?>          
         <?php echo $this->block('js'); ?>
@@ -51,11 +53,8 @@
         <script>
         drafTerbit.initAjaxForm();
 
-
-        <?php if (isset($messages)) :
-?>
-                <?php foreach ($messages as $message) :
-?>
+        <?php if (isset($messages)) : ?>
+                <?php foreach ($messages as $message) : ?>
                     msg = "<?php echo $this->escape($message['text'], 'js'); ?>";
                     $.notify(msg, "<?php echo $message['type'] == 'error' ? 'danger' : $message['type']; ?>");
                 <?php

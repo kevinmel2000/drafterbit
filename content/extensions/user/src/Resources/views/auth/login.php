@@ -16,7 +16,7 @@
     <![endif]-->
     <link rel="stylesheet" href="<?php echo base_url('system/drafterbit.css'); ?>" type="text/css">
     <?php $this->css(':fontawesome', ':fontawesome'); ?>
-    <?php $this->css(':bootstrap_css, :notify_css, @user/css/login.css'); ?>
+    <?php $this->css(':bootstrap_css, :notify_css, :nprogress_css, @user/css/login.css'); ?>
     <?php echo $this->block('css');?>
   </head>
 
@@ -37,7 +37,7 @@
               </div>
         </div>
     </div> <!-- /container -->
-    <?php $this->js(':jquery, :jquery_form, :notify_js, @user/js/login.js'); ?>
+    <?php $this->js(':jquery, :jquery_form, :notify_js, :nprogress_js, @user/js/login.js'); ?>
     <?php echo $this->block('js');?>
   </body>
 </html>
