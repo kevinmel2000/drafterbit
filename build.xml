@@ -6,7 +6,6 @@
     <!-- Target: prepare                               -->
     <!-- ============================================  -->
     <target name="prepare">
-        <echo msg="Making directory ./build" />
         <mkdir dir="./build" />
     </target>
 
@@ -15,21 +14,18 @@
     <!-- ============================================  -->
     <target name="build" depends="prepare">
 
-        <copy todir="./build/content" >
-          <fileset defaultexcludes="false" expandsymboliclinks="true" dir="./content">
-            <include name="**" />
+        <copy todir="./build" >
+          <fileset defaultexcludes="false" expandsymboliclinks="true" dir="./">
+            <include name="content/**" />
+            <include name="content/files/.gitignore" />
+            <include name="content/cache/.gitignore" />
+            <include name="system/**" />
+            <include name="index.php" />
+            <include name="config-sample.php" />
+            <include name=".htaccess" />
+            <include name="LICENSE" />
           </fileset>
         </copy>
-
-        <copy todir="./build/system" >
-          <fileset defaultexcludes="false" expandsymboliclinks="true" dir="./system">
-            <include name="**" />
-          </fileset>
-        </copy>
-
-        <copy file="./index.php" tofile="./build/index.php" overwrite="true"/>
-        <copy file="./config-sample.php" tofile="./build/config-sample.php" overwrite="true"/>
-        <copy file="./.htaccess" tofile="./build/.htaccess" overwrite="true"/>
         
         <delete dir="./build/content/cache/data" includeemptydirs="true" />
         <delete dir="./build/content/cache/asset" includeemptydirs="true" />
@@ -111,9 +107,10 @@
             <exclude name="patchwork/utf8/class/**" />
             <include name="patchwork/utf8/**" />
 
+            <include name="pimple/pimple/**" />
+            <include name="pimple/pimple/src/Pimple/Tests/**" />
             <exclude name="pimple/pimple/src/**" />
             <exclude name="pimple/pimple/LICENSE" />
-            <include name="pimple/pimple/**" />
 
             <exclude name="psr/log/Psr/**" />
             <exclude name="psr/log/LICENSE" />
@@ -127,77 +124,75 @@
             <exclude name="swiftmailer/swiftmailer/LICENSE" />
             <include name="swiftmailer/swiftmailer/**" />
 
-            <exclude name="symfony/config/Symfont/Component/Config/**" />
-            <exclude name="symfony/config/Symfont/Component/Config/LICENSE" />
-            <include name="symfony/config/Symfont/Component/Config/Tests/**" />
-            <include name="symfony/config/Symfont/Component/Config/CHANGELOG.md" />
-            <include name="symfony/config/Symfont/Component/Config/README.md" />
-            <include name="symfony/config/Symfont/Component/Config/composer.json" />
-            <include name="symfony/config/Symfont/Component/Config/phpunit.xml.dist" />
+            <include name="symfony/config/Symfony/Component/Config/Tests/**" />
+            <include name="symfony/config/Symfony/Component/Config/CHANGELOG.md" />
+            <include name="symfony/config/Symfony/Component/Config/README.md" />
+            <include name="symfony/config/Symfony/Component/Config/composer.json" />
+            <include name="symfony/config/Symfony/Component/Config/phpunit.xml.dist" />
+            <exclude name="symfony/config/Symfony/Component/Config/LICENSE" />
 
-            <exclude name="symfony/debug/Symfont/Component/Debug/**" />
-            <exclude name="symfony/debug/Symfont/Component/Debug/LICENSE" />
-            <include name="symfony/debug/Symfont/Component/Debug/Tests/**" />
-            <include name="symfony/debug/Symfont/Component/Debug/CHANGELOG.md" />
-            <include name="symfony/debug/Symfont/Component/Debug/README.md" />
-            <include name="symfony/debug/Symfont/Component/Debug/composer.json" />
-            <include name="symfony/debug/Symfont/Component/Debug/phpunit.xml.dist" />
+            <exclude name="symfony/debug/Symfony/Component/Debug/LICENSE" />
+            <include name="symfony/debug/Symfony/Component/Debug/Tests/**" />
+            <include name="symfony/debug/Symfony/Component/Debug/CHANGELOG.md" />
+            <include name="symfony/debug/Symfony/Component/Debug/README.md" />
+            <include name="symfony/debug/Symfony/Component/Debug/composer.json" />
+            <include name="symfony/debug/Symfony/Component/Debug/phpunit.xml.dist" />
 
-            <exclude name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/**" />
-            <exclude name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/LICENSE" />
-            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/Tests/**" />
-            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/CHANGELOG.md" />
-            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/composer.json" />
-            <include name="symfony/event-dispatcher/Symfont/Component/EventDispatcher/phpunit.xml.dist" />
+            <exclude name="symfony/event-dispatcher/Symfony/Component/EventDispatcher/LICENSE" />
+            <include name="symfony/event-dispatcher/Symfony/Component/EventDispatcher/Tests/**" />
+            <include name="symfony/event-dispatcher/Symfony/Component/EventDispatcher/CHANGELOG.md" />
+            <include name="symfony/event-dispatcher/Symfony/Component/EventDispatcher/README.md" />
+            <include name="symfony/event-dispatcher/Symfony/Component/EventDispatcher/composer.json" />
+            <include name="symfony/event-dispatcher/Symfony/Component/EventDispatcher/phpunit.xml.dist" />
 
-            <exclude name="symfony/filesystem/Symfont/Component/Filesystem/**" />
-            <exclude name="symfony/filesystem/Symfont/Component/Filesystem/LICENSE" />
-            <include name="symfony/filesystem/Symfont/Component/Filesystem/Tests/**" />
-            <include name="symfony/filesystem/Symfont/Component/Filesystem/CHANGELOG.md" />
-            <include name="symfony/filesystem/Symfont/Component/Filesystem/composer.json" />
-            <include name="symfony/filesystem/Symfont/Component/Filesystem/phpunit.xml.dist" />
+            <exclude name="symfony/filesystem/Symfony/Component/Filesystem/LICENSE" />
+            <include name="symfony/filesystem/Symfony/Component/Filesystem/Tests/**" />
+            <include name="symfony/filesystem/Symfony/Component/Filesystem/CHANGELOG.md" />
+            <include name="symfony/filesystem/Symfony/Component/Filesystem/README.md" />
+            <include name="symfony/filesystem/Symfony/Component/Filesystem/composer.json" />
+            <include name="symfony/filesystem/Symfony/Component/Filesystem/phpunit.xml.dist" />
 
-            <exclude name="symfony/finder/Symfont/Component/Finder/**" />
-            <exclude name="symfony/finder/Symfont/Component/Finder/LICENSE" />
-            <include name="symfony/finder/Symfont/Component/Finder/Tests/**" />
-            <include name="symfony/finder/Symfont/Component/Finder/CHANGELOG.md" />
-            <include name="symfony/finder/Symfont/Component/Finder/composer.json" />
-            <include name="symfony/finder/Symfont/Component/Finder/phpunit.xml.dist" />
+            <exclude name="symfony/finder/Symfony/Component/Finder/LICENSE" />
+            <include name="symfony/finder/Symfony/Component/Finder/Tests/**" />
+            <include name="symfony/finder/Symfony/Component/Finder/CHANGELOG.md" />
+            <include name="symfony/finder/Symfony/Component/Finder/README.md" />
+            <include name="symfony/finder/Symfony/Component/Finder/composer.json" />
+            <include name="symfony/finder/Symfony/Component/Finder/phpunit.xml.dist" />
 
-            <exclude name="symfony/http-foundation/Symfont/Component/HttpFoundation/**" />
-            <exclude name="symfony/http-foundation/Symfont/Component/HttpFoundation/LICENSE" />
-            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/Tests/**" />
-            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/CHANGELOG.md" />
-            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/composer.json" />
-            <include name="symfony/http-foundation/Symfont/Component/HttpFoundation/phpunit.xml.dist" />
+            <exclude name="symfony/http-foundation/Symfony/Component/HttpFoundation/LICENSE" />
+            <include name="symfony/http-foundation/Symfony/Component/HttpFoundation/Tests/**" />
+            <include name="symfony/http-foundation/Symfony/Component/HttpFoundation/CHANGELOG.md" />
+            <include name="symfony/http-foundation/Symfony/Component/HttpFoundation/README.md" />
+            <include name="symfony/http-foundation/Symfony/Component/HttpFoundation/composer.json" />
+            <include name="symfony/http-foundation/Symfony/Component/HttpFoundation/phpunit.xml.dist" />
 
-            <exclude name="symfony/http-kernel/Symfont/Component/HttpKernel/**" />
-            <exclude name="symfony/http-kernel/Symfont/Component/HttpKernel/LICENSE" />
-            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/Tests/**" />
-            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/CHANGELOG.md" />
-            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/composer.json" />
-            <include name="symfony/http-kernel/Symfont/Component/HttpKernel/phpunit.xml.dist" />
+            <exclude name="symfony/http-kernel/Symfony/Component/HttpKernel/LICENSE" />
+            <include name="symfony/http-kernel/Symfony/Component/HttpKernel/Tests/**" />
+            <include name="symfony/http-kernel/Symfony/Component/HttpKernel/CHANGELOG.md" />
+            <include name="symfony/http-kernel/Symfony/Component/HttpKernel/README.md" />
+            <include name="symfony/http-kernel/Symfony/Component/HttpKernel/composer.json" />
+            <include name="symfony/http-kernel/Symfony/Component/HttpKernel/phpunit.xml.dist" />
 
-            <exclude name="symfony/process/Symfont/Component/Process/**" />
-            <exclude name="symfony/process/Symfont/Component/Process/LICENSE" />
-            <include name="symfony/process/Symfont/Component/Process/Tests/**" />
-            <include name="symfony/process/Symfont/Component/Process/CHANGELOG.md" />
-            <include name="symfony/process/Symfont/Component/Process/composer.json" />
-            <include name="symfony/process/Symfont/Component/Process/phpunit.xml.dist" />
+            <exclude name="symfony/process/Symfony/Component/Process/LICENSE" />
+            <include name="symfony/process/Symfony/Component/Process/Tests/**" />
+            <include name="symfony/process/Symfony/Component/Process/CHANGELOG.md" />
+            <include name="symfony/process/Symfony/Component/Process/README.md" />
+            <include name="symfony/process/Symfony/Component/Process/composer.json" />
+            <include name="symfony/process/Symfony/Component/Process/phpunit.xml.dist" />
 
-            <exclude name="symfony/routing/Symfont/Component/Routing/**" />
-            <exclude name="symfony/routing/Symfont/Component/Routing/LICENSE" />
-            <include name="symfony/routing/Symfont/Component/Routing/Tests/**" />
-            <include name="symfony/routing/Symfont/Component/Routing/CHANGELOG.md" />
-            <include name="symfony/routing/Symfont/Component/Routing/composer.json" />
-            <include name="symfony/routing/Symfont/Component/Routing/phpunit.xml.dist" />
+            <exclude name="symfony/routing/Symfony/Component/Routing/LICENSE" />
+            <include name="symfony/routing/Symfony/Component/Routing/Tests/**" />
+            <include name="symfony/routing/Symfony/Component/Routing/CHANGELOG.md" />
+            <include name="symfony/routing/Symfony/Component/Routing/README.md" />
+            <include name="symfony/routing/Symfony/Component/Routing/composer.json" />
+            <include name="symfony/routing/Symfony/Component/Routing/phpunit.xml.dist" />
 
-            <exclude name="symfony/translation/Symfont/Component/Translation/**" />
-            <exclude name="symfony/translation/Symfont/Component/Translation/LICENSE" />
-            <include name="symfony/translation/Symfont/Component/Translation/Tests/**" />
-            <include name="symfony/translation/Symfont/Component/Translation/CHANGELOG.md" />
-            <include name="symfony/translation/Symfont/Component/Translation/composer.json" />
-            <include name="symfony/translation/Symfont/Component/Translation/phpunit.xml.dist" />
+            <exclude name="symfony/translation/Symfony/Component/Translation/LICENSE" />
+            <include name="symfony/translation/Symfony/Component/Translation/Tests/**" />
+            <include name="symfony/translation/Symfony/Component/Translation/CHANGELOG.md" />
+            <include name="symfony/translation/Symfony/Component/Translation/README.md" />
+            <include name="symfony/translation/Symfony/Component/Translation/composer.json" />
+            <include name="symfony/translation/Symfony/Component/Translation/phpunit.xml.dist" />
 
             <exclude name="twig/twig/lib/**" />
             <exclude name="twig/twig/LICENSE" />
@@ -252,6 +247,8 @@
             <exclude name="web/magicsuggest/*.css" />
             <exclude name="web/magicsuggest/*.js" />
             <include name="web/magicsuggest/**" />
+
+            <include name="web/**" />
         </fileset>
          
        <delete includeemptydirs="true">
@@ -263,7 +260,6 @@
     <!-- (DEFAULT)  Target: main                       -->
     <!-- ============================================  -->
     <target name="main" depends="build">
-        <echo msg="Creating Tar archive..." />
 
         <tar destfile="./drafterbit-dist.tar.gz" compression="gzip">
             <fileset dir="./build">
@@ -271,16 +267,13 @@
             </fileset>
         </tar>
 
-        <echo msg="Creating Zip archive..." />
         <zip destfile="./drafterbit-dist.zip">
             <fileset dir="./build">
                 <include name="**" />
             </fileset>
         </zip>
 
-        <echo msg="delete temporary file" />
         <delete dir="./build" includeemptydirs="true" />
 
-        <echo msg="Dist archive created OK!" />
     </target>
 </project>
