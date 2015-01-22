@@ -64,8 +64,8 @@ class Frontend extends FrontendController
 
     public function tag($slug)
     {
-        $tag = $this->model('@blog\Tag')->getSingleBy('slug', $slug);
-        $posts = $this->model('@blog\Tag')->getPosts($tag['id']);
+        $tag = $this->model('Tag')->getSingleBy('slug', $slug);
+        $posts = $this->model('Tag')->getPosts($tag['id']);
         
         // @todo :(
         $data['prev_link'] = false;

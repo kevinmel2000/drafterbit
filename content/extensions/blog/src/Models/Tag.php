@@ -85,11 +85,14 @@ class Tag extends \Drafterbit\Framework\Model
     {
         return
         $this->withQueryBuilder()
-            ->select('*')
+            ->select('p.*, u.real_name as authorName, u.username')
             ->from('#_posts', 'p')
             ->leftJoin('p', '#_posts_tags', 'pt', 'pt.post_id = p.id')
+            ->leftJoin('p', '#_users', 'u', 'p.user_id = u.id')
             ->where('pt.tag_id = :tag')
             ->setParameter('tag', $id)
+            ->andWhere('p.status = :status')
+            ->setParameter(':status', 1)
             ->getResult();
     }
 }
