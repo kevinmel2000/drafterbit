@@ -82,12 +82,16 @@ if (! function_exists('asset_url')) {
     {
         if ('@' === $path[0]) {
             $_temp = explode('/', $path);
+            $ext = ltrim(array_shift($_temp), '@');
 
-            if (ltrim(array_shift($_temp), '@') == 'vendor') {
+            if ($ext == 'vendor') {
                 $base = 'system/vendor/web/';
-                $path = implode('/', $_temp);
-                $path = $base.$path;
+            } else {
+                $base = app('dir.content').'/extensions/'.$ext.'/src/Resources/public/';
             }
+
+            $path = implode('/', $_temp);
+            $path = $base.$path;
         }
 
         return base_url($path);

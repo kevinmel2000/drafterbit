@@ -3,8 +3,7 @@
 use Drafterbit\Extensions\System\FrontendController;
 
 class Frontend extends FrontendController
-{
-    
+{   
     public function view($username)
     {
         $user = $this->model('@user\User')->getByUserName($username) or show_404();

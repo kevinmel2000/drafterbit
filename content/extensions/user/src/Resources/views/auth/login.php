@@ -21,8 +21,7 @@
   </head>
 
   <body>
-
-    <div class="container" style="display:none">
+    <div class="container">
       <div class="panel panel-default form-signin-panel">
         <div class="panel-body">
             <div style="text-align:center; margin-bottom:20px;"><h1 class="title">Drafterbit</h1></div>       
@@ -38,15 +37,16 @@
         </div>
     </div> <!-- /container -->
     
-    <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
-    <script src="<?php echo asset_url('@vendor/nprogress/nprogress.js'); ?>" /></script>
-    <script type="text/javascript">
-          NProgress.start();
+    <div class="preloader">
+        <img alt="loading&hellip;" src="<?php echo asset_url('@system/img/preloader.GIF'); ?>" />
+    </div>
 
-          $(window).load(function(){
-            NProgress.done();
-            $('body > .container').fadeIn('fast');
-          });
+    <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
+    <script type="text/javascript">
+
+      $(window).load(function(){
+        $('.preloader').fadeOut('fast');
+      });
 
     </script>
     <?php $this->js(':jquery_form, :notify_js, @user/js/login.js'); ?>

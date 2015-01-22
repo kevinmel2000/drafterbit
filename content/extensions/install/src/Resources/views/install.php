@@ -3,7 +3,7 @@
 <head>
     <title>Drafterbit Installation</title>
 
-        <?php $this->css(':bootstrap_css, :bootstrap_validator_css, :notify_css'); ?>
+        <?php $this->css(':bootstrap_css, :notify_css'); ?>
         <?php echo $this->block('css');?>
 
     <style>
@@ -174,11 +174,11 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <di class="install-trapper">
-        <h3><img alt="loading" src="<?php echo $preloader; ?>" /></h3>
+    <div class="install-trapper">
+        <img alt="Installing&hellip;" src="<?php echo $preloader; ?>" />
     </div>
 
-    <?php $this->js(':jquery, :bootstrap_js, :bootstrap_validator_js, :jquery_form, :notify_js, @install/js/install.js'); ?>
+    <?php $this->js(':jquery, :bootstrap_js, :jquery_form, :notify_js, @install/js/install.js'); ?>
     <?php echo $this->block('js') ?>
 
 </body>

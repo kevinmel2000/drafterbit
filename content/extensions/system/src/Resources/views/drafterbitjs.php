@@ -1,17 +1,5 @@
  (function($){
 
-  $('body').hide();
-  NProgress.start();
-  
-  window.onunload = function(){
-    $('body').hide();
-  };
-
-  $(window).load(function(){
-    $('body').fadeIn('fast');
-    NProgress.done();
-  });
-
   drafTerbit = {
     baseUrl: "<?php echo base_url() ?>",
     adminUrl: "<?php echo admin_url() ?>",

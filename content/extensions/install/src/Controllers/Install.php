@@ -17,7 +17,7 @@ class Install extends Controller
         $start = $this->getExtension()->getStart();
         
         $data['start'] = $start;
-        $data['preloader'] = base_url($this->get('dir.content').'/cache/img/preloader.GIF');
+        $data['preloader'] = base_url($this->get('dir.content').'/extensions/install/src/Resources/public/img/preloader.GIF');
 
         return $this->render('install', $data);
     }

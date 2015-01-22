@@ -4,7 +4,6 @@ use Drafterbit\Framework\Application;
 
 class SystemExtension extends \Drafterbit\Framework\Extension
 {
-
     public function boot()
     {
         foreach (['form', 'support', 'twig'] as $helper) {
