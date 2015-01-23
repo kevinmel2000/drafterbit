@@ -51,7 +51,7 @@ class Comment extends BackendController
         foreach ($comments as $comment) {
             $data = array();
             $data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment['id']}\">";
-            $data[] = '<img src="'.gravatar_url($comment['email'], 40).'"/>'.$comment['name'].'<br/><a href="mailto:'.$comment['email'].'">'.$comment['email'].'</a>';
+            $data[] = '<img alt="" src="'.gravatar_url($comment['email'], 40).'"/>'.$comment['name'].'<br/><a href="mailto:'.$comment['email'].'">'.$comment['email'].'</a>';
 
             $data[] = $this->contentFormat($comment['content'], $comment);;
 
