@@ -1,5 +1,9 @@
  (function($){
 
+   window.onbeforeunload = function(){
+        $('.preloader').fadeIn('fast');
+   }
+
   drafTerbit = {
     baseUrl: "<?php echo base_url() ?>",
     adminUrl: "<?php echo admin_url() ?>",

@@ -79,7 +79,7 @@
 
             <exclude name="gregwar/image/Gregwar/Image/Adapter/**" />
             <exclude name="gregwar/image/Gregwar/Image/Exceptions/**" />
-            <exclude name="gregwar/image/Gregwar/Image/Sources/**" />
+            <exclude name="gregwar/image/Gregwar/Image/Source/**" />
             <exclude name="gregwar/image/Gregwar/Image/*.php" />
             <exclude name="gregwar/image/Gregwar/Image/LICENSE" />
             <include name="gregwar/image/Gregwar/Image/**" />
@@ -247,8 +247,7 @@
             <exclude name="web/magicsuggest/*.css" />
             <exclude name="web/magicsuggest/*.js" />
             <include name="web/magicsuggest/**" />
-
-            <include name="web/**" />
+            
         </fileset>
          
        <delete includeemptydirs="true">
