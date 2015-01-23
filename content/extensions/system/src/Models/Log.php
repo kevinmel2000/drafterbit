@@ -19,7 +19,7 @@ class Log extends \Drafterbit\Framework\Model
         $stmt = $queryBuilder
             ->select('l.*')
             ->from('#_logs', 'l')
-            ->orderBy('time', 'DESC')->setMaxResults(10);
+            ->orderBy('time', 'DESC')->setMaxResults(5);
 
         return $stmt->execute()->fetchAll();
     }

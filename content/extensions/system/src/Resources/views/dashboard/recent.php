@@ -22,5 +22,9 @@
         </table>
         <?php else : ?>
             <p><?php echo __('No recent activity') ?></p>
-        <?php endif; ?> </div>
+        <?php endif; ?>
+        <div>
+            <a href="<?php echo admin_url('system/log') ?>" class="btn btn-sm pull-right">View More</a>
+        </div>
+    </div>
 </div>

@@ -5,7 +5,6 @@ use Twig_SimpleFunction;
 
 class TwigExtension extends Twig_Extension
 {
-
     function getName()
     {
         return 'drafterbit_blog';

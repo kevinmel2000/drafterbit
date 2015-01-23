@@ -5,7 +5,7 @@ class Dashboard extends \Drafterbit\Framework\Model
 
     public function recent()
     {
-        $logs = $this->model('@system\Log')->recent();
+        $logs = $this->model('Log')->recent();
 
         foreach ($logs as &$log) {
             $log = (object)$log;

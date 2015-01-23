@@ -49,34 +49,13 @@ class Comment extends BackendController
         $arr  = array();
 
         foreach ($comments as $comment) {
-            $comment = (object) $comment;
             $data = array();
-            $data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment->id}\">";
-            $data[] = "<img src='".gravatar_url($comment->email, 40)."'/>{$comment->name} <br/><a href=\"mailto:{$comment->email}\">{$comment->email}</a>";
+            $data[] = "<input type=\"checkbox\" name=\"comments[]\" value=\"{$comment['id']}\">";
+            $data[] = '<img src="'.gravatar_url($comment['email'], 40).'"/>'.$comment['name'].'<br/><a href="mailto:'.$comment['email'].'">'.$comment['email'].'</a>';
 
-            $content = "{$comment->content}";
+            $data[] = $this->contentFormat($comment['content'], $comment);;
 
-            if ($comment->deleted_at == '0000-00-00 00:00:00') {
-                $content .= "<div class=\"comment-action\">";
-                if ($comment->status != 2) {
-                    $display = $comment->status == 1 ? 'inline' : 'none';
-                    $display2 = $comment->status == 0 ? 'inline' : 'none';
-
-                    $content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
-                    $content .=" <a data-status=\"1\" data-id=\"{$comment->id}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
-                    $content .=" <a data-id=\"{$comment->id}\" data-post-id=\"{$comment->post_id}\" class=\"reply\" href=\"#\">Reply</a>";
-                    $content .=" <a data-status=\"2\" data-id=\"{$comment->id}\" class=\"spam status\" href=\"#\">Spam</a>";
-                    $content .=" <a data-id=\"{$comment->id}\" class=\"trash\" href=\"#\">Trash</a>";
-                } else {
-                    $content .=" <a data-status=\"0\" data-id=\"{$comment->id}\" class=\"unspam status\" href=\"#\">Not Spam</a>";
-                }
-                
-                $content .="</div>";
-            }
-
-            $data[] = $content;
-
-            $data[] = '<a href="'.admin_url('blog/edit/'.$comment->post_id).'">'.$comment->title.'</a><br/>'.$comment->created_at;
+            $data[] = '<a href="'.admin_url('blog/edit/'.$comment['post_id']).'">'.$comment['title'].'</a><br/>'.$comment['created_at'];
             
             $arr[] = $data;
         }
@@ -103,23 +82,8 @@ class Comment extends BackendController
                 'field' => 'content',
                 'label' => 'Comment',
                 'width' => '55%',
-                'format' => function($value, $item)
-                {
-                    $content = "$value";
-                    $content .= "<div class=\"comment-action\">";
-
-                    $display = $item['status'] == 1 ? 'inline' : 'none';
-                    $display2 = $item['status'] == 0 ? 'inline' : 'none';
-
-                    $content .=" <a data-status=\"0\" data-id=\"{$item['id']}\" style=\"display:{$display}\" class=\"unapprove status\" href=\"#\">Pending</a>";
-                    $content .=" <a data-status=\"1\" data-id=\"{$item['id']}\" style=\"display:{$display2}\" class=\"approve status\" href=\"#\">Approve</a>";
-                    $content .=" <a data-id=\"{$item['id']}\" data-post-id=\"{$item['post_id']}\" class=\"reply\" href=\"#\">Reply</a>";
-                    $content .=" <a data-status=\"2\" data-id=\"{$item['id']}\" class=\"spam status\" href=\"#\">Spam</a>";
-                    $content .=" <a data-id=\"{$item['id']}\" class=\"trash\" href=\"#\">Trash</a>";
-                    $content .="</div>";
-
-                    return $content;
-                }],
+                'format' => array($this, 'contentFormat')
+            ],
             [
                 'field' => 'post_id',
                 'label' => 'In Respose to',
@@ -129,6 +93,22 @@ class Comment extends BackendController
                 }
             ]
         );
+    }
+
+    private function contentFormat($content, $item)
+    {
+        $data['content'] = $content;
+        $data['itemId'] = $item['id'];
+        $data['postId'] = $item['post_id'];
+        $data['status'] = $item['status'];
+        $data['deletedAt'] = $item['deleted_at'];
+
+        if ($data['status'] != 2) {
+            $data['display'] = $data['status'] == 1 ? 'inline' : 'none';
+            $data['display2'] = $data['status'] == 0 ? 'inline' : 'none';
+        }
+
+        return $this->render('@blog/admin/comments/item.php', $data);
     }
 
     public function submit()
