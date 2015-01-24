@@ -105,9 +105,11 @@ class BlogExtension extends \Drafterbit\Framework\Extension
     function getStat()
     {
         $posts = $this->model('Post')->all(['status' => 'untrashed']);
+        $comments = $this->model('Comment')->all(['status' => 'all']);
 
         return array(
-            'Post(s)' => count($posts)
+            'Post(s)' => count($posts),
+            'Comment(s)' => count($comments)
         );
     }
 }

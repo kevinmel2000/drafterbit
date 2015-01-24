@@ -14,7 +14,7 @@
         <tbody>
         <?php foreach ($logs as $log) : ?>
             <tr>
-                <td width="40%;"><?php echo date('d/m/Y H:i', $log->time); ?></td>
+                <td width="40%;"><?php echo $log->time ?></td>
                 <td><?php echo $log->formattedMsg; ?></td>
             </tr>
         <?php endforeach; ?>

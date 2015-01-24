@@ -9,7 +9,7 @@ class Dashboard extends \Drafterbit\Framework\Model
 
         foreach ($logs as &$log) {
             $log = (object)$log;
-
+            $log->time = $this->get('time')->createFromTimestamp($log->time)->diffForHumans();
             $log->formattedMsg = $this->formatLog($log->message);
         }
 
@@ -28,6 +28,8 @@ class Dashboard extends \Drafterbit\Framework\Model
         $stat['PHP'] = phpversion();
         $stat['DB'] = $this->get('db')->getServerVersion();
         $stat['Time'] = date('H:i:s');
+        $stat['Theme'] = $this->get('themes')->current();
+        $stat['Server'] = $this->get('input')->server('SERVER_SOFTWARE');
         $data['stat'] = $stat;
 
         return $this->get('template')->render('@system/dashboard/info', $data);
