@@ -25,5 +25,3 @@
 		</div>
 	</div>
 </div>
-
-<?php $this->js('@system/js/cache.js'); 

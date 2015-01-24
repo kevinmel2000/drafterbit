@@ -2,7 +2,7 @@
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
-use Drafterbit\Finder;
+use Drafterbit\Extensions\Files\Finder;
 
 class OpenFinderServiceProvider implements ServiceProviderInterface
 {

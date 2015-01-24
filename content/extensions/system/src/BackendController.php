@@ -155,6 +155,7 @@ class BackendController extends Controller
         $system = $this->model('@system\System')->all();
         
         $this->get('template')
+            ->addGlobal('app', $this->get('app'))
             ->addGlobal('menus', $this->createMenu($this->menu()))
             ->addGlobal('userName', $userName)
             ->addGlobal('userGravatar', $userGravatar)
