@@ -23,7 +23,7 @@ class PagesExtension extends \Drafterbit\Framework\Extension
         ];
     }
 
-    public function getPermissinos()
+    public function getPermissions()
     {
         return [
             'page.view' => 'view page',

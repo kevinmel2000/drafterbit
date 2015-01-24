@@ -60,7 +60,9 @@ class Auth extends \Drafterbit\Framework\Model
 
         $config = $this->get('config');
 
-        if (!in_array(trim($route->getPath(), '/'), [$config['path.admin'].'/login', $config['path.admin'].'/do_login'])) {
+        $publicPath = [$config['path.admin'].'/login', $config['path.admin'].'/do_login'];
+
+        if (!in_array(trim($route->getPath(), '/'), $publicPath)) {
             $next = urlencode(base_url($request->getPathInfo()));
             return redirect(admin_url("login?next=$next"))->send();
         }
@@ -74,6 +76,23 @@ class Auth extends \Drafterbit\Framework\Model
      */
     public function restrict($accessKey)
     {
+        if (!$this->userHasPermission($accessKey)) {
+                        
+            throw new UserNotAuthorizedException(
+                "Access denied."
+            );
+        }
+
+        return true;
+    }
+
+    /**
+     * Check if current user has a permission
+     *
+     * @param string $key;
+     */
+    public function userHasPermission($accessKey)
+    {
         $encrypter = $this->get('encrypter');
         $session = $this->get('session');
 
@@ -86,15 +105,7 @@ class Auth extends \Drafterbit\Framework\Model
 
         $userPermissions = unserialize($encrypter->decrypt($session->get('user.permissions')));
 
-        if (!in_array($accessKey, $userPermissions)) {
-            $label = $permissions[$accessKey];
-            throw new UserNotAuthorizedException(
-                "Sorry, you are not authorized to $label.
-                Try logout and login again or please request access to administrator"
-            );
-        }
-
-        return true;
+        return in_array($accessKey, $userPermissions);
     }
 
     /**

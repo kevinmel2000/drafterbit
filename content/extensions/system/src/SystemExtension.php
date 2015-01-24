@@ -41,7 +41,9 @@ class SystemExtension extends \Drafterbit\Framework\Extension
             'system.change' => 'change system setting',
             'appearance.change' => 'change appearance setting',
             'log.view' => 'view log',
+            'log.delete' => 'delete log',
             'cache.view' => 'view cache',
+            'cache.delete' => 'delete cache',
             'system.update' => 'update application'
         ];
     }

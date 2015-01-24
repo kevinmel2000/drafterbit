@@ -11,10 +11,13 @@ class FilesExtension extends \Drafterbit\Framework\Extension
 	    ];
  	}
 
- 	public function getPermissins()
+ 	public function getPermissions()
  	{
 	    return [
-	        'files.manage' => 'manage files',
+	        'files.view'   => 'view files',
+	        'files.create' => 'upload files or create folder',
+	        'files.delete' => 'delete files',
+	        'files.move'   => 'move or rename files',
 	    ];
  	}
 

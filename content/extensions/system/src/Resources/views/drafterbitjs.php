@@ -10,6 +10,14 @@
     contentUrl: "<?php echo base_url(app('dir.content')) ?>",
     csrfToken: "<?php echo csrf_token() ?>",
 
+    permissions: {
+      files: {
+        create: "<?php echo has_permission('files.create') ?>",
+        delete: "<?php echo has_permission('files.delete') ?>",
+        move: "<?php echo has_permission('files.move') ?>"
+      }
+    },
+
     //replace datatable search box;
     replaceDTSearch: function(dt) {
       $('.dataTables_filter').remove();

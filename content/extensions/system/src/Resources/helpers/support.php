@@ -113,3 +113,19 @@ if (!function_exists('gravatar_url')) {
         return "http://www.gravatar.com/avatar/$hash?d=mm&s=$size";
     }
 }
+
+
+if (!function_exists('has_permission')) {
+    /**
+     * Check if current user has an access
+     *
+     * @param  string $email
+     * @param  int    $size
+     * @return void
+     * @author
+     **/
+    function has_permission($accessKey)
+    {
+        return app()->getExtension('user')->model('Auth')->userHasPermission($accessKey);
+    }
+}

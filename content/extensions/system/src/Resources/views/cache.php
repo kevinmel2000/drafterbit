@@ -19,9 +19,12 @@
 			<?php else: ?>
 				<p>No Caches</p>
 			<?php endif; ?>
-			<form method="POST">
-				<button class="btn btn-default btn-sm pull-right" type="submit" name="action" value="clear"> Clear Cache</button>
-			</form>
+			
+			<?php if(has_permission('cache.delete')): ?>
+				<form method="POST">
+					<button class="btn btn-default btn-sm pull-right" type="submit" name="action" value="clear"> Clear Cache</button>
+				</form>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>
