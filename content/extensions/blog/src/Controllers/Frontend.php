@@ -4,48 +4,15 @@ use Drafterbit\Extensions\System\FrontendController;
 
 class Frontend extends FrontendController
 {
-    public function index($page = 1)
+    public function index()
     {
-        $perPage = $this->model('@system\System')->fetch('post.per_page') ?: 5;
-        $offset = ($page*$perPage)-$perPage;
+        $page = $this->get('input')->get('p') or $page = 1;
 
-        $nextOffset = (($page+1)*$perPage)-$perPage;
+        $posts = $this->getFormattedPostList($page);
 
-        $posts = $this->model('@blog\Post')->take($perPage, $offset);
-        
-        $nextPosts = $this->model('@blog\Post')->take($perPage, $nextOffset);
-
-        $system = $this->model('@system\System')->all();
-
-        foreach ($posts as &$post) {
-            $date = date('Y/m', strtotime($post['created_at']));
-
-            $post['date'] = $this->get('time')->parse($post['created_at'])->format($system['format.date']);
-
-            $post['url'] = blog_url($date.'/'.$post['slug']);
-
-            $post['excerpt'] = false;
-            
-            if (strpos($post['content'], '<!--more-->') !== false) {
-                $post['excerpt'] = current(explode('<!--more-->', $post['content'])).'&hellip;';
-            }
-
-            $post['tags'] = $this->model('@blog\Post')->getTags($post['id']);
-        }
-
-        // @todo clean this and create author_url
         $data['posts'] = $posts;
 
-        $data['prev_link'] = false;
-        $data['next_link'] = false;
-
-        if ($page > 1) {
-            $data['prev_link'] = blog_url('page/'.($page-1));
-        }
-
-        if ($nextPosts) {
-            $data['next_link'] = blog_url('page/'.($page+1));
-        }
+        $data = array_merge($data, $this->getNav($page));
 
         return $this->render('blog/index', $data);
     }
@@ -64,13 +31,38 @@ class Frontend extends FrontendController
 
     public function tag($slug)
     {
+        $page = $this->get('input')->get('p') or $page = 1;
+        $filter = ['tag' => $slug];
+
+        $posts = $this->getFormattedPostList($page, $filter);
+
+        $data['posts'] = $posts;
+        $data = array_merge($data, $this->getNav($page, $filter));
+
         $tag = $this->model('Tag')->getSingleBy('slug', $slug);
-        $posts = $this->model('Tag')->getPosts($tag['id']);
+        $data['tag'] = $tag;
         
-        // @todo :(
-        $data['prev_link'] = false;
-        $data['next_link'] = false;
-        
+        return $this->render('blog/tag/index', $data);
+    }
+
+    public function author($username)
+    {
+        $page = $this->get('input')->get('p') or $page = 1;
+        $filter = ['username' => $username];
+
+        $user = $this->model('@user\User')->getByUserName($username) or show_404();
+
+        $posts = $this->getFormattedPostList($page, $filter);
+
+        $data['posts'] = $posts;
+        $data['user'] = $user;
+        $data = array_merge($data, $this->getNav($page, $filter));
+
+        return $this->render('user/view', $data);
+    }
+
+    private function format($posts)
+    {
         foreach ($posts as &$post) {
             $date = date('Y/m', strtotime($post['created_at']));
 
@@ -87,8 +79,47 @@ class Frontend extends FrontendController
             $post['tags'] = $this->model('@blog\Post')->getTags($post['id']);
         }
 
-        $data['tag'] = $tag;
-        $data['posts'] = $posts;
-        return $this->render('blog/tag/index', $data);
+        return $posts;
+    }
+
+    private function getPostList($page, $filter = array())
+    {
+        $perPage = $this->model('@system\System')->fetch('post.per_page') ?: 5;
+        
+        $offset = ($page*$perPage)-$perPage;
+
+        return $this->model('@blog\Post')->take($perPage, $offset, $filter);
+    }
+
+    private function getFormattedPostList($page, $filter = array())
+    {
+        $posts = $this->getPostList($page, $filter);
+
+        return $this->format($posts);
+    }
+
+    private function hasNextPage($page, $filter = array())
+    {
+        return (boolean) count($this->getPostList($page+1, $filter));
+    }
+
+    private function getNav($page, $filter = array())
+    {
+        $data['prev_link'] = false;
+        $data['next_link'] = false;
+
+        if ($page > 1) {
+            if($page == 2) {
+                $data['prev_link'] = current_url();
+            } else {
+                $data['prev_link'] = current_url().'?p='.($page-1);
+            }
+        }
+
+        if ($this->hasNextPage($page, $filter)) {
+            $data['next_link'] = current_url().'?p='.($page+1);
+        }
+
+        return $data;
     }
 }

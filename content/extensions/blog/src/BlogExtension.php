@@ -34,15 +34,18 @@ class BlogExtension extends \Drafterbit\Framework\Extension
             $urlPattern = '{yyyy}/{mm}/{slug}';
             $pageUrlPattern = 'page/{page}';
             $tagUrlPattern = 'tag/{slug}';
+            $authorUrlPattern = 'author/{username}';
         } else {
             $urlPattern = 'blog/{yyyy}/{mm}/{slug}';
             $pageUrlPattern = 'blog/page/{page}';
             $tagUrlPattern = 'blog/tag/{slug}';
+            $authorUrlPattern = 'blog/author/{username}';
         }
         
         $this['router']->addReplaces('%blog_url_pattern%', $urlPattern);
         $this['router']->addReplaces('%blog_page_url_pattern%', $pageUrlPattern);
         $this['router']->addReplaces('%blog_tag_url_pattern%', $tagUrlPattern);
+        $this['router']->addReplaces('%blog_author_url_pattern%', $authorUrlPattern);
 
 
         //log entities

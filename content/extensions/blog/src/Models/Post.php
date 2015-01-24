@@ -33,10 +33,9 @@ class Post extends \Drafterbit\Framework\Model
         return $query->getResult();
     }
 
-    public function take($limit, $offset)
+    public function take($limit, $offset, $filter = array())
     {
-        return
-        $this->withQueryBuilder()
+        $query = $this->withQueryBuilder()
             ->select('p.*, u.email as authorEmail, u.real_name as authorName, u.username')
             ->from('#_posts', 'p')
             ->leftJoin('p', '#_users', 'u', 'p.user_id = u.id')
@@ -45,8 +44,30 @@ class Post extends \Drafterbit\Framework\Model
             ->andWhere('p.status = :status')
             ->setParameter(':status', 1)
             ->setFirstResult($offset)
-            ->setMaxResults($limit)
-            ->getResult();
+            ->setMaxResults($limit);
+
+        if($filter) {
+            foreach ($filter as $key => $value) {
+                switch ($key) {
+                    case 'username':
+                        $query->andWhere('u.username = :username');
+                        $query->setParameter(':username', $value);
+                        break;
+                    case 'tag':
+                        $query->join('p', '#_posts_tags', 'pt', 'pt.post_id = p.id');
+                        $query->join('pt', '#_tags', 't', 't.id = pt.tag_id');
+                        $query->andWhere('t.slug = :tag');
+                        $query->setParameter(':tag', $value);
+                        break;            
+                    
+                    default:
+                        # code...
+                        break;
+                }
+            }
+        }
+    
+        return $query->getResult();
     }
 
     public function insert($data)
