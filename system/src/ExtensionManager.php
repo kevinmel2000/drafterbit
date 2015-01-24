@@ -132,18 +132,19 @@ class ExtensionManager
         $ns = isset($config['ns']) ? $config['ns'] : $this->defaultNS;
         $class = $ns.studly_case($extension).'\\'.studly_case($extension).'Extension';
 
+        $instance = new $class;
+
         // register menu
-        if (isset($config['nav'])) {
-            $this->app->addNav($config['nav']);
+        if (method_exists($instance, 'getNav')) {
+            $this->app->addNav($instance->getNav());
         }
 
         // register permissions
-        if (isset($config['permissions'])) {
-            $this->app->addPermission($extension, $config['permissions']);
+        if (method_exists($instance, 'getPermissions')) {
+            $this->app->addPermission($extension, $instance->getPermissions());
         }
 
-        $instance = new $class;
-
+        // widget path
         if (is_dir($instance->getResourcesPath('widgets'))) {
             $this->app['widget']->addPath($instance->getResourcesPath('widgets'));
         }

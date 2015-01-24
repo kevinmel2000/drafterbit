@@ -2,7 +2,6 @@
 
 class UserExtension extends \Drafterbit\Framework\Extension
 {
-
     function boot()
     {
         //log entities
@@ -26,6 +25,29 @@ class UserExtension extends \Drafterbit\Framework\Extension
                 return '<a href="'.admin_url('user/roles/edit/'.$id).'">'.$label.'</a>';
             }
         );
+    }
+
+    public function getNav()
+    {
+        return [
+            ['parent'=>'users', 'id'=>'user', 'label' => 'User', 'href' => 'user'],
+            ['parent'=>'users', 'id'=>'roles', 'label' => 'Roles', 'href' => 'user/roles']
+        ];
+    }
+
+    public function getPermissions()
+    {
+        return [
+            'user.view' => 'view user',
+            'user.add' => 'add user',
+            'user.edit' => 'edit user',
+            'user.delete' => 'delete user',
+
+            'roles.view' => 'view roles',
+            'roles.add' => 'add roles',
+            'roles.edit' => 'edit roles',
+            'roles.delete' => 'delete roles'
+        ];
     }
 
     function getReservedBaseUrl()

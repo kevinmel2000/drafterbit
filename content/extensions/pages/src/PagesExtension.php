@@ -16,6 +16,23 @@ class PagesExtension extends \Drafterbit\Framework\Extension
         );
     }
 
+    public function getNav()
+    {
+        return [
+            [ 'id'=>'pages', 'parent' =>'content', 'label' => 'Pages', 'href' => 'pages', 'order' => 1],
+        ];
+    }
+
+    public function getPermissinos()
+    {
+        return [
+            'page.view' => 'view page',
+            'page.add' => 'add page',
+            'page.edit' => 'edit page',
+            'page.delete' => 'delete page',
+        ];
+    }
+
     function getSearchQuery()
     {
         $query = $this['db']->createQueryBuilder()

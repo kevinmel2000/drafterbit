@@ -5,7 +5,6 @@ use Drafterbit\Framework\Application;
 
 class BlogExtension extends \Drafterbit\Framework\Extension
 {
-
     public function boot()
     {
         $this['helper']->register('blog', $this->getResourcesPath('helpers/blog.php'));
@@ -56,6 +55,27 @@ class BlogExtension extends \Drafterbit\Framework\Extension
                 return '<a href="'.admin_url('blog/edit/'.$id).'">'.$label.'</a>';
             }
         );
+    }
+
+    public function getNav()
+    {
+        return [
+            [ 'id' => 'blog', 'label' => 'Blog', 'href' => 'blog', 'parent' => 'content'],
+            [ 'id' => 'comments', 'label' => 'Comments', 'href' => 'blog/comments', 'order' => 2],
+            [ 'id' => 'blog-setting', 'label' => 'Blog', 'href' => 'blog/setting', 'parent' => 'setting']
+        ];
+    }
+
+    public function getPermissions()
+    {
+        return [
+            'post.view' => 'view post',
+            'post.edit' => 'edit post',
+            'post.save' => 'save a post',
+            'post.delete' => 'delete or trash post',
+            'comment.view' => 'view comment',
+            'comment.delete' => 'delete comment',
+        ];
     }
 
     public function getComments($id)
