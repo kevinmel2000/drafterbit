@@ -58,24 +58,21 @@ class Tag extends \Drafterbit\Framework\Model
     public function getIdBy($field, $value)
     {
         $queryBuilder = $this->get('db')->createQueryBuilder();
-        
+
         $tag = $queryBuilder
             ->select('*')
             ->from('#_tags', 't')
             ->where("$field = '$value'")
             ->execute()->fetch();
 
-        if (!isset($tag->id)) {
-            return false;
-        }
-
-        return $tag->id;
+        return isset($tag['id']) ? $tag['id'] : false;
     }
 
     public function save($tag)
     {
         $data['label'] = $tag;
         $data['slug'] = slug($tag);
+
         $this->get('db')->insert('#_tags', $data);
 
         return $this->get('db')->lastInsertId();
