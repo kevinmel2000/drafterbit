@@ -55,7 +55,7 @@
         drafTerbit.initAjaxForm();
 
         $(window).load(function(){
-          $('.preloader').fadeOut('fast');
+          $('.preloader').hide();
         });
 
         <?php if (isset($messages)) : ?>

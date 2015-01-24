@@ -113,7 +113,6 @@ class System extends BackendController
     {
         
         $model = $this->model('cache');
-        $caches = $model->getAll();
         
         $post = $this->get('input')->post();
         if (isset($post['action'])) {
