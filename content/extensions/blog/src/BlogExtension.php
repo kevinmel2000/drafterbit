@@ -43,7 +43,6 @@ class BlogExtension extends \Drafterbit\Framework\Extension
         }
         
         $this['router']->addReplaces('%blog_url_pattern%', $urlPattern);
-        $this['router']->addReplaces('%blog_page_url_pattern%', $pageUrlPattern);
         $this['router']->addReplaces('%blog_tag_url_pattern%', $tagUrlPattern);
         $this['router']->addReplaces('%blog_author_url_pattern%', $authorUrlPattern);
 

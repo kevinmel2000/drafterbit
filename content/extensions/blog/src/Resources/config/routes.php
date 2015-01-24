@@ -40,13 +40,6 @@
         ]
     ],
 
-'%blog_page_url_pattern%' => [
-    'controller' => '@blog\Frontend::index',
-    'methods' => 'get',
-    'requirements' => [
-        'page' => '[1-9]+',
-        ]
-    ],
 '%blog_tag_url_pattern%' => [
     'controller' => '@blog\Frontend::tag',
     'methods' => 'get'
