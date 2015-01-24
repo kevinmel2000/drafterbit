@@ -111,28 +111,23 @@ class System extends BackendController
 
     public function cache()
     {
+        
+        $model = $this->model('cache');
+        $caches = $model->getAll();
+        
         $post = $this->get('input')->post();
-
-        if (isset($post['action']) and ($post['action'] == 'delete') and isset($post['cache'])) {
-            foreach ($post['cache'] as $key) {
-                $this->get('cache')->delete($key);
+        if (isset($post['action'])) {
+            
+            if($post['action'] == 'clear') {
+                $model->clear();
             }
         }
 
-        $model = $this->model('cache');
-
         $caches = $model->getAll();
-
-        $tableHead = array(
-            ['field' => 'name', 'label' => 'Name'],
-            ['field' => 'size', 'label' => 'Filesize']
-        );
-
-        $cacheTable = $this->dataTable('cache', $tableHead, $caches);
 
         $data['id'] = 'cache';
         $data['title']  = __('Cache');
-        $data['cacheTable'] = $cacheTable;
+        $data['caches'] = $caches;
 
         return $this->render('@system/cache', $data);
     }
