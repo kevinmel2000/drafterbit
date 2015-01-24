@@ -54,7 +54,7 @@
 
 'blog/comment/submit' => ['controller' => '@blog\Comment::submit', 'methods' => 'post'],
 
-'feed.xml' => ['controller' => '@blog\RSS::index'],
+'feed.xml' => ['controller' => '@blog\Frontend::feed'],
 
 '%blog_author_url_pattern%' => [
     'controller' => '@blog\Frontend::author'

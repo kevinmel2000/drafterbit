@@ -1,6 +1,7 @@
 <?php namespace Drafterbit\Blog\Controllers;
 
 use Drafterbit\Extensions\System\FrontendController;
+use Symfony\Component\HttpFoundation\Response;
 
 class Frontend extends FrontendController
 {
@@ -59,6 +60,27 @@ class Frontend extends FrontendController
         $data = array_merge($data, $this->getNav($page, $filter));
 
         return $this->render('user/view', $data);
+    }
+
+    public function feed()
+    {
+        $page = $this->get('input')->get('p') or $page = 1;
+
+        $system = $this->model('@system\System')->all();
+        $data = array(
+            'siteName' =>  $system['site.name'],
+            'siteDesc' => $system['site.description']
+        );
+
+        $posts = $this->getFormattedPostList($page);
+
+        $data['posts'] = $posts;
+
+        $content =  $this->get('template')->render('@blog/feed', $data);
+
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'application/xml');
+        return $response;
     }
 
     private function format($posts)
