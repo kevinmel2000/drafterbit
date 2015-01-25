@@ -226,7 +226,7 @@
 
             <exclude name="web/finder/server/**" />
             <exclude name="web/finder/finder.css" />
-            <exclude name="web/finder/finder.js" />
+            <exclude name="web/finder/dist/finder.min.js" />
             <include name="web/finder/**" />
             
             <exclude name="web/fontawesome/css/**" />
