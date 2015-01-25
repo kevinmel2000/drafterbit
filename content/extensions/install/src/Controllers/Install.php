@@ -3,7 +3,7 @@
 use Drafterbit\Framework\Controller;
 
 class Install extends Controller
-{   
+{
     public function index()
     {
         $requirement = include __DIR__.'/../requirement.php';
@@ -47,13 +47,16 @@ class Install extends Controller
                 throw new \Exception("Database can not be empty");
             }
 
+            $key = $this->generateKey();
+
             $config = array(
+                '%key%' => $key,
                 '%db.driver%' => $db['driver'],
-                 '%db.host%' => $db['host'],
-                 '%db.user%' => $db['user'],
-                 '%db.pass%' => $db['password'],
-                 '%db.name%' => $db['dbname'],
-                 '%db.prefix%' => $db['prefix']
+                '%db.host%' => $db['host'],
+                '%db.user%' => $db['user'],
+                '%db.pass%' => $db['password'],
+                '%db.name%' => $db['dbname'],
+                '%db.prefix%' => $db['prefix']
              );
 
              $content = strtr($string, $config);
@@ -65,7 +68,6 @@ class Install extends Controller
                 $config = $content;
                 return json_encode(['config' => $config]);
             }
-             
         
         } catch (\Exception $e) {
             if (in_array($e->getCode(), ['1045', '1044'])) {
@@ -116,6 +118,25 @@ class Install extends Controller
          //add system default
          $model->systemInit($site['name'], $site['desc'], $admin['email'], $adminIds['userId']);
 
+         //invalidate current session
+         
+
          return $this->jsonResponse(['message' => 'ok']);
+    }
+
+    private function generateKey($length = 32, $special_chars = true, $extra_special_chars = true)
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        if ( $special_chars )
+            $chars .= '!@#$%^&*()';
+        if ( $extra_special_chars )
+            $chars .= '-_ []{}<>~`+=,.;:/?|';
+
+        $key = '';
+        for ( $i = 0; $i < $length; $i++ ) {
+            $key .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+
+        return $key;
     }
 }

@@ -5,11 +5,11 @@
             url: drafTerbit.adminUrl+'/files/data',
             data: {
                 csrf: drafTerbit.csrfToken,
-                permissions: {            	
-	                upload: drafTerbit.permissions.files.upload,
-	                delete: drafTerbit.permissions.files.delete,
-	                move: drafTerbit.permissions.files.move
-                }
+            },
+            permissions: {            	
+                create: drafTerbit.permissions.files.create,
+                move: drafTerbit.permissions.files.move,
+                delete: drafTerbit.permissions.files.delete
             }
         }
     );

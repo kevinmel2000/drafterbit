@@ -25,41 +25,6 @@
 
 /**
  *--------------------------------------------------------------------------
- * Application Language
- *--------------------------------------------------------------------------
- *
- * This will be used for translation in validation and others. We use simple
- * language support provided by Drafterbit\Framework. If you need more,  you can always
- * add you own language library.
- */
-
-'language' => 'indonesia',
-
-/**
- *--------------------------------------------------------------------------
- * Application Encryption Key
- *--------------------------------------------------------------------------
- *
- * This key is required for encryption handling in cookie and session, you
- * need to set it to long, hard-to-guess, unpredictable string, unless you
- * don't care about security.
- */
-
-'key' => 'encryption-key',
-
-/**
- *--------------------------------------------------------------------------
- * Application Start Script
- *--------------------------------------------------------------------------
- *
- * In case that we need to override things we can do it in this file. Start
- * script run after boot just before handling the request.
- */
-
-'startscript' => '',
-
-/**
- *--------------------------------------------------------------------------
  * Aplication Log
  *--------------------------------------------------------------------------
  *

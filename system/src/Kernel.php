@@ -385,10 +385,19 @@ class Kernel extends Application
             $this->configure($this['config_file']);
 
         } catch (InstallationException $e) {
-            
+
             $code = $e->getCode();
+            
+
             $this['extension.manager']->load('install');
+            
             $this->getExtension('install')->setStart($code);
+
+            $sessionName = $this['config']['session']['session.name'];
+            set_cookie($sessionName, null);
+            
+            $this['config']->set('key', 'dt_install');
+            $this['session']->setName('dt_install_session');
         }
 
         parent::run();

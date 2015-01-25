@@ -26,10 +26,13 @@
         {
             url: drafTerbit.adminUrl+'/files/data',
             onISelect: ckeditorCallback,
-            upload:false,
-            manage:false,
             data: {
                 csrf: drafTerbit.csrfToken
+            },
+            permissions: {             
+                create: drafTerbit.permissions.files.create,
+                move: drafTerbit.permissions.files.move,
+                delete: drafTerbit.permissions.files.delete
             }
         }
     );

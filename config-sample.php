@@ -19,10 +19,20 @@
  * This is folder where all uploaded files will be stored. Feel free to
  * change it but note that the value must be writable and relative to
  * installation folder.
- *
- * WARNING ! if you change this, you also need to update your embeded image.
  */
 'path.upload' =>  '%content_dir%/files',
+
+/**
+ *--------------------------------------------------------------------------
+ * Application Encryption Key
+ *--------------------------------------------------------------------------
+ *
+ * This key is required for encryption handling in cookie and session, you
+ * need to set it to long, hard-to-guess, unpredictable string.
+ * Default is generated during install.
+ */
+
+'key' => '%key%',
 
 /**
  * ---------------------------------------------------------------------------
@@ -31,17 +41,18 @@
  *
  * This is database connection detail you need to provide to connect the
  * application to database. Driver that supported is only 'pdo_mysql' for now.
+ * Contact server admin if you're not sure.
  */
 
 'database' => [
-    'driver'       => 'pdo_mysql',
-    'user'         => 'root',
-    'password'     => '',
-    'host'         => 'localhost',
+    'driver'       => '%db.driver%',
+    'user'         => '%db.user%',
+    'password'     => '%db.pass%',
+    'host'         => '%db.host%',
     'port'         => '3306',
-    'dbname'       => '',
+    'dbname'       => '%db.name%',
     'charset'      => 'utf8',
     'collation'    => 'utf8_unicode_ci',
-    'prefix'       => 'dt_',
+    'prefix'       => '%db.prefix%',
     ]
 ];
