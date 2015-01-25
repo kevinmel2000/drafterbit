@@ -3,7 +3,7 @@
     drafTerbit.pages = {};
 
     if (window.location.hash == '') {
-        window.location.hash = 'untrashed';
+        window.location.hash = 'all';
     }
     
     var urlHash = window.location.hash.replace('#','');
@@ -33,7 +33,7 @@
 
     filterByStatus = function(status){
 
-        var status = status || 'untrashed';
+        var status = status || 'all';
 
         drafTerbit.pages.dt.api().ajax.url(drafTerbit.adminUrl+"/pages/data/"+status+".json").load();
         window.location.hash = status;

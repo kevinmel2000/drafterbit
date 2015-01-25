@@ -1,14 +1,14 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Recent</h3>
+        <h3 class="panel-title"><?php echo __('Recent Activity'); ?></h3>
     </div>
     <div class="panel-body">
         <?php if ($logs) : ?>
         <table width="100%" class="table table-condensed">
         <thead>
             <tr>
-                <th>Time</th>
-                <th>Activity</th>
+                <th><?php echo __('Time') ?></th>
+                <th><?php echo __('Activity') ?></th>
             </tr>
         </thead>
         <tbody>

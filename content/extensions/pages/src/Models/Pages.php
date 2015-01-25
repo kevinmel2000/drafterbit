@@ -16,7 +16,7 @@ class Pages extends \Drafterbit\Framework\Model
             $query->where('p.deleted_at = :deleted_at');
             $query->setParameter(':deleted_at', '0000-00-00 00:00:00');
 
-            if ($status !== 'untrashed') {
+            if ($status !== 'all') {
                 $query->andWhere('p.status = :status');
                 $s = $status == 'published' ? 1 : 0;
                 $query->setParameter(':status', $s);

@@ -44,5 +44,15 @@
     'Sep'     => 'Sep',
     'Oct'     => 'Okt',
     'Nov'     => 'Nov',
-    'Dec'     => 'Des'
+    'Dec'     => 'Des',
+
+    'ago' => 'yang lalu',
+    'second' => 'detik',
+    'seconds' => 'detik',
+    'minute' => 'menit',
+    'minutes' => 'menit',
+    'hour' => 'jam',
+    'hours' => 'jam',
+    'day' => 'hari',
+    'days' => 'hari',
 );

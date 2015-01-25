@@ -10,5 +10,7 @@
     'Group' => 'Grup Pengguna',
     'General' => 'Umum',
     'Themes' => 'Tema',
-    'Extensions' => 'Ekstensi'
+    'Extensions' => 'Ekstensi',
+    'Files' => 'File',
+    'Roles' => 'Peranan'
 ];

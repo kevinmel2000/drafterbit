@@ -9,7 +9,7 @@ class Pages extends BackendController
 
     public function index()
     {
-        $status = 'untrashed';
+        $status = 'all';
 
         $pages = $this->model('@pages\Pages')->all(['status' => $status]);
         

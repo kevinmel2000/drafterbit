@@ -7,7 +7,7 @@ class Blog extends BackendController
 {
     public function index()
     {
-        $status = 'untrashed';
+        $status = 'all';
 
         $posts = $this->model('Post')->all(['status' => $status]);
 

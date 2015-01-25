@@ -123,7 +123,7 @@ class BlogExtension extends \Drafterbit\Framework\Extension
 
     function getStat()
     {
-        $posts = $this->model('Post')->all(['status' => 'untrashed']);
+        $posts = $this->model('Post')->all(['status' => 'all']);
         $comments = $this->model('Comment')->all(['status' => 'all']);
 
         return array(
