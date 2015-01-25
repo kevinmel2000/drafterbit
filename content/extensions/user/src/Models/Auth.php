@@ -93,6 +93,10 @@ class Auth extends \Drafterbit\Framework\Model
      */
     public function userHasPermission($accessKey)
     {
+        if(!$this->isLoggedIn()) {
+            return;   
+        }
+
         $encrypter = $this->get('encrypter');
         $session = $this->get('session');
 

@@ -30,7 +30,7 @@
 ?>" autofocus value="<?php echo value('email'); ?>">
                     <input name="password" type="password" class="form-control input-sm" placeholder="<?= __('PASSWORD'); ?>">
                     <div class="clearfix">
-                        <button class="btn btn-sm btn-primary form-control" type="submit"><?= __('LOGIN'); ?></button>
+                        <button class="btn btn-sm btn-primary form-control btn-login" type="submit"><?= __('LOGIN'); ?></button>
                     </div>
                   </form>
               </div>
@@ -42,6 +42,7 @@
     </div>
 
     <script src="<?php echo asset_url('@vendor/jquery/dist/jquery.min.js'); ?>" /></script>
+    <script src="<?php echo base_url('system/drafterbit.js'); ?>" /></script>
     <script type="text/javascript">
 
       $(window).load(function(){
