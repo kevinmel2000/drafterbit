@@ -31,11 +31,9 @@
              <div class="form-group">
                 <label for="format-time" class="control-label">Front Page</label>
                   <select class="form-control" name="homepage">
-                        <?php foreach ($pageOptions as $value => $label) :
-?>
+                        <?php foreach ($pageOptions as $value => $label) : ?>
                           <option <?php echo selected('homepage', $value, $homepage == $value); ?> value="<?php echo $value ?>"><?php echo $label ?></option>
-                        <?php
-endforeach; ?>
+                        <?php endforeach; ?>
                   </select>
              </div>
             <div class="form-group">
@@ -47,16 +45,18 @@ endforeach; ?>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="language" class="control-label">Language</label>
-                  <input name="language" type="text" class="form-control" placeholder="Language" value="<?php echo value('language', $language) ?>">
+                <select name="language" class="form-control">
+                  <?php foreach($languageList as $lang): ?>
+                    <option <?php echo selected('language', $lang, $language == $lang); ?> value="<?php echo $lang ?>"> <?php echo $lang; ?></option>
+                  <?php endforeach; ?>
+                </select>
              </div>
              <div class="form-group">
                 <label for="timezone" class="control-label">Timezone    </label>
                   <select name="timezone" class="form-control">
-                    <?php foreach ($timezoneIdList as $key) :
-?>
+                    <?php foreach ($timezoneIdList as $key) : ?>
                       <option <?php echo selected('timezone', $key, $timezone == $key); ?> value="<?php echo $key ?>"><?php echo $key ?></option>
-                    <?php
-endforeach; ?>
+                    <?php endforeach; ?>
                   </select>
              </div>
              <div class="form-group">
