@@ -29,6 +29,7 @@
         
         <delete dir="./build/content/cache/data" includeemptydirs="true" />
         <delete dir="./build/content/cache/asset" includeemptydirs="true" />
+        <delete file="./build/content/cache/routes.php"/>
 
         <delete includeemptydirs="true">
           <fileset dir="./build/content/files">

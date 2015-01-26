@@ -398,6 +398,8 @@ class Kernel extends Application
             
             $this['config']->set('key', 'dt_install');
             $this['session']->setName('dt_install_session');
+
+            $this['router']->setCacheDir(false);
         }
 
         parent::run();

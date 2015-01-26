@@ -118,9 +118,6 @@ class Install extends Controller
          //add system default
          $model->systemInit($site['name'], $site['desc'], $admin['email'], $adminIds['userId']);
 
-         //invalidate current session
-         
-
          return $this->jsonResponse(['message' => 'ok']);
     }
 
