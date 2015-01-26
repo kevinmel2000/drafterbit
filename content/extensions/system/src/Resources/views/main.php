@@ -14,10 +14,14 @@
           @system/css/style-desktop.css,
           @system/css/style-mobile.css
         ') ?>
-        <?php echo $this->block('css'); ?>
+        <?php echo $this->block('css'); ?> 
     </head>
 
     <body>
+    <noscript>
+      <style type="text/css"> div:not(.noscript), nav {margin: 0; padding: 0; display: none; } body {margin: 0;padding: 0} </style>
+      <div class="noscript">Please use javascript-supported browser.</div>
+    </noscript>
         <?php echo $this->render('@system/partials/nav'); ?>
             <div class="page-wrapper">
                 <div class="container row-header-container">

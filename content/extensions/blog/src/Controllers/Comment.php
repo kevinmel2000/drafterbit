@@ -139,22 +139,26 @@ class Comment extends BackendController
             $id = $this->model('@blog\Comment')->insert($data);
             $referer = $this->get('input')->headers('referer');
 
-            //send notification to admin
-            $toEmail = $this->model('@system\System')->fetch('email');
-            $subscriber = $this->getSubscribers($postId);
+            $mailConfig = $this->model('@system\System')->fetch('smtp.host');
 
-            array_unshift($subscriber, $toEmail);
+            if($mailConfig) {            
+                //send notification to admin
+                $toEmail = $this->model('@system\System')->fetch('email');
+                $subscriber = $this->getSubscribers($postId);
 
-            // @todo improve mail message
-            $messageBody = $this->render('@blog/mail/new-comment-notif', $data);
+                array_unshift($subscriber, $toEmail);
 
-            $message = $this->get('mail')
-                ->setFrom($toEmail)
-                ->setTo($subscriber)
-                ->setSubject('New Comment Notification')
-                ->setBody($messageBody);
+                // @todo improve mail message
+                $messageBody = $this->render('@blog/mail/new-comment-notif', $data);
 
-            $this->get('mailer')->send($message, $failures);
+                $message = $this->get('mail')
+                    ->setFrom($toEmail)
+                    ->setTo($subscriber)
+                    ->setSubject('New Comment Notification')
+                    ->setBody($messageBody);
+
+                $this->get('mailer')->send($message, $failures);
+            }
 
             return redirect($referer.'#comment-'.$id);
         
