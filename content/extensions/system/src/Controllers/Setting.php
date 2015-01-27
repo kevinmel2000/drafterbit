@@ -34,6 +34,7 @@ class Setting extends BackendController
             'smtpPass'    => $system->fetch('smtp.pass'),
             'pageOptions' => $this->get('app')->getFrontPageOption(),
             'timezoneIdList' => timezone_identifiers_list(),
+            'languageList'   => $this->getLanguageList(),
             'title'       => __('General Setting'),
             'id' => 'setting'
         ];
@@ -61,5 +62,10 @@ class Setting extends BackendController
         $data['smtp.pass'] = $p['smtp-pass'];
 
         return $data;
+    }
+
+    private function getLanguageList()
+    {
+        return $this->get('translator')->getLocales();
     }
 }
